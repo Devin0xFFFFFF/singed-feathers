@@ -1,0 +1,2 @@
+# https://docs.travis-ci.com/user/languages/go/
+language: go
