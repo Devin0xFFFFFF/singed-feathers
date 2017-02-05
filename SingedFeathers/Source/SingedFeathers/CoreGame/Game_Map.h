@@ -32,6 +32,9 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Map_Variables")
     ABase_Tile* GetBaseTile(int x, int y);
 
+    UFUNCTION(BlueprintCallable, Category = "Map_Variables")
+    FVector GetMapLocation(int x, int y);
+
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Tile")
     int height;
 

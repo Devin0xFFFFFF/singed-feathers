@@ -11,6 +11,7 @@ AGame_Map::AGame_Map(/*const FObjectInitializer&*/)
     height = 2;
     width = 2;
     tileMap = vector<vector<int>>(height,vector<int>(width,2));
+    tileMap.at(0).assign(0,3);
     UE_LOG(LogTemp, Warning, TEXT("Init map"));
     //load this in later
     //for now we are just to going use it as is
@@ -40,7 +41,13 @@ ABase_Tile* AGame_Map::GetBaseTile(int x, int y) {
     UE_LOG(LogTemp, Warning, TEXT("Made Base Tile"));
     FVector Location(x * tilePixels, y * tilePixels, 0.0f);
     FRotator Rotation(90.0f, 0.0f, 0.0f);
-    return GetWorld()->SpawnActor<ABase_Tile>(Location, Rotation);
+    ABase_Tile* baseTile = GetWorld()->SpawnActor<ABase_Tile>(Location, Rotation);
+    //baseTile->SetTileType(tileMap.at(x).at(y));
+    return baseTile;
+}
+
+FVector AGame_Map::GetMapLocation(int x, int y) {
+    return FVector(x * tilePixels, y * tilePixels, 0.0f);
 }
 
 void AGame_Map::ProcessTurn() {
