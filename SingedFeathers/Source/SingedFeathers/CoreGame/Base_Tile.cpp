@@ -7,8 +7,11 @@
 // Sets default values
 ABase_Tile::ABase_Tile()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+ 	// Set this actor to call Tick() every frame.
+	PrimaryActorTick.bCanEverTick = false;
+    heatThisTurn = 0;
+    onFire = false;
+    neighbouringTiles = vector<ABase_Tile*>();
 }
 
 void ABase_Tile::SetTileType(int type) {
@@ -33,6 +36,43 @@ void ABase_Tile::SetTileTypeInternal(const tileInfo* tile) {
     durability = tile->durability;
     burnDuration = tile->burnDuration;
     tileId = tile->textureCode;
+}
+
+void ABase_Tile::AddTileToNeighbours(ABase_Tile* tile) {
+    neighbouringTiles.emplace_back(tile);
+}
+
+void ABase_Tile::SetOnFire() {
+    onFire = true;
+    tileId = fireTile;
+}
+
+void ABase_Tile::ApplyHeat(int heat) {
+    if (isFlammable && !onFire) {
+        heatThisTurn += heat;
+        if (heatThisTurn > flashPoint) {
+            SetOnFire();
+        }
+        else {
+            durability -= heat;
+            if (durability <= 0) {
+                SetOnFire();
+            }
+        }
+    }
+}
+
+void ABase_Tile::StartTurn() {
+    heatThisTurn = 0;
+    if (onFire) {
+        for (ABase_Tile* neighbour : neighbouringTiles) {
+            neighbour->ApplyHeat(burnHeat);
+        }            
+        burnDuration--;
+        if (burnDuration <= 0) {
+            SetTileType(tileType::ash);
+        }
+    }
 }
 
 // Called when the game starts or when spawned

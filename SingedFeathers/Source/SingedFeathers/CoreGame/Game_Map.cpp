@@ -25,7 +25,39 @@ AGame_Map::AGame_Map(/*const FObjectInitializer&*/)
 // Called when the game starts or when spawned
 void AGame_Map::BeginPlay()
 {
-	Super::BeginPlay();
+    Super::BeginPlay();
+}
+
+// Call immediatly after blueprint begin play
+void AGame_Map::Init()
+{
+    for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            MakeBaseTile(x, y);
+        }
+    }
+    for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            LinkNearbyTiles(x, y);
+        }
+    }
+}
+
+void AGame_Map::LinkNearbyTiles(int x, int y) {
+    //is this terrible? Yes
+    //should I fix it when we decide if we want diagonals or not? Yes
+    if (x > 0) {
+        baseTileMap[x][y]->AddTileToNeighbours(baseTileMap[x - 1][y]);
+    }
+    if (y > 0) {
+        baseTileMap[x][y]->AddTileToNeighbours(baseTileMap[x][y - 1]);
+    }
+    if (x < width - 1) {
+        baseTileMap[x][y]->AddTileToNeighbours(baseTileMap[x + 1][y]);
+    }
+    if (y < height - 1) {
+        baseTileMap[x][y]->AddTileToNeighbours(baseTileMap[x][y + 1]);
+    }
 }
 
 // Called every frame
@@ -35,16 +67,15 @@ void AGame_Map::Tick( float DeltaTime )
 
 }
 
-void AGame_Map::AddBaseTile(UBlueprint* tile) {
-
+ABase_Tile* AGame_Map::GetBaseTile(int x, int y) {
+    return baseTileMap[x][y];
 }
 
-ABase_Tile* AGame_Map::GetBaseTile(int x, int y) {
+void AGame_Map::MakeBaseTile(int x, int y) {
     FVector Location(y * tilePixels, x * tilePixels, 0.0f);
-    FRotator Rotation(90.0f, 0.0f, 0.0f);
-    ABase_Tile* baseTile = GetWorld()->SpawnActor<ABase_Tile>(Location, Rotation);
-    //baseTileMap[x][y] = baseTile;
-    return baseTile;
+    FRotator Rotation(0.0f, 0.0f, 0.0f);
+    baseTileMap[x][y] = GetWorld()->SpawnActor<ABase_Tile>(Location, Rotation);
+    baseTileMap[x][y]->SetTileType(tileMap[x][y]);
 }
 
 int AGame_Map::GetTileType(int x, int y) {
@@ -52,7 +83,7 @@ int AGame_Map::GetTileType(int x, int y) {
 }
 
 FVector AGame_Map::GetMapLocation(int x, int y) {
-    return FVector(x * -1 * tilePixels, y * tilePixels, 0.0f);
+    return FVector(x * xMultiplier * tilePixels, y * yMultiplier * tilePixels, 0.0f);
 }
 
 void AGame_Map::ProcessTurn() {

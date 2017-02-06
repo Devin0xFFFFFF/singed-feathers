@@ -22,12 +22,12 @@ public:
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+    UFUNCTION(BlueprintCallable, Category = "SetUp")
+    void Init();
 	
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
-
-    UFUNCTION(BlueprintCallable, Category = "Map_Variables")
-    void AddBaseTile(UBlueprint* tile);
 
     UFUNCTION(BlueprintCallable, Category = "Map_Variables")
     ABase_Tile* GetBaseTile(int x, int y);
@@ -45,9 +45,13 @@ public:
     int width;
 
 private:
+    void MakeBaseTile(int x, int y);
+
     vector<vector<int>> tileMap;
 
     vector<vector<ABase_Tile*>> baseTileMap;
 
     void ProcessTurn();
+
+    void LinkNearbyTiles(int x, int y);
 };

@@ -14,3 +14,7 @@ const struct tileInfo {
 };
 
 const int tilePixels = 16;
+const int burnHeat = 5;
+const int fireTile = 2;
+const int xMultiplier = -1;
+const int yMultiplier = 1;

@@ -31,13 +31,23 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+    void ApplyHeat(int heat);
+
+    void AddTileToNeighbours(ABase_Tile* tile);
+
 private:
     bool isFlammable;
     int flashPoint;
     int durability;
     int burnDuration;
-    vector<ABase_Tile> neighbouringTiles;
+    int heatThisTurn;
+    bool onFire;
+    vector<ABase_Tile*> neighbouringTiles;
 
     void SetTileTypeInternal(const tileInfo*);
+
+    void StartTurn();
+
+    void SetOnFire();
 	
 };
