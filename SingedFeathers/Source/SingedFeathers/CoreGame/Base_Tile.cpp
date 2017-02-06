@@ -11,6 +11,7 @@ ABase_Tile::ABase_Tile()
 	PrimaryActorTick.bCanEverTick = false;
     heatThisTurn = 0;
     onFire = false;
+    shouldSpreadFireThisTurn = false;
     neighbouringTiles = vector<ABase_Tile*>();
 }
 
@@ -62,17 +63,21 @@ void ABase_Tile::ApplyHeat(int heat) {
     }
 }
 
-void ABase_Tile::StartTurn() {
-    heatThisTurn = 0;
-    if (onFire) {
+void ABase_Tile::SpreadFire() {
+    if (shouldSpreadFireThisTurn) {
         for (ABase_Tile* neighbour : neighbouringTiles) {
             neighbour->ApplyHeat(burnHeat);
-        }            
+        }
         burnDuration--;
         if (burnDuration <= 0) {
             SetTileType(tileType::ash);
         }
     }
+}
+
+void ABase_Tile::StartTurn() {
+    heatThisTurn = 0;
+    shouldSpreadFireThisTurn = onFire;
 }
 
 // Called when the game starts or when spawned

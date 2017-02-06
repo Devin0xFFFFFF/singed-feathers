@@ -5,8 +5,8 @@
 
 const tileInfo grassTileInfo = {
     true,
-    5,
-    5,
+    10,
+    15,
     3,
     3
 };

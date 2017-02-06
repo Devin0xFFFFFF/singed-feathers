@@ -14,6 +14,7 @@ AGame_Map::AGame_Map(/*const FObjectInitializer&*/)
     tileMap = vector< vector<int> >(width, vector<int>(height, 2));
     baseTileMap = vector< vector<ABase_Tile*> >(width, vector<ABase_Tile*>(height, NULL));
     tileMap[0][0] = 3;
+    tileMap[0][3] = 3;
     tileMap[1][2] = 1;
     UE_LOG(LogTemp, Warning, TEXT("Init map"));
     //load this in later
@@ -41,6 +42,7 @@ void AGame_Map::Init()
             LinkNearbyTiles(x, y);
         }
     }
+    baseTileMap[2][2]->ApplyHeat(15);
 }
 
 void AGame_Map::LinkNearbyTiles(int x, int y) {
@@ -64,7 +66,7 @@ void AGame_Map::LinkNearbyTiles(int x, int y) {
 void AGame_Map::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
-
+    ProcessTurn();
 }
 
 ABase_Tile* AGame_Map::GetBaseTile(int x, int y) {
@@ -87,5 +89,14 @@ FVector AGame_Map::GetMapLocation(int x, int y) {
 }
 
 void AGame_Map::ProcessTurn() {
-    
+    for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+           baseTileMap[x][y]->StartTurn();
+        }
+    }
+    for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            baseTileMap[x][y]->SpreadFire();
+        }
+    }
 }

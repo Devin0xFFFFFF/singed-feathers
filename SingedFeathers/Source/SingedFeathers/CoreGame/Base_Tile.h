@@ -35,6 +35,10 @@ public:
 
     void AddTileToNeighbours(ABase_Tile* tile);
 
+    void StartTurn();
+
+    void SpreadFire();
+
 private:
     bool isFlammable;
     int flashPoint;
@@ -42,11 +46,10 @@ private:
     int burnDuration;
     int heatThisTurn;
     bool onFire;
+    bool shouldSpreadFireThisTurn;
     vector<ABase_Tile*> neighbouringTiles;
 
     void SetTileTypeInternal(const tileInfo*);
-
-    void StartTurn();
 
     void SetOnFire();
 	
