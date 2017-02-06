@@ -9,10 +9,10 @@
 // Sets default values
 AGame_Map::AGame_Map(/*const FObjectInitializer&*/)
 {
-    height = 4;
+    height = 5;
     width = 4;
-    tileMap = vector< vector<int> >(height, vector<int>(width, 2));
-    baseTileMap = vector< vector<ABase_Tile*> >(height, vector<ABase_Tile*>(width, NULL));
+    tileMap = vector< vector<int> >(width, vector<int>(height, 2));
+    baseTileMap = vector< vector<ABase_Tile*> >(width, vector<ABase_Tile*>(height, NULL));
     tileMap[0][0] = 3;
     tileMap[1][2] = 1;
     UE_LOG(LogTemp, Warning, TEXT("Init map"));
@@ -26,7 +26,6 @@ AGame_Map::AGame_Map(/*const FObjectInitializer&*/)
 void AGame_Map::BeginPlay()
 {
 	Super::BeginPlay();
-    UE_LOG(LogTemp, Warning, TEXT("Starting to generate tiles"));
 }
 
 // Called every frame
@@ -41,24 +40,19 @@ void AGame_Map::AddBaseTile(UBlueprint* tile) {
 }
 
 ABase_Tile* AGame_Map::GetBaseTile(int x, int y) {
-    UE_LOG(LogTemp, Warning, TEXT("Made Base Tile x:%d y:%d"), x, y);
     FVector Location(y * tilePixels, x * tilePixels, 0.0f);
     FRotator Rotation(90.0f, 0.0f, 0.0f);
     ABase_Tile* baseTile = GetWorld()->SpawnActor<ABase_Tile>(Location, Rotation);
-    //baseTileMap[y][x] = baseTile;
+    //baseTileMap[x][y] = baseTile;
     return baseTile;
 }
 
 int AGame_Map::GetTileType(int x, int y) {
-    UE_LOG(LogTemp, Warning, TEXT("Requested x:%d y:%d"), x, y);
-    UE_LOG(LogTemp, Warning, TEXT("Max size x:%d y:%d"), tileMap.size(), tileMap[x].size());
-    return tileMap[y][x];
+    return tileMap[x][y];
 }
 
 FVector AGame_Map::GetMapLocation(int x, int y) {
-    FVector result(x * tilePixels, y * tilePixels, 0.0f);
-    UE_LOG(LogTemp, Warning, TEXT("Made Base Tile x:%f, y:%f, z:%f"), result.X, result.Y, result.Z);
-    return FVector(x * tilePixels, y * tilePixels, 0.0f);
+    return FVector(x * -1 * tilePixels, y * tilePixels, 0.0f);
 }
 
 void AGame_Map::ProcessTurn() {
