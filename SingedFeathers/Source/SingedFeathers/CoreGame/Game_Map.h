@@ -33,6 +33,9 @@ public:
     ABase_Tile* GetBaseTile(int x, int y);
 
     UFUNCTION(BlueprintCallable, Category = "Map_Variables")
+    int GetTileType(int x, int y);
+
+    UFUNCTION(BlueprintCallable, Category = "Map_Variables")
     FVector GetMapLocation(int x, int y);
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Tile")
@@ -43,6 +46,8 @@ public:
 
 private:
     vector<vector<int>> tileMap;
+
+    vector<vector<ABase_Tile*>> baseTileMap;
 
     void ProcessTurn();
 };
