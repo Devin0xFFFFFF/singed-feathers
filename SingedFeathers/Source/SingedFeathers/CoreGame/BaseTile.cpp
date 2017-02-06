@@ -26,6 +26,9 @@ void ABase_Tile::SetTileType(int type) {
         case tileType::stone:
             SetTileTypeInternal(&stoneTileInfo);
             break;
+        case tileType::wood:
+            SetTileTypeInternal(&woodTileInfo);
+            break;
         default :
             SetTileTypeInternal(&errorTileInfo);
     }
@@ -37,6 +40,7 @@ void ABase_Tile::SetTileTypeInternal(const tileInfo* tile) {
     durability = tile->durability;
     burnDuration = tile->burnDuration;
     tileId = tile->textureCode;
+    onFire = false;
 }
 
 void ABase_Tile::AddTileToNeighbours(ABase_Tile* tile) {

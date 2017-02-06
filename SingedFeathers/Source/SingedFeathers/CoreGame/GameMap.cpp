@@ -16,6 +16,7 @@ AGame_Map::AGame_Map(/*const FObjectInitializer&*/)
     tileMap[0][0] = 3;
     tileMap[0][3] = 3;
     tileMap[1][2] = 1;
+    tileMap[2][1] = 4;
     UE_LOG(LogTemp, Warning, TEXT("Init map"));
     //load this in later
     //for now we are just to going use it as is

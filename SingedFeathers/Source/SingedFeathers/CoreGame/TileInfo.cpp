@@ -27,6 +27,14 @@ const tileInfo ashTileInfo = {
     1 //textureCode;
 };
 
+const tileInfo woodTileInfo = {
+    true, //isFlammable
+    15, //flashPoint
+    20, //durability;
+    7, //burnDuration;
+    4 //textureCode;
+};
+
 const tileInfo errorTileInfo = {
     false, //isFlammable
     0, //flashPoint
@@ -35,4 +43,4 @@ const tileInfo errorTileInfo = {
     0 //textureCode;
 };
 
-enum tileType { error=0, ash, grass, stone };
+enum tileType { error=0, ash, grass, stone, wood };
