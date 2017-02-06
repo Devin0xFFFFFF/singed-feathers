@@ -42,7 +42,7 @@ void AGame_Map::Init()
             LinkNearbyTiles(x, y);
         }
     }
-    baseTileMap[2][2]->ApplyHeat(15);
+    baseTileMap[2][2]->ApplyHeat(10);
 }
 
 void AGame_Map::LinkNearbyTiles(int x, int y) {

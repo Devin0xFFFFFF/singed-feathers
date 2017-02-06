@@ -5,7 +5,7 @@
 /**
  * 
  */
-const struct tileInfo {
+struct tileInfo {
     const bool isFlammable;
     const int flashPoint;
     const int durability;

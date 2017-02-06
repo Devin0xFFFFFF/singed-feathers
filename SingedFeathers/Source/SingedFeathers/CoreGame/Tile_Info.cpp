@@ -4,35 +4,35 @@
 #include "Tile_Info.h"
 
 const tileInfo grassTileInfo = {
-    true,
-    10,
-    15,
-    3,
-    3
+    true, //isFlammable
+    10, //flashPoint
+    15, //durability;
+    3, //burnDuration;
+    3 //textureCode;
 };
 
 const tileInfo stoneTileInfo = {
-    false,
-    0,
-    0,
-    1,
-    5
+    false, //isFlammable
+    0, //flashPoint
+    0, //durability;
+    1, //burnDuration;
+    5 //textureCode;
 };
 
 const tileInfo ashTileInfo = {
-    false,
-    0,
-    0,
-    1,
-    1
+    false, //isFlammable
+    0, //flashPoint
+    0, //durability;
+    1, //burnDuration;
+    1 //textureCode;
 };
 
 const tileInfo errorTileInfo = {
-    false,
-    0,
-    0,
-    1,
-    0
+    false, //isFlammable
+    0, //flashPoint
+    0, //durability;
+    1, //burnDuration;
+    0 //textureCode;
 };
 
 enum tileType { error=0, ash, grass, stone };

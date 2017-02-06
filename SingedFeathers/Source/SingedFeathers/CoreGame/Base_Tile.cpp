@@ -51,7 +51,7 @@ void ABase_Tile::SetOnFire() {
 void ABase_Tile::ApplyHeat(int heat) {
     if (isFlammable && !onFire) {
         heatThisTurn += heat;
-        if (heatThisTurn > flashPoint) {
+        if (heatThisTurn >= flashPoint) {
             SetOnFire();
         }
         else {
