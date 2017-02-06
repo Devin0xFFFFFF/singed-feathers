@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "SingedFeathers.h"
-#include "Base_Tile.h"
-#include "Tile_Info.cpp"
+#include "BaseTile.h"
+#include "TileInfo.cpp"
 
 // Sets default values
 ABase_Tile::ABase_Tile()

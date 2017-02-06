@@ -2,9 +2,9 @@
 
 #include "SingedFeathers.h"
 #include <string>
-#include "Tile_Info.cpp"
+#include "TileInfo.cpp"
 #include "ConstructorHelpers.h"
-#include "Game_Map.h"
+#include "GameMap.h"
 
 // Sets default values
 AGame_Map::AGame_Map(/*const FObjectInitializer&*/)

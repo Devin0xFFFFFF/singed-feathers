@@ -3,9 +3,9 @@
 #pragma once
 
 #include <vector>
-#include "Tile_Info.h"
+#include "TileInfo.h"
 #include "GameFramework/Actor.h"
-#include "Base_Tile.generated.h"
+#include "BaseTile.generated.h"
 
 using std::vector;
 

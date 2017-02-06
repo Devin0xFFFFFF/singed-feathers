@@ -4,9 +4,9 @@
 
 #include <vector>
 #include "GameFramework/Actor.h"
-#include "Tile_Info.h"
-#include "Base_Tile.h"
-#include "Game_Map.generated.h"
+#include "TileInfo.h"
+#include "BaseTile.h"
+#include "GameMap.generated.h"
 
 using std::vector;
 
