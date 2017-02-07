@@ -11,12 +11,12 @@ AGame_Map::AGame_Map(/*const FObjectInitializer&*/)
 {
     height = 5;
     width = 4;
-    tileMap = vector< vector<int> >(width, vector<int>(height, 2));
+    tileMap = vector< vector<int> >(width, vector<int>(height, tileType::grass));
     baseTileMap = vector< vector<ABase_Tile*> >(width, vector<ABase_Tile*>(height, NULL));
-    tileMap[0][0] = 3;
-    tileMap[0][3] = 3;
-    tileMap[1][2] = 1;
-    tileMap[2][1] = 4;
+    tileMap[0][0] = tileType::stone;
+    tileMap[0][3] = tileType::stone;
+    tileMap[1][2] = tileType::wood;
+    tileMap[2][1] = tileType::wood;
     UE_LOG(LogTemp, Warning, TEXT("Init map"));
     //load this in later
     //for now we are just to going use it as is
