@@ -5,8 +5,7 @@
 #include "TileInfo.cpp"
 
 // Sets default values
-ABase_Tile::ABase_Tile()
-{
+ABase_Tile::ABase_Tile() {
  	// Set this actor to call Tick() every frame.
 	PrimaryActorTick.bCanEverTick = false;
     heatThisTurn = 0;
@@ -57,8 +56,7 @@ void ABase_Tile::ApplyHeat(int heat) {
         heatThisTurn += heat;
         if (heatThisTurn >= flashPoint) {
             SetOnFire();
-        }
-        else {
+        } else {
             durability -= heat;
             if (durability <= 0) {
                 SetOnFire();
@@ -85,15 +83,13 @@ void ABase_Tile::StartTurn() {
 }
 
 // Called when the game starts or when spawned
-void ABase_Tile::BeginPlay()
-{
+void ABase_Tile::BeginPlay() {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void ABase_Tile::Tick( float DeltaTime )
-{
+void ABase_Tile::Tick( float DeltaTime ) {
 	Super::Tick( DeltaTime );
 
 }

@@ -3,10 +3,8 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-public class SingedFeathersEditorTarget : TargetRules
-{
-	public SingedFeathersEditorTarget(TargetInfo Target)
-	{
+public class SingedFeathersEditorTarget : TargetRules {
+	public SingedFeathersEditorTarget(TargetInfo Target) {
 		Type = TargetType.Editor;
 	}
 
@@ -14,12 +12,9 @@ public class SingedFeathersEditorTarget : TargetRules
 	// TargetRules interface.
 	//
 
-	public override void SetupBinaries(
-		TargetInfo Target,
-		ref List<UEBuildBinaryConfiguration> OutBuildBinaryConfigurations,
-		ref List<string> OutExtraModuleNames
-		)
-	{
+	public override void SetupBinaries(TargetInfo Target,
+									   ref List<UEBuildBinaryConfiguration> OutBuildBinaryConfigurations,
+									   ref List<string> OutExtraModuleNames) {
 		OutExtraModuleNames.AddRange( new string[] { "SingedFeathers" } );
 	}
 }

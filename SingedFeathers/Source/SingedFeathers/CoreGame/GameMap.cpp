@@ -7,8 +7,7 @@
 #include "GameMap.h"
 
 // Sets default values
-AGame_Map::AGame_Map(/*const FObjectInitializer&*/)
-{
+AGame_Map::AGame_Map(/*const FObjectInitializer&*/) {
     height = 5;
     width = 4;
     tileMap = vector< vector<int> >(width, vector<int>(height, tileType::grass));
@@ -25,8 +24,7 @@ AGame_Map::AGame_Map(/*const FObjectInitializer&*/)
 }
 
 // Called when the game starts or when spawned
-void AGame_Map::BeginPlay()
-{
+void AGame_Map::BeginPlay() {
     Super::BeginPlay();
 }
 
@@ -64,8 +62,7 @@ void AGame_Map::LinkNearbyTiles(int x, int y) {
 }
 
 // Called every frame
-void AGame_Map::Tick( float DeltaTime )
-{
+void AGame_Map::Tick( float DeltaTime ) {
 	Super::Tick( DeltaTime );
     ProcessTurn();
 }

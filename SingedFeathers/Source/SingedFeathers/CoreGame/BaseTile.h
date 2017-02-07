@@ -10,8 +10,7 @@
 using std::vector;
 
 UCLASS()
-class SINGEDFEATHERS_API ABase_Tile : public AActor
-{
+class SINGEDFEATHERS_API ABase_Tile : public AActor {
 	GENERATED_BODY()
 	
 public:	

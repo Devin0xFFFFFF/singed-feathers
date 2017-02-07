@@ -5,8 +5,7 @@
 
 IMPLEMENT_SIMPLE_AUTOMATION_TEST( FMyTest, "Test.MyTest", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::SmokeFilter )
 
-bool FMyTest::RunTest(const FString& Parameters)
-{
+bool FMyTest::RunTest(const FString& Parameters) {
     return true;
 }
 

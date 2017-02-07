@@ -3,10 +3,8 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-public class SingedFeathersTarget : TargetRules
-{
-	public SingedFeathersTarget(TargetInfo Target)
-	{
+public class SingedFeathersTarget : TargetRules {
+	public SingedFeathersTarget(TargetInfo Target) {
 		Type = TargetType.Game;
 	}
 
@@ -14,12 +12,9 @@ public class SingedFeathersTarget : TargetRules
 	// TargetRules interface.
 	//
 
-	public override void SetupBinaries(
-		TargetInfo Target,
-		ref List<UEBuildBinaryConfiguration> OutBuildBinaryConfigurations,
-		ref List<string> OutExtraModuleNames
-		)
-	{
+	public override void SetupBinaries(TargetInfo Target,
+									   ref List<UEBuildBinaryConfiguration> OutBuildBinaryConfigurations,
+									   ref List<string> OutExtraModuleNames) {
 		OutExtraModuleNames.AddRange( new string[] { "SingedFeathers" } );
 	}
 }

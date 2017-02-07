@@ -11,12 +11,10 @@
 using std::vector;
 
 UCLASS()
-class SINGEDFEATHERS_API AGame_Map : public AActor
-{
+class SINGEDFEATHERS_API AGame_Map : public AActor {
 	GENERATED_BODY()
 	
-public:	
-
+public:
     // Sets default values for this actor's properties
     AGame_Map(/*const FObjectInitializer&*/);
 
