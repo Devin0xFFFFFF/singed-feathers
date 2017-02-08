@@ -18,7 +18,6 @@ public:
 	// Sets default values for this actor's properties
 	ABase_Tile();
 
-    UFUNCTION(BlueprintCallable, Category = "Map_Variables")
     void SetTileType(int tildType);
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Tile")
@@ -38,6 +37,10 @@ public:
 
     void SpreadFire();
 
+    void AddRenderList(TArray<ABase_Tile*>);
+
+    void RenderTile();
+
 private:
     bool isFlammable;
     int flashPoint;
@@ -47,6 +50,7 @@ private:
     bool onFire;
     bool shouldSpreadFireThisTurn;
     vector<ABase_Tile*> neighbouringTiles;
+    TArray<ABase_Tile*> renderList;
 
     void SetTileTypeInternal(const tileInfo*);
 

@@ -8,14 +8,20 @@
 
 // Sets default values
 AGame_Map::AGame_Map(/*const FObjectInitializer&*/) {
-    height = 5;
-    width = 4;
+    height = 10;
+    width = 10;
     tileMap = vector< vector<int> >(width, vector<int>(height, tileType::grass));
     baseTileMap = vector< vector<ABase_Tile*> >(width, vector<ABase_Tile*>(height, NULL));
-    tileMap[0][0] = tileType::stone;
+    tileMap[0][1] = tileType::stone;
     tileMap[0][3] = tileType::stone;
-    tileMap[1][2] = tileType::wood;
-    tileMap[2][1] = tileType::wood;
+    tileMap[0][5] = tileType::stone;
+    tileMap[0][7] = tileType::stone;
+    tileMap[0][9] = tileType::stone;
+    tileMap[1][0] = tileType::stone;
+    tileMap[3][0] = tileType::stone;
+    tileMap[5][0] = tileType::stone;
+    tileMap[7][0] = tileType::stone;
+    tileMap[9][0] = tileType::stone;
     UE_LOG(LogTemp, Warning, TEXT("Init map"));
     //load this in later
     //for now we are just to going use it as is
@@ -41,7 +47,7 @@ void AGame_Map::Init()
             LinkNearbyTiles(x, y);
         }
     }
-    baseTileMap[2][2]->ApplyHeat(10);
+    //baseTileMap[2][2]->ApplyHeat(10);
 }
 
 void AGame_Map::LinkNearbyTiles(int x, int y) {
@@ -72,9 +78,9 @@ ABase_Tile* AGame_Map::GetBaseTile(int x, int y) {
 }
 
 void AGame_Map::MakeBaseTile(int x, int y) {
-    FVector Location(y * tilePixels, x * tilePixels, 0.0f);
-    FRotator Rotation(0.0f, 0.0f, 0.0f);
-    baseTileMap[x][y] = GetWorld()->SpawnActor<ABase_Tile>(Location, Rotation);
+    static const FRotator rotation = FRotator(0.0f, 0.0f, 90.0f);//y,z,x
+    baseTileMap[x][y] = GetWorld()->SpawnActor<ABase_Tile>(GetMapLocation(x,y), rotation);
+    baseTileMap[x][y]->AddRenderList(tilesToRender);
     baseTileMap[x][y]->SetTileType(tileMap[x][y]);
 }
 
@@ -96,5 +102,19 @@ void AGame_Map::ProcessTurn() {
         for (int y = 0; y < height; y++) {
             baseTileMap[x][y]->SpreadFire();
         }
+    }
+}
+
+TArray<ABase_Tile*> AGame_Map::GetTilesToRender() {
+    TArray<ABase_Tile*> copy = TArray<ABase_Tile*> (tilesToRender);
+    tilesToRender.Empty();
+    return copy;
+}
+
+void AGame_Map::SetFire(int x, int y) {
+    UE_LOG(LogTemp, Warning, TEXT("FIRE %d %d"), x, y);
+    if (x >= 0 && y >= 0 && x < width && y < height) {
+        UE_LOG(LogTemp, Warning, TEXT("For REAL"));
+        baseTileMap[x][y]->ApplyHeat(100);
     }
 }

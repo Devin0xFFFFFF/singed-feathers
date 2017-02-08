@@ -7,6 +7,7 @@
 // Sets default values
 ABase_Tile::ABase_Tile() {
  	// Set this actor to call Tick() every frame.
+    RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 	PrimaryActorTick.bCanEverTick = false;
     heatThisTurn = 0;
     onFire = false;
@@ -40,6 +41,7 @@ void ABase_Tile::SetTileTypeInternal(const tileInfo* tile) {
     burnDuration = tile->burnDuration;
     tileId = tile->textureCode;
     onFire = false;
+    RenderTile();
 }
 
 void ABase_Tile::AddTileToNeighbours(ABase_Tile* tile) {
@@ -80,6 +82,14 @@ void ABase_Tile::SpreadFire() {
 void ABase_Tile::StartTurn() {
     heatThisTurn = 0;
     shouldSpreadFireThisTurn = onFire;
+}
+
+void ABase_Tile::AddRenderList(TArray<ABase_Tile*> list ) {
+    renderList = list;
+}
+
+void ABase_Tile::RenderTile() {
+    renderList.Add(this);
 }
 
 // Called when the game starts or when spawned

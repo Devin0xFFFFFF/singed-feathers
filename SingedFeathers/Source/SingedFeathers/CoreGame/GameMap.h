@@ -36,13 +36,22 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Map_Variables")
     FVector GetMapLocation(int x, int y);
 
+    UFUNCTION(BlueprintCallable, Category = "Fire")
+    void SetFire(int x, int y);
+
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Tile")
     int height;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Tile")
     int width;
 
+    UFUNCTION(BlueprintCallable, Category = "Map_Variables")
+    TArray<ABase_Tile*> GetTilesToRender(); 
+
 private:
+
+    TArray<ABase_Tile*> tilesToRender;
+
     void MakeBaseTile(int x, int y);
 
     vector<vector<int>> tileMap;
