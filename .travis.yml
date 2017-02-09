@@ -3,5 +3,8 @@ language: go
 
 notifications:
   slack:
+    on_success: change
+    on_failure: always
     rooms:
       - whythehellnot:RlQRu5Twg2ZsabMC6K4SL6hu#travis
+      - whythehellnot:RlQRu5Twg2ZsabMC6K4SL6hu#commits
