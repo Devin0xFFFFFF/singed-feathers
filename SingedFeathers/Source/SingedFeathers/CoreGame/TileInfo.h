@@ -13,8 +13,8 @@ struct tileInfo {
     const int textureCode;
 };
 
-const int tilePixels = 16;
-const int burnHeat = 5;
-const int fireTile = 2;
-const int xMultiplier = -1;
-const int yMultiplier = 1;
+const int TILE_PIXELS = 16;
+const int BURN_HEAT = 5;
+const int FIRE_TILE = 2;
+const int X_MULTIPLIER = -1;
+const int Y_MULTIPLIER = 1;
