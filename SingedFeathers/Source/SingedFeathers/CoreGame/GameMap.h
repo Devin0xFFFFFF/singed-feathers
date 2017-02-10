@@ -54,9 +54,9 @@ private:
 
     void MakeBaseTile(int x, int y);
 
-    vector<vector<int>> tileMap;
+    TArray<TArray<int>> tileMap;
 
-    vector<vector<ABase_Tile*>> baseTileMap;
+    TArray<TArray<ABase_Tile*>> baseTileMap;
 
     void ProcessTurn();
 

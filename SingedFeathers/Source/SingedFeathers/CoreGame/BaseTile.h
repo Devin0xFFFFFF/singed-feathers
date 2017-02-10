@@ -37,7 +37,7 @@ public:
 
     void SpreadFire();
 
-    void AddRenderList(TArray<ABase_Tile*>);
+    void AddRenderList(TArray<ABase_Tile*>*);
 
     void RenderTile();
 
@@ -49,8 +49,8 @@ private:
     int heatThisTurn;
     bool onFire;
     bool shouldSpreadFireThisTurn;
-    vector<ABase_Tile*> neighbouringTiles;
-    TArray<ABase_Tile*> renderList;
+    TArray<ABase_Tile*> neighbouringTiles;
+    TArray<ABase_Tile*>* renderList;
 
     void SetTileTypeInternal(const tileInfo*);
 

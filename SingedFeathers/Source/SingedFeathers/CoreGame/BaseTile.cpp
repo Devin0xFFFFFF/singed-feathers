@@ -12,7 +12,6 @@ ABase_Tile::ABase_Tile() {
     heatThisTurn = 0;
     onFire = false;
     shouldSpreadFireThisTurn = false;
-    neighbouringTiles = vector<ABase_Tile*>();
 }
 
 void ABase_Tile::SetTileType(int type) {
@@ -45,12 +44,13 @@ void ABase_Tile::SetTileTypeInternal(const tileInfo* tile) {
 }
 
 void ABase_Tile::AddTileToNeighbours(ABase_Tile* tile) {
-    neighbouringTiles.emplace_back(tile);
+    neighbouringTiles.Add(tile);
 }
 
 void ABase_Tile::SetOnFire() {
     onFire = true;
     tileId = fireTile;
+    RenderTile();
 }
 
 void ABase_Tile::ApplyHeat(int heat) {
@@ -84,12 +84,12 @@ void ABase_Tile::StartTurn() {
     shouldSpreadFireThisTurn = onFire;
 }
 
-void ABase_Tile::AddRenderList(TArray<ABase_Tile*> list ) {
+void ABase_Tile::AddRenderList(TArray<ABase_Tile*>* list ) {
     renderList = list;
 }
 
 void ABase_Tile::RenderTile() {
-    renderList.Add(this);
+    renderList->Add(this);
 }
 
 // Called when the game starts or when spawned
