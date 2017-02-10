@@ -9,10 +9,9 @@ ABase_Tile::ABase_Tile() {
  	// Set this actor to call Tick() every frame.
     RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 	PrimaryActorTick.bCanEverTick = false;
-    heatThisTurn = 0;
-    onFire = false;
-    shouldSpreadFireThisTurn = false;
-    neighbouringTiles = vector<ABase_Tile*>();
+    _heatThisTurn = 0;
+    _onFire = false;
+    _shouldSpreadFireThisTurn = false;
 }
 
 void ABase_Tile::SetTileType(int type) {
@@ -35,32 +34,33 @@ void ABase_Tile::SetTileType(int type) {
 }
 
 void ABase_Tile::SetTileTypeInternal(const tileInfo* tile) {
-    isFlammable = tile->isFlammable;
-    flashPoint = tile->flashPoint;
-    durability = tile->durability;
-    burnDuration = tile->burnDuration;
-    tileId = tile->textureCode;
-    onFire = false;
+    _isFlammable = tile->isFlammable;
+    _flashPoint = tile->flashPoint;
+    _durability = tile->durability;
+    _burnDuration = tile->burnDuration;
+    _tileId = tile->textureCode;
+    _onFire = false;
     RenderTile();
 }
 
 void ABase_Tile::AddTileToNeighbours(ABase_Tile* tile) {
-    neighbouringTiles.emplace_back(tile);
+    _neighbouringTiles.Add(tile);
 }
 
 void ABase_Tile::SetOnFire() {
-    onFire = true;
-    tileId = fireTile;
+    _onFire = true;
+    _tileId = FIRE_TILE;
+    RenderTile();
 }
 
 void ABase_Tile::ApplyHeat(int heat) {
-    if (isFlammable && !onFire) {
-        heatThisTurn += heat;
-        if (heatThisTurn >= flashPoint) {
+    if (_isFlammable && !_onFire) {
+        _heatThisTurn += heat;
+        if (_heatThisTurn >= _flashPoint) {
             SetOnFire();
         } else {
-            durability -= heat;
-            if (durability <= 0) {
+            _durability -= heat;
+            if (_durability <= 0) {
                 SetOnFire();
             }
         }
@@ -68,28 +68,32 @@ void ABase_Tile::ApplyHeat(int heat) {
 }
 
 void ABase_Tile::SpreadFire() {
-    if (shouldSpreadFireThisTurn) {
-        for (ABase_Tile* neighbour : neighbouringTiles) {
-            neighbour->ApplyHeat(burnHeat);
+    if (_shouldSpreadFireThisTurn) {
+        for (ABase_Tile* neighbour : _neighbouringTiles) {
+            neighbour->ApplyHeat(BURN_HEAT);
         }
-        burnDuration--;
-        if (burnDuration <= 0) {
+        _burnDuration--;
+        if (_burnDuration <= 0) {
             SetTileType(tileType::ash);
         }
     }
 }
 
 void ABase_Tile::StartTurn() {
-    heatThisTurn = 0;
-    shouldSpreadFireThisTurn = onFire;
+    _heatThisTurn = 0;
+    _shouldSpreadFireThisTurn = _onFire;
 }
 
-void ABase_Tile::AddRenderList(TArray<ABase_Tile*> list ) {
-    renderList = list;
+void ABase_Tile::AddRenderList(TArray<ABase_Tile*>* list ) {
+    _renderList = list;
 }
 
 void ABase_Tile::RenderTile() {
-    renderList.Add(this);
+    _renderList->Add(this);
+}
+
+int ABase_Tile::GetTileId() {
+    return _tileId;
 }
 
 // Called when the game starts or when spawned

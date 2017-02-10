@@ -20,8 +20,8 @@ public:
 
     void SetTileType(int tildType);
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Tile")
-    int tileId;//I was running into issues when I named it textureCode
+    UFUNCTION(BlueprintCallable, Category="Tile")
+    int GetTileId();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -37,20 +37,21 @@ public:
 
     void SpreadFire();
 
-    void AddRenderList(TArray<ABase_Tile*>);
+    void AddRenderList(TArray<ABase_Tile*>*);
 
     void RenderTile();
 
 private:
-    bool isFlammable;
-    int flashPoint;
-    int durability;
-    int burnDuration;
-    int heatThisTurn;
-    bool onFire;
-    bool shouldSpreadFireThisTurn;
-    vector<ABase_Tile*> neighbouringTiles;
-    TArray<ABase_Tile*> renderList;
+    bool _isFlammable;
+    int _flashPoint;
+    int _durability;
+    int _burnDuration;
+    int _heatThisTurn;
+    int _tileId;
+    bool _onFire;
+    bool _shouldSpreadFireThisTurn;
+    TArray<ABase_Tile*> _neighbouringTiles;
+    TArray<ABase_Tile*>* _renderList;
 
     void SetTileTypeInternal(const tileInfo*);
 
