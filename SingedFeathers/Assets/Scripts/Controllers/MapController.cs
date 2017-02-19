@@ -40,7 +40,7 @@ namespace Assets.Scripts.Controllers {
             return _map[x, y];
         }
 
-        public void SartTurn() {
+        public void StartTurn() {
             for (int x = 0; x < Width; x++) {
                 for (int y = 0; y < Height; y++) {
                     _map[x, y].StartTurn();
@@ -48,21 +48,39 @@ namespace Assets.Scripts.Controllers {
             }
         }
 
-        public IList<Position> SpreadFires() {
-            IList<Position> newlyBurntTilePositions = new List<Position>();
+        public IDictionary<NewStatus, IList<Position>> SpreadFires() {
+            bool alreadyLit = false;
+            Position pos = null;
+            IDictionary<NewStatus, IList<Position>> modifiedTiles = InitializeModifiedTilesDict();
             for (int x = 0; x < Width; x++) {
                 for (int y = 0; y < Height; y++) {
                     ITileController tile = _map[x, y];
+                    pos = new Position { X = x, Y = y };
+                    alreadyLit = tile.IsLit();
                     if (!tile.IsBurntOut()) {
                         tile.SpreadFire();
-                        //ApplyHeatToNeighbours(x, y);
                         if (tile.IsBurntOut()) {
-                            newlyBurntTilePositions.Add(new Position {X = x, Y = y});
+                            modifiedTiles[NewStatus.BurntOut].Add(pos);
+                        }
+                        if (!alreadyLit && tile.IsLit()) {
+                            modifiedTiles[NewStatus.OnFire].Add(pos);
                         }
                     }
                 }
             }
-            return newlyBurntTilePositions;
+            return modifiedTiles;
+        }
+
+        private IDictionary<NewStatus, IList<Position>> InitializeModifiedTilesDict() {
+            IDictionary<NewStatus, IList<Position>> dict = new Dictionary<NewStatus, IList<Position>>();
+
+            IList<Position> newlyBurntTilePositions = new List<Position>();
+            IList<Position> newlyLitTilePositions = new List<Position>();
+
+            dict.Add(NewStatus.BurntOut, newlyBurntTilePositions);
+            dict.Add(NewStatus.OnFire, newlyLitTilePositions);
+
+            return dict;
         }
 
         private void InitializeTiles() {

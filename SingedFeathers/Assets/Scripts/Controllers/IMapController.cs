@@ -8,8 +8,8 @@ namespace Assets.Scripts.Controllers {
         void GenerateMap();
         void ApplyHeat(int x, int y, int heat);
         TileType GetTileType(int x, int y);
-        void SartTurn();
-        IList<Position> SpreadFires();
+        void StartTurn();
+        IDictionary<NewStatus, IList<Position>> SpreadFires();
         ITileController GetController(int x, int y);
     }
 }

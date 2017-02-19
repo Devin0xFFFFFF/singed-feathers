@@ -16,6 +16,14 @@ public class TileController : ITileController {
         return _tile.Type;
     }
 
+    public bool IsBurntOut() {
+        return _tile.IsBurntOut;
+    }
+
+    public bool IsLit() {
+        return _tile.OnFire;
+    }
+
     public void AddNeighbouringTile(ITileController neighbourController) {
         _neighbouringTiles.Add(neighbourController);
     }
@@ -30,10 +38,6 @@ public class TileController : ITileController {
                 _tile.Type = TileType.Ash;
             }
         }
-    }
-
-    public bool IsBurntOut() {
-        return _tile.IsBurntOut;
     }
 
     public void StartTurn() {

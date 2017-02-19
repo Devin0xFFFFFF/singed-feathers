@@ -8,5 +8,6 @@
         void AddNeighbouringTile(ITileController neighbourController);
         void SpreadFire();
         bool IsBurntOut();
+        bool IsLit();
     }
 }
