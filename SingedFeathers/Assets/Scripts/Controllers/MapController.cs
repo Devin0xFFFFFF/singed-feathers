@@ -23,7 +23,7 @@ namespace Assets.Scripts.Controllers {
             _map = new ITileController[Width, Height];
 
             InitializeTiles();
-            LinkTiles();
+            LinkNeighbouringTiles();
         }
 
         public void ApplyHeat(int x, int y, int heat) {
@@ -68,15 +68,15 @@ namespace Assets.Scripts.Controllers {
             }
         }
 
-        private void LinkTiles() {
+        private void LinkNeighbouringTiles() {
             for (int x = 0; x < Width; x++) {
                 for (int y = 0; y < Height; y++) {
-                    LinkNearbyTiles(x, y);
+                    LinkNearTileToNeighbours(x, y);
                 }
             }
         }
 
-        private void LinkNearbyTiles(int x, int y) {
+        private void LinkNearTileToNeighbours(int x, int y) {
             if (x > 0) {
                 _map[x, y].AddNeighbouringTile(_map[x - 1, y]);
             }

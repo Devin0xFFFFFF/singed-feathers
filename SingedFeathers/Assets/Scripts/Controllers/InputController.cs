@@ -4,7 +4,6 @@ using UnityEngine;
 namespace Assets.Scripts.Controllers { 
     [Serializable]
     public class InputController : IInputController {
-
         public void HandleInput(Vector2 worldPoint) {
             RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
             if (hit.collider != null) {
