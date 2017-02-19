@@ -57,7 +57,7 @@ public class MapManager : MonoBehaviour {
     }
 
     void ProcessTurn() {
-        _mapController.TakeTurn();
+        _mapController.SartTurn();
         IList<Position> newlyBurntTileLocations = _mapController.SpreadFires();
         foreach (Position pos in newlyBurntTileLocations) {
             UpdateTileType(TileType.Ash, pos.X, pos.Y);
@@ -80,6 +80,7 @@ public class MapManager : MonoBehaviour {
     private void InstantiateTile(TileType type, int x, int y) {
         TileManager manager = _tileDictionary[type];
         _map[x, y] = Instantiate(manager, new Vector3(_tileSizeX * x, _tileSizeY * y, 1), Quaternion.identity);
+        _map[x, y].SetController(_mapController.GetController(x, y));
     }
 
     private void UpdateTileType(TileType type, int x, int y) {

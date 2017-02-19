@@ -35,4 +35,8 @@ public class TileManager : MonoBehaviour {
             _tileController = new TileController(type);
         }
     }
+
+    public void SetController(ITileController controller) {
+        _tileController = controller;
+    }
 }

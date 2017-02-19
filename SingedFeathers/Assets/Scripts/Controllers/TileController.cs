@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Runtime.Serialization.Formatters;
 using Assets.Scripts.Controllers;
 using Assets.Scripts.Model;
 
@@ -23,7 +21,7 @@ public class TileController : ITileController {
     }
     
     public void SpreadFire() {
-        if (_tile.OnFire) {
+        if (_tile.OnFire && !_tile.IsBurntOut) {
             foreach (ITileController neighbour in _neighbouringTiles) {
                 neighbour.ApplyHeat(BURN_HEAT);
             }
@@ -43,7 +41,7 @@ public class TileController : ITileController {
     }
 
     public bool Ignite() {
-        if (!_tile.OnFire && _tile.IsFlammable && _tile.Heat >= _tile.FlashPoint || _tile.Durability == 0) {
+        if (!_tile.OnFire && _tile.IsFlammable && (_tile.Heat >= _tile.FlashPoint || _tile.Durability == 0)) {
             _tile.OnFire = true;
         }
         return _tile.OnFire;
@@ -55,11 +53,9 @@ public class TileController : ITileController {
     }
 
     public void ApplyHeat(int heat) {
-        if (_tile.IsFlammable && !_tile.OnFire) {
-            _tile.Heat += heat;
-            TakeDamage(heat);
-            Ignite();
-        }
+        _tile.Heat += heat;
+        TakeDamage(heat);
+        Ignite();
     }
 
     private Tile InitializeTile(TileType type) {

@@ -36,7 +36,11 @@ namespace Assets.Scripts.Controllers {
             return _map[x, y].GetTileType();
         }
 
-        public void TakeTurn() {
+        public ITileController GetController(int x, int y) {
+            return _map[x, y];
+        }
+
+        public void SartTurn() {
             for (int x = 0; x < Width; x++) {
                 for (int y = 0; y < Height; y++) {
                     _map[x, y].StartTurn();
@@ -51,6 +55,7 @@ namespace Assets.Scripts.Controllers {
                     ITileController tile = _map[x, y];
                     if (!tile.IsBurntOut()) {
                         tile.SpreadFire();
+                        //ApplyHeatToNeighbours(x, y);
                         if (tile.IsBurntOut()) {
                             newlyBurntTilePositions.Add(new Position {X = x, Y = y});
                         }
@@ -71,12 +76,12 @@ namespace Assets.Scripts.Controllers {
         private void LinkNeighbouringTiles() {
             for (int x = 0; x < Width; x++) {
                 for (int y = 0; y < Height; y++) {
-                    LinkNearTileToNeighbours(x, y);
+                    LinkTileToNeighbours(x, y);
                 }
             }
         }
 
-        private void LinkNearTileToNeighbours(int x, int y) {
+        private void LinkTileToNeighbours(int x, int y) {
             if (x > 0) {
                 _map[x, y].AddNeighbouringTile(_map[x - 1, y]);
             }
