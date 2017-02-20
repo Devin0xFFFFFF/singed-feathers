@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour {
 
+	private InputState state;
+
     void Awake() {
     }
 
@@ -29,8 +31,15 @@ public class InputManager : MonoBehaviour {
         if (hit.collider != null) {
             if (hit.transform.gameObject.tag == "Tile") {
                 Debug.Log(hit.transform.gameObject.GetComponent<TileManager>().type);
-                hit.transform.gameObject.GetComponent<TileManager>().ApplyHeat(100);
+				if (state == InputState.Fire) {
+					hit.transform.gameObject.GetComponent<TileManager> ().ApplyHeat (100);
+				}
             }
         }
     }
+
+	public void SetFireState() {
+		state = InputState.Fire;
+		Debug.Log (state);
+	}
 }
