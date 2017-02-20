@@ -6,7 +6,7 @@ using Assets.Scripts.Model;
 public class MapManager : MonoBehaviour {
 
     public List<TileManager> tileSet;
-    public float UpdateWait = 2.0f; //TODO: change from a timer to a state based turn system
+    public float UpdateWait = 2.0f;
     private Dictionary<TileType, TileManager> _tileDictionary;
     private IMapController _mapController;
     private TileManager[,] _map;
@@ -20,7 +20,7 @@ public class MapManager : MonoBehaviour {
             //there's probably a better approach than this, but it seems to work
             LoadTileDictionary();
             LoadMap();
-            SetFire(2, 3); //TODO: remove this and load from file (initial fire positions)
+            SetFire(2, 3);
         }
     }
 
@@ -71,7 +71,6 @@ public class MapManager : MonoBehaviour {
     private void InstantiateTiles() {
         for (int x = 0; x < _width; x++) {
             for (int y = 0; y < _height; y++) {
-                //TODO: change this to an object pooler
                 InstantiateTile(_mapController.GetTileType(x, y), x, y);
             }
         }
