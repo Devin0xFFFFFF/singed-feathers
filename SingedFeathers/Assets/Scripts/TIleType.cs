@@ -1,3 +1,3 @@
 ﻿public enum TileType {
-	error = 0, ash, stone, grass, wood
+    Error = 0, Ash, Stone, Grass, Wood
 }
