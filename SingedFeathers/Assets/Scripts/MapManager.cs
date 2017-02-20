@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Assets.Scripts.Controllers;
 using UnityEngine;
 using Assets.Scripts.Models;
@@ -14,13 +14,14 @@ public class MapManager : MonoBehaviour {
     private float _tileSizeX, _tileSizeY;
     private float _waitTime = 0f;
 
+
     // Start here!
     void Start() {
         if (tileSet.Count > 0) {
             //there's probably a better approach than this, but it seems to work
             LoadTileDictionary();
             LoadMap();
-            SetFire(2, 3);
+			LoadFires();
         }
     }
 
@@ -56,6 +57,10 @@ public class MapManager : MonoBehaviour {
         InstantiateTiles();
     }
 
+	void LoadFires() {
+		SetFire(2, 3);
+	}
+
     void ProcessTurn() {
         IDictionary<NewStatus, IList<Position>> modifiedTilePositions = _mapController.SpreadFires();
         foreach (Position pos in modifiedTilePositions[NewStatus.BurntOut]) {
@@ -82,7 +87,8 @@ public class MapManager : MonoBehaviour {
     }
 
     private void UpdateTileType(TileType type, int x, int y) {
-        Destroy(_map[x, y]);
+		Destroy(_map[x, y].gameObject);
         InstantiateTile(type, x, y);
     }
+		
 }
