@@ -6,8 +6,7 @@ namespace Assets.Scripts.Controllers {
         public int Width { get; private set; }
         public int Height { get; private set; }
         private ITileController[,] _map;
-
-        //TODO: remove this and load from file
+        
         private readonly int[,] _testMapRaw = {
             {2, 3, 3, 3, 3},
             {2, 3, 2, 3, 3},
@@ -17,7 +16,6 @@ namespace Assets.Scripts.Controllers {
         };
 
         public void GenerateMap() {
-            //TODO: pull data from file etc...
             Width = _testMapRaw.GetLength(0);
             Height = _testMapRaw.GetLength(1);
             _map = new ITileController[Width, Height];
