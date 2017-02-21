@@ -3,6 +3,7 @@ using Assets.Scripts.Model;
 
 namespace Assets.Scripts.Controllers {
     public class MapController : IMapController {
+		const int HEAT = 100;
         public int Width { get; private set; }
         public int Height { get; private set; }
         private ITileController[,] _map;
@@ -24,9 +25,9 @@ namespace Assets.Scripts.Controllers {
             LinkNeighbouringTiles();
         }
 
-        public void ApplyHeat(int x, int y, int heat) {
+        public void ApplyHeat(int x, int y) {
             if (x >= 0 && y >= 0 && x < Width && y < Height) {
-                _map[x, y].ApplyHeat(heat);
+                _map[x, y].ApplyHeat(HEAT);
             }
         }
 
@@ -38,14 +39,6 @@ namespace Assets.Scripts.Controllers {
             return _map[x, y];
         }
 
-        public void StartTurn() {
-            for (int x = 0; x < Width; x++) {
-                for (int y = 0; y < Height; y++) {
-                    _map[x, y].StartTurn();
-                }
-            }
-        }
-
         public IDictionary<NewStatus, IList<Position>> SpreadFires() {
             bool alreadyLit = false;
             Position pos = null;
@@ -54,13 +47,14 @@ namespace Assets.Scripts.Controllers {
                 for (int y = 0; y < Height; y++) {
                     ITileController tile = _map[x, y];
                     pos = new Position { X = x, Y = y };
-                    alreadyLit = tile.IsLit();
+                    alreadyLit = tile.IsOnFire();
+
                     if (!tile.IsBurntOut()) {
                         tile.SpreadFire();
                         if (tile.IsBurntOut()) {
                             modifiedTiles[NewStatus.BurntOut].Add(pos);
                         }
-                        if (!alreadyLit && tile.IsLit()) {
+                        if (!alreadyLit && tile.IsOnFire()) {
                             modifiedTiles[NewStatus.OnFire].Add(pos);
                         }
                     }

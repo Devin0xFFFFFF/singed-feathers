@@ -1,24 +1,19 @@
 ﻿namespace Assets.Scripts.Model {
     public class Tile {
-        public TileType Type;
-        public bool IsFlammable;
-        public int FlashPoint;
-        public int Durability;
-        public int BurnDuration;
-        public bool OnFire;
-        public int Heat;
-        public bool IsBurntOut {
-            get { return BurnDuration <= 0; }
-        }
+		// TODO: save Tile position
+		public TileType Type;
+		public int? FlashPoint;
+		public int Health;
+		public int MaxTurnsOnFire;
+		public int TurnsOnFire;
+		public int Heat;
 
-        public Tile(TileType type, bool isFlammable, int flashPoint, int durability, int burnDuration, int heat = 0, bool onFire = false) {
-            Type = type;
-            IsFlammable = isFlammable;
-            FlashPoint = flashPoint;
-            Durability = durability;
-            BurnDuration = burnDuration;
-            OnFire = onFire;
-            Heat = heat;
-        }
+		public Tile(TileType type, int? flashPoint, int maxTurnsOnFire) {
+			Type = type;
+			FlashPoint = flashPoint;
+			MaxTurnsOnFire = maxTurnsOnFire;
+			Heat = 0;
+			TurnsOnFire = 0;
+		}
     }
 }

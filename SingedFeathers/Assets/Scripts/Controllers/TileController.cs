@@ -3,7 +3,7 @@ using Assets.Scripts.Controllers;
 using Assets.Scripts.Model;
 
 public class TileController : ITileController {
-    const int BURN_HEAT = 5;
+    const int BURN_HEAT = 10;
     private readonly Tile _tile;
     private readonly List<ITileController> _neighbouringTiles;
     
@@ -16,70 +16,56 @@ public class TileController : ITileController {
         return _tile.Type;
     }
 
-    public bool IsBurntOut() {
-        return _tile.IsBurntOut;
-    }
+	public bool IsFlammable() {
+		return _tile.FlashPoint.HasValue;
+	}
 
-    public bool IsLit() {
-        return _tile.OnFire;
-    }
+	public bool IsOnFire() {
+		return IsFlammable() && _tile.Heat >= _tile.FlashPoint;
+	}
+
+	public bool IsBurntOut() {
+		return _tile.TurnsOnFire >= _tile.MaxTurnsOnFire;
+	}
 
     public void AddNeighbouringTile(ITileController neighbourController) {
         _neighbouringTiles.Add(neighbourController);
     }
     
     public void SpreadFire() {
-        if (_tile.OnFire && !_tile.IsBurntOut) {
-            foreach (ITileController neighbour in _neighbouringTiles) {
-                neighbour.ApplyHeat(BURN_HEAT);
-            }
-            _tile.BurnDuration--;
-            if (_tile.Type != TileType.Ash && _tile.IsBurntOut) {
+		if (IsOnFire()) {
+			if (_tile.TurnsOnFire >= 1 && !IsBurntOut ()) {
+				foreach (ITileController neighbour in _neighbouringTiles) {
+					neighbour.ApplyHeat (BURN_HEAT);
+				}
+			}
+			_tile.TurnsOnFire += 1;
+			if (_tile.Type != TileType.Ash && IsBurntOut()) {
                 _tile.Type = TileType.Ash;
             }
         }
     }
 
-    public void StartTurn() {
+    public void Extinguish() {
         _tile.Heat = 0;
-    }
-
-    public bool Ignite() {
-        if (!_tile.OnFire && _tile.IsFlammable && (_tile.Heat >= _tile.FlashPoint || _tile.Durability == 0)) {
-            _tile.OnFire = true;
-        }
-        return _tile.OnFire;
-    }
-
-    public bool Extinguish() {
-        _tile.OnFire = false;
-        return true;
     }
 
     public void ApplyHeat(int heat) {
         _tile.Heat += heat;
-        TakeDamage(heat);
-        Ignite();
     }
 
     private Tile InitializeTile(TileType type) {
         switch (type) {
             case TileType.Wood:
-                return new Tile(type, true, 15, 20, 5);
+                return new Tile(type, 20, 3);
             case TileType.Grass:
-                return new Tile(type, true, 5, 10, 3);
+                return new Tile(type, 10, 3);
             case TileType.Stone:
-                return new Tile(type, false, 0, 0, 1);
+				return new Tile(type, null, 1);
             case TileType.Ash:
             case TileType.Error:
             default:
-                return new Tile(type, true, 0, 0, 1);
-        }
-    }
-
-    private void TakeDamage(int heat) {
-        if (_tile.Durability > 0) {
-            _tile.Durability -= heat;
+                return new Tile(type, 0, 1);
         }
     }
 }
