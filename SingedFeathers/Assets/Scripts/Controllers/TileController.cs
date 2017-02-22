@@ -19,7 +19,7 @@ public class TileController : ITileController {
     }
 
 	public bool IsFlammable() {
-		return _tile.FlashPoint.HasValue;
+		return _tile.FlashPoint.HasValue && !IsBurntOut();
 	}
 
 	public bool IsSpreadingHeat() {

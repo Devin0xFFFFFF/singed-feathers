@@ -48,7 +48,6 @@ namespace SingedFeathers.Test.ControllerTest {
             //spread again -- burnt out
             _tileController.SpreadFire();
             Assert.AreEqual(true, _tileController.IsBurntOut());
-            Assert.AreEqual(true, _tileController.IsOnFire());   //as it stands, the tile remains on fire even after burnout
             Assert.AreEqual(TileType.Ash, _tileController.GetTileType());
         }
 
