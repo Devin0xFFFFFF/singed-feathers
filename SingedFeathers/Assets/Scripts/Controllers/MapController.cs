@@ -41,13 +41,15 @@ namespace Assets.Scripts.Controllers {
 
         public IDictionary<NewStatus, IList<Position>> SpreadFires() {
 			
-            IDictionary<NewStatus, IList<Position>> modifiedTiles = InitializeModifiedTilesDict();
+			IDictionary<NewStatus, IList<Position>> modifiedTiles = new Dictionary<NewStatus, IList<Position>>();
+			modifiedTiles.Add(NewStatus.BurntOut, new List<Position>());
+			modifiedTiles.Add(NewStatus.OnFire, new List<Position>());
 
 			// Update tiles
             for (int x = 0; x < Width; x++) {
 				for (int y = 0; y < Height; y++) {
 					
-					ITileController tile = _map [x, y];
+					ITileController tile = _map[x, y];
 					tile.SpreadFire();
 
 					if (tile.StateHasChanged) {
@@ -69,18 +71,6 @@ namespace Assets.Scripts.Controllers {
 			}
 
             return modifiedTiles;
-        }
-
-        private IDictionary<NewStatus, IList<Position>> InitializeModifiedTilesDict() {
-			
-            IDictionary<NewStatus, IList<Position>> dict = new Dictionary<NewStatus, IList<Position>>();
-            IList<Position> newlyBurntTilePositions = new List<Position>();
-            IList<Position> newlyLitTilePositions = new List<Position>();
-
-            dict.Add(NewStatus.BurntOut, newlyBurntTilePositions);
-            dict.Add(NewStatus.OnFire, newlyLitTilePositions);
-
-            return dict;
         }
 
         private void InitializeTiles() {

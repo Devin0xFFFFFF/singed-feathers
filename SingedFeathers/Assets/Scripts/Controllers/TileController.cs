@@ -23,7 +23,7 @@ public class TileController : ITileController {
 	}
 
 	public bool IsSpreadingHeat() {
-		// Spread heat if the tile has been burning for more than one turn (at the end the last turn)
+		// Spread heat if the tile has been burning for more than one turn (at the end of the last turn)
 		return (StateHasChanged && IsBurntOut ()) || (!StateHasChanged && IsOnFire ());
 	}
 
@@ -40,7 +40,7 @@ public class TileController : ITileController {
     }
     
     public void SpreadFire() {
-		bool StartedOnFire = IsOnFire();
+		bool startedOnFire = IsOnFire();
 
 		// Apply heat for each neighbouring tile that is spreading heat
 		foreach (ITileController neighbour in _neighbouringTiles) {
@@ -52,7 +52,7 @@ public class TileController : ITileController {
 		if (IsOnFire()) {
 			_tile.TurnsOnFire += 1;
 
-			if (StartedOnFire && IsBurntOut ()) {
+			if (startedOnFire && IsBurntOut()) {
 				_tile.Type = TileType.Ash;
 				_tile.FlashPoint = null;
 				_tile.MaxTurnsOnFire = 0;
@@ -68,9 +68,9 @@ public class TileController : ITileController {
     }
 
     public void ApplyHeat(int heat) {
-		bool StartedOnFire = IsOnFire();
+		bool startedOnFire = IsOnFire();
 		_tile.Heat += heat;
-		if (!StartedOnFire && IsOnFire()) {
+		if (!startedOnFire && IsOnFire()) {
 			StateHasChanged = true;
 		}
     }
