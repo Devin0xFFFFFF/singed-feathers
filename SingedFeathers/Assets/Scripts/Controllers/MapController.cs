@@ -40,32 +40,40 @@ namespace Assets.Scripts.Controllers {
         }
 
         public IDictionary<NewStatus, IList<Position>> SpreadFires() {
-            bool alreadyLit = false;
-            Position pos = null;
+			
             IDictionary<NewStatus, IList<Position>> modifiedTiles = InitializeModifiedTilesDict();
-            for (int x = 0; x < Width; x++) {
-                for (int y = 0; y < Height; y++) {
-                    ITileController tile = _map[x, y];
-                    pos = new Position { X = x, Y = y };
-                    alreadyLit = tile.IsOnFire();
 
-                    if (!tile.IsBurntOut()) {
-                        tile.SpreadFire();
-                        if (tile.IsBurntOut()) {
-                            modifiedTiles[NewStatus.BurntOut].Add(pos);
-                        }
-                        if (!alreadyLit && tile.IsOnFire()) {
-                            modifiedTiles[NewStatus.OnFire].Add(pos);
-                        }
-                    }
-                }
+			// Update tiles
+            for (int x = 0; x < Width; x++) {
+				for (int y = 0; y < Height; y++) {
+					
+					ITileController tile = _map [x, y];
+					tile.SpreadFire();
+
+					if (tile.StateHasChanged) {
+						if (tile.IsBurntOut()) {
+							modifiedTiles[NewStatus.BurntOut].Add(new Position { X = x, Y = y });
+						}
+						if (tile.IsOnFire()) {
+							modifiedTiles[NewStatus.OnFire].Add(new Position { X = x, Y = y });
+						}
+					}
+				}
             }
+
+			// Reset map
+			for (int x = 0; x < Width; x++) {
+				for (int y = 0; y < Height; y++) {
+					_map[x, y].StateHasChanged = false;
+				}
+			}
+
             return modifiedTiles;
         }
 
         private IDictionary<NewStatus, IList<Position>> InitializeModifiedTilesDict() {
+			
             IDictionary<NewStatus, IList<Position>> dict = new Dictionary<NewStatus, IList<Position>>();
-
             IList<Position> newlyBurntTilePositions = new List<Position>();
             IList<Position> newlyLitTilePositions = new List<Position>();
 
@@ -98,12 +106,12 @@ namespace Assets.Scripts.Controllers {
             if (y > 0) {
                 _map[x, y].AddNeighbouringTile(_map[x, y - 1]);
             }
-            if (x < Width - 1) {
-                _map[x, y].AddNeighbouringTile(_map[x + 1, y]);
-            }
             if (y < Height - 1) {
                 _map[x, y].AddNeighbouringTile(_map[x, y + 1]);
             }
+			if (x < Width - 1) {
+				_map[x, y].AddNeighbouringTile(_map[x + 1, y]);
+			}
         }
     }
 }

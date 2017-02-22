@@ -1,9 +1,7 @@
 ﻿namespace Assets.Scripts.Model {
     public class Tile {
-		// TODO: save Tile position
 		public TileType Type;
 		public int? FlashPoint;
-		public int Health;
 		public int MaxTurnsOnFire;
 		public int TurnsOnFire;
 		public int Heat;
