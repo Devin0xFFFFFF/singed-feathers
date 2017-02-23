@@ -1,7 +1,8 @@
 ﻿using Assets.Scripts.Controllers;
 using NUnit.Framework;
+using UnityEditor;
 
-namespace SingedFeathers.Test.ControllerTest {
+namespace Assets.Editor {
 	
     [TestFixture]
     public class MapControllerTest {
@@ -15,7 +16,7 @@ namespace SingedFeathers.Test.ControllerTest {
         [Test]
         public void TestGenerateInitializesProperly() {
             _mapController.GenerateMap();
-            Assert.AreEqual(5, _mapController.Height);
+            Assert.AreEqual(4, _mapController.Height);
             Assert.AreEqual(5, _mapController.Width);
         }
 

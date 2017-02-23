@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Assets.Scripts.Controllers;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour {
