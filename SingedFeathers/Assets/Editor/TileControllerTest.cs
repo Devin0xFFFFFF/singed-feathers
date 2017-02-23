@@ -18,12 +18,12 @@ namespace SingedFeathers.Test.ControllerTest {
         }
 
         [Test]
-		public void ChangingLitStatus_UpdatesAppropriately() {
-			Assert.AreEqual(false, _tileController.IsOnFire());
+        public void ChangingLitStatus_UpdatesAppropriately() {
+            Assert.AreEqual(false, _tileController.IsOnFire());
             _tileController.ApplyHeat(100);
             Assert.AreEqual(true, _tileController.IsOnFire());
             _tileController.Extinguish();
-			Assert.AreEqual(false, _tileController.IsOnFire());
+            Assert.AreEqual(false, _tileController.IsOnFire());
         }
 
         [Test]
@@ -31,12 +31,12 @@ namespace SingedFeathers.Test.ControllerTest {
             Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
             Assert.AreEqual(false, _tileController.IsOnFire());
             Assert.AreEqual(false, _tileController.IsBurntOut());
-            
+
             //light the tile and spread once
             _tileController.ApplyHeat(100);
             _tileController.SpreadFire();
             Assert.AreEqual(false, _tileController.IsBurntOut());
-			Assert.AreEqual(true, _tileController.IsOnFire());
+            Assert.AreEqual(true, _tileController.IsOnFire());
             Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
 
             //spread again -- still not burnt out
@@ -54,7 +54,7 @@ namespace SingedFeathers.Test.ControllerTest {
         [Test]
         public void WhenTileBurnsOut_UpdatesTileType() {
             Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
-            
+
             //ignite tile and burn it out
             _tileController.ApplyHeat(100);
             _tileController.IsOnFire();
