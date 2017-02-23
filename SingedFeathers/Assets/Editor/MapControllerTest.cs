@@ -12,10 +12,18 @@ namespace SingedFeathers.Test.ControllerTest {
         }
 
         [Test]
-        public void Generate_InitializesProperly() {
+        public void TestGenerateInitializesProperly() {
             _mapController.GenerateMap();
             Assert.AreEqual(5, _mapController.Height);
             Assert.AreEqual(5, _mapController.Width);
+        }
+
+        [Test]
+        public void TestApplyHeatDoesNotThrowOutOFBoundsException() {
+            _mapController.ApplyHeat(-1, -1);
+            _mapController.ApplyHeat(-1, 0);
+            _mapController.ApplyHeat(0, -1);
+
         }
     }
 }
