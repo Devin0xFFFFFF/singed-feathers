@@ -6,9 +6,8 @@ namespace Assets.Scripts.Controllers {
         int Width { get; }
         int Height { get; }
         void GenerateMap();
-        void ApplyHeat(int x, int y, int heat);
+        void ApplyHeat(int x, int y);
         TileType GetTileType(int x, int y);
-        void StartTurn();
         IDictionary<NewStatus, IList<Position>> SpreadFires();
         ITileController GetController(int x, int y);
     }

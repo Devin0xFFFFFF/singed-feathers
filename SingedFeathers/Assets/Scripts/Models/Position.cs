@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Model {
+﻿namespace Assets.Scripts.Models {
     public class Position {
         public int X;
         public int Y;

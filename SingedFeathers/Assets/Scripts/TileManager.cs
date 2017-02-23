@@ -18,10 +18,6 @@ public class TileManager : MonoBehaviour {
         _tileController.ApplyHeat(heat);
     }
 
-    public void StartTurn() {
-        _tileController.StartTurn();
-    }
-
     public void SpreadFire() {
         _tileController.SpreadFire();
     }

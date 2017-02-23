@@ -57,7 +57,6 @@ public class MapManager : MonoBehaviour {
     }
 
     void ProcessTurn() {
-        _mapController.StartTurn();
         IDictionary<NewStatus, IList<Position>> modifiedTilePositions = _mapController.SpreadFires();
         foreach (Position pos in modifiedTilePositions[NewStatus.BurntOut]) {
             UpdateTileType(TileType.Ash, pos.X, pos.Y);
@@ -65,7 +64,7 @@ public class MapManager : MonoBehaviour {
     }
 
     void SetFire(int x, int y) {
-        _mapController.ApplyHeat(x, y, 100);
+        _mapController.ApplyHeat(x, y);
     }
 
     private void InstantiateTiles() {
