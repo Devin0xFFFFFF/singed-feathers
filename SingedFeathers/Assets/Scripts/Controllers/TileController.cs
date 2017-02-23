@@ -85,7 +85,7 @@ namespace Assets.Scripts.Controllers {
                 case TileType.Ash:
                 case TileType.Error:
                 default:
-                    return new Tile(type, null, 0);
+                    return new Tile(type, int.MaxValue, 0);
             }
         }
     }
