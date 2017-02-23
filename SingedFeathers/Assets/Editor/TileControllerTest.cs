@@ -1,6 +1,7 @@
-﻿using NUnit.Framework;
+﻿using Assets.Scripts.Controllers;
+using NUnit.Framework;
 
-namespace SingedFeathers.Test.ControllerTest {
+namespace Assets.Editor {
     [TestFixture]
     public class TileControllerTest {
         private TileController _tileController;
