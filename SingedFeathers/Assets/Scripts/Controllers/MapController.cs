@@ -6,24 +6,15 @@ namespace Assets.Scripts.Controllers {
         const int HEAT = 100;
         public int Width { get { return _map.Width; }}
         public int Height { get { return _map.Height; }}
-        private IMapGenerator _mapGenerator;
+        private readonly IMapGenerator _mapGenerator;
         private Map _map;
 
         public MapController(IMapGenerator mapGenerator = null) {
             _mapGenerator = mapGenerator ?? new MapGenerator();
         }
 
-        private readonly int[,] _testMapRaw = {
-            {2, 3, 3, 3, 3},
-            {2, 3, 2, 3, 3},
-            {3, 3, 3, 3, 3},
-            {2, 3, 3, 2, 3},
-            {2, 3, 3, 3, 2}
-        };
-
         public void GenerateMap() {
             _map = _mapGenerator.GenerateMap(1);
-            InitializeTiles();
             LinkNeighbouringTiles();
         }
 
@@ -73,14 +64,6 @@ namespace Assets.Scripts.Controllers {
             }
 
             return modifiedTiles;
-        }
-
-        private void InitializeTiles() {
-            for (int x = 0; x < Width; x++) {
-                for (int y = 0; y < Height; y++) {
-                    _map.TileMap[x, y] = new TileController((TileType) _testMapRaw[x, y]);
-                }
-            }
         }
 
         private void LinkNeighbouringTiles() {
