@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts.Model;
+using Assets.Scripts.Models;
 
 namespace Assets.Scripts.Controllers {
     public interface IMapController {

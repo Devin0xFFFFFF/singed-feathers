@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.Controllers;
 using UnityEngine;
-using Assets.Scripts.Model;
+using Assets.Scripts.Models;
 
 public class MapManager : MonoBehaviour {
 

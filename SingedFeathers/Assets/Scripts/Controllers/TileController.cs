@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.Controllers;
-using Assets.Scripts.Model;
+using Assets.Scripts.Models;
 
 public class TileController : ITileController {
     const int BURN_HEAT = 10;
