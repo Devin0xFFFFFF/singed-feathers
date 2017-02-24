@@ -18,11 +18,10 @@ public class MapInput : MonoBehaviour {
         }
         #elif MOBILE_INPUT
         if (Input.touches.Any()) {
-        Touch touch = Input.touches.FirstOrDefault();
-        Vector2 worldPoint = Camera.main.ScreenToWorldPoint(touch.position);
-        HandleInput(worldPoint);
+            Touch touch = Input.touches.FirstOrDefault();
+            Vector2 worldPoint = Camera.main.ScreenToWorldPoint(touch.position);
+            HandleInput(worldPoint);
         }
-
         #endif
     }
 
@@ -35,9 +34,4 @@ public class MapInput : MonoBehaviour {
             }
         }
     }
-
-    /*public void SetState(string newState) {
-        state = GameState.Fire;
-        Debug.Log (state);
-    }*/
 }
