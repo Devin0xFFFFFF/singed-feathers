@@ -4,7 +4,9 @@ using Assets.Scripts.Models;
 using Newtonsoft.Json;
 
 namespace Assets.Scripts.Service {
+
     public class MapGeneratorService : IMapGeneratorService {
+
         public Map GenerateMap(int id) {
             Map map;
             string path = string.Format("../SingedFeathers/Assets/Resources/map{0}.json", id);
@@ -22,7 +24,7 @@ namespace Assets.Scripts.Service {
             map.TileMap = new ITileController[map.Width,map.Height];
             for (int x = 0; x < map.Width; x++) {
                 for (int y = 0; y < map.Height; y++) {
-                    map.TileMap[x,y] = new TileController(map.RawMap[x,y]);
+                    map.TileMap[x, y] = new TileController(map.RawMap[x, y]);
                 }
             }
         }
