@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Controllers;
 using NUnit.Framework;
-using UnityEditor;
 
 namespace Assets.Editor {
 	
@@ -16,7 +15,7 @@ namespace Assets.Editor {
         [Test]
         public void TestGenerateInitializesProperly() {
             _mapController.GenerateMap();
-            Assert.AreEqual(4, _mapController.Height);
+            Assert.AreEqual(5, _mapController.Height);
             Assert.AreEqual(5, _mapController.Width);
         }
 
