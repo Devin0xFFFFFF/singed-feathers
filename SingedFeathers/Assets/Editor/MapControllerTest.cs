@@ -5,6 +5,7 @@ namespace Assets.Editor {
 	
     [TestFixture]
     public class MapControllerTest {
+
         private MapController _mapController;
 
         [SetUp]

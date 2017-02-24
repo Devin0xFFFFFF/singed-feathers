@@ -3,7 +3,9 @@ using Assets.Scripts.Models;
 using Assets.Scripts.Service;
 
 namespace Assets.Scripts.Controllers {
+
     public class MapController : IMapController {
+
         const int HEAT = 100;
         public int Width { get { return _map.Width; }}
         public int Height { get { return _map.Height; }}

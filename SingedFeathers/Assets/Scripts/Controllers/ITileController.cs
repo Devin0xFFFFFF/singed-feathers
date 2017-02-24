@@ -1,5 +1,7 @@
 ﻿namespace Assets.Scripts.Controllers {
+
     public interface ITileController {
+
 		bool StateHasChanged { get; set; }
         TileType GetTileType();
         void Extinguish();

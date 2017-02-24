@@ -2,7 +2,9 @@
 using Assets.Scripts.Models;
 
 namespace Assets.Scripts.Controllers {
+
     public interface IMapController {
+
         int Width { get; }
         int Height { get; }
         void GenerateMap();

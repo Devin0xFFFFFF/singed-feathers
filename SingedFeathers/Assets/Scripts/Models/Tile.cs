@@ -1,8 +1,10 @@
 ﻿using System;
 
 namespace Assets.Scripts.Models {
+
     [Serializable]
     public class Tile {
+
         public TileType Type;
         public int FlashPoint;
         public int MaxTurnsOnFire;
