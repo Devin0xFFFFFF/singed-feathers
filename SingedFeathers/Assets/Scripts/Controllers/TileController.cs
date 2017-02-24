@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Assets.Scripts.Models;
 
 namespace Assets.Scripts.Controllers {
+    [Serializable]
     public class TileController : ITileController {
         const int BURN_HEAT = 10;
         public bool StateHasChanged { get; set; }
@@ -17,7 +19,7 @@ namespace Assets.Scripts.Controllers {
         public TileType GetTileType() {
             return _tile.Type;
         }
-
+        
         public bool IsFlammable() {
             return _tile.FlashPoint < int.MaxValue && !IsBurntOut();
         }

@@ -21,7 +21,7 @@ namespace Assets.Scripts.Controllers {
             map.TileMap = new ITileController[map.Width,map.Height];
             for (int x = 0; x < map.Width; x++) {
                 for (int y = 0; y < map.Height; y++) {
-                    map.TileMap[x,y] = new TileController((TileType)map.RawMap[x,y]);
+                    map.TileMap[x,y] = new TileController(map.RawMap[x,y]);
                 }
             }
         }
