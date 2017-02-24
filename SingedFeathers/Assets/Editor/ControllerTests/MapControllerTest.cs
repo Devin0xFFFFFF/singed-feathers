@@ -5,6 +5,7 @@ using NUnit.Framework;
 using NSubstitute;
 
 namespace Assets.Editor.ControllerTests {
+
     [TestFixture()]
     public class MapControllerTest {
         private MapController _mapController;
