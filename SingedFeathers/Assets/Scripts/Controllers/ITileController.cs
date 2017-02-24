@@ -9,6 +9,5 @@
         bool IsBurntOut();
         bool IsOnFire();
 		bool IsSpreadingHeat();
-		bool IsFlammable();
     }
 }
