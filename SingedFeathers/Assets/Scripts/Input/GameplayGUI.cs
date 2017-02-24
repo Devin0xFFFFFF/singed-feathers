@@ -5,41 +5,39 @@ using UnityEngine.UI;
 
 public class GameplayGUI : MonoBehaviour {
 
-    public GameStateManager gsm;
-    public Button fireButton;
-    public Button undoButton;
-    public Button endTurnButton;
+    public GameStateManager GameStateManager;
+    public Button FireButton;
+    public Button UndoButton;
+    public Button EndTurnButton;
 
-    private IGameState currentState;
+    private IGameState _currentState;
 
     // Use this for initialization
-    void Start () {
-        currentState = gsm.currState;
-    }
+    void Start() { _currentState = GameStateManager.CurrState; }
     
     // Update is called once per frame
-    void Update () {
-        currentState = gsm.currState;
-        UpdateButtons ();
+    void Update() {
+        _currentState = GameStateManager.CurrState;
+        UpdateButtons();
     }
 
     void UpdateButtons() {
-        if (currentState is UnselectedActionState) {
-            fireButton.interactable = true;
-            undoButton.interactable = false;
-            endTurnButton.interactable = false;
-        } else if (currentState is SelectedActionState) {
-            fireButton.interactable = false;
-            undoButton.interactable = false;
-            endTurnButton.interactable = false;
-        } else if (currentState is AppliedActionState) {
-            fireButton.interactable = false;
-            undoButton.interactable = true;
-            endTurnButton.interactable = true;
-        } else if (currentState is ResolveState) {
-            fireButton.interactable = false;
-            undoButton.interactable = false;
-            endTurnButton.interactable = false;
+        if (_currentState is UnselectedActionState) {
+            FireButton.interactable = true;
+            UndoButton.interactable = false;
+            EndTurnButton.interactable = false;
+        } else if (_currentState is SelectedActionState) {
+            FireButton.interactable = false;
+            UndoButton.interactable = false;
+            EndTurnButton.interactable = false;
+        } else if (_currentState is AppliedActionState) {
+            FireButton.interactable = false;
+            UndoButton.interactable = true;
+            EndTurnButton.interactable = true;
+        } else if (_currentState is ResolveState) {
+            FireButton.interactable = false;
+            UndoButton.interactable = false;
+            EndTurnButton.interactable = false;
         } 
     }
 }

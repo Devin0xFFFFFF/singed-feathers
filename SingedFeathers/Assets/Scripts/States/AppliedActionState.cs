@@ -4,23 +4,18 @@ using UnityEngine;
 
 public class AppliedActionState : IGameState {
 
-    private readonly GameStateManager manager;
+    private readonly GameStateManager _gameStateManager;
 
-    public AppliedActionState(GameStateManager mapManager) {
-        manager = mapManager;
-    }
+    public AppliedActionState(GameStateManager mapManager) { _gameStateManager = mapManager; }
 
-    public void UpdateState() {
+    public void UpdateState() {}
 
-    }
+    public void ChangeState() { _gameStateManager.CurrState = _gameStateManager.ResolveState; }
 
-    public void ChangeState() { manager.currState = manager.resolveState; }
     public void Undo() { 
-        manager.mapManager.UndoLastCommand ();
-        manager.currState = manager.unselectedActionState;
+        _gameStateManager.MapManager.UndoLastCommand();
+        _gameStateManager.CurrState = _gameStateManager.UnselectedActionState;
     }
 
-    public void HandleMapInput (TileManager tileManager) {
-        manager.GetTileInfo (tileManager);
-    }
+    public void HandleMapInput(TileManager tileManager) { _gameStateManager.GetTileInfo(tileManager); }
 }

@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class MapInput : MonoBehaviour {
 
-    public GameStateManager gsm;
+    public GameStateManager GameStateManager;
 
-    void Awake() {
-    }
+    void Awake() {}
 
     // Update is called once per frame
     void Update() {
@@ -30,7 +29,7 @@ public class MapInput : MonoBehaviour {
         if (hit.collider != null) {
             if (hit.transform.gameObject.tag == "Tile") {
                 Debug.Log(hit.transform.gameObject.GetComponent<TileManager>().type);
-                gsm.HandleMapInput (hit.transform.gameObject.GetComponent<TileManager>());
+                GameStateManager.HandleMapInput(hit.transform.gameObject.GetComponent<TileManager>());
             }
         }
     }

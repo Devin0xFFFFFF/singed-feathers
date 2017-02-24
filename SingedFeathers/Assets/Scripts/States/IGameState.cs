@@ -1,8 +1,8 @@
 ﻿
 public interface IGameState {
 
-    void UpdateState ();
+    void UpdateState();
     void ChangeState();
     void Undo();
-    void HandleMapInput (TileManager tileManager);
+    void HandleMapInput(TileManager tileManager);
 }

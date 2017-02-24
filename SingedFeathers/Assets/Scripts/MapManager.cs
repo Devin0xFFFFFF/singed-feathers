@@ -5,9 +5,8 @@ using Assets.Scripts.Models;
 
 public class MapManager : MonoBehaviour {
 
-    public GameStateManager gsm;
-    public List<TileManager> tileSet;
-    public float UpdateWait = 2.0f;
+    public GameStateManager GameStateManager;
+    public List<TileManager> TileSet;
     private Dictionary<TileType, TileManager> _tileDictionary;
     private IMapController _mapController;
     private TileManager[,] _map;
@@ -17,8 +16,7 @@ public class MapManager : MonoBehaviour {
 
     // Start here!
     void Start() {
-        if (tileSet.Count > 0) {
-            //there's probably a better approach than this, but it seems to work
+        if (TileSet.Count > 0) {
             LoadTileDictionary();
             LoadMap();
             _turnCommands = new List<ICommand>();
@@ -28,18 +26,16 @@ public class MapManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        //if a valid turn, update tiles
-
-        IGameState currState = gsm.currState;
+        IGameState currState = GameStateManager.CurrState;
         if(currState is ResolveState) {
-            ProcessTurn ();
-            currState.ChangeState ();
+            ProcessTurn();
+            currState.ChangeState();
         }
     }
 
     void LoadTileDictionary() {
         _tileDictionary = new Dictionary<TileType, TileManager>();
-        foreach (TileManager tile in tileSet) {
+        foreach (TileManager tile in TileSet) {
             tile.Initialize();
             _tileDictionary.Add(tile.type, tile);
         }
@@ -52,17 +48,17 @@ public class MapManager : MonoBehaviour {
         _height = _mapController.Height;
         _map = new TileManager[_width, _height];
 
-        _tileSizeX = tileSet[0].GetComponent<Renderer>().bounds.size.x;
-        _tileSizeY = tileSet[0].GetComponent<Renderer>().bounds.size.y;
+        _tileSizeX = TileSet[0].GetComponent<Renderer>().bounds.size.x;
+        _tileSizeY = TileSet[0].GetComponent<Renderer>().bounds.size.y;
 
         InstantiateTiles();
     }
 
     void ProcessTurn() {
         foreach(ICommand command in _turnCommands) {
-            command.ExecuteCommand ();
+            command.ExecuteCommand();
         }
-        _turnCommands.Clear ();
+        _turnCommands.Clear();
 
         IDictionary<NewStatus, IList<Position>> modifiedTilePositions = _mapController.SpreadFires();
         foreach (Position pos in modifiedTilePositions[NewStatus.BurntOut]) {
@@ -70,9 +66,7 @@ public class MapManager : MonoBehaviour {
         }
     }
 
-    void SetFire(int x, int y) {
-        _mapController.ApplyHeat(x, y);
-    }
+    void SetFire(int x, int y) { _mapController.ApplyHeat(x, y); }
 
     private void InstantiateTiles() {
         for (int x = 0; x < _width; x++) {
@@ -93,13 +87,11 @@ public class MapManager : MonoBehaviour {
         InstantiateTile(type, x, y);
     }
 
-    public void AddCommand(ICommand command) {
-        _turnCommands.Add (command);
-    }
+    public void AddCommand(ICommand command) { _turnCommands.Add(command); }
 
     public void UndoLastCommand() {
         if (_turnCommands.Count > 0) {
-            _turnCommands.Remove (_turnCommands [_turnCommands.Count - 1]);
+            _turnCommands.Remove(_turnCommands [_turnCommands.Count - 1]);
         }
     }
 }
