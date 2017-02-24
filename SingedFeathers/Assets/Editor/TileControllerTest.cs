@@ -12,14 +12,14 @@ namespace Assets.Editor {
         }
 
         [Test]
-        public void InitializingTile_UpdatesAppropriately() {
+        public void TestInitializingTile() {
             Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
             Assert.False(_tileController.IsBurntOut());
             Assert.False(_tileController.IsOnFire());
         }
 
         [Test]
-        public void ChangingLitStatus_UpdatesAppropriately() {
+        public void TestChangingLitStatus() {
             Assert.AreEqual(false, _tileController.IsOnFire());
             _tileController.ApplyHeat(100);
             Assert.AreEqual(true, _tileController.IsOnFire());
@@ -28,7 +28,7 @@ namespace Assets.Editor {
         }
 
         [Test]
-        public void AfterBurnout_TileUpdates() {
+        public void TestTileUpdatesAfterBurnout() {
             Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
             Assert.AreEqual(false, _tileController.IsOnFire());
             Assert.AreEqual(false, _tileController.IsBurntOut());
@@ -53,7 +53,7 @@ namespace Assets.Editor {
         }
 
         [Test]
-        public void WhenTileBurnsOut_UpdatesTileType() {
+        public void TestTileTypeUpdatesAfterBurnsOut() {
             Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
 
             //ignite tile and burn it out
