@@ -46,7 +46,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Controllers\IInputController.cs" />
      <Compile Include="Assets\Scripts\Controllers\IMapController.cs" />
      <Compile Include="Assets\Scripts\Controllers\ITileController.cs" />
      <Compile Include="Assets\Scripts\Controllers\MapController.cs" />
