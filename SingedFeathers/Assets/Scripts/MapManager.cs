@@ -21,7 +21,7 @@ public class MapManager : MonoBehaviour {
             //there's probably a better approach than this, but it seems to work
             LoadTileDictionary();
             LoadMap();
-			LoadFires();
+            LoadFires();
         }
     }
 
@@ -57,9 +57,7 @@ public class MapManager : MonoBehaviour {
         InstantiateTiles();
     }
 
-	void LoadFires() {
-		SetFire(2, 3);
-	}
+	void LoadFires() { SetFire(2, 3);}
 
     void ProcessTurn() {
         IDictionary<NewStatus, IList<Position>> modifiedTilePositions = _mapController.SpreadFires();
