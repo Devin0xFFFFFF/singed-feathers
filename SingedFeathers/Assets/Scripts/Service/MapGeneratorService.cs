@@ -7,12 +7,11 @@ namespace Assets.Scripts.Service {
     public class MapGeneratorService : IMapGeneratorService {
         public Map GenerateMap(int id) {
             Map map;
-            string path = string.Format("..\\SingedFeathers\\Assets\\Resources\\map{0}.json", id);
+            string path = string.Format("../SingedFeathers/Assets/Resources/map{0}.json", id);
 
             using (StreamReader r = new StreamReader(File.OpenRead(path))) {
                 string json = r.ReadToEnd();
                 map = JsonConvert.DeserializeObject<Map>(json);
-
                 InitializeTileMapFromRaw(map);
             }
             return map;

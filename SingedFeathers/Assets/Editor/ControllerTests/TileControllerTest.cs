@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.Controllers;
 using NUnit.Framework;
 
-namespace Assets.Editor {
+namespace Assets.Editor.ControllerTests {
     [TestFixture]
     public class TileControllerTest {
         private TileController _tileController;
