@@ -53,10 +53,13 @@
      <Compile Include="Assets\Scripts\GameSelection.cs" />
      <Compile Include="Assets\Scripts\InputManager.cs" />
      <Compile Include="Assets\Scripts\MapManager.cs" />
+     <Compile Include="Assets\Scripts\Models\Map.cs" />
+     <Compile Include="Assets\Scripts\Models\NewStatus.cs" />
      <Compile Include="Assets\Scripts\Models\Position.cs" />
+     <Compile Include="Assets\Scripts\Models\TIleType.cs" />
      <Compile Include="Assets\Scripts\Models\Tile.cs" />
-     <Compile Include="Assets\Scripts\NewStatus.cs" />
-     <Compile Include="Assets\Scripts\TIleType.cs" />
+     <Compile Include="Assets\Scripts\Service\IMapGeneratorService.cs" />
+     <Compile Include="Assets\Scripts\Service\MapGeneratorService.cs" />
      <Compile Include="Assets\Scripts\TileManager.cs" />
  <Reference Include="UnityEngine.Analytics">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
@@ -75,6 +78,9 @@
  </Reference>
  <Reference Include="UnityEngine.VR">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
+ </Reference>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>/Users/nicoleepp/Documents/Github/comp4350/comp4350-project/SingedFeathers/Assets/UnityPackages/JsonNet/Newtonsoft.Json.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
