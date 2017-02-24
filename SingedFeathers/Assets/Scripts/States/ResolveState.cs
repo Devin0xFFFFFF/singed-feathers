@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class ResolveState : IGameState {
 
-	private readonly GameStateManager manager;
+    private readonly GameStateManager manager;
 
-	public ResolveState(GameStateManager mapManager) {
-		manager = mapManager;
-	}
+    public ResolveState(GameStateManager mapManager) {
+        manager = mapManager;
+    }
 
-	public void UpdateState() {
-		
-	}
+    public void UpdateState() {
+        
+    }
 
-	public void ChangeState() { manager.currState = manager.unselectedActionState; }
-	public void Undo() {}
-	public void HandleMapInput (TileManager tileManager) {
-		manager.GetTileInfo (tileManager);
-	}
+    public void ChangeState() { manager.currState = manager.unselectedActionState; }
+    public void Undo() {}
+    public void HandleMapInput (TileManager tileManager) {
+        manager.GetTileInfo (tileManager);
+    }
 }

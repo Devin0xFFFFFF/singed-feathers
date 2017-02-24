@@ -5,13 +5,13 @@ using Assets.Scripts.Models;
 
 public class MapManager : MonoBehaviour {
 
-	public GameStateManager gsm;
+    public GameStateManager gsm;
     public List<TileManager> tileSet;
     public float UpdateWait = 2.0f;
     private Dictionary<TileType, TileManager> _tileDictionary;
     private IMapController _mapController;
     private TileManager[,] _map;
-	private List<ICommand> _turnCommands;
+    private List<ICommand> _turnCommands;
     private int _width, _height;
     private float _tileSizeX, _tileSizeY;
 
@@ -21,7 +21,7 @@ public class MapManager : MonoBehaviour {
             //there's probably a better approach than this, but it seems to work
             LoadTileDictionary();
             LoadMap();
-			_turnCommands = new List<ICommand>();
+            _turnCommands = new List<ICommand>();
             SetFire(2, 3);
         }
     }
@@ -30,11 +30,11 @@ public class MapManager : MonoBehaviour {
     void Update() {
         //if a valid turn, update tiles
 
-		IGameState currState = gsm.currState;
-		if(currState is ResolveState) {
-			ProcessTurn ();
-			currState.ChangeState ();
-		}
+        IGameState currState = gsm.currState;
+        if(currState is ResolveState) {
+            ProcessTurn ();
+            currState.ChangeState ();
+        }
     }
 
     void LoadTileDictionary() {
@@ -59,10 +59,10 @@ public class MapManager : MonoBehaviour {
     }
 
     void ProcessTurn() {
-		foreach(ICommand command in _turnCommands) {
-			command.ExecuteCommand ();
-		}
-		_turnCommands.Clear ();
+        foreach(ICommand command in _turnCommands) {
+            command.ExecuteCommand ();
+        }
+        _turnCommands.Clear ();
 
         IDictionary<NewStatus, IList<Position>> modifiedTilePositions = _mapController.SpreadFires();
         foreach (Position pos in modifiedTilePositions[NewStatus.BurntOut]) {
@@ -93,13 +93,13 @@ public class MapManager : MonoBehaviour {
         InstantiateTile(type, x, y);
     }
 
-	public void AddCommand(ICommand command) {
-		_turnCommands.Add (command);
-	}
+    public void AddCommand(ICommand command) {
+        _turnCommands.Add (command);
+    }
 
-	public void UndoLastCommand() {
-		if (_turnCommands.Count > 0) {
-			_turnCommands.Remove (_turnCommands [_turnCommands.Count - 1]);
-		}
-	}
+    public void UndoLastCommand() {
+        if (_turnCommands.Count > 0) {
+            _turnCommands.Remove (_turnCommands [_turnCommands.Count - 1]);
+        }
+    }
 }
