@@ -2,6 +2,7 @@
 using NUnit.Framework;
 
 namespace Assets.Editor.ControllerTests {
+
     [TestFixture]
     public class TileControllerTest {
         private TileController _tileController;
