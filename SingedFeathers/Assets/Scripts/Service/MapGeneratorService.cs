@@ -1,9 +1,10 @@
 ﻿using System.IO;
+using Assets.Scripts.Controllers;
 using Assets.Scripts.Models;
 using Newtonsoft.Json;
 
-namespace Assets.Scripts.Controllers {
-    public class MapGenerator : IMapGenerator {
+namespace Assets.Scripts.Service {
+    public class MapGeneratorService : IMapGeneratorService {
         public Map GenerateMap(int id) {
             Map map;
             string path = string.Format("..\\SingedFeathers\\Assets\\Resources\\map{0}.json", id);

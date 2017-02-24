@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.Models;
+using Assets.Scripts.Service;
 
 namespace Assets.Scripts.Controllers {
     public class MapController : IMapController {
         const int HEAT = 100;
         public int Width { get { return _map.Width; }}
         public int Height { get { return _map.Height; }}
-        private readonly IMapGenerator _mapGenerator;
+        private readonly IMapGeneratorService _mapGenerator;
         private Map _map;
 
-        public MapController(IMapGenerator mapGenerator = null) {
-            _mapGenerator = mapGenerator ?? new MapGenerator();
+        public MapController(IMapGeneratorService mapGenerator = null) {
+            _mapGenerator = mapGenerator ?? new MapGeneratorService();
         }
 
         public void GenerateMap() {
