@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour {
 
-	private InputState state;
+	public MapManager mapManager;
 
     void Awake() {
     }
@@ -31,15 +31,15 @@ public class InputManager : MonoBehaviour {
         if (hit.collider != null) {
             if (hit.transform.gameObject.tag == "Tile") {
                 Debug.Log(hit.transform.gameObject.GetComponent<TileManager>().type);
-				if (state == InputState.Fire) {
+				//if (state == GameState.Fire) {
 					hit.transform.gameObject.GetComponent<TileManager> ().ApplyHeat (100);
-				}
+				//}
             }
         }
     }
 
-	public void SetFireState() {
-		state = InputState.Fire;
+	/*public void SetState(string newState) {
+		state = GameState.Fire;
 		Debug.Log (state);
-	}
+	}*/
 }
