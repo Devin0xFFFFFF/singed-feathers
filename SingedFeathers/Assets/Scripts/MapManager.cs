@@ -13,6 +13,7 @@ public class MapManager : MonoBehaviour {
 	private List<ICommand> _turnCommands;
 	private int _width, _height;
 	private float _tileSizeX, _tileSizeY;
+	private int _turnCount;
 
 	// Start here!
 	void Start() {
@@ -21,6 +22,7 @@ public class MapManager : MonoBehaviour {
 			LoadMap();
 			_turnCommands = new List<ICommand>();
 			LoadFires();
+			_turnCount = 1;
 		}
 	}
 
@@ -57,6 +59,8 @@ public class MapManager : MonoBehaviour {
 	void LoadFires() { SetFire(2, 3);}
 
 	void ProcessTurn() {
+		Debug.Log ("Resolving turn: " + _turnCount);
+
 		foreach(ICommand command in _turnCommands) {
 			command.ExecuteCommand();
 		}
@@ -66,6 +70,8 @@ public class MapManager : MonoBehaviour {
 		foreach (Position pos in modifiedTilePositions[NewStatus.BurntOut]) {
 			UpdateTileType(TileType.Ash, pos.X, pos.Y);
 		}
+
+		_turnCount++;
 	}
 
 	void SetFire(int x, int y) { _mapController.ApplyHeat(x, y); }

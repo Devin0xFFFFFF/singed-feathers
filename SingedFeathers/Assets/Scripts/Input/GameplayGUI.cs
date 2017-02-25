@@ -25,11 +25,11 @@ public class GameplayGUI : MonoBehaviour {
         if (_currentState is UnselectedActionState) {
             FireButton.interactable = true;
             UndoButton.interactable = false;
-            EndTurnButton.interactable = false;
+            EndTurnButton.interactable = true;
         } else if (_currentState is SelectedActionState) {
             FireButton.interactable = false;
             UndoButton.interactable = false;
-            EndTurnButton.interactable = false;
+            EndTurnButton.interactable = true;
         } else if (_currentState is AppliedActionState) {
             FireButton.interactable = false;
             UndoButton.interactable = true;
