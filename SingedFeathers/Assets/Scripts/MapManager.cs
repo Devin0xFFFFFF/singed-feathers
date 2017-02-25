@@ -102,4 +102,6 @@ public class MapManager : MonoBehaviour {
 			_turnCommands.Remove(_turnCommands [_turnCommands.Count - 1]);
 		}
 	}
+
+	public int GetNumberOfTurns() { return _turnCount; }
 }
