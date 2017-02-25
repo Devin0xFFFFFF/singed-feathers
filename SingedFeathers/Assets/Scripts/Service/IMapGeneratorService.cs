@@ -4,6 +4,6 @@ namespace Assets.Scripts.Service {
 
     public interface IMapGeneratorService {
 
-        Map GenerateMap(int id);
+        Map GenerateMap(int id = 1);
     }
 }

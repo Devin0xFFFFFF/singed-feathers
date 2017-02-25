@@ -17,7 +17,7 @@ namespace Assets.Scripts.Controllers {
         }
 
         public void GenerateMap() {
-            _map = _mapGenerator.GenerateMap(1);
+            _map = _mapGenerator.GenerateMap();
             LinkNeighbouringTiles();
         }
 
