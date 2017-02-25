@@ -1,27 +1,27 @@
-﻿using System.Linq;
-using Assets.Scripts.Controllers;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour {
+public class MapInput : MonoBehaviour {
 
-    void Awake() {
-    }
+    public GameStateManager GameStateManager;
+
+    void Awake() {}
 
     // Update is called once per frame
     void Update() {
-    #if !MOBILE_INPUT
+        #if !MOBILE_INPUT
         if (Input.GetMouseButtonDown(0)) {
             Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             HandleInput(worldPoint);
         }
-    #elif MOBILE_INPUT
+        #elif MOBILE_INPUT
         if (Input.touches.Any()) {
             Touch touch = Input.touches.FirstOrDefault();
             Vector2 worldPoint = Camera.main.ScreenToWorldPoint(touch.position);
             HandleInput(worldPoint);
         }
-
-    #endif
+        #endif
     }
 
     public void HandleInput(Vector2 worldPoint) {
@@ -29,7 +29,7 @@ public class InputManager : MonoBehaviour {
         if (hit.collider != null) {
             if (hit.transform.gameObject.tag == "Tile") {
                 Debug.Log(hit.transform.gameObject.GetComponent<TileManager>().type);
-                hit.transform.gameObject.GetComponent<TileManager>().ApplyHeat(100);
+                GameStateManager.HandleMapInput(hit.transform.gameObject.GetComponent<TileManager>());
             }
         }
     }
