@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace Assets.Editor {
 
-    [TestFixture()]
+    [TestFixture]
     public class MapControllerTest {
 
         private MapController _mapController;
