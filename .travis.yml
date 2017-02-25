@@ -11,7 +11,7 @@ install:
 - ./Scripts/install.sh
 
 script:
-- xbuild /p:Configuration=Release ./SingedFeathers/SingedFeathers.sln
+- xbuild /p:Configuration=Release ./SingedFeathers/SingedFeathers.sln TargetFrameworkProfile=""
 - nunit-console ./SingedFeathers/Temp/bin/Release/Assembly-CSharp-Editor.dll
 - go test -v ./...
 
