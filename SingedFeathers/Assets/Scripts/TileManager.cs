@@ -27,7 +27,7 @@ public class TileManager : MonoBehaviour {
         _tileController.SpreadFire();
     }
 
-    public bool IsOnFire() { return _tileController.IsOnFire();}
+    public bool IsOnFire() { return _tileController.IsOnFire(); }
 
     public bool IsBurntOut() {
         return _tileController.IsBurntOut();
