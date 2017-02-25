@@ -13,11 +13,11 @@ public class TileManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-		if (_tileController.IsOnFire()) {
-			Transform child = transform.GetChild(0);
-			child.gameObject.SetActive(true);
-		}
-	}
+        if (_tileController.IsOnFire()) {
+            Transform child = transform.GetChild(0);
+            child.gameObject.SetActive(true);
+        }
+    }
 
     public void ApplyHeat(int heat) {
         _tileController.ApplyHeat(heat);

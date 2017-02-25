@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 
 namespace SingedFeathers.Test.ControllerTest {
-	
+
     [TestFixture]
     public class TileControllerTest {
         private TileController _tileController;

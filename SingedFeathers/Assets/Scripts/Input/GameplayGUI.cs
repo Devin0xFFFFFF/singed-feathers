@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class GameplayGUI : MonoBehaviour {
 
-	const string TURN_COUNT_STRING = "Turn Number: ";
+    const string TURN_COUNT_STRING = "Turn Number: ";
     public GameStateManager GameStateManager;
     public Button FireButton;
     public Button UndoButton;
     public Button EndTurnButton;
-	public Text TurnCountText;
+    public Text TurnCountText;
     private IGameState _currentState;
 
     // Use this for initialization
@@ -20,7 +20,7 @@ public class GameplayGUI : MonoBehaviour {
     void Update() {
         _currentState = GameStateManager.CurrState;
         UpdateButtons();
-		UpdateTurnCountText();
+        UpdateTurnCountText();
     }
 
     void UpdateButtons() {
@@ -43,8 +43,8 @@ public class GameplayGUI : MonoBehaviour {
         } 
     }
 
-	void UpdateTurnCountText() {
-		int currTurn = GameStateManager.GetNumberOfTurns();
-		TurnCountText.text = TURN_COUNT_STRING + currTurn;
-	}
+    void UpdateTurnCountText() {
+        int currTurn = GameStateManager.GetNumberOfTurns();
+        TurnCountText.text = TURN_COUNT_STRING + currTurn;
+    }
 }

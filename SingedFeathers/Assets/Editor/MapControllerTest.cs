@@ -2,7 +2,7 @@
 using NUnit.Framework;
 
 namespace SingedFeathers.Test.ControllerTest {
-	
+
     [TestFixture]
     public class MapControllerTest {
         private MapController _mapController;

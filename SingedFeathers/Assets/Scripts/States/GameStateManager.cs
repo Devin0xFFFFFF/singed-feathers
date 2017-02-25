@@ -31,9 +31,9 @@ public class GameStateManager : MonoBehaviour {
 
     public void Undo() { CurrState.Undo(); }
 
-	public void EndTurn() { CurrState = ResolveState; }
+    public void EndTurn() { CurrState = ResolveState; }
 
     public void HandleMapInput(TileManager tileManager) { CurrState.HandleMapInput(tileManager); }
 
-	public int GetNumberOfTurns() { return MapManager.GetNumberOfTurns(); }
+    public int GetNumberOfTurns() { return MapManager.GetNumberOfTurns(); }
 }
