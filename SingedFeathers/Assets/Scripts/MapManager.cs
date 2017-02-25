@@ -7,6 +7,7 @@ public class MapManager : MonoBehaviour {
 
     public GameStateManager GameStateManager;
     public List<TileManager> TileSet;
+    public PigeonManager Pigeon;
     private Dictionary<TileType, TileManager> _tileDictionary;
     private IMapController _mapController;
     private TileManager[,] _map;
@@ -14,6 +15,7 @@ public class MapManager : MonoBehaviour {
     private int _width, _height;
     private float _tileSizeX, _tileSizeY;
     private int _turnCount;
+    private PigeonManager[] _pigeons;
 
     // Start here!
     void Start() {
@@ -22,6 +24,7 @@ public class MapManager : MonoBehaviour {
             LoadMap();
             _turnCommands = new List<ICommand>();
             LoadFires();
+            LoadPigeons();
             _turnCount = 1;
         }
     }
@@ -57,6 +60,12 @@ public class MapManager : MonoBehaviour {
     }
 
     void LoadFires() { SetFire(2, 3);}
+
+    void LoadPigeons() { 
+        _pigeons = new PigeonManager[1];
+        _pigeons[0] = Instantiate(Pigeon, new Vector3(_tileSizeX * 3, _tileSizeY * 1, 1), Quaternion.identity);
+        _pigeons[0].SetPositon(1, 4);
+    }
 
     void ProcessTurn() {
         Debug.Log ("Resolving turn: " + _turnCount);
