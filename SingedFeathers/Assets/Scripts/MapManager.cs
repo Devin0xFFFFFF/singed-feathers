@@ -64,7 +64,7 @@ public class MapManager : MonoBehaviour {
     void LoadPigeons() { 
         _pigeons = new PigeonManager[1];
         _pigeons[0] = Instantiate(Pigeon, new Vector3(_tileSizeX * 3, _tileSizeY * 1, 1), Quaternion.identity);
-        _pigeons[0].SetPositon(1, 4);
+        _pigeons[0].SetCoordinates(3, 1, _tileSizeX, _tileSizeX);
     }
 
     void ProcessTurn() {
@@ -79,7 +79,9 @@ public class MapManager : MonoBehaviour {
         foreach (Position pos in modifiedTilePositions[NewStatus.BurntOut]) {
             UpdateTileType(TileType.Ash, pos.X, pos.Y);
         }
-
+        foreach (PigeonManager pigeon in _pigeons) {
+            pigeon.UpdateStatus(_map);
+        }
         _turnCount++;
     }
 
