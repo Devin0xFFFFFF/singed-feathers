@@ -2,15 +2,12 @@
 using NUnit.Framework;
 
 namespace SingedFeathers.Test.ControllerTest {
-
     [TestFixture]
     public class MapControllerTest {
         private MapController _mapController;
 
         [SetUp]
-        public void Init() {
-            _mapController = new MapController();
-        }
+        public void Init() { _mapController = new MapController(); }
 
         [Test]
         public void TestGenerateInitializesProperly() {

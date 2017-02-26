@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.Controllers {
@@ -37,7 +36,7 @@ namespace Assets.Scripts.Controllers {
             return new Vector3(0, 0, 0);
         }
 
-        private List<Vector3> GetNeighbouringPositions(TileManager[,] map, Vector3 pos){
+        private static List<Vector3> GetNeighbouringPositions(TileManager[,] map, Vector3 pos) {
             List<Vector3> tiles = new List<Vector3>();
 
             if (pos.y + 1 < map.GetLength(1)) {
@@ -70,7 +69,6 @@ namespace Assets.Scripts.Controllers {
             }
             return health;
         }
-
     }
 }
 
