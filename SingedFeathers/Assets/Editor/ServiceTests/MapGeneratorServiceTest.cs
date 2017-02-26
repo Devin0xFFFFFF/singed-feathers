@@ -14,7 +14,7 @@ namespace Assets.Editor.ServiceTests {
 
         [Test]
         public void TestIfNoMapFoundReturnsNull() {
-            Map map = _mapGeneratorService.GenerateMap();
+            Map map = _mapGeneratorService.GenerateMap(-1);
             Assert.Null(map);
         }
     }
