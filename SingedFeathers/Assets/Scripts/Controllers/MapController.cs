@@ -22,21 +22,26 @@ namespace Assets.Scripts.Controllers {
         }
 
         public void ApplyHeat(int x, int y) {
-            if (x >= 0 && y >= 0 && x < Width && y < Height) {
+            if (CoordinatesAreValid(x, y)) {
                 _map.TileMap[x, y].ApplyHeat(HEAT);
             }
         }
 
         public TileType GetTileType(int x, int y) {
-            return _map.TileMap[x, y].GetTileType();
+            if (CoordinatesAreValid(x, y)) {
+                return _map.TileMap[x, y].GetTileType();
+            }
+            return TileType.Error;
         }
 
         public ITileController GetController(int x, int y) {
-            return _map.TileMap[x, y];
+            if (CoordinatesAreValid(x, y)) {
+                return _map.TileMap[x, y];
+            }
+            return null;
         }
 
         public IDictionary<NewStatus, IList<Position>> SpreadFires() {
-
             IDictionary<NewStatus, IList<Position>> modifiedTiles = new Dictionary<NewStatus, IList<Position>>();
             modifiedTiles.Add(NewStatus.BurntOut, new List<Position>());
             modifiedTiles.Add(NewStatus.OnFire, new List<Position>());
@@ -44,7 +49,6 @@ namespace Assets.Scripts.Controllers {
             // Update tiles
             for (int x = 0; x < Width; x++) {
                 for (int y = 0; y < Height; y++) {
-
                     ITileController tile = _map.TileMap[x, y];
                     tile.SpreadFire();
 
@@ -67,6 +71,10 @@ namespace Assets.Scripts.Controllers {
             }
 
             return modifiedTiles;
+        }
+
+        private bool CoordinatesAreValid(int x, int y) {
+            return x >= 0 && y >= 0 && x < Width && y < Height;
         }
 
         private void LinkNeighbouringTiles() {

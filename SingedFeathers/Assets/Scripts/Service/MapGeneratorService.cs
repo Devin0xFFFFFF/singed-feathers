@@ -8,8 +8,6 @@ namespace Assets.Scripts.Service {
 
     public class MapGeneratorService : IMapGeneratorService {
 
-
-
         private const int MINIMUM_MAP_ID = 1;
 
         public Map GenerateMap(int id = 1) {

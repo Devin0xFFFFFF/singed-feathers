@@ -14,14 +14,38 @@ namespace Assets.Editor.ControllerTests {
         }
 
         [Test]
-        public void TestInitializingTile() {
+        public void TestInitializingTileBasedOnType() {
             Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
+            Assert.True(_tileController.IsFlammable());
             Assert.False(_tileController.IsBurntOut());
             Assert.False(_tileController.IsOnFire());
+            Assert.False(_tileController.IsSpreadingHeat());
+
+            _tileController = new TileController(TileType.Stone);
+            Assert.AreEqual(TileType.Stone, _tileController.GetTileType());
+            Assert.False(_tileController.IsFlammable());
+            Assert.False(_tileController.IsBurntOut());
+            Assert.False(_tileController.IsSpreadingHeat());
+            Assert.False(_tileController.IsOnFire());
+
+            _tileController = new TileController(TileType.Ash);
+            Assert.AreEqual(TileType.Ash, _tileController.GetTileType());
+            Assert.False(_tileController.IsFlammable());
+            Assert.False(_tileController.IsBurntOut());
+            Assert.False(_tileController.IsSpreadingHeat());
+            Assert.False(_tileController.IsOnFire());
+
+            _tileController = new TileController(TileType.Wood);
+            Assert.AreEqual(TileType.Wood, _tileController.GetTileType());
+            Assert.True(_tileController.IsFlammable());
+            Assert.False(_tileController.IsBurntOut());
+            Assert.False(_tileController.IsOnFire());
+            Assert.False(_tileController.IsSpreadingHeat());
+
         }
 
         [Test]
-        public void TestChangingLitStatus() {
+        public void TestChangingOnFireStatus() {
             Assert.AreEqual(false, _tileController.IsOnFire());
             _tileController.ApplyHeat(100);
             Assert.AreEqual(true, _tileController.IsOnFire());
@@ -35,20 +59,20 @@ namespace Assets.Editor.ControllerTests {
             Assert.AreEqual(false, _tileController.IsOnFire());
             Assert.AreEqual(false, _tileController.IsBurntOut());
 
-            //light the tile and spread once
+            // light the tile and spread once
             _tileController.ApplyHeat(100);
             _tileController.SpreadFire();
             Assert.AreEqual(false, _tileController.IsBurntOut());
             Assert.AreEqual(true, _tileController.IsOnFire());
             Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
 
-            //spread again -- still not burnt out
+            // spread again -- still not burnt out
             _tileController.SpreadFire();
             Assert.AreEqual(false, _tileController.IsBurntOut());
             Assert.AreEqual(true, _tileController.IsOnFire());
             Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
 
-            //spread again -- burnt out
+            // spread again -- burnt out
             _tileController.SpreadFire();
             Assert.AreEqual(true, _tileController.IsBurntOut());
             Assert.AreEqual(TileType.Ash, _tileController.GetTileType());
@@ -60,12 +84,49 @@ namespace Assets.Editor.ControllerTests {
 
             //ignite tile and burn it out
             _tileController.ApplyHeat(100);
-            _tileController.IsOnFire();
+            Assert.True(_tileController.IsOnFire());
+
             _tileController.SpreadFire();
             _tileController.SpreadFire();
             _tileController.SpreadFire();
 
             Assert.AreEqual(TileType.Ash, _tileController.GetTileType());
+        }
+
+        [Test]
+        public void TestNonFlammableTypeCannotIgnite() {
+            _tileController = new TileController(TileType.Stone);
+            Assert.False(_tileController.IsOnFire());
+            Assert.False(_tileController.IsBurntOut());
+
+            // try to ignite it
+            _tileController.ApplyHeat(10000);
+            Assert.False(_tileController.IsOnFire());
+            Assert.False(_tileController.IsBurntOut());
+        }
+
+        [Test]
+        public void TestIncrementallyTakesHeatFromNeighbours() {
+
+            ITileController woodNeighbour = new TileController(TileType.Wood);
+            woodNeighbour.ApplyHeat(100);
+            woodNeighbour.StateHasChanged = false;
+            Assert.True(woodNeighbour.IsOnFire());
+            Assert.True(woodNeighbour.IsSpreadingHeat());
+            _tileController.AddNeighbouringTile(woodNeighbour);
+
+            Assert.False(_tileController.IsOnFire());
+            Assert.False(_tileController.StateHasChanged);
+
+            _tileController.SpreadFire();
+
+            Assert.True(_tileController.IsOnFire());
+            Assert.True(_tileController.StateHasChanged);
+
+            _tileController.SpreadFire();
+
+            Assert.True(_tileController.IsOnFire());
+            Assert.True(_tileController.StateHasChanged);
         }
     }
 }
