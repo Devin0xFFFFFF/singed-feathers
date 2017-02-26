@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Service;
+﻿using Assets.Scripts.Models;
+using Assets.Scripts.Service;
 using NUnit.Framework;
 
 namespace Assets.Editor.ServiceTests {
@@ -11,9 +12,10 @@ namespace Assets.Editor.ServiceTests {
             _mapGeneratorService = new MapGeneratorService();
         }
 
-        public void TestMapGeneration() {
-            _mapGeneratorService.GenerateMap(1);
-            //...do more things... is this one even testable?
+        [Test]
+        public void TestIfNoMapFoundReturnsNull() {
+            Map map = _mapGeneratorService.GenerateMap();
+            Assert.Null(map);
         }
     }
 }
