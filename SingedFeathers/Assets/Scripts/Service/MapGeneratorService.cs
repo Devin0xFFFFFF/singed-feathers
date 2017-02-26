@@ -16,7 +16,13 @@ namespace Assets.Scripts.Service {
                 return null;
             }
 				
-			string path = string.Format("../SingedFeathers/Assets/Resources/Map{0}.json", id);
+			string path;
+			if (!Scripts.EnvironmentVariables.IsTestingWithTravis()) {
+				path = string.Format("../SingedFeathers/Assets/Resources/Map{0}.json", id);
+			}
+			else {
+				path = string.Format("../../../../SingedFeathers/Assets/Resources/Map{0}.json", id);
+			}
 
             try {
                 using (StreamReader r = new StreamReader(File.OpenRead(path))) {

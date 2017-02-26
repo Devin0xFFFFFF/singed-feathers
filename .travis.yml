@@ -12,7 +12,7 @@ install:
 
 script:
 - xbuild /p:TargetFrameworkProfile="" /p:Configuration=Release ./SingedFeathers/SingedFeathers.sln
-- nunit-console ./SingedFeathers/Temp/bin/Release/Assembly-CSharp-Editor.dll
+- TRAVIS_TESTING=TRUE nunit-console ./SingedFeathers/Temp/bin/Release/Assembly-CSharp-Editor.dll
 - go test -v ./...
 
 os: osx
