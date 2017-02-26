@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\Controllers\IMapController.cs" />
      <Compile Include="Assets\Scripts\Controllers\ITileController.cs" />
      <Compile Include="Assets\Scripts\Controllers\MapController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\PigeonController.cs" />
      <Compile Include="Assets\Scripts\Controllers\TileController.cs" />
      <Compile Include="Assets\Scripts\GameSelection.cs" />
      <Compile Include="Assets\Scripts\Input\GameplayGUI.cs" />
@@ -61,6 +62,7 @@
      <Compile Include="Assets\Scripts\Models\SetFireCommand.cs" />
      <Compile Include="Assets\Scripts\Models\TIleType.cs" />
      <Compile Include="Assets\Scripts\Models\Tile.cs" />
+     <Compile Include="Assets\Scripts\PigeonManager.cs" />
      <Compile Include="Assets\Scripts\Service\IMapGeneratorService.cs" />
      <Compile Include="Assets\Scripts\Service\MapGeneratorService.cs" />
      <Compile Include="Assets\Scripts\States\AppliedActionState.cs" />
