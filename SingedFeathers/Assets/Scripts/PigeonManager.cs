@@ -35,10 +35,8 @@ public class PigeonManager : MonoBehaviour {
     public void UpdateStatus(TileManager[,] map) {
         if (!IsDead()) {
             Vector3 delta = _controller.UpdatePosition(map, ref _currPosition);
-            print(_currPosition.x + ", " + _currPosition.y);
             transform.Translate(delta, Space.World);
             _health = _controller.UpdateHealth(map, _currPosition, _health);
-            print(_health);
         }
     }        
 }
