@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.5.1f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -88,7 +90,6 @@
     <Compile Include="Assets\Scripts\Controllers\ITileController.cs" />
     <Compile Include="Assets\Scripts\Controllers\MapController.cs" />
     <Compile Include="Assets\Scripts\Controllers\TileController.cs" />
-    <Compile Include="Assets\Scripts\Environment.cs" />
     <Compile Include="Assets\Scripts\GameSelection.cs" />
     <Compile Include="Assets\Scripts\Input\GameplayGUI.cs" />
     <Compile Include="Assets\Scripts\Input\MapInput.cs" />
