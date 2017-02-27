@@ -71,4 +71,3 @@ namespace Assets.Scripts.Controllers {
         }
     }
 }
-
