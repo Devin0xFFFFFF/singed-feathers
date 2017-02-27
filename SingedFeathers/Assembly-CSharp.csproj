@@ -3,8 +3,9 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
+    <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{70CCC106-3F63-D1AD-D5C5-94C3EAD92529}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -33,70 +34,68 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.XML" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\Managed\UnityEngine.dll</HintPath>
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\Managed\UnityEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="NSubstitute, Version=0.0.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca">
-      <HintPath>Assets\Plugins\NSubstitute.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>Assets\Plugins\Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Controllers\IMapController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\ITileController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\MapController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\PigeonController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\TileController.cs" />
-    <Compile Include="Assets\Scripts\GameSelection.cs" />
-    <Compile Include="Assets\Scripts\Input\GameplayGUI.cs" />
-    <Compile Include="Assets\Scripts\Input\MapInput.cs" />
-    <Compile Include="Assets\Scripts\MapManager.cs" />
-    <Compile Include="Assets\Scripts\Models\ICommand.cs" />
-    <Compile Include="Assets\Scripts\Models\Map.cs" />
-    <Compile Include="Assets\Scripts\Models\NewStatus.cs" />
-    <Compile Include="Assets\Scripts\Models\Position.cs" />
-    <Compile Include="Assets\Scripts\Models\SetFireCommand.cs" />
-    <Compile Include="Assets\Scripts\Models\TIleType.cs" />
-    <Compile Include="Assets\Scripts\Models\Tile.cs" />
-    <Compile Include="Assets\Scripts\PigeonManager.cs" />
-    <Compile Include="Assets\Scripts\Service\IMapGeneratorService.cs" />
-    <Compile Include="Assets\Scripts\Service\MapGeneratorService.cs" />
-    <Compile Include="Assets\Scripts\States\AppliedActionState.cs" />
-    <Compile Include="Assets\Scripts\States\GameStateManager.cs" />
-    <Compile Include="Assets\Scripts\States\IGameState.cs" />
-    <Compile Include="Assets\Scripts\States\ResolveState.cs" />
-    <Compile Include="Assets\Scripts\States\SelectedActionState.cs" />
-    <Compile Include="Assets\Scripts\States\UnselectedActionState.cs" />
-    <Compile Include="Assets\Scripts\TileManager.cs" />
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\UnityAnalytics\UnityEngine.Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.PlaymodeTestsRunner">
-      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\PlaymodeTestsRunner\UnityEngine.PlaymodeTestsRunner.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\Networking\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\GUISystem\UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.HoloLens">
-      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\UnityHoloLens\RuntimeEditor\UnityEngine.HoloLens.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.VR">
-      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\UnityVR\RuntimeEditor\UnityEngine.VR.dll</HintPath>
-    </Reference>
+     <Compile Include="Assets\Scripts\Controllers\IMapController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\ITileController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\MapController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\PigeonController.cs" />
+     <Compile Include="Assets\Scripts\Controllers\TileController.cs" />
+     <Compile Include="Assets\Scripts\GameSelection.cs" />
+     <Compile Include="Assets\Scripts\Input\GameplayGUI.cs" />
+     <Compile Include="Assets\Scripts\Input\MapInput.cs" />
+     <Compile Include="Assets\Scripts\MapManager.cs" />
+     <Compile Include="Assets\Scripts\Models\ICommand.cs" />
+     <Compile Include="Assets\Scripts\Models\Map.cs" />
+     <Compile Include="Assets\Scripts\Models\NewStatus.cs" />
+     <Compile Include="Assets\Scripts\Models\Position.cs" />
+     <Compile Include="Assets\Scripts\Models\SetFireCommand.cs" />
+     <Compile Include="Assets\Scripts\Models\TIleType.cs" />
+     <Compile Include="Assets\Scripts\Models\Tile.cs" />
+     <Compile Include="Assets\Scripts\PigeonManager.cs" />
+     <Compile Include="Assets\Scripts\Service\IMapGeneratorService.cs" />
+     <Compile Include="Assets\Scripts\Service\MapGeneratorService.cs" />
+     <Compile Include="Assets\Scripts\States\AppliedActionState.cs" />
+     <Compile Include="Assets\Scripts\States\GameStateManager.cs" />
+     <Compile Include="Assets\Scripts\States\IGameState.cs" />
+     <Compile Include="Assets\Scripts\States\ResolveState.cs" />
+     <Compile Include="Assets\Scripts\States\SelectedActionState.cs" />
+     <Compile Include="Assets\Scripts\States\UnselectedActionState.cs" />
+     <Compile Include="Assets\Scripts\TileManager.cs" />
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.PlaymodeTestsRunner">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/PlaymodeTestsRunner/UnityEngine.PlaymodeTestsRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Networking">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UI">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.HoloLens">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.VR">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
+ </Reference>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>/Users/nicoleepp/Documents/Github/comp4350/comp4350-project/SingedFeathers/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
+ </Reference>
+ <Reference Include="NSubstitute">
+ <HintPath>/Users/nicoleepp/Documents/Github/comp4350/comp4350-project/SingedFeathers/Assets/Plugins/NSubstitute.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -106,4 +105,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  
 </Project>
