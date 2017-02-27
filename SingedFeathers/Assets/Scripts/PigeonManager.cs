@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts.Controllers;
+﻿using Assets.Scripts.Controllers;
 using UnityEngine;
 
 public class PigeonManager : MonoBehaviour {
@@ -13,9 +11,7 @@ public class PigeonManager : MonoBehaviour {
     private PigeonController _controller;
 
 	// Use this for initialization
-	void Start() {
-        _health = MAX_HEALTH;
-	}
+	void Start() { _health = MAX_HEALTH; }
 	
 	// Update is called once per frame
     void Update() {

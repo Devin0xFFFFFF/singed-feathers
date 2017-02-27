@@ -3,18 +3,21 @@ using Assets.Scripts.Models;
 using Assets.Scripts.Service;
 
 namespace Assets.Scripts.Controllers {
-
     public class MapController : IMapController {
-
         const int HEAT = 100;
-        public int Width { get { return _map.Width; } }
-        public int Height { get { return _map.Height; } }
+
+        public int Width {
+            get { return _map.Width; }
+        }
+
+        public int Height {
+            get { return _map.Height; }
+        }
+
         private readonly IMapGeneratorService _mapGenerator;
         private Map _map;
 
-        public MapController(IMapGeneratorService mapGenerator = null) {
-            _mapGenerator = mapGenerator ?? new MapGeneratorService();
-        }
+        public MapController(IMapGeneratorService mapGenerator = null) { _mapGenerator = mapGenerator ?? new MapGeneratorService(); }
 
         public void GenerateMap() {
             _map = _mapGenerator.GenerateMap();
@@ -73,9 +76,7 @@ namespace Assets.Scripts.Controllers {
             return modifiedTiles;
         }
 
-        private bool CoordinatesAreValid(int x, int y) {
-            return x >= 0 && y >= 0 && x < Width && y < Height;
-        }
+        private bool CoordinatesAreValid(int x, int y) { return x >= 0 && y >= 0 && x < Width && y < Height; }
 
         private void LinkNeighbouringTiles() {
             for (int x = 0; x < Width; x++) {

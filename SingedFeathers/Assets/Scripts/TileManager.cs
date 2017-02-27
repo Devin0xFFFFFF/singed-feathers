@@ -2,14 +2,11 @@
 using UnityEngine;
 
 public class TileManager : MonoBehaviour {
-
     public TileType type;
     private ITileController _tileController;
 
     // Use this for initialization
-    void Awake() {
-        Initialize();
-    }
+    void Awake() { Initialize(); }
 
     // Update is called once per frame
     void Update() {
@@ -19,19 +16,13 @@ public class TileManager : MonoBehaviour {
         }
     }
 
-    public void ApplyHeat(int heat) {
-        _tileController.ApplyHeat(heat);
-    }
+    public void ApplyHeat(int heat) { _tileController.ApplyHeat(heat); }
 
-    public void SpreadFire() {
-        _tileController.SpreadFire();
-    }
+    public void SpreadFire() { _tileController.SpreadFire(); }
 
     public bool IsOnFire() { return _tileController.IsOnFire(); }
 
-    public bool IsBurntOut() {
-        return _tileController.IsBurntOut();
-    }
+    public bool IsBurntOut() { return _tileController.IsBurntOut(); }
 
     public void Initialize() {
         if (_tileController == null) {

@@ -8,7 +8,6 @@ using NUnit.Framework;
 using NSubstitute;
 
 namespace Assets.Editor.ControllerTests {
-
     [TestFixture()]
     public class MapControllerTest {
         private MapController _mapController;
@@ -46,22 +45,22 @@ namespace Assets.Editor.ControllerTests {
         [Test]
         public void TestApplyHeatThrowsNoExceptionAtInvalidLocation() {
             try {
-                // both values too large
+                // Both values too large
                 _mapController.ApplyHeat(10, 10);
 
-                // both values negative
+                // Both values negative
                 _mapController.ApplyHeat(-2, -4);
 
-                // x value negative
+                // X value negative
                 _mapController.ApplyHeat(-10, 20);
 
-                // y value negative
+                // Y value negative
                 _mapController.ApplyHeat(20, -15);
 
-                // x value valid
+                // X value valid
                 _mapController.ApplyHeat(0, 11);
 
-                // y value value
+                // X value valid
                 _mapController.ApplyHeat(-12, 0);
             } catch (Exception e) {
                 Assert.Fail(string.Format("Expected no exception, but got {0}", e.Message));
@@ -160,7 +159,7 @@ namespace Assets.Editor.ControllerTests {
 
         [Test]
         public void TestSpreadFiresReturnsEmptyDictionaryIfNoTilesHaveChanged() {
-            // mark tiles as not having been changed
+            // Mark tiles as not having been changed
             _tile0.StateHasChanged.Returns(false);
             _tile1.StateHasChanged.Returns(false);
             _tile2.StateHasChanged.Returns(false);

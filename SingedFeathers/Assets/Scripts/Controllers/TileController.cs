@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using Assets.Scripts.Models;
 
 namespace Assets.Scripts.Controllers {
-
     [Serializable]
     public class TileController : ITileController {
-
         const int BURN_HEAT = 10;
         public bool StateHasChanged { get; set; }
         private readonly Tile _tile;
@@ -18,13 +16,9 @@ namespace Assets.Scripts.Controllers {
             _neighbouringTiles = new List<ITileController>();
         }
 
-        public TileType GetTileType() {
-            return _tile.Type;
-        }
-        
-        public bool IsFlammable() {
-            return _tile.FlashPoint < int.MaxValue && !IsBurntOut();
-        }
+        public TileType GetTileType() { return _tile.Type; }
+
+        public bool IsFlammable() { return _tile.FlashPoint < int.MaxValue && !IsBurntOut(); }
 
         public bool IsSpreadingHeat() {
             // Spread heat if the tile has been burning for more than one turn (at the end of the last turn)

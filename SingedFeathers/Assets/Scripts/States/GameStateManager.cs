@@ -1,11 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameStateManager : MonoBehaviour {
-
     public MapManager MapManager;
-
     [HideInInspector] public IGameState CurrState;
     [HideInInspector] public UnselectedActionState UnselectedActionState;
     [HideInInspector] public SelectedActionState SelectedActionState;

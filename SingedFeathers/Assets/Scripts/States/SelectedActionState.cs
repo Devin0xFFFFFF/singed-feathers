@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class SelectedActionState : IGameState {
+﻿public class SelectedActionState : IGameState {
 
     private readonly GameStateManager _gameStateManager;
 

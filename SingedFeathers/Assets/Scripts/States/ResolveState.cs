@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class ResolveState : IGameState {
-
+﻿public class ResolveState : IGameState {
     private readonly GameStateManager _gameStateManager;
 
     public ResolveState(GameStateManager mapManager) { _gameStateManager = mapManager; }

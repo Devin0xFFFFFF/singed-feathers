@@ -4,7 +4,6 @@ using UnityEngine;
 using Assets.Scripts.Models;
 
 public class MapManager : MonoBehaviour {
-
     public GameStateManager GameStateManager;
     public List<TileManager> TileSet;
     public PigeonManager Pigeon;

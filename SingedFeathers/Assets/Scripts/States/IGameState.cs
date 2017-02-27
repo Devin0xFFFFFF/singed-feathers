@@ -1,6 +1,4 @@
-﻿
-public interface IGameState {
-
+﻿public interface IGameState {
     void UpdateState();
     void ChangeState();
     void Undo();

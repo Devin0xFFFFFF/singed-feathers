@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class GameplayGUI : MonoBehaviour {
-
     const string TURN_COUNT_STRING = "Turn Number: ";
     public GameStateManager GameStateManager;
     public Button FireButton;

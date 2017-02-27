@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapInput : MonoBehaviour {
-
     public GameStateManager GameStateManager;
 
     void Awake() {}

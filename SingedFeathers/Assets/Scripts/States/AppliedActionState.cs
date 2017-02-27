@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class AppliedActionState : IGameState {
-
+﻿public class AppliedActionState : IGameState {
     private readonly GameStateManager _gameStateManager;
 
     public AppliedActionState(GameStateManager mapManager) { _gameStateManager = mapManager; }

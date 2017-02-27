@@ -2,16 +2,13 @@
 using NUnit.Framework;
 
 namespace Assets.Editor.ControllerTests {
-
     [TestFixture]
     public class TileControllerTest {
 
         private TileController _tileController;
 
         [SetUp]
-        public void Init() {
-            _tileController = new TileController(TileType.Grass);
-        }
+        public void Init() { _tileController = new TileController(TileType.Grass); }
 
         [Test]
         public void TestInitializingTileBasedOnType() {
@@ -59,20 +56,20 @@ namespace Assets.Editor.ControllerTests {
             Assert.AreEqual(false, _tileController.IsOnFire());
             Assert.AreEqual(false, _tileController.IsBurntOut());
 
-            // light the tile and spread once
+            // Light the tile and spread once
             _tileController.ApplyHeat(100);
             _tileController.SpreadFire();
             Assert.AreEqual(false, _tileController.IsBurntOut());
             Assert.AreEqual(true, _tileController.IsOnFire());
             Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
 
-            // spread again -- still not burnt out
+            // Spread again -- still not burnt out
             _tileController.SpreadFire();
             Assert.AreEqual(false, _tileController.IsBurntOut());
             Assert.AreEqual(true, _tileController.IsOnFire());
             Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
 
-            // spread again -- burnt out
+            // Spread again -- burnt out
             _tileController.SpreadFire();
             Assert.AreEqual(true, _tileController.IsBurntOut());
             Assert.AreEqual(TileType.Ash, _tileController.GetTileType());
@@ -82,7 +79,7 @@ namespace Assets.Editor.ControllerTests {
         public void TestTileTypeUpdatesAfterBurnsOut() {
             Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
 
-            //ignite tile and burn it out
+            //Ignite tile and burn it out
             _tileController.ApplyHeat(100);
             Assert.True(_tileController.IsOnFire());
 
@@ -99,7 +96,7 @@ namespace Assets.Editor.ControllerTests {
             Assert.False(_tileController.IsOnFire());
             Assert.False(_tileController.IsBurntOut());
 
-            // try to ignite it
+            // Try to ignite it
             _tileController.ApplyHeat(10000);
             Assert.False(_tileController.IsOnFire());
             Assert.False(_tileController.IsBurntOut());
