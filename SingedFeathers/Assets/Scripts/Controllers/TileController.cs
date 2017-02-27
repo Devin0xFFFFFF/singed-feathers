@@ -17,7 +17,7 @@ namespace Assets.Scripts.Controllers {
         }
 
         public TileType GetTileType() { return _tile.Type; }
-        
+
         public bool IsFlammable() { return _tile.FlashPoint < int.MaxValue && !IsBurntOut(); }
 
         public bool IsSpreadingHeat() {
@@ -27,7 +27,7 @@ namespace Assets.Scripts.Controllers {
 
         public bool IsOnFire() { return IsFlammable() && _tile.Heat >= _tile.FlashPoint; }
 
-        public bool IsBurntOut() { return _tile.Type == TileType.Ash || _tile.TurnsOnFire >= _tile.MaxTurnsOnFire; }
+		public bool IsBurntOut() { return _tile.Type == TileType.Ash || (_tile.TurnsOnFire > 0 &&  _tile.TurnsOnFire >= _tile.MaxTurnsOnFire); }
 
         public void AddNeighbouringTile(ITileController neighbourController) { _neighbouringTiles.Add(neighbourController); }
 
@@ -55,8 +55,12 @@ namespace Assets.Scripts.Controllers {
         }
 
         public void Extinguish() {
+            bool startedOnFire = IsOnFire();
             _tile.Heat = 0;
             _tile.TurnsOnFire = 0;
+            if (startedOnFire) {
+                StateHasChanged = true;
+            }
         }
 
         public void ApplyHeat(int heat) {

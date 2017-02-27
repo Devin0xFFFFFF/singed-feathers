@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using Assets.Scripts;
 using Assets.Scripts.Controllers;
 using Assets.Scripts.Models;
 using Newtonsoft.Json;
@@ -13,8 +12,8 @@ namespace Assets.Scripts.Service {
             if (id < MINIMUM_MAP_ID) {
                 return null;
             }
-				
-			string path = string.Format("../SingedFeathers/Assets/Resources/Map{0}.json", id);
+
+            string path = string.Format("../SingedFeathers/Assets/Resources/Map{0}.json", id);
 
             try {
                 using (StreamReader r = new StreamReader(File.OpenRead(path))) {

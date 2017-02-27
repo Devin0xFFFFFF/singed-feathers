@@ -17,7 +17,7 @@ namespace Assets.Scripts {
                 child.gameObject.SetActive(true);
             }
         }
-
+			
         public void ApplyHeat(int heat) { _tileController.ApplyHeat(heat); }
 
         public void SpreadFire() { _tileController.SpreadFire(); }
@@ -26,7 +26,7 @@ namespace Assets.Scripts {
 
         public bool IsBurntOut() { return _tileController.IsBurntOut(); }
 
-        public void Initialize() {
+		public void Initialize() {
             if (_tileController == null) {
                 _tileController = new TileController(type);
             }

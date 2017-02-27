@@ -14,14 +14,14 @@ namespace Assets.Scripts.Controllers {
         }
 
         public Vector3 UpdatePosition(TileManager[,] map, ref Vector3 currPos) {
-            TileManager currTile = map[(int)currPos.x, (int)currPos.y];
+            TileManager currTile = map[(int) currPos.x, (int) currPos.y];
             List<Vector3> positions = GetNeighbouringPositions(map, currPos);
 
             if (currTile.IsOnFire()) {
                 Vector3 move;
 
                 foreach (Vector3 pos in positions) {
-                    if (!map[(int)pos.x, (int)pos.y].IsOnFire()) {
+                    if (!map[(int) pos.x, (int) pos.y].IsOnFire()) {
                         move = pos - currPos;
 
                         move.x *= _mapWidth;
@@ -34,7 +34,7 @@ namespace Assets.Scripts.Controllers {
             }
             return new Vector3(0, 0, 0);
         }
-
+			
         private List<Vector3> GetNeighbouringPositions(TileManager[,] map, Vector3 pos) {
             List<Vector3> tiles = new List<Vector3>();
 

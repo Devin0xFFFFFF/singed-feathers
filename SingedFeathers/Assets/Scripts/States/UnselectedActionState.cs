@@ -6,7 +6,7 @@
 
 	    public void UpdateState() {}
 
-	    public void ChangeState() { _gameStateManager.CurrState = _gameStateManager.SelectedActionState; }
+		public void ChangeState() { _gameStateManager.CurrState = _gameStateManager.SelectedActionState; }
 
 	    public void Undo() {}
 

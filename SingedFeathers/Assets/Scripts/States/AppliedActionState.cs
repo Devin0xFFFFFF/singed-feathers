@@ -12,7 +12,8 @@
 	        _gameStateManager.MapManager.UndoLastCommand();
 	        _gameStateManager.CurrState = _gameStateManager.UnselectedActionState;
 	    }
-
+			
 	    public void HandleMapInput(TileManager tileManager) { _gameStateManager.GetTileInfo(tileManager); }
 	}
 }
+
