@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Controllers;
+using Assets.Scripts.Models;
 using NUnit.Framework;
 
 namespace Assets.Editor.ControllerTests {

@@ -1,4 +1,7 @@
-﻿namespace Assets.Scripts.Controllers {
+﻿using Assets.Scripts.Models;
+
+namespace Assets.Scripts.Controllers {
+
     public interface ITileController {
         bool StateHasChanged { get; set; }
         TileType GetTileType();

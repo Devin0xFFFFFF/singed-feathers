@@ -5,7 +5,7 @@ using Assets.Scripts.Models;
 namespace Assets.Scripts.Controllers {
     [Serializable]
     public class TileController : ITileController {
-        const int BURN_HEAT = 10;
+        public const int BURN_HEAT = 10;
         public bool StateHasChanged { get; set; }
         private readonly Tile _tile;
         private readonly List<ITileController> _neighbouringTiles;
@@ -25,17 +25,11 @@ namespace Assets.Scripts.Controllers {
             return (StateHasChanged && IsBurntOut()) || (!StateHasChanged && IsOnFire());
         }
 
-        public bool IsOnFire() {
-            return IsFlammable() && _tile.Heat >= _tile.FlashPoint;
-        }
+        public bool IsOnFire() { return IsFlammable() && _tile.Heat >= _tile.FlashPoint; }
 
-        public bool IsBurntOut() {
-            return _tile.Type == TileType.Ash || (_tile.TurnsOnFire > 0 && _tile.TurnsOnFire >= _tile.MaxTurnsOnFire);
-        }
+		public bool IsBurntOut() { return _tile.Type == TileType.Ash || (_tile.TurnsOnFire > 0 &&  _tile.TurnsOnFire >= _tile.MaxTurnsOnFire); }
 
-        public void AddNeighbouringTile(ITileController neighbourController) {
-            _neighbouringTiles.Add(neighbourController);
-        }
+        public void AddNeighbouringTile(ITileController neighbourController) { _neighbouringTiles.Add(neighbourController); }
 
         public void SpreadFire() {
             bool startedOnFire = IsOnFire();
