@@ -105,7 +105,6 @@ namespace Assets.Editor.ControllerTests {
 
         [Test]
         public void TestIncrementallyTakesHeatFromNeighbours() {
-
             ITileController woodNeighbour = new TileController(TileType.Wood);
             woodNeighbour.ApplyHeat(100);
             woodNeighbour.StateHasChanged = false;
