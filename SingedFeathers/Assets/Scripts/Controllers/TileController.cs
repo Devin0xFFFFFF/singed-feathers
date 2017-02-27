@@ -5,7 +5,7 @@ using Assets.Scripts.Models;
 namespace Assets.Scripts.Controllers {
     [Serializable]
     public class TileController : ITileController {
-        const int BURN_HEAT = 10;
+        public const int BURN_HEAT = 10;
         public bool StateHasChanged { get; set; }
         private readonly Tile _tile;
         private readonly List<ITileController> _neighbouringTiles;

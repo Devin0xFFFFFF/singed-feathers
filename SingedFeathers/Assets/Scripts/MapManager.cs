@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Assets.Scripts.Controllers;
 using UnityEngine;
 using Assets.Scripts.Models;
+using Assets.Scripts.States;
 
 public class MapManager : MonoBehaviour {
     public GameStateManager GameStateManager;

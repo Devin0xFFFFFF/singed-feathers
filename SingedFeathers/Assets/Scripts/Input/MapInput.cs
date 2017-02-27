@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.States;
 using UnityEngine;
 
 public class MapInput : MonoBehaviour {
