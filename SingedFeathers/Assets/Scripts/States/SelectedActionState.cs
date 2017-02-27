@@ -1,17 +1,20 @@
-﻿public class SelectedActionState : IGameState {
+﻿using Assets.Scripts.Models;
 
-    private readonly GameStateManager _gameStateManager;
+namespace Assets.Scripts.States {
+	public class SelectedActionState : IGameState {
+	    private readonly GameStateManager _gameStateManager;
 
-    public SelectedActionState(GameStateManager mapManager) { _gameStateManager = mapManager; }
+	    public SelectedActionState(GameStateManager mapManager) { _gameStateManager = mapManager; }
 
-    public void UpdateState() {}
+	    public void UpdateState() {}
 
-    public void ChangeState() { _gameStateManager.CurrState = _gameStateManager.AppliedActionState; }
+	    public void ChangeState() { _gameStateManager.CurrState = _gameStateManager.AppliedActionState; }
 
-    public void Undo() {}
+	    public void Undo() {}
 
-    public void HandleMapInput(TileManager tileManager) {
-        _gameStateManager.MapManager.AddCommand(new SetFireCommand(tileManager));
-        ChangeState();
-    }
+	    public void HandleMapInput(TileManager tileManager) {
+	        _gameStateManager.MapManager.AddCommand(new SetFireCommand(tileManager));
+	        ChangeState();
+	    }
+	}
 }

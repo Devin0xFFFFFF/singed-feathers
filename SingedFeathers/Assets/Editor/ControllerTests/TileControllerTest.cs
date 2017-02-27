@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Controllers;
+using Assets.Scripts.Models;
 using NUnit.Framework;
 
 namespace Assets.Editor.ControllerTests {
@@ -104,7 +105,6 @@ namespace Assets.Editor.ControllerTests {
 
         [Test]
         public void TestIncrementallyTakesHeatFromNeighbours() {
-
             ITileController woodNeighbour = new TileController(TileType.Wood);
             woodNeighbour.ApplyHeat(100);
             woodNeighbour.StateHasChanged = false;

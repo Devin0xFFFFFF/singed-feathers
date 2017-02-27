@@ -83,28 +83,27 @@ namespace Assets.Editor.ControllerTests {
         public void TestNoExceptionThrownIfInvalidLocationSpecifiedForGetTileType() {
             try {
                 TileType type;
-                // both values too large
+                // Both values too large
                 type = _mapController.GetTileType(10, 10);
                 Assert.AreEqual(TileType.Error, type);
 
-                // both values negative
+                // Both values negative
                 type = _mapController.GetTileType(-2, -4);
                 Assert.AreEqual(TileType.Error, type);
 
-
-                // x value negative
+                // X value negative
                 type = _mapController.GetTileType(-10, 20);
                 Assert.AreEqual(TileType.Error, type);
 
-                // y value negative
+                // Y value negative
                 type = _mapController.GetTileType(4, -12);
                 Assert.AreEqual(TileType.Error, type);
 
-                // x value valid
+                // X value valid
                 type = _mapController.GetTileType(0, 11);
                 Assert.AreEqual(TileType.Error, type);
 
-                // y value value
+                // Y value value
                 type = _mapController.GetTileType(-12, 0);
                 Assert.AreEqual(TileType.Error, type);
             }
@@ -129,27 +128,27 @@ namespace Assets.Editor.ControllerTests {
         public void TestNoExceptionThrownIfInvalidLocationSpecifiedForGetController() {
             try {
                 ITileController controller;
-                // both values too large
+                // Both values too large
                 controller = _mapController.GetController(10, 10);
                 Assert.Null(controller);
 
-                // both values negative
+                // Both values negative
                 controller = _mapController.GetController(-2, -4);
                 Assert.Null(controller);
 
-                // x value negative
+                // X value negative
                 controller = _mapController.GetController(-10, 20);
                 Assert.Null(controller);
 
-                // y value negative
+                // Y value negative
                 controller = _mapController.GetController(20, -15);
                 Assert.Null(controller);
 
-                // x value valid
+                // X value valid
                 controller = _mapController.GetController(0, 11);
                 Assert.Null(controller);
 
-                // y value value
+                // Y value value
                 controller = _mapController.GetController(-12, 0);
                 Assert.Null(controller);
             } catch (Exception e) {
