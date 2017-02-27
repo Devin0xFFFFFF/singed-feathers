@@ -1,2 +1,23 @@
-# https://docs.travis-ci.com/user/languages/go/
-language: go
+language: csharp
+
+osx_image: xcode8.1
+
+rvm: 2.2
+
+before_install:
+- chmod a+x ./Scripts/install.sh
+
+install:
+- ./Scripts/install.sh
+
+script:
+- xbuild /p:TargetFrameworkProfile="" /p:Configuration=Release ./SingedFeathers/SingedFeathers.sln
+- nunit-console ./SingedFeathers/Temp/bin/Release/Assembly-CSharp-Editor.dll
+- go test -v ./...
+
+os: osx
+
+notifications:
+  slack:
+    rooms:
+      - whythehellnot:RlQRu5Twg2ZsabMC6K4SL6hu#travis
