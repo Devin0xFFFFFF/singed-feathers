@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using Assets.Scripts.Models;
 
 namespace Assets.Scripts.Controllers {
-
     [Serializable]
     public class TileController : ITileController {
-
-        const int BURN_HEAT = 10;
+        public const int BURN_HEAT = 10;
         public bool StateHasChanged { get; set; }
         private readonly Tile _tile;
         private readonly List<ITileController> _neighbouringTiles;
@@ -18,30 +16,20 @@ namespace Assets.Scripts.Controllers {
             _neighbouringTiles = new List<ITileController>();
         }
 
-        public TileType GetTileType() {
-            return _tile.Type;
-        }
+        public TileType GetTileType() { return _tile.Type; }
         
-        public bool IsFlammable() {
-            return _tile.FlashPoint < int.MaxValue && !IsBurntOut();
-        }
+        public bool IsFlammable() { return _tile.FlashPoint < int.MaxValue && !IsBurntOut(); }
 
         public bool IsSpreadingHeat() {
             // Spread heat if the tile has been burning for more than one turn (at the end of the last turn)
             return (StateHasChanged && IsBurntOut()) || (!StateHasChanged && IsOnFire());
         }
 
-        public bool IsOnFire() {
-            return IsFlammable() && _tile.Heat >= _tile.FlashPoint;
-        }
+        public bool IsOnFire() { return IsFlammable() && _tile.Heat >= _tile.FlashPoint; }
 
-        public bool IsBurntOut() {
-            return _tile.Type == TileType.Ash || _tile.TurnsOnFire >= _tile.MaxTurnsOnFire;
-        }
+        public bool IsBurntOut() { return _tile.Type == TileType.Ash || _tile.TurnsOnFire >= _tile.MaxTurnsOnFire; }
 
-        public void AddNeighbouringTile(ITileController neighbourController) {
-            _neighbouringTiles.Add(neighbourController);
-        }
+        public void AddNeighbouringTile(ITileController neighbourController) { _neighbouringTiles.Add(neighbourController); }
 
         public void SpreadFire() {
             bool startedOnFire = IsOnFire();

@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.Controllers {
     public class PigeonController {
         private const int MAX_HEALTH = 100;
         private const int FIRE_DAMAGE = 10;
-
         private float _mapWidth;
         private float _mapHeight;
 
@@ -37,7 +35,7 @@ namespace Assets.Scripts.Controllers {
             return new Vector3(0, 0, 0);
         }
 
-        private List<Vector3> GetNeighbouringPositions(TileManager[,] map, Vector3 pos){
+        private List<Vector3> GetNeighbouringPositions(TileManager[,] map, Vector3 pos) {
             List<Vector3> tiles = new List<Vector3>();
 
             if (pos.y + 1 < map.GetLength(1)) {
@@ -63,14 +61,12 @@ namespace Assets.Scripts.Controllers {
                 health -= FIRE_DAMAGE * 2;
             }
 
-            foreach (Vector3 pos in positions){
-                if (map[(int)pos.x, (int)pos.y].IsOnFire()){
+            foreach (Vector3 pos in positions) {
+                if (map[(int)pos.x, (int)pos.y].IsOnFire()) {
                     health -= FIRE_DAMAGE;
                 }
             }
             return health;
         }
-
     }
 }
-

@@ -6,9 +6,7 @@ using Assets.Scripts.Models;
 using Newtonsoft.Json;
 
 namespace Assets.Scripts.Service {
-
     public class MapGeneratorService : IMapGeneratorService {
-
         private const int MINIMUM_MAP_ID = 1;
 
         public Map GenerateMap(int id = 1) {
@@ -35,7 +33,7 @@ namespace Assets.Scripts.Service {
             }
         }
 
-        private void InitializeTileMapFromRaw(Map map) {
+        private static void InitializeTileMapFromRaw(Map map) {
             map.TileMap = new ITileController[map.Width, map.Height];
             for (int x = 0; x < map.Width; x++) {
                 for (int y = 0; y < map.Height; y++) {

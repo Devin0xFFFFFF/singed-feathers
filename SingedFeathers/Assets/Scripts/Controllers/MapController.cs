@@ -3,18 +3,14 @@ using Assets.Scripts.Models;
 using Assets.Scripts.Service;
 
 namespace Assets.Scripts.Controllers {
-
     public class MapController : IMapController {
-
-        const int HEAT = 100;
+		public const int HEAT = 100;
         public int Width { get { return _map.Width; } }
         public int Height { get { return _map.Height; } }
         private readonly IMapGeneratorService _mapGenerator;
         private Map _map;
 
-        public MapController(IMapGeneratorService mapGenerator = null) {
-            _mapGenerator = mapGenerator ?? new MapGeneratorService();
-        }
+		public MapController(IMapGeneratorService mapGenerator = null) { _mapGenerator = mapGenerator ?? new MapGeneratorService(); }
 
         public void GenerateMap() {
             _map = _mapGenerator.GenerateMap();
@@ -27,24 +23,18 @@ namespace Assets.Scripts.Controllers {
             }
         }
 
-        public TileType GetTileType(int x, int y) {
-            return _map.TileMap[x, y].GetTileType();
-        }
+        public TileType GetTileType(int x, int y) { return _map.TileMap[x, y].GetTileType(); }
 
-        public ITileController GetController(int x, int y) {
-            return _map.TileMap[x, y];
-        }
+        public ITileController GetController(int x, int y) { return _map.TileMap[x, y]; }
 
         public IDictionary<NewStatus, IList<Position>> SpreadFires() {
-
-            IDictionary<NewStatus, IList<Position>> modifiedTiles = new Dictionary<NewStatus, IList<Position>>();
+			IDictionary<NewStatus, IList<Position>> modifiedTiles = new Dictionary<NewStatus, IList<Position>>();
             modifiedTiles.Add(NewStatus.BurntOut, new List<Position>());
             modifiedTiles.Add(NewStatus.OnFire, new List<Position>());
 
             // Update tiles
             for (int x = 0; x < Width; x++) {
                 for (int y = 0; y < Height; y++) {
-
                     ITileController tile = _map.TileMap[x, y];
                     tile.SpreadFire();
 
