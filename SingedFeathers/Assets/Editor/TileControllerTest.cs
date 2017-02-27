@@ -2,16 +2,12 @@
 using NUnit.Framework;
 
 namespace Assets.Editor {
-
     [TestFixture]
     public class TileControllerTest {
-
         private TileController _tileController;
 
         [SetUp]
-        public void Init() {
-            _tileController = new TileController(TileType.Grass);
-        }
+        public void Init() { _tileController = new TileController(TileType.Grass); }
 
         [Test]
         public void TestInitializingTile() {
@@ -35,20 +31,20 @@ namespace Assets.Editor {
             Assert.AreEqual(false, _tileController.IsOnFire());
             Assert.AreEqual(false, _tileController.IsBurntOut());
 
-            //light the tile and spread once
+            // Light the tile and spread once
             _tileController.ApplyHeat(100);
             _tileController.SpreadFire();
             Assert.AreEqual(false, _tileController.IsBurntOut());
             Assert.AreEqual(true, _tileController.IsOnFire());
             Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
 
-            //spread again -- still not burnt out
+            // Spread again -- still not burnt out
             _tileController.SpreadFire();
             Assert.AreEqual(false, _tileController.IsBurntOut());
             Assert.AreEqual(true, _tileController.IsOnFire());
             Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
 
-            //spread again -- burnt out
+            // Spread again -- burnt out
             _tileController.SpreadFire();
             Assert.AreEqual(true, _tileController.IsBurntOut());
             Assert.AreEqual(TileType.Ash, _tileController.GetTileType());
@@ -58,7 +54,7 @@ namespace Assets.Editor {
         public void TestTileTypeUpdatesAfterBurnsOut() {
             Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
 
-            //ignite tile and burn it out
+            // Ignite tile and burn it out
             _tileController.ApplyHeat(100);
             _tileController.IsOnFire();
             _tileController.SpreadFire();

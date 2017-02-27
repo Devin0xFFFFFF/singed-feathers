@@ -2,12 +2,11 @@
 using UnityEngine.SceneManagement;
 
 public class GameSelection : MonoBehaviour {
-
     // Use this for initialization
-    void Start() {}
+    public void Start() {}
 
     // Update is called once per frame
-    void Update() {}
+    public void Update() {}
 
     public void LoadScene(string sceneName) {
         SceneManager.LoadScene(sceneName);

@@ -1,4 +1,5 @@
-﻿
-public interface ICommand {
-    void ExecuteCommand();
+﻿namespace Assets.Scripts.Models {
+    public interface ICommand {
+        void ExecuteCommand();
+    }
 }

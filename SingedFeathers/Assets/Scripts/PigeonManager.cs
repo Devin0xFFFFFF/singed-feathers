@@ -13,12 +13,12 @@ public class PigeonManager : MonoBehaviour {
     private PigeonController _controller;
 
 	// Use this for initialization
-	void Start() {
+	public void Start() {
         _health = MAX_HEALTH;
 	}
 	
 	// Update is called once per frame
-    void Update() {
+    public void Update() {
         if (IsDead()) {
             gameObject.SetActive(false);
         }

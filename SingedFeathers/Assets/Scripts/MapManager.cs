@@ -4,7 +4,6 @@ using UnityEngine;
 using Assets.Scripts.Models;
 
 public class MapManager : MonoBehaviour {
-
     public GameStateManager GameStateManager;
     public List<TileManager> TileSet;
     public PigeonManager Pigeon;
@@ -18,7 +17,7 @@ public class MapManager : MonoBehaviour {
     private PigeonManager[] _pigeons;
 
     // Start here!
-    void Start() {
+    public void Start() {
         if (TileSet.Count > 0) {
             LoadTileDictionary();
             LoadMap();
@@ -30,7 +29,7 @@ public class MapManager : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
+    public void Update() {
         IGameState currState = GameStateManager.CurrState;
         if(currState is ResolveState) {
             ProcessTurn();
@@ -38,7 +37,7 @@ public class MapManager : MonoBehaviour {
         }
     }
 
-    void LoadTileDictionary() {
+    public void LoadTileDictionary() {
         _tileDictionary = new Dictionary<TileType, TileManager>();
         foreach (TileManager tile in TileSet) {
             tile.Initialize();
@@ -46,7 +45,7 @@ public class MapManager : MonoBehaviour {
         }
     }
 
-    void LoadMap() {
+    public void LoadMap() {
         _mapController = new MapController();
         _mapController.GenerateMap();
         _width = _mapController.Width;
@@ -59,15 +58,15 @@ public class MapManager : MonoBehaviour {
         InstantiateTiles();
     }
 
-    void LoadFires() { SetFire(2, 3);}
+    public void LoadFires() { SetFire(2, 3);}
 
-    void LoadPigeons() { 
+    public void LoadPigeons() { 
         _pigeons = new PigeonManager[1];
         _pigeons[0] = Instantiate(Pigeon, new Vector3(_tileSizeX * 3, _tileSizeY * 1, 1), Quaternion.identity);
         _pigeons[0].SetCoordinates(3, 1, _tileSizeX, _tileSizeX);
     }
 
-    void ProcessTurn() {
+    public void ProcessTurn() {
         Debug.Log ("Resolving turn: " + _turnCount);
 
         foreach(ICommand command in _turnCommands) {
@@ -85,26 +84,7 @@ public class MapManager : MonoBehaviour {
         _turnCount++;
     }
 
-    void SetFire(int x, int y) { _mapController.ApplyHeat(x, y); }
-
-    private void InstantiateTiles() {
-        for (int x = 0; x < _width; x++) {
-            for (int y = 0; y < _height; y++) {
-                InstantiateTile(_mapController.GetTileType(x, y), x, y);
-            }
-        }
-    }
-
-    private void InstantiateTile(TileType type, int x, int y) {
-        TileManager manager = _tileDictionary[type];
-        _map[x, y] = Instantiate(manager, new Vector3(_tileSizeX * x, _tileSizeY * y, 1), Quaternion.identity);
-        _map[x, y].SetController(_mapController.GetController(x, y));
-    }
-
-    private void UpdateTileType(TileType type, int x, int y) {
-        Destroy(_map[x, y].gameObject);
-        InstantiateTile(type, x, y);
-    }
+    public void SetFire(int x, int y) { _mapController.ApplyHeat(x, y); }
 
     public void AddCommand(ICommand command) { _turnCommands.Add(command); }
 
@@ -115,4 +95,23 @@ public class MapManager : MonoBehaviour {
     }
 
     public int GetNumberOfTurns() { return _turnCount; }
+
+	private void InstantiateTiles() {
+		for (int x = 0; x < _width; x++) {
+			for (int y = 0; y < _height; y++) {
+				InstantiateTile(_mapController.GetTileType(x, y), x, y);
+			}
+		}
+	}
+
+	private void InstantiateTile(TileType type, int x, int y) {
+		TileManager manager = _tileDictionary[type];
+		_map[x, y] = Instantiate(manager, new Vector3(_tileSizeX * x, _tileSizeY * y, 1), Quaternion.identity);
+		_map[x, y].SetController(_mapController.GetController(x, y));
+	}
+
+	private void UpdateTileType(TileType type, int x, int y) {
+		Destroy(_map[x, y].gameObject);
+		InstantiateTile(type, x, y);
+	}
 }

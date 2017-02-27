@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnselectedActionState : IGameState {
+namespace Assets.Scripts.States {
+	public class UnselectedActionState : IGameState {
+	    private readonly GameStateManager _gameStateManager;
 
-    private readonly GameStateManager _gameStateManager;
+	    public UnselectedActionState(GameStateManager mapManager) { _gameStateManager = mapManager; }
 
-    public UnselectedActionState(GameStateManager mapManager) { _gameStateManager = mapManager; }
+	    public void UpdateState() {}
 
-    public void UpdateState() {}
+	    public void ChangeState() { _gameStateManager.CurrState = _gameStateManager.SelectedActionState; }
 
-    public void ChangeState() { _gameStateManager.CurrState = _gameStateManager.SelectedActionState; }
+	    public void Undo() {}
 
-    public void Undo() {}
-
-    public void HandleMapInput(TileManager tileManager) { _gameStateManager.GetTileInfo(tileManager); }
+	    public void HandleMapInput(TileManager tileManager) { _gameStateManager.GetTileInfo(tileManager); }
+	}
 }

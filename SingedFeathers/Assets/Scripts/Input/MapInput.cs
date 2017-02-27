@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapInput : MonoBehaviour {
+	public GameStateManager GameStateManager;
 
-    public GameStateManager GameStateManager;
-
-    void Awake() {}
+    public void Awake() {}
 
     // Update is called once per frame
-    void Update() {
+    public void Update() {
         #if !MOBILE_INPUT
         if (Input.GetMouseButtonDown(0)) {
             Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
