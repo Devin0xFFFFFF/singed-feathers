@@ -33,7 +33,7 @@ namespace Assets.Scripts.Service {
             }
         }
 
-        private void InitializeTileMapFromRaw(Map map) {
+        private static void InitializeTileMapFromRaw(Map map) {
             map.TileMap = new ITileController[map.Width, map.Height];
             for (int x = 0; x < map.Width; x++) {
                 for (int y = 0; y < map.Height; y++) {

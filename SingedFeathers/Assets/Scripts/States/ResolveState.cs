@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Assets.Scripts.States {
+﻿namespace Assets.Scripts.States {
 	public class ResolveState : IGameState {
 	    private readonly GameStateManager _gameStateManager;
 

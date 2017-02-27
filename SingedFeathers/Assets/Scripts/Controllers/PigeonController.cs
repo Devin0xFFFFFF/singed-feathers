@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.Controllers {
@@ -62,8 +61,8 @@ namespace Assets.Scripts.Controllers {
                 health -= FIRE_DAMAGE * 2;
             }
 
-            foreach (Vector3 pos in positions){
-                if (map[(int)pos.x, (int)pos.y].IsOnFire()){
+            foreach (Vector3 pos in positions) {
+                if (map[(int)pos.x, (int)pos.y].IsOnFire()) {
                     health -= FIRE_DAMAGE;
                 }
             }

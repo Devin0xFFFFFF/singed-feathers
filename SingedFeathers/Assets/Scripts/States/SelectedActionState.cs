@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts.Models;
-using UnityEngine;
+﻿using Assets.Scripts.Models;
 
 namespace Assets.Scripts.States {
 	public class SelectedActionState : IGameState {
