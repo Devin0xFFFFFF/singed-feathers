@@ -1,21 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿namespace Assets.Scripts.States {
+    public class AppliedActionState : IGameState {
+        private readonly GameStateManager _gameStateManager;
 
-public class AppliedActionState : IGameState {
+        public AppliedActionState(GameStateManager mapManager) { _gameStateManager = mapManager; }
 
-    private readonly GameStateManager _gameStateManager;
+        public void UpdateState() {}
 
-    public AppliedActionState(GameStateManager mapManager) { _gameStateManager = mapManager; }
+        public void ChangeState() { _gameStateManager.CurrState = _gameStateManager.ResolveState; }
 
-    public void UpdateState() {}
+        public void Undo() { 
+            _gameStateManager.MapManager.UndoLastCommand();
+            _gameStateManager.CurrState = _gameStateManager.UnselectedActionState;
+        }
 
-    public void ChangeState() { _gameStateManager.CurrState = _gameStateManager.ResolveState; }
-
-    public void Undo() { 
-        _gameStateManager.MapManager.UndoLastCommand();
-        _gameStateManager.CurrState = _gameStateManager.UnselectedActionState;
+        public void HandleMapInput(TileManager tileManager) { _gameStateManager.GetTileInfo(tileManager); }
     }
-
-    public void HandleMapInput(TileManager tileManager) { _gameStateManager.GetTileInfo(tileManager); }
 }

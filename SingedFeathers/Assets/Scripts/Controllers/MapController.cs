@@ -3,7 +3,7 @@ using Assets.Scripts.Models;
 
 namespace Assets.Scripts.Controllers {
     public class MapController : IMapController {
-        const int HEAT = 100;
+        public const int HEAT = 100;
         public int Width { get; private set; }
         public int Height { get; private set; }
         private ITileController[,] _map;
@@ -31,16 +31,11 @@ namespace Assets.Scripts.Controllers {
             }
         }
 
-        public TileType GetTileType(int x, int y) {
-            return _map[x, y].GetTileType();
-        }
+        public TileType GetTileType(int x, int y) { return _map[x, y].GetTileType(); }
 
-        public ITileController GetController(int x, int y) {
-            return _map[x, y];
-        }
+        public ITileController GetController(int x, int y) { return _map[x, y]; }
 
         public IDictionary<NewStatus, IList<Position>> SpreadFires() {
-
             IDictionary<NewStatus, IList<Position>> modifiedTiles = new Dictionary<NewStatus, IList<Position>>();
             modifiedTiles.Add(NewStatus.BurntOut, new List<Position>());
             modifiedTiles.Add(NewStatus.OnFire, new List<Position>());
@@ -48,7 +43,6 @@ namespace Assets.Scripts.Controllers {
             // Update tiles
             for (int x = 0; x < Width; x++) {
                 for (int y = 0; y < Height; y++) {
-
                     ITileController tile = _map[x, y];
                     tile.SpreadFire();
 

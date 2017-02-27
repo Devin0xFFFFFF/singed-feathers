@@ -1,37 +1,29 @@
-﻿using Assets.Scripts.Controllers;
+﻿using Assets.Scripts;
+using Assets.Scripts.Controllers;
 using UnityEngine;
 
 public class TileManager : MonoBehaviour {
-
     public TileType type;
     private ITileController _tileController;
 
     // Use this for initialization
-    void Awake() {
-        Initialize();
-    }
+    public void Awake() { Initialize(); }
 
     // Update is called once per frame
-    void Update() {
+    public void Update() {
         if (_tileController.IsOnFire()) {
             Transform child = transform.GetChild(0);
             child.gameObject.SetActive(true);
         }
     }
 
-    public void ApplyHeat(int heat) {
-        _tileController.ApplyHeat(heat);
-    }
+    public void ApplyHeat(int heat) { _tileController.ApplyHeat(heat); }
 
-    public void SpreadFire() {
-        _tileController.SpreadFire();
-    }
+    public void SpreadFire() { _tileController.SpreadFire(); }
 
     public bool IsOnFire() { return _tileController.IsOnFire(); }
 
-    public bool IsBurntOut() {
-        return _tileController.IsBurntOut();
-    }
+    public bool IsBurntOut() { return _tileController.IsBurntOut(); }
 
     public void Initialize() {
         if (_tileController == null) {
@@ -39,7 +31,5 @@ public class TileManager : MonoBehaviour {
         }
     }
 
-    public void SetController(ITileController controller) {
-        _tileController = controller;
-    }
+    public void SetController(ITileController controller) { _tileController = controller; }
 }
