@@ -1,42 +1,38 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.Models;
+using Assets.Scripts.Service;
 
 namespace Assets.Scripts.Controllers {
-    public class MapController : IMapController {
-        const int HEAT = 100;
-        public int Width { get; private set; }
-        public int Height { get; private set; }
-        private ITileController[,] _map;
 
-        private readonly int[,] _testMapRaw = {
-            {2, 3, 3, 3, 3},
-            {2, 3, 2, 3, 3},
-            {3, 3, 3, 3, 3},
-            {2, 3, 3, 2, 3},
-            {2, 3, 3, 3, 2}
-        };
+    public class MapController : IMapController {
+
+        const int HEAT = 100;
+        public int Width { get { return _map.Width; } }
+        public int Height { get { return _map.Height; } }
+        private readonly IMapGeneratorService _mapGenerator;
+        private Map _map;
+
+        public MapController(IMapGeneratorService mapGenerator = null) {
+            _mapGenerator = mapGenerator ?? new MapGeneratorService();
+        }
 
         public void GenerateMap() {
-            Width = _testMapRaw.GetLength(0);
-            Height = _testMapRaw.GetLength(1);
-            _map = new ITileController[Width, Height];
-
-            InitializeTiles();
+            _map = _mapGenerator.GenerateMap();
             LinkNeighbouringTiles();
         }
 
         public void ApplyHeat(int x, int y) {
             if (x >= 0 && y >= 0 && x < Width && y < Height) {
-                _map[x, y].ApplyHeat(HEAT);
+                _map.TileMap[x, y].ApplyHeat(HEAT);
             }
         }
 
         public TileType GetTileType(int x, int y) {
-            return _map[x, y].GetTileType();
+            return _map.TileMap[x, y].GetTileType();
         }
 
         public ITileController GetController(int x, int y) {
-            return _map[x, y];
+            return _map.TileMap[x, y];
         }
 
         public IDictionary<NewStatus, IList<Position>> SpreadFires() {
@@ -49,7 +45,7 @@ namespace Assets.Scripts.Controllers {
             for (int x = 0; x < Width; x++) {
                 for (int y = 0; y < Height; y++) {
 
-                    ITileController tile = _map[x, y];
+                    ITileController tile = _map.TileMap[x, y];
                     tile.SpreadFire();
 
                     if (tile.StateHasChanged) {
@@ -66,19 +62,11 @@ namespace Assets.Scripts.Controllers {
             // Reset map
             for (int x = 0; x < Width; x++) {
                 for (int y = 0; y < Height; y++) {
-                    _map[x, y].StateHasChanged = false;
+                    _map.TileMap[x, y].StateHasChanged = false;
                 }
             }
 
             return modifiedTiles;
-        }
-
-        private void InitializeTiles() {
-            for (int x = 0; x < Width; x++) {
-                for (int y = 0; y < Height; y++) {
-                    _map[x, y] = new TileController((TileType) _testMapRaw[x, y]);
-                }
-            }
         }
 
         private void LinkNeighbouringTiles() {
@@ -91,16 +79,16 @@ namespace Assets.Scripts.Controllers {
 
         private void LinkTileToNeighbours(int x, int y) {
             if (x > 0) {
-                _map[x, y].AddNeighbouringTile(_map[x - 1, y]);
+                _map.TileMap[x, y].AddNeighbouringTile(_map.TileMap[x - 1, y]);
             }
             if (y > 0) {
-                _map[x, y].AddNeighbouringTile(_map[x, y - 1]);
+                _map.TileMap[x, y].AddNeighbouringTile(_map.TileMap[x, y - 1]);
             }
             if (y < Height - 1) {
-                _map[x, y].AddNeighbouringTile(_map[x, y + 1]);
+                _map.TileMap[x, y].AddNeighbouringTile(_map.TileMap[x, y + 1]);
             }
             if (x < Width - 1) {
-                _map[x, y].AddNeighbouringTile(_map[x + 1, y]);
+                _map.TileMap[x, y].AddNeighbouringTile(_map.TileMap[x + 1, y]);
             }
         }
     }
