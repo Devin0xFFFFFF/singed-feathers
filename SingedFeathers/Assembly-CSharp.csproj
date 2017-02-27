@@ -91,7 +91,7 @@
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
  </Reference>
  <Reference Include="Newtonsoft.Json">
- <HintPath>/Users/keenns12/Documents/Comp_Sci/4th_Year/SoftEngII/comp4350-project/SingedFeathers/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
+ <HintPath>Assets/Plugins/Newtonsoft.Json.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
