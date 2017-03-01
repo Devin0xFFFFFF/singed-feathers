@@ -9,7 +9,7 @@ echo "Attempting to build $project for Webgl"
   -silent-crashes \
   -logFile $(pwd)/SingedFeathers/Unity.log \
   -projectPath=$(pwd)/SingedFeathers \
-  -buildTarget webgl
+  -buildTarget webgl \
   -quit
 
 echo 'Logs from build'
