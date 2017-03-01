@@ -18,11 +18,12 @@ namespace Assets.Scripts.Controllers {
 
         public bool Move() {
             if (_tileController.IsOnFire()) {
-                foreach (ITileController neighbour in _tileController.GetNeighbours())
+                foreach (ITileController neighbour in _tileController.GetNeighbours()) {
                     if (!neighbour.IsOnFire()) {
                         _tileController = neighbour;
                         return true;
                     }
+                }
             }
             return false;
         }

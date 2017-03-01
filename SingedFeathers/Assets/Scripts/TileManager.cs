@@ -8,7 +8,7 @@ namespace Assets.Scripts {
         private ITileController _tileController;
 
         // Use this for initialization
-        public void Awake() { }
+        public void Awake() {}
 
         // Update is called once per frame
         public void Update() {

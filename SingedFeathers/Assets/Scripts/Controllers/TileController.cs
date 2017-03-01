@@ -29,7 +29,7 @@ namespace Assets.Scripts.Controllers {
 
         public bool IsOnFire() { return IsFlammable() && _tile.Heat >= _tile.FlashPoint && !IsBurntOut(); }
 
-		public bool IsBurntOut() { return _tile.Type == TileType.Ash || (_tile.TurnsOnFire > 0 &&  _tile.TurnsOnFire >= _tile.MaxTurnsOnFire); }
+        public bool IsBurntOut() { return _tile.Type == TileType.Ash || (_tile.TurnsOnFire > 0 &&  _tile.TurnsOnFire >= _tile.MaxTurnsOnFire); }
 
         public void AddNeighbouringTile(ITileController neighbourController) { _neighbouringTiles.Add(neighbourController); }
 

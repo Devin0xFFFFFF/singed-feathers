@@ -4,7 +4,7 @@ using Assets.Scripts.Service;
 
 namespace Assets.Scripts.Controllers {
     public class MapController : IMapController {
-		public const int HEAT = 100;
+        public const int HEAT = 100;
         public int Width { get { return _map.Width; } }
         public int Height { get { return _map.Height; } }
         private readonly IMapGeneratorService _mapGenerator;
