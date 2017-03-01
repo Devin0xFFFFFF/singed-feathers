@@ -30,13 +30,11 @@ namespace Assets.Scripts.MapIO {
         private const string CONTENT_TYPE_JSON = "application/json";
         private const string SIGNED_HEADERS = "content-type;host;x-amz-date";
 
-        public delegate void RequestCallback(UnityWebRequest webRequest);
-
         private AWSAPIGatewayConfig _apiConfig;
 
-        public AWSAPIGatewayClient(AWSAPIGatewayConfig apiConfig) {
-            _apiConfig = apiConfig;
-        }
+        public delegate void RequestCallback(UnityWebRequest webRequest);
+
+        public AWSAPIGatewayClient(AWSAPIGatewayConfig apiConfig) { _apiConfig = apiConfig; }
 
         public IEnumerator Get(string path, SortedDictionary<string, string> queryParameters, RequestCallback requestCallback) {
             UnityWebRequest request = BuildGetRequest(path, queryParameters);
@@ -92,27 +90,22 @@ namespace Assets.Scripts.MapIO {
             return request;
         }
 
-        private string GetCanonicalUri(string path) {
-            return _apiConfig._apiEndpointStage + "/" + path + "/";
-        }
+        private string GetCanonicalUri(string path) { return _apiConfig.ApiEndpointStage + "/" + path + "/"; }
 
-        private string BuildRequestUri(string canonicalUri, string canonicalQueryString) {
-            return API_ENDPOINT_PROTOCOL + _apiConfig._apiEndpointHostname + canonicalUri + "?" + canonicalQueryString;
-        }
+        private string BuildRequestUri(string canonicalUri, string canonicalQueryString) { return API_ENDPOINT_PROTOCOL + _apiConfig.ApiEndpointHostname + canonicalUri + "?" + canonicalQueryString; }
 
         private string SignRequest(string hashedRequestPayload, string requestMethod, string canonicalUri, string canonicalQueryString, string requestDate) {
             string dateStamp = DateTime.UtcNow.ToString("yyyyMMdd");
-            string credentialScope = string.Format("{0}/{1}/{2}/aws4_request", dateStamp, _apiConfig._apiEndpointRegion, SERVICE_NAME);
+            string credentialScope = string.Format("{0}/{1}/{2}/aws4_request", dateStamp, _apiConfig.ApiEndpointRegion, SERVICE_NAME);
 
-            var headers = new SortedDictionary<string, string> {
-            { CONTENT_TYPE_HEADER, CONTENT_TYPE_JSON },
-            { HOST_HEADER, _apiConfig._apiEndpointHostname },
-            { X_AMZ_DATE_HEADER, requestDate }
-        };
+            SortedDictionary<string, string> headers = new SortedDictionary<string, string> {
+                { CONTENT_TYPE_HEADER, CONTENT_TYPE_JSON },
+                { HOST_HEADER, _apiConfig.ApiEndpointHostname },
+                { X_AMZ_DATE_HEADER, requestDate }
+            };
 
             string canonicalHeaders = string.Empty;
-            foreach (string header in headers.Keys)
-            {
+            foreach (string header in headers.Keys) {
                 canonicalHeaders += header.ToLowerInvariant() + ":" + headers[header].Trim() + "\n";
             }
 
@@ -124,37 +117,29 @@ namespace Assets.Scripts.MapIO {
             string stringToSign = ENCRYPTION_ALG + "\n" + requestDate + "\n" + credentialScope + "\n" + hashedCanonicalRequest;
 
             // Task 3: Calculate the AWS Signature Version 4
-            byte[] signingKey = GetSignatureKey(_apiConfig._secretKey, dateStamp, _apiConfig._apiEndpointRegion, SERVICE_NAME);
+            byte[] signingKey = GetSignatureKey(_apiConfig.SecretKey, dateStamp, _apiConfig.ApiEndpointRegion, SERVICE_NAME);
             string signature = HexEncode(HmacSha256(stringToSign, signingKey));
 
             // Task 4: Prepare a signed request
             // Authorization: algorithm Credential=access key ID/credential scope, SignedHeadaers=SignedHeaders, Signature=signature
-
             string authorization = string.Format("{0} Credential={1}/{2}/{3}/{4}/aws4_request, SignedHeaders={5}, Signature={6}",
-            ENCRYPTION_ALG, _apiConfig._accessKey, dateStamp, _apiConfig._apiEndpointRegion, SERVICE_NAME, SIGNED_HEADERS, signature);
+            ENCRYPTION_ALG, _apiConfig.AccessKey, dateStamp, _apiConfig.ApiEndpointRegion, SERVICE_NAME, SIGNED_HEADERS, signature);
 
             return authorization;
         }
 
-        private static string HashRequestPayload(string requestPayload) {
-            return HexEncode(Hash(ToBytes(requestPayload)));
-        }
+        private static string HashRequestPayload(string requestPayload) { return HexEncode(Hash(ToBytes(requestPayload))); }
 
-        private static string GetAmazonDate() {
-            return DateTime.UtcNow.ToString("yyyyMMddTHHmmss") + "Z";
-        }
+        private static string GetAmazonDate() { return DateTime.UtcNow.ToString("yyyyMMddTHHmmss") + "Z"; }
 
         private static string BuildCanonicalQueryString(SortedDictionary<string, string> queryParameters) {
             string canonicalQueryString = string.Empty;
 
-            if (queryParameters != null)
-            {
+            if (queryParameters != null) {
                 int count = 0;
-                foreach (KeyValuePair<string, string> param in queryParameters)
-                {
+                foreach (KeyValuePair<string, string> param in queryParameters) {
                     canonicalQueryString += param.Key + "=" + param.Value;
-                    if (count < queryParameters.Count - 1)
-                    {
+                    if (count < queryParameters.Count - 1) {
                         canonicalQueryString += "&";
                     }
                     count++;
@@ -164,9 +149,7 @@ namespace Assets.Scripts.MapIO {
             return canonicalQueryString;
         }
 
-        private static string CreateRequestPayload(string jsonString) {
-            return HexEncode(Hash(ToBytes(jsonString)));
-        }
+        private static string CreateRequestPayload(string jsonString) { return HexEncode(Hash(ToBytes(jsonString))); }
 
         private static byte[] GetSignatureKey(string key, string dateStamp, string regionName, string serviceName) {
             byte[] kDate = HmacSha256(dateStamp, ToBytes("AWS4" + key));
@@ -176,20 +159,12 @@ namespace Assets.Scripts.MapIO {
             return HmacSha256("aws4_request", kService);
         }
 
-        private static byte[] ToBytes(string str) {
-            return Encoding.UTF8.GetBytes(str.ToCharArray());
-        }
+        private static byte[] ToBytes(string str) { return Encoding.UTF8.GetBytes(str.ToCharArray()); }
 
-        private static string HexEncode(byte[] bytes) {
-            return BitConverter.ToString(bytes).Replace("-", string.Empty).ToLowerInvariant();
-        }
+        private static string HexEncode(byte[] bytes) { return BitConverter.ToString(bytes).Replace("-", string.Empty).ToLowerInvariant(); }
 
-        private static byte[] Hash(byte[] bytes) {
-            return SHA256.Create().ComputeHash(bytes);
-        }
+        private static byte[] Hash(byte[] bytes) { return SHA256.Create().ComputeHash(bytes); }
 
-        private static byte[] HmacSha256(string data, byte[] key) {
-            return new HMACSHA256(key).ComputeHash(ToBytes(data));
-        }
+        private static byte[] HmacSha256(string data, byte[] key) { return new HMACSHA256(key).ComputeHash(ToBytes(data)); }
     }
 }

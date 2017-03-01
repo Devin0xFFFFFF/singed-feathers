@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Models;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
@@ -8,20 +9,20 @@ namespace Assets.Scripts.MapIO {
         private const string GET_MAP_DATA_PATH = "getMapData";
         private const string GET_MAPS_PATH = "getMaps";
 
-        public delegate void ResultCallback(MapClientResult result);
-
         private AWSAPIGatewayClient _client;
+
+        public delegate void ResultCallback(MapClientResult result);
 
         public MapPersistenceClient(AWSAPIGatewayConfig apiConfig) {
             _client = new AWSAPIGatewayClient(apiConfig);
         }
 
-        public IEnumerator CreateMap(string mapName, string creatorName, string mapType, string serializedMapData, ResultCallback resultCallback) {
+        public IEnumerator CreateMap(MapInfo mapInfo, ResultCallback resultCallback) {
             string serializedMapInfo = "{ \"MapInfo\": { " +
-                "\"MapName\": \"" + mapName +
-                "\", \"CreatorName\": \"" + creatorName +
-                "\", \"MapType\": \"" + mapType +
-                "\", \"MapData\": \"" + serializedMapData +
+                "\"MapName\": \"" + mapInfo.MapName +
+                "\", \"CreatorName\": \"" + mapInfo.CreatorName +
+                "\", \"MapType\": \"" + mapInfo.MapType +
+                "\", \"MapData\": \"" + mapInfo.SerializedMapData +
                 "\" } }";
 
             yield return _client.Put(CREATE_MAP_PATH, serializedMapInfo, delegate (UnityWebRequest webRequest) {
@@ -40,9 +41,7 @@ namespace Assets.Scripts.MapIO {
         }
 
         public IEnumerator GetMaps(ResultCallback resultCallback) {
-            SortedDictionary<string, string> queryParameters = new SortedDictionary<string, string>
-            {
-            };
+            SortedDictionary<string, string> queryParameters = new SortedDictionary<string, string> {};
 
             yield return _client.Get(GET_MAPS_PATH, queryParameters, delegate (UnityWebRequest webRequest) {
                 resultCallback(ConvertRequestToMapClientResult(GET_MAPS_PATH, webRequest));
