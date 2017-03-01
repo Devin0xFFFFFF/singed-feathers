@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Controllers\IMapController.cs" />
+    <Compile Include="Assets\Scripts\Controllers\IPigeonController.cs" />
     <Compile Include="Assets\Scripts\Controllers\ITileController.cs" />
     <Compile Include="Assets\Scripts\Controllers\MapController.cs" />
     <Compile Include="Assets\Scripts\Controllers\PigeonController.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Assets\Scripts\Models\ICommand.cs" />
     <Compile Include="Assets\Scripts\Models\Map.cs" />
     <Compile Include="Assets\Scripts\Models\NewStatus.cs" />
+    <Compile Include="Assets\Scripts\Models\Pigeon.cs" />
     <Compile Include="Assets\Scripts\Models\Position.cs" />
     <Compile Include="Assets\Scripts\Models\SetFireCommand.cs" />
     <Compile Include="Assets\Scripts\Models\TIleType.cs" />
@@ -79,7 +81,6 @@
     <Compile Include="Assets\Scripts\States\SelectedActionState.cs" />
     <Compile Include="Assets\Scripts\States\UnselectedActionState.cs" />
     <Compile Include="Assets\Scripts\TileManager.cs" />
-    <Reference Include="UnityEngine.Analytics">
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\UnityAnalytics\UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PlaymodeTestsRunner">
