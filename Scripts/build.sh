@@ -2,15 +2,19 @@
 
 project="SingedFeathers"
 
+cd SingedFeathers
+
 echo "Attempting to build $project for Webgl"
 /Applications/Unity/Unity.app/Contents/MacOS/Unity \
   -batchmode \
   -nographics \
   -silent-crashes \
-  -logFile $(pwd)/SingedFeathers/Unity.log \
+  -logFile $(pwd)/Unity.log \
   -projectPath=$(pwd)/SingedFeathers \
   -executeMethod Assets.Editor.Build.AutoBuilder.PerformWebBuild \
   -quit
+
+cd ..
 
 echo 'Logs from build'
 cat $(pwd)/SingedFeathers/Unity.log
