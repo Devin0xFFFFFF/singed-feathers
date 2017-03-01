@@ -12,10 +12,10 @@ install:
 - ./Scripts/install.sh
 
 script:
+- ./Scripts/build.sh
 - xbuild /p:TargetFrameworkProfile="" /p:Configuration=Release ./SingedFeathers/SingedFeathers.sln
 - nunit-console ./SingedFeathers/Temp/bin/Release/Assembly-CSharp-Editor.dll
 - go test -v ./...
-- ./Scripts/build.sh
 
 os: osx
 
