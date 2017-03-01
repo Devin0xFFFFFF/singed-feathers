@@ -28,6 +28,8 @@ deploy:
   skip_cleanup: true
   acl: public_read
   region: "us-west-2"
+  on:
+    branch: 82-TravisServer
 
 notifications:
   slack:
