@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using UnityEngine;
 using Assets.Scripts.Controllers;
 using Assets.Scripts.Models;
 using Newtonsoft.Json;
@@ -13,20 +14,17 @@ namespace Assets.Scripts.Service {
                 return null;
             }
 
-            string path = string.Format("../SingedFeathers/Assets/Resources/Map{0}.json", id);
+			try {
+				TextAsset targetFile = Resources.Load<TextAsset>(string.Format("Map{0}", id));
 
-            try {
-                using (StreamReader r = new StreamReader(File.OpenRead(path))) {
-                    Map map;
+				string json = targetFile.text;
 
-                    string json = r.ReadToEnd();
-                    map = JsonConvert.DeserializeObject<Map>(json);
-                    InitializeTileMapFromRaw(map);
+	            Map map = JsonConvert.DeserializeObject<Map>(json);
+	            InitializeTileMapFromRaw(map);
 
-                    return map;
-                }
+	            return map;
             } catch (Exception e) {
-                Console.Write(string.Format("Error loading map file with path {0}: {1}", path,  e));
+                Console.Write(string.Format("Error loading Map{0}: {1}", id,  e));
 
                 return null;
             }

@@ -55,6 +55,7 @@
     <Compile Include="Assets\Editor\ControllerTests\MapControllerTest.cs" />
     <Compile Include="Assets\Editor\ControllerTests\TileControllerTest.cs" />
     <Compile Include="Assets\Editor\ServiceTests\MapGeneratorServiceTest.cs" />
+    <None Include="Assets\link.xml" />
     <Reference Include="UnityEngine.Analytics">
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\UnityAnalytics\UnityEngine.Analytics.dll</HintPath>
     </Reference>
