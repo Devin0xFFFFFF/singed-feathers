@@ -24,10 +24,12 @@ deploy:
   access_key_id: $ACCESS_KEY_ID
   secret_access_key: $ACCESS_KEY
   bucket: "singedfeathers.online"
-  local-dir: SingedFeathers/Builds/Web
+  local-dir: ./SingedFeathers/Builds/Web/
   skip_cleanup: true
   acl: public_read
   region: "us-west-2"
+  on:
+    branch: 82-TravisServer
 
 notifications:
   slack:
