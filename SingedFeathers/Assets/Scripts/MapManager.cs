@@ -9,6 +9,7 @@ namespace Assets.Scripts {
         public GameStateManager GameStateManager;
         public List<TileManager> TileSet;
         public PigeonManager Pigeon;
+        private List<PigeonManager> _pigeons;
         private Dictionary<TileType, TileManager> _tileDictionary;
         private IMapController _mapController;
         private TileManager[,] _map;
@@ -16,7 +17,6 @@ namespace Assets.Scripts {
         private int _width, _height;
         private float _tileSizeX, _tileSizeY;
         private int _turnCount;
-        private PigeonManager[] _pigeons;
 
         // Start here!
         public void Start() {
@@ -42,7 +42,6 @@ namespace Assets.Scripts {
         public void LoadTileDictionary() {
             _tileDictionary = new Dictionary<TileType, TileManager>();
             foreach (TileManager tile in TileSet) {
-                tile.Initialize();
                 _tileDictionary.Add(tile.type, tile);
             }
         }
@@ -60,16 +59,25 @@ namespace Assets.Scripts {
             InstantiateTiles();
         }
 
-        public void LoadFires() { SetFire(2, 3); }
+        public void LoadFires() {
+            Position initialFirePosition = _mapController.GetInitialFirePosition();
+            SetFire(initialFirePosition.X, initialFirePosition.Y);
+        }
 
-        public void LoadPigeons() { 
-            _pigeons = new PigeonManager[1];
-            _pigeons[0] = Instantiate(Pigeon, new Vector3(_tileSizeX * 3, _tileSizeY * 1, 1), Quaternion.identity);
-            _pigeons[0].SetCoordinates(3, 1, _tileSizeX, _tileSizeX);
+        public void LoadPigeons() {
+            _pigeons = new List<PigeonManager>();
+            IList<IPigeonController> controllers = _mapController.GetPigeonControllers();
+            foreach (IPigeonController controller in controllers) {
+                Position pigeonPosition = controller.CurrentPosition();
+                PigeonManager pigeon = Instantiate(Pigeon, new Vector3(_tileSizeX * pigeonPosition.X, _tileSizeY * pigeonPosition.Y, 1), Quaternion.identity);
+                pigeon.SetDimensions(_tileSizeX, _tileSizeY);
+                pigeon.SetController(controller);
+                _pigeons.Add(pigeon);
+            }
         }
 
         public void ProcessTurn() {
-            Debug.Log ("Resolving turn: " + _turnCount);
+            Debug.Log("Resolving turn: " + _turnCount);
 
             foreach(ICommand command in _turnCommands) {
                 command.ExecuteCommand();
@@ -80,8 +88,9 @@ namespace Assets.Scripts {
             foreach (Position pos in modifiedTilePositions[NewStatus.BurntOut]) {
                 UpdateTileType(TileType.Ash, pos.X, pos.Y);
             }
+
             foreach (PigeonManager pigeon in _pigeons) {
-                pigeon.UpdateStatus(_map);
+                pigeon.UpdatePigeon();
             }
 
             _turnCount++;
@@ -110,7 +119,7 @@ namespace Assets.Scripts {
         private void InstantiateTile(TileType type, int x, int y) {
             TileManager manager = _tileDictionary[type];
             _map[x, y] = Instantiate(manager, new Vector3(_tileSizeX * x, _tileSizeY * y, 1), Quaternion.identity);
-            _map[x, y].SetController(_mapController.GetController(x, y));
+            _map[x, y].SetController(_mapController.GetTileController(x, y));
         }
 
         private void UpdateTileType(TileType type, int x, int y) {

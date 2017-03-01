@@ -4,7 +4,6 @@ using Assets.Scripts.Service;
 
 namespace Assets.Scripts.Controllers {
     public class MapController : IMapController {
-		
 		public const int HEAT = 100;
         public int Width { get { return _map.Width; } }
         public int Height { get { return _map.Height; } }
@@ -31,12 +30,16 @@ namespace Assets.Scripts.Controllers {
             return TileType.Error;
         }
 
-        public ITileController GetController(int x, int y) {
+        public ITileController GetTileController(int x, int y) {
             if (CoordinatesAreValid(x, y)) {
                 return _map.TileMap[x, y];
             }
             return null;
         }
+
+        public IList<IPigeonController> GetPigeonControllers() { return _map.Pigeons; }
+
+        public Position GetInitialFirePosition() { return _map.InitialFirePosition; }
 
         public IDictionary<NewStatus, IList<Position>> SpreadFires() {
             IDictionary<NewStatus, IList<Position>> modifiedTiles = new Dictionary<NewStatus, IList<Position>>();
@@ -52,10 +55,10 @@ namespace Assets.Scripts.Controllers {
 
                     if (tile.StateHasChanged) {
                         if (tile.IsBurntOut()) {
-                            modifiedTiles[NewStatus.BurntOut].Add(new Position {X = x, Y = y});
+                            modifiedTiles[NewStatus.BurntOut].Add(new Position(x, y));
                         }
                         if (tile.IsOnFire()) {
-                            modifiedTiles[NewStatus.OnFire].Add(new Position {X = x, Y = y});
+                            modifiedTiles[NewStatus.OnFire].Add(new Position(x, y));
                         }
                     }
                 }

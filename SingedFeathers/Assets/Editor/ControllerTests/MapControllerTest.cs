@@ -114,13 +114,13 @@ namespace Assets.Editor.ControllerTests {
 
         [Test]
         public void TestGetControllerReturnsControllerAtSpecifiedLocation() {
-            ITileController controller00 = _mapController.GetController(0, 0);
+            ITileController controller00 = _mapController.GetTileController(0, 0);
             Assert.AreEqual(controller00, _tile0);
 
-            ITileController controller01 = _mapController.GetController(0, 1);
+            ITileController controller01 = _mapController.GetTileController(0, 1);
             Assert.AreEqual(controller01, _tile1);
 
-            ITileController controller02 = _mapController.GetController(0, 2);
+            ITileController controller02 = _mapController.GetTileController(0, 2);
             Assert.AreEqual(controller02, _tile2);
         }
 
@@ -129,27 +129,27 @@ namespace Assets.Editor.ControllerTests {
             try {
                 ITileController controller;
                 // Both values too large
-                controller = _mapController.GetController(10, 10);
+                controller = _mapController.GetTileController(10, 10);
                 Assert.Null(controller);
 
                 // Both values negative
-                controller = _mapController.GetController(-2, -4);
+                controller = _mapController.GetTileController(-2, -4);
                 Assert.Null(controller);
 
                 // X value negative
-                controller = _mapController.GetController(-10, 20);
+                controller = _mapController.GetTileController(-10, 20);
                 Assert.Null(controller);
 
                 // Y value negative
-                controller = _mapController.GetController(20, -15);
+                controller = _mapController.GetTileController(20, -15);
                 Assert.Null(controller);
 
                 // X value valid
-                controller = _mapController.GetController(0, 11);
+                controller = _mapController.GetTileController(0, 11);
                 Assert.Null(controller);
 
                 // Y value value
-                controller = _mapController.GetController(-12, 0);
+                controller = _mapController.GetTileController(-12, 0);
                 Assert.Null(controller);
             } catch (Exception e) {
                 Assert.Fail(string.Format("Expected no exception, but got {0}", e.Message));
@@ -190,7 +190,7 @@ namespace Assets.Editor.ControllerTests {
             return new Map() {
                 Height = 3,
                 Width = 1,
-                InitialFirePosition = new Position() { X = 1, Y = 0 },
+                InitialFirePosition = new Position(1, 0),
                 TileMap = tileControllers
             };
         }

@@ -8,7 +8,9 @@ namespace Assets.Scripts.Controllers {
         void GenerateMap();
         void ApplyHeat(int x, int y);
         TileType GetTileType(int x, int y);
+        ITileController GetTileController(int x, int y);
         IDictionary<NewStatus, IList<Position>> SpreadFires();
-        ITileController GetController(int x, int y);
+        IList<IPigeonController> GetPigeonControllers();
+        Position GetInitialFirePosition();
     }
 }

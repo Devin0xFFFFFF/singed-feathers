@@ -8,7 +8,7 @@ namespace Assets.Scripts {
         private ITileController _tileController;
 
         // Use this for initialization
-        public void Awake() { Initialize(); }
+        public void Awake() { }
 
         // Update is called once per frame
         public void Update() {
@@ -25,13 +25,7 @@ namespace Assets.Scripts {
         public bool IsOnFire() { return _tileController.IsOnFire(); }
 
         public bool IsBurntOut() { return _tileController.IsBurntOut(); }
-
-		public void Initialize() {
-            if (_tileController == null) {
-                _tileController = new TileController(type);
-            }
-        }
-
+        
         public void SetController(ITileController controller) { _tileController = controller; }
     }
 }
