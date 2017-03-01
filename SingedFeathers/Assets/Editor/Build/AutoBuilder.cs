@@ -1,16 +1,10 @@
 ﻿using System;
 using UnityEditor;
-using UnityEngine;
 
 namespace Assets.Editor.Build {
 	public static class AutoBuilder {
 
 		// Source: http://wiki.unity3d.com/index.php?title=AutoBuilder
-
-		public static string GetProjectName() {
-			string[] s = Application.dataPath.Split('/');
-			return s[s.Length - 2];
-		}
 
 		public static string[] GetScenePaths() {
 			string[] scenes = new string[EditorBuildSettings.scenes.Length];
