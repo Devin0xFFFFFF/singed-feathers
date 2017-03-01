@@ -78,7 +78,7 @@ namespace Assets.Scripts.Controllers {
         }
 
         public bool OccupyTile() {
-            if (!IsOccupied) {
+            if (CanBeOccupied()) {
                 IsOccupied = true;
                 return true;
             }
@@ -92,6 +92,8 @@ namespace Assets.Scripts.Controllers {
             }
             return false;
         }
+
+        public bool CanBeOccupied() { return !IsOccupied; }
 
         private Tile InitializeTile(TileType type) {
             switch (type) {

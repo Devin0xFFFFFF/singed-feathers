@@ -5,6 +5,7 @@ namespace Assets.Scripts.Controllers {
         public const int FIRE_DAMAGE = 10;
         public Position CurrentPosition { get { return _tileController.Position; } }
         public Position InitialPosition { get; private set; }
+        public int Health { get { return _pigeon.Health; } }
         private ITileController _tileController;
         private readonly Pigeon _pigeon;
 
@@ -23,12 +24,23 @@ namespace Assets.Scripts.Controllers {
             UpdateHealth();
         }
 
+        public bool Kill() {
+            if (!IsDead()) {
+                _pigeon.Health = 0;
+                return true;
+            }
+            return false;
+        }
+
         public bool Move() {
             InitialPosition = _tileController.Position;
             if (_tileController.IsOnFire()) {
                 foreach (ITileController neighbour in _tileController.GetNeighbours()) {
-                    if (!neighbour.IsOnFire()) {
+                    if (!neighbour.IsOnFire() && neighbour.CanBeOccupied()) {
+                        // Move to new tile
+                        _tileController.LeaveTile();
                         _tileController = neighbour;
+                        _tileController.OccupyTile();
                         return true;
                     }
                 }
