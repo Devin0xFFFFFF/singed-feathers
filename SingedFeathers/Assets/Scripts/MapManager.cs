@@ -68,7 +68,7 @@ namespace Assets.Scripts {
             _pigeons = new List<PigeonManager>();
             IList<IPigeonController> controllers = _mapController.GetPigeonControllers();
             foreach (IPigeonController controller in controllers) {
-                Position pigeonPosition = controller.CurrentPosition();
+                Position pigeonPosition = controller.CurrentPosition;
                 PigeonManager pigeon = Instantiate(Pigeon, new Vector3(_tileSizeX * pigeonPosition.X, _tileSizeY * pigeonPosition.Y, 1), Quaternion.identity);
                 pigeon.SetDimensions(_tileSizeX, _tileSizeY);
                 pigeon.SetController(controller);
@@ -89,6 +89,7 @@ namespace Assets.Scripts {
                 UpdateTileType(TileType.Ash, pos.X, pos.Y);
             }
 
+            _mapController.MovePigeons();
             foreach (PigeonManager pigeon in _pigeons) {
                 pigeon.UpdatePigeon();
             }

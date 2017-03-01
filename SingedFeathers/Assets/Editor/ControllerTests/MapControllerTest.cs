@@ -11,6 +11,8 @@ namespace Assets.Editor.ControllerTests {
     [TestFixture]
     public class MapControllerTest {
         private MapController _mapController;
+        private IPigeonController _pigeon0;
+        private IPigeonController _pigeon1;
         private ITileController _tile0;
         private ITileController _tile1;
         private ITileController _tile2;
@@ -185,13 +187,21 @@ namespace Assets.Editor.ControllerTests {
             Assert.AreEqual(1, tilesNowBurntOut.Count);
         }
 
+        [Test]
+        public void TestGetPigeonControllersReturnsExpectedPigeons() {
+            IList<IPigeonController> pigeons = _mapController.GetPigeonControllers();
+            Assert.AreEqual(pigeons[0], _pigeon0);
+            Assert.AreEqual(pigeons[1], _pigeon1);
+        }
+
         private Map GenerateTestMap() {
-            ITileController[,] tileControllers = IntializeControllers();
             return new Map() {
                 Height = 3,
                 Width = 1,
                 InitialFirePosition = new Position(1, 0),
-                TileMap = tileControllers
+                InitialPigeonPositions = new List<Position>() { new Position(0, 0), new Position(0, 1) },
+                TileMap = IntializeControllers(),
+                Pigeons = InitializePigeons()
             };
         }
 
@@ -214,10 +224,16 @@ namespace Assets.Editor.ControllerTests {
             _tile2.IsOnFire().Returns(false);
             _tile2.IsBurntOut().Returns(true);
 
-            ITileController[,] tileControllers = {
-                { _tile0, _tile1, _tile2 }
-            };
-            return tileControllers;
+            ITileController[,] tiles = { { _tile0, _tile1, _tile2 } };
+            return tiles;
+        }
+
+        private IList<IPigeonController> InitializePigeons() {
+            _pigeon0 = Substitute.For<IPigeonController>();
+            _pigeon1 = Substitute.For<IPigeonController>();
+
+            IList<IPigeonController> pigeons = new List<IPigeonController>() { _pigeon0, _pigeon1 };
+            return pigeons;
         }
     }
 }

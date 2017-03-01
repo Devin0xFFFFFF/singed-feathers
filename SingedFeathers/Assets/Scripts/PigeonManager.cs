@@ -26,14 +26,11 @@ namespace Assets.Scripts {
         }
 
         public void UpdatePigeon() {
-            Position startPosition = _pigeonController.CurrentPosition();
+            if (_pigeonController.HasMoved()) {
+                Position start = _pigeonController.InitialPosition;
+                Position end = _pigeonController.CurrentPosition;
 
-            bool moved = _pigeonController.Move();
-            _pigeonController.UpdateHealth();
-
-            if (moved && !_pigeonController.IsDead()) {
-                Position newPosition = _pigeonController.CurrentPosition();
-                Vector3 delta = new Vector3(newPosition.X, newPosition.Y, 1) - new Vector3(startPosition.X, startPosition.Y, 1);
+                Vector3 delta = new Vector3(end.X, end.Y, 1) - new Vector3(start.X, start.Y, 1);
                 delta.x *= _height;
                 delta.y *= _width;
 

@@ -74,6 +74,14 @@ namespace Assets.Scripts.Controllers {
             return modifiedTiles;
         }
 
+        public void MovePigeons() {
+            foreach (IPigeonController pigeon in _map.Pigeons) {
+                if (!pigeon.IsDead()) {
+                    pigeon.React();
+                }
+            }
+        }
+
         private bool CoordinatesAreValid(int x, int y) { return x >= 0 && y >= 0 && x < Width && y < Height; }
 
         private void LinkNeighbouringTiles() {

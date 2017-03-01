@@ -11,6 +11,7 @@ namespace Assets.Scripts.Controllers {
         ITileController GetTileController(int x, int y);
         IDictionary<NewStatus, IList<Position>> SpreadFires();
         IList<IPigeonController> GetPigeonControllers();
+        void MovePigeons();
         Position GetInitialFirePosition();
     }
 }

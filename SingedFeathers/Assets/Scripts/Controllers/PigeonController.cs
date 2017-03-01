@@ -3,20 +3,28 @@
 namespace Assets.Scripts.Controllers {
     public class PigeonController : IPigeonController {
         public const int FIRE_DAMAGE = 10;
+        public Position CurrentPosition { get { return _tileController.Position; } }
+        public Position InitialPosition { get; private set; }
         private ITileController _tileController;
-        private Pigeon _pigeon;
-        private Position _initialPosition;
+        private readonly Pigeon _pigeon;
 
         public PigeonController(ITileController tileController) {
             _pigeon = new Pigeon();
             _tileController = tileController;
+            InitialPosition = _tileController.Position;
         }
 
+        public bool HasMoved() { return InitialPosition != CurrentPosition; }
+
         public bool IsDead() { return _pigeon.Health <= 0; }
-        
-        public Position CurrentPosition() { return _tileController.Position; }
+
+        public void React() {
+            Move();
+            UpdateHealth();
+        }
 
         public bool Move() {
+            InitialPosition = _tileController.Position;
             if (_tileController.IsOnFire()) {
                 foreach (ITileController neighbour in _tileController.GetNeighbours()) {
                     if (!neighbour.IsOnFire()) {
