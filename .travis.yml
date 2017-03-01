@@ -12,7 +12,7 @@ install:
 - ./Scripts/install.sh
 
 script:
-- ./Scripts/build.sh
+- travis_wait ./Scripts/build.sh
 - xbuild /p:TargetFrameworkProfile="" /p:Configuration=Release ./SingedFeathers/SingedFeathers.sln
 - nunit-console ./SingedFeathers/Temp/bin/Release/Assembly-CSharp-Editor.dll
 - go test -v ./...
