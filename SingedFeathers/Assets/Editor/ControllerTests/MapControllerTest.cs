@@ -8,7 +8,7 @@ using NUnit.Framework;
 using NSubstitute;
 
 namespace Assets.Editor.ControllerTests {
-    [TestFixture()]
+    [TestFixture]
     public class MapControllerTest {
         private MapController _mapController;
         private ITileController _tile0;

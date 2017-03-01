@@ -9,7 +9,7 @@ namespace Assets.Scripts {
         private float _height;
 
         // Use this for initialization
-        public void Start() { }
+        public void Start() {}
 	
         // Update is called once per frame
         public void Update() {

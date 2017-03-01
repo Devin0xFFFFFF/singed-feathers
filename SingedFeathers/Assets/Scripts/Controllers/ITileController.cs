@@ -4,6 +4,7 @@ using Assets.Scripts.Models;
 namespace Assets.Scripts.Controllers {
     public interface ITileController {
         bool StateHasChanged { get; set; }
+        bool IsOccupied { get; }
         TileType GetTileType();
         Position Position { get; set; }
         void Extinguish();
@@ -14,5 +15,7 @@ namespace Assets.Scripts.Controllers {
         bool IsBurntOut();
         bool IsOnFire();
         bool IsSpreadingHeat();
+        bool OccupyTile();
+        bool LeaveTile();
     }
 }

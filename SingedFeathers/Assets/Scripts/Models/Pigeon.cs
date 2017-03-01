@@ -1,7 +1,7 @@
 ﻿namespace Assets.Scripts.Models {
     class Pigeon {
-        private const int INITIAL_HEALTH = 100;
         public int Health;
+        private const int INITIAL_HEALTH = 100;
 
         public Pigeon() { Health = 100; }
     }

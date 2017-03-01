@@ -8,12 +8,14 @@ namespace Assets.Scripts.Controllers {
         public const int BURN_HEAT = 10;
         public Position Position { get; set; }
         public bool StateHasChanged { get; set; }
+        public bool IsOccupied { get; private set; }
         private readonly Tile _tile;
         private readonly IList<ITileController> _neighbouringTiles;
 
         public TileController(TileType type, int x, int y) {
             Position = new Position(x, y);
             StateHasChanged = false;
+            IsOccupied = false;
             _tile = InitializeTile(type);
             _neighbouringTiles = new List<ITileController>();
         }
@@ -73,6 +75,22 @@ namespace Assets.Scripts.Controllers {
             if (!startedOnFire && IsOnFire()) {
                 StateHasChanged = true;
             }
+        }
+
+        public bool OccupyTile() {
+            if (!IsOccupied) {
+                IsOccupied = true;
+                return true;
+            }
+            return false;
+        }
+
+        public bool LeaveTile() {
+            if (IsOccupied) {
+                IsOccupied = false;
+                return true;
+            }
+            return false;
         }
 
         private Tile InitializeTile(TileType type) {
