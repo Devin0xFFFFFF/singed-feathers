@@ -24,6 +24,9 @@ install() {
 # of available packages, where PLATFORM is `osx` or `win`
 
 install "MacEditorInstaller/Unity-$VERSION.pkg"
-install "MacEditorTargetInstaller/UnitySetup-WebGL-Support-for-Editor-$VERSION.pkg"
+
+if [ $TRAVIS_BRANCH = "82-TravisServer" ]; then
+  install "MacEditorTargetInstaller/UnitySetup-WebGL-Support-for-Editor-$VERSION.pkg";
+fi
 
 # Source: http://blog.stablekernel.com/continuous-integration-for-unity-5-using-travisci
