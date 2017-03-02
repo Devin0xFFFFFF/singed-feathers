@@ -12,7 +12,7 @@ install:
 - ./Scripts/install.sh
 
 script:
-- if [ $TRAVIS_BRANCH = "82-TravisServer" ]; then travis_wait ./Scripts/build.sh; fi
+- if [ $TRAVIS_BRANCH = "master" ]; then travis_wait ./Scripts/build.sh; fi
 - xbuild /p:TargetFrameworkProfile="" /p:Configuration=Release ./SingedFeathers/SingedFeathers.sln
 - nunit-console ./SingedFeathers/Temp/bin/Release/Assembly-CSharp-Editor.dll
 - go test -v ./...
@@ -30,7 +30,7 @@ after_success:
     acl: public_read
     region: "us-west-2"
     on:
-      branch: 82-TravisServer
+      branch: master
 
 notifications:
   slack:

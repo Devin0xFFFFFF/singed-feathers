@@ -25,7 +25,7 @@ install() {
 
 install "MacEditorInstaller/Unity-$VERSION.pkg"
 
-if [ $TRAVIS_BRANCH = "82-TravisServer" ]; then
+if [ $TRAVIS_BRANCH = "master" ]; then
   install "MacEditorTargetInstaller/UnitySetup-WebGL-Support-for-Editor-$VERSION.pkg";
 fi
 
