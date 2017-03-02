@@ -13,9 +13,7 @@ namespace Assets.Scripts.MapIO {
 
         public delegate void ResultCallback(MapClientResult result);
 
-        public MapPersistenceClient(AWSAPIGatewayConfig apiConfig) {
-            _client = new AWSAPIGatewayClient(apiConfig);
-        }
+        public MapPersistenceClient(AWSAPIGatewayConfig apiConfig) { _client = new AWSAPIGatewayClient(apiConfig); }
 
         public IEnumerator CreateMap(MapInfo mapInfo, ResultCallback resultCallback) {
             string serializedMapInfo = "{ \"MapInfo\": { " +
