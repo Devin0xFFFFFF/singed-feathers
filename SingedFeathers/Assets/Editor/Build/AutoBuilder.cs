@@ -3,7 +3,6 @@ using UnityEditor;
 
 namespace Assets.Editor.Build {
 	public static class AutoBuilder {
-
 		// Source: http://wiki.unity3d.com/index.php?title=AutoBuilder
 
 		public static string[] GetScenePaths() {
