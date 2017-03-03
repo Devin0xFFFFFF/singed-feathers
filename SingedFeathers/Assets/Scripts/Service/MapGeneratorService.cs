@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using Assets.Scripts.Controllers;
@@ -21,6 +22,7 @@ namespace Assets.Scripts.Service {
 
 	            Map map = JsonConvert.DeserializeObject<Map>(json);
 	            InitializeTileMapFromRaw(map);
+                InitializePigeons(map);
 
 	            return map;
             } catch (Exception e) {
@@ -29,13 +31,20 @@ namespace Assets.Scripts.Service {
                 return null;
             }
         }
-
-        private static void InitializeTileMapFromRaw(Map map) {
+        
+        private void InitializeTileMapFromRaw(Map map) {
             map.TileMap = new ITileController[map.Width, map.Height];
             for (int x = 0; x < map.Width; x++) {
                 for (int y = 0; y < map.Height; y++) {
-                    map.TileMap[x, y] = new TileController(map.RawMap[x, y]);
+                    map.TileMap[y, x] = new TileController(map.RawMap[y, x], y, x);
                 }
+            }
+        }
+
+        private void InitializePigeons(Map map) {
+            map.Pigeons = new List<IPigeonController>();
+            foreach (Position pigeonPosition in map.InitialPigeonPositions) {
+                map.Pigeons.Add(new PigeonController(map.TileMap[pigeonPosition.X, pigeonPosition.Y]));
             }
         }
     }

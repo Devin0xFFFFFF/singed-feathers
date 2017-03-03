@@ -1,40 +1,41 @@
 ﻿using Assets.Scripts.Controllers;
+using Assets.Scripts.Models;
 using UnityEngine;
 
 namespace Assets.Scripts {
     public class PigeonManager : MonoBehaviour {
-        private const int MAX_HEALTH = 100;
-        private const int FIRE_DAMAGE = 10;
-        private int _health;
-        private Vector3 _currPosition;
-        private float _mapWidth;
-        private float _mapHeight;
-        private PigeonController _controller;
+        private IPigeonController _pigeonController;
+        private float _width;
+        private float _height;
 
         // Use this for initialization
-        public void Start() { _health = MAX_HEALTH; }
+        public void Start() {}
 	
         // Update is called once per frame
         public void Update() {
-            if (IsDead()) {
+            if (_pigeonController.IsDead()) {
                 gameObject.SetActive(false);
             }
         }
 
-        public bool IsDead() { return _health <= 0; }
+        public void SetController(IPigeonController controller) { _pigeonController = controller; }
 
-        public void SetCoordinates(int x, int y, float width, float height) {
-            _controller = new PigeonController();
-            _currPosition = new Vector3(x, y, 1);
-            _controller.SetDimensions(width, height);
+        public void SetDimensions(float width, float height) {
+            _width = width;
+            _height = height;
         }
 
-        public void UpdateStatus(TileManager[,] map) {
-            if (!IsDead()) {
-                Vector3 delta = _controller.UpdatePosition(map, ref _currPosition);
+        public void UpdatePigeon() {
+            if (_pigeonController.HasMoved()) {
+                Position start = _pigeonController.InitialPosition;
+                Position end = _pigeonController.CurrentPosition;
+
+                Vector3 delta = new Vector3(end.X, end.Y, 1) - new Vector3(start.X, start.Y, 1);
+                delta.x *= _height;
+                delta.y *= _width;
+
                 transform.Translate(delta, Space.World);
-                _health = _controller.UpdateHealth(map, _currPosition, _health);
             }
-        }        
+        }
     }
 }

@@ -6,12 +6,16 @@ namespace Assets.Scripts.Controllers {
     [Serializable]
     public class TileController : ITileController {
         public const int BURN_HEAT = 10;
+        public Position Position { get; set; }
         public bool StateHasChanged { get; set; }
+        public bool IsOccupied { get; private set; }
         private readonly Tile _tile;
-        private readonly List<ITileController> _neighbouringTiles;
+        private readonly IList<ITileController> _neighbouringTiles;
 
-        public TileController(TileType type) {
+        public TileController(TileType type, int x, int y) {
+            Position = new Position(x, y);
             StateHasChanged = false;
+            IsOccupied = false;
             _tile = InitializeTile(type);
             _neighbouringTiles = new List<ITileController>();
         }
@@ -25,11 +29,13 @@ namespace Assets.Scripts.Controllers {
             return (StateHasChanged && IsBurntOut()) || (!StateHasChanged && IsOnFire());
         }
 
-        public bool IsOnFire() { return IsFlammable() && _tile.Heat >= _tile.FlashPoint; }
+        public bool IsOnFire() { return IsFlammable() && _tile.Heat >= _tile.FlashPoint && !IsBurntOut(); }
 
-		public bool IsBurntOut() { return _tile.Type == TileType.Ash || (_tile.TurnsOnFire > 0 &&  _tile.TurnsOnFire >= _tile.MaxTurnsOnFire); }
+        public bool IsBurntOut() { return _tile.Type == TileType.Ash || (_tile.TurnsOnFire > 0 &&  _tile.TurnsOnFire >= _tile.MaxTurnsOnFire); }
 
         public void AddNeighbouringTile(ITileController neighbourController) { _neighbouringTiles.Add(neighbourController); }
+
+        public IEnumerable<ITileController> GetNeighbours() { return _neighbouringTiles; }
 
         public void SpreadFire() {
             bool startedOnFire = IsOnFire();
@@ -70,6 +76,24 @@ namespace Assets.Scripts.Controllers {
                 StateHasChanged = true;
             }
         }
+
+        public bool OccupyTile() {
+            if (CanBeOccupied()) {
+                IsOccupied = true;
+                return true;
+            }
+            return false;
+        }
+
+        public bool LeaveTile() {
+            if (IsOccupied) {
+                IsOccupied = false;
+                return true;
+            }
+            return false;
+        }
+
+        public bool CanBeOccupied() { return !IsOccupied; }
 
         private Tile InitializeTile(TileType type) {
             switch (type) {

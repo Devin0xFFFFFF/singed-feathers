@@ -1,72 +1,63 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using Assets.Scripts.Models;
 
 namespace Assets.Scripts.Controllers {
-    public class PigeonController {
-        private const int MAX_HEALTH = 100;
-        private const int FIRE_DAMAGE = 10;
-        private float _mapWidth;
-        private float _mapHeight;
+    public class PigeonController : IPigeonController {
+        public const int FIRE_DAMAGE = 10;
+        public Position CurrentPosition { get { return _tileController.Position; } }
+        public Position InitialPosition { get; private set; }
+        public int Health { get { return _pigeon.Health; } }
+        private ITileController _tileController;
+        private readonly Pigeon _pigeon;
 
-        public void SetDimensions(float width, float height) {
-            _mapWidth = width;
-            _mapHeight = height;
+        public PigeonController(ITileController tileController) {
+            _pigeon = new Pigeon();
+            _tileController = tileController;
+            InitialPosition = _tileController.Position;
         }
 
-        public Vector3 UpdatePosition(TileManager[,] map, ref Vector3 currPos) {
-            TileManager currTile = map[(int) currPos.x, (int) currPos.y];
-            List<Vector3> positions = GetNeighbouringPositions(map, currPos);
+        public bool HasMoved() { return InitialPosition != CurrentPosition; }
 
-            if (currTile.IsOnFire()) {
-                Vector3 move;
+        public bool IsDead() { return _pigeon.Health <= 0; }
 
-                foreach (Vector3 pos in positions) {
-                    if (!map[(int) pos.x, (int) pos.y].IsOnFire()) {
-                        move = pos - currPos;
+        public void React() {
+            Move();
+            UpdateHealth();
+        }
 
-                        move.x *= _mapWidth;
-                        move.y *= _mapHeight;
+        public bool Kill() {
+            if (!IsDead()) {
+                _pigeon.Health = 0;
+                return true;
+            }
+            return false;
+        }
 
-                        currPos = pos;
-                        return move;
+        public bool Move() {
+            InitialPosition = _tileController.Position;
+            if (_tileController.IsOnFire()) {
+                foreach (ITileController neighbour in _tileController.GetNeighbours()) {
+                    if (!neighbour.IsOnFire() && neighbour.CanBeOccupied()) {
+                        // Move to new tile
+                        _tileController.LeaveTile();
+                        _tileController = neighbour;
+                        _tileController.OccupyTile();
+                        return true;
                     }
                 }
             }
-            return new Vector3(0, 0, 0);
+            return false;
         }
-			
-        private List<Vector3> GetNeighbouringPositions(TileManager[,] map, Vector3 pos) {
-            List<Vector3> tiles = new List<Vector3>();
 
-            if (pos.y + 1 < map.GetLength(1)) {
-                tiles.Add(new Vector3(pos.x, pos.y + 1, 1));
-            }
-            if (pos.x + 1 < map.GetLength(0)) {
-                tiles.Add(new Vector3(pos.x + 1, pos.y, 1));
-            }
-            if (pos.y - 1 >= 0) {
-                tiles.Add(new Vector3(pos.x, pos.y - 1, 1));
-            }
-            if (pos.x - 1 >= 0) {
-                tiles.Add(new Vector3(pos.x - 1, pos.y, 1));
-            } 
-            return tiles;
-        } 
-
-        public int UpdateHealth(TileManager[,] map, Vector3 currPos, int health) { 
-            TileManager currTile = map[(int)currPos.x, (int)currPos.y];
-            List<Vector3> positions = GetNeighbouringPositions(map, currPos);
-
-            if (currTile.IsOnFire()){
-                health -= FIRE_DAMAGE * 2;
+        public void UpdateHealth() {
+            if (_tileController.IsOnFire()) {
+                _pigeon.Health -= FIRE_DAMAGE * 2;
             }
 
-            foreach (Vector3 pos in positions) {
-                if (map[(int)pos.x, (int)pos.y].IsOnFire()) {
-                    health -= FIRE_DAMAGE;
+            foreach (ITileController neighbour in _tileController.GetNeighbours()) {
+                if (neighbour.IsOnFire()) {
+                    _pigeon.Health -= FIRE_DAMAGE;
                 }
             }
-            return health;
         }
     }
 }

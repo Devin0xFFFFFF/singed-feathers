@@ -9,7 +9,7 @@ namespace Assets.Editor.ControllerTests {
         private TileController _tileController;
 
         [SetUp]
-        public void Init() { _tileController = new TileController(TileType.Grass); }
+        public void Init() { _tileController = new TileController(TileType.Grass, 0, 0); }
 
         [Test]
         public void TestInitializingTileBasedOnType() {
@@ -19,21 +19,21 @@ namespace Assets.Editor.ControllerTests {
             Assert.False(_tileController.IsOnFire());
             Assert.False(_tileController.IsSpreadingHeat());
 
-            _tileController = new TileController(TileType.Stone);
+            _tileController = new TileController(TileType.Stone, 0, 0);
             Assert.AreEqual(TileType.Stone, _tileController.GetTileType());
             Assert.False(_tileController.IsFlammable());
             Assert.False(_tileController.IsBurntOut());
             Assert.False(_tileController.IsSpreadingHeat());
             Assert.False(_tileController.IsOnFire());
 
-            _tileController = new TileController(TileType.Ash);
+            _tileController = new TileController(TileType.Ash, 0, 0);
             Assert.AreEqual(TileType.Ash, _tileController.GetTileType());
             Assert.False(_tileController.IsFlammable());
             Assert.True(_tileController.IsBurntOut());
             Assert.False(_tileController.IsSpreadingHeat());
             Assert.False(_tileController.IsOnFire());
 
-            _tileController = new TileController(TileType.Wood);
+            _tileController = new TileController(TileType.Wood, 0, 0);
             Assert.AreEqual(TileType.Wood, _tileController.GetTileType());
             Assert.True(_tileController.IsFlammable());
             Assert.False(_tileController.IsBurntOut());
@@ -93,7 +93,7 @@ namespace Assets.Editor.ControllerTests {
 
         [Test]
         public void TestNonFlammableTypeCannotIgnite() {
-            _tileController = new TileController(TileType.Stone);
+            _tileController = new TileController(TileType.Stone, 0, 0);
             Assert.False(_tileController.IsOnFire());
             Assert.False(_tileController.IsBurntOut());
 
@@ -105,7 +105,7 @@ namespace Assets.Editor.ControllerTests {
 
         [Test]
         public void TestIncrementallyTakesHeatFromNeighbours() {
-            ITileController woodNeighbour = new TileController(TileType.Wood);
+            ITileController woodNeighbour = new TileController(TileType.Wood, 0, 0);
             woodNeighbour.ApplyHeat(100);
             woodNeighbour.StateHasChanged = false;
             Assert.True(woodNeighbour.IsOnFire());
@@ -124,6 +124,44 @@ namespace Assets.Editor.ControllerTests {
 
             Assert.True(_tileController.IsOnFire());
             Assert.True(_tileController.StateHasChanged);
+        }
+
+        [Test]
+        public void TestOccupyingAndLeavingTile() {
+            Assert.False(_tileController.IsOccupied);
+            _tileController.OccupyTile();
+            Assert.True(_tileController.IsOccupied);
+            _tileController.LeaveTile();
+            Assert.False(_tileController.IsOccupied);    
+        }
+
+        [Test]
+        public void TestOccupyingOccupiedTile() {
+            Assert.False(_tileController.IsOccupied);
+
+            // Occupying an unoccupied tile should return true => occupy was successful
+            Assert.True(_tileController.OccupyTile());
+            Assert.True(_tileController.IsOccupied);
+
+            // Occupying an occupied tile should return false => cannot occupy occupied tile
+            Assert.False(_tileController.OccupyTile());
+            Assert.True(_tileController.IsOccupied);
+        }
+
+        [Test]
+        public void TestLeaveUnoccupiedTile() {
+            Assert.False(_tileController.IsOccupied);
+
+            // Leaving an unoccupied tile should return false => can't leave what isn't occupied
+            Assert.False(_tileController.LeaveTile());
+            Assert.False(_tileController.IsOccupied);
+
+            Assert.True(_tileController.OccupyTile());
+            Assert.True(_tileController.IsOccupied);
+
+            // Leaving an occupied tile should return true => successfully left
+            Assert.True(_tileController.LeaveTile());
+            Assert.False(_tileController.IsOccupied);
         }
     }
 }

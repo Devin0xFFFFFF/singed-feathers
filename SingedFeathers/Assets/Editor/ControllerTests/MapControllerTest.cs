@@ -8,9 +8,11 @@ using NUnit.Framework;
 using NSubstitute;
 
 namespace Assets.Editor.ControllerTests {
-    [TestFixture()]
+    [TestFixture]
     public class MapControllerTest {
         private MapController _mapController;
+        private IPigeonController _pigeon0;
+        private IPigeonController _pigeon1;
         private ITileController _tile0;
         private ITileController _tile1;
         private ITileController _tile2;
@@ -31,7 +33,7 @@ namespace Assets.Editor.ControllerTests {
         }
 
         [Test]
-        public void TestApplyHeatAffectsTileAtValidLocation() {
+        public void TestApplyHeatAffectsExpectedTileAtValidLocation() {
             _mapController.ApplyHeat(0, 0);
             _tile0.Received().ApplyHeat(Arg.Any<int>());
 
@@ -47,18 +49,33 @@ namespace Assets.Editor.ControllerTests {
             try {
                 // Both values too large
                 _mapController.ApplyHeat(10, 10);
+                _tile0.DidNotReceive().ApplyHeat(Arg.Any<int>());
+                _tile1.DidNotReceive().ApplyHeat(Arg.Any<int>());
+                _tile2.DidNotReceive().ApplyHeat(Arg.Any<int>());
 
                 // Both values negative
                 _mapController.ApplyHeat(-2, -4);
+                _tile0.DidNotReceive().ApplyHeat(Arg.Any<int>());
+                _tile1.DidNotReceive().ApplyHeat(Arg.Any<int>());
+                _tile2.DidNotReceive().ApplyHeat(Arg.Any<int>());
 
                 // X value negative
                 _mapController.ApplyHeat(-10, 20);
+                _tile0.DidNotReceive().ApplyHeat(Arg.Any<int>());
+                _tile1.DidNotReceive().ApplyHeat(Arg.Any<int>());
+                _tile2.DidNotReceive().ApplyHeat(Arg.Any<int>());
 
                 // Y value negative
                 _mapController.ApplyHeat(20, -15);
+                _tile0.DidNotReceive().ApplyHeat(Arg.Any<int>());
+                _tile1.DidNotReceive().ApplyHeat(Arg.Any<int>());
+                _tile2.DidNotReceive().ApplyHeat(Arg.Any<int>());
 
                 // X value valid
                 _mapController.ApplyHeat(0, 11);
+                _tile0.DidNotReceive().ApplyHeat(Arg.Any<int>());
+                _tile1.DidNotReceive().ApplyHeat(Arg.Any<int>());
+                _tile2.DidNotReceive().ApplyHeat(Arg.Any<int>());
 
                 // X value valid
                 _mapController.ApplyHeat(-12, 0);
@@ -114,13 +131,13 @@ namespace Assets.Editor.ControllerTests {
 
         [Test]
         public void TestGetControllerReturnsControllerAtSpecifiedLocation() {
-            ITileController controller00 = _mapController.GetController(0, 0);
+            ITileController controller00 = _mapController.GetTileController(0, 0);
             Assert.AreEqual(controller00, _tile0);
 
-            ITileController controller01 = _mapController.GetController(0, 1);
+            ITileController controller01 = _mapController.GetTileController(0, 1);
             Assert.AreEqual(controller01, _tile1);
 
-            ITileController controller02 = _mapController.GetController(0, 2);
+            ITileController controller02 = _mapController.GetTileController(0, 2);
             Assert.AreEqual(controller02, _tile2);
         }
 
@@ -129,27 +146,27 @@ namespace Assets.Editor.ControllerTests {
             try {
                 ITileController controller;
                 // Both values too large
-                controller = _mapController.GetController(10, 10);
+                controller = _mapController.GetTileController(10, 10);
                 Assert.Null(controller);
 
                 // Both values negative
-                controller = _mapController.GetController(-2, -4);
+                controller = _mapController.GetTileController(-2, -4);
                 Assert.Null(controller);
 
                 // X value negative
-                controller = _mapController.GetController(-10, 20);
+                controller = _mapController.GetTileController(-10, 20);
                 Assert.Null(controller);
 
                 // Y value negative
-                controller = _mapController.GetController(20, -15);
+                controller = _mapController.GetTileController(20, -15);
                 Assert.Null(controller);
 
                 // X value valid
-                controller = _mapController.GetController(0, 11);
+                controller = _mapController.GetTileController(0, 11);
                 Assert.Null(controller);
 
                 // Y value value
-                controller = _mapController.GetController(-12, 0);
+                controller = _mapController.GetTileController(-12, 0);
                 Assert.Null(controller);
             } catch (Exception e) {
                 Assert.Fail(string.Format("Expected no exception, but got {0}", e.Message));
@@ -185,13 +202,38 @@ namespace Assets.Editor.ControllerTests {
             Assert.AreEqual(1, tilesNowBurntOut.Count);
         }
 
+        [Test]
+        public void TestGetPigeonControllersReturnsExpectedPigeons() {
+            IList<IPigeonController> pigeons = _mapController.GetPigeonControllers();
+            Assert.AreEqual(pigeons[0], _pigeon0);
+            Assert.AreEqual(pigeons[1], _pigeon1);
+        }
+
+        [Test] public void TestOnlyLivePigeonsMove() {
+            _pigeon0.IsDead().Returns(true);
+            _pigeon0.Move().Returns(true); // If invoked, return true
+            _pigeon1.IsDead().Returns(false);
+            _pigeon1.Move().Returns(true); // If invoked, return true
+
+            _mapController.MovePigeons();
+
+            // Pigeon0 is dead and should not have been invoked after this was established
+            _pigeon0.Received().IsDead();
+            _pigeon0.DidNotReceive().React();
+
+            // Pigeon1 is alive and should have been invoked
+            _pigeon1.Received().IsDead();
+            _pigeon1.Received().React();
+        }
+
         private Map GenerateTestMap() {
-            ITileController[,] tileControllers = IntializeControllers();
             return new Map() {
                 Height = 3,
                 Width = 1,
-                InitialFirePosition = new Position() { X = 1, Y = 0 },
-                TileMap = tileControllers
+                InitialFirePosition = new Position(1, 0),
+                InitialPigeonPositions = new List<Position>() { new Position(0, 0), new Position(0, 1) },
+                TileMap = IntializeControllers(),
+                Pigeons = InitializePigeons()
             };
         }
 
@@ -214,10 +256,16 @@ namespace Assets.Editor.ControllerTests {
             _tile2.IsOnFire().Returns(false);
             _tile2.IsBurntOut().Returns(true);
 
-            ITileController[,] tileControllers = {
-                { _tile0, _tile1, _tile2 }
-            };
-            return tileControllers;
+            ITileController[,] tiles = { { _tile0, _tile1, _tile2 } };
+            return tiles;
+        }
+
+        private IList<IPigeonController> InitializePigeons() {
+            _pigeon0 = Substitute.For<IPigeonController>();
+            _pigeon1 = Substitute.For<IPigeonController>();
+
+            IList<IPigeonController> pigeons = new List<IPigeonController>() { _pigeon0, _pigeon1 };
+            return pigeons;
         }
     }
 }
