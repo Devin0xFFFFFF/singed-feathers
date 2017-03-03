@@ -79,7 +79,7 @@ namespace Assets.Scripts {
         public void ProcessTurn() {
             Debug.Log("Resolving turn: " + _turnCount);
 
-            foreach(ICommand command in _turnCommands) {
+            foreach (ICommand command in _turnCommands) {
                 command.ExecuteCommand();
             }
             _turnCommands.Clear();
