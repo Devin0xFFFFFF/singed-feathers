@@ -209,7 +209,8 @@ namespace Assets.Editor.ControllerTests {
             Assert.AreEqual(pigeons[1], _pigeon1);
         }
 
-        [Test] public void TestOnlyLivePigeonsMove() {
+        [Test]
+        public void TestAllPigeonsCallReactEvenIfDead() {
             _pigeon0.IsDead().Returns(true);
             _pigeon0.Move().Returns(true); // If invoked, return true
             _pigeon1.IsDead().Returns(false);
@@ -217,11 +218,13 @@ namespace Assets.Editor.ControllerTests {
 
             _mapController.MovePigeons();
 
-            // Pigeon0 is dead and should not have been invoked after this was established
+            // Pigeon0 is dead and is not invoked
             _pigeon0.Received().IsDead();
             _pigeon0.DidNotReceive().React();
+            _pigeon0.DidNotReceive().Move();
+            _pigeon0.DidNotReceive().TakeFireDamage();
 
-            // Pigeon1 is alive and should have been invoked
+            // Pigeon1 is alive and should have been invoked and take action
             _pigeon1.Received().IsDead();
             _pigeon1.Received().React();
         }

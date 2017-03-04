@@ -36,9 +36,23 @@ namespace Assets.Editor.ControllerTests {
         [Test]
         public void TestKillingPigeon() {
             Assert.False(_pigeonController.IsDead());
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+
             Assert.True(_pigeonController.Kill());
+
             Assert.True(_pigeonController.IsDead());
             Assert.AreEqual(0, _pigeonController.Health);
+        }
+
+        [Test]
+        public void TestKillingPigeonReturnsTrueIfNewlyDeadAndFalseIfAlreadyDead() {
+            Assert.False(_pigeonController.IsDead());
+            Assert.True(_pigeonController.Kill());
+            Assert.True(_pigeonController.IsDead());
+
+            // Killing dead pigeon returns false
+            Assert.False(_pigeonController.Kill());
+            Assert.True(_pigeonController.IsDead());
         }
 
         [Test]
@@ -51,8 +65,8 @@ namespace Assets.Editor.ControllerTests {
             Assert.False(_pigeonController.HasMoved());
             Assert.True(_pigeonController.Move());
             Assert.True(_pigeonController.HasMoved());
-            _tileController.Received().LeaveTile();
-            _neighbourTile0.Received().OccupyTile();
+            _tileController.Received().MarkUnoccupied();
+            _neighbourTile0.Received().MarkOccupied();
             Assert.AreEqual(_pigeonController.CurrentPosition, _neighbourTile0.Position);
         }
 
@@ -74,8 +88,8 @@ namespace Assets.Editor.ControllerTests {
             Assert.False(_pigeonController.HasMoved());
             Assert.True(_pigeonController.Move());
             Assert.True(_pigeonController.HasMoved());
-            _tileController.Received().LeaveTile();
-            _neighbourTile0.Received().OccupyTile();
+            _tileController.Received().MarkUnoccupied();
+            _neighbourTile0.Received().MarkOccupied();
             Assert.AreEqual(_pigeonController.CurrentPosition, _neighbourTile0.Position);
         }
 
@@ -98,7 +112,8 @@ namespace Assets.Editor.ControllerTests {
             Assert.AreEqual(_pigeonController.CurrentPosition, _neighbourTile1.Position);
         }
 
-        [Test] public void TestStaysInPlaceIfNoSafeTile() {
+        [Test]
+        public void TestStaysInPlaceIfNoSafeTile() {
             _tileController.IsOnFire().Returns(true);
 
             // All tiles in vicinity are on fire, but are available to be moved to
@@ -110,7 +125,7 @@ namespace Assets.Editor.ControllerTests {
             Assert.False(_pigeonController.HasMoved());
             Assert.False(_pigeonController.Move());
             Assert.False(_pigeonController.HasMoved());
-            _tileController.DidNotReceive().LeaveTile();
+            _tileController.DidNotReceive().MarkUnoccupied();
         }
 
         [Test]
@@ -126,9 +141,9 @@ namespace Assets.Editor.ControllerTests {
             Assert.False(_pigeonController.HasMoved());
             Assert.False(_pigeonController.Move());
             Assert.False(_pigeonController.HasMoved());
-            _tileController.DidNotReceive().LeaveTile();
-            _neighbourTile0.DidNotReceive().OccupyTile();
-            _neighbourTile1.DidNotReceive().OccupyTile();
+            _tileController.DidNotReceive().MarkUnoccupied();
+            _neighbourTile0.DidNotReceive().MarkOccupied();
+            _neighbourTile1.DidNotReceive().MarkOccupied();
         }
 
         [Test]
@@ -145,20 +160,21 @@ namespace Assets.Editor.ControllerTests {
             Assert.False(_pigeonController.HasMoved());
         }
 
-        [Test] public void TestPigeonTakesNoDamageWhenCurrentTileIsNotOnFireAndNoNeighbourIsOnFire() {
+        [Test]
+        public void TestPigeonTakesNoDamageWhenCurrentTileIsNotOnFireAndNoNeighbourIsOnFire() {
             _tileController.IsOnFire().Returns(false);
             _neighbourTile0.IsOnFire().Returns(false);
             _neighbourTile1.IsOnFire().Returns(false);
 
-            Assert.AreEqual(100, _pigeonController.Health);
-            _pigeonController.UpdateHealth();
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+            _pigeonController.TakeFireDamage();
             
             // All relevant tiles were queried for onfire status
             _tileController.Received().IsOnFire();
             _neighbourTile0.Received().IsOnFire();
             _neighbourTile1.Received().IsOnFire();
             
-            Assert.AreEqual(100, _pigeonController.Health);
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
         }
 
         [Test]
@@ -167,15 +183,15 @@ namespace Assets.Editor.ControllerTests {
             _neighbourTile0.IsOnFire().Returns(false);
             _neighbourTile1.IsOnFire().Returns(false);
 
-            Assert.AreEqual(100, _pigeonController.Health);
-            _pigeonController.UpdateHealth();
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+            _pigeonController.TakeFireDamage();
 
             // All relevant tiles were queried for onfire status
             _tileController.Received().IsOnFire();
             _neighbourTile0.Received().IsOnFire();
             _neighbourTile1.Received().IsOnFire();
 
-            Assert.AreEqual(80, _pigeonController.Health);
+            Assert.AreEqual(Pigeon.MAX_HEALTH - (2 * PigeonController.FIRE_DAMAGE), _pigeonController.Health);
         }
 
         [Test]
@@ -184,15 +200,15 @@ namespace Assets.Editor.ControllerTests {
             _neighbourTile0.IsOnFire().Returns(false);
             _neighbourTile1.IsOnFire().Returns(true);
 
-            Assert.AreEqual(100, _pigeonController.Health);
-            _pigeonController.UpdateHealth();
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+            _pigeonController.TakeFireDamage();
 
             // All relevant tiles were queried for onfire status
             _tileController.Received().IsOnFire();
             _neighbourTile0.Received().IsOnFire();
             _neighbourTile1.Received().IsOnFire();
 
-            Assert.AreEqual(90, _pigeonController.Health);
+            Assert.AreEqual(Pigeon.MAX_HEALTH - PigeonController.FIRE_DAMAGE, _pigeonController.Health);
         }
 
         [Test]
@@ -201,15 +217,81 @@ namespace Assets.Editor.ControllerTests {
             _neighbourTile0.IsOnFire().Returns(false);
             _neighbourTile1.IsOnFire().Returns(true);
 
-            Assert.AreEqual(100, _pigeonController.Health);
-            _pigeonController.UpdateHealth();
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+            _pigeonController.TakeFireDamage();
 
             // All relevant tiles were queried for onfire status
             _tileController.Received().IsOnFire();
             _neighbourTile0.Received().IsOnFire();
             _neighbourTile1.Received().IsOnFire();
 
-            Assert.AreEqual(70, _pigeonController.Health);
+            // Takes double damage from tile it is standing on
+            Assert.AreEqual(Pigeon.MAX_HEALTH - 3 * PigeonController.FIRE_DAMAGE, _pigeonController.Health);
+        }
+
+        [Test]
+        public void TestHealingPigeonNeverExceedsMaxHealth() {
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+            _pigeonController.Heal(50);
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+        }
+
+        [Test]
+        public void TestHealingPigeonWithPositiveValueAdjustsHealthAppropriately() {
+            _pigeonController.InflictDamage(60);
+            Assert.AreEqual(Pigeon.MAX_HEALTH - 60, _pigeonController.Health);
+            
+            _pigeonController.Heal(10);
+            Assert.AreEqual(Pigeon.MAX_HEALTH - 50, _pigeonController.Health);    
+        }
+
+        [Test]
+        public void TestHealingPigeonWithNegativeValueDoesNotAlterPigeonHealth() {
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+            _pigeonController.Heal(-50);
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+
+            _pigeonController.InflictDamage(30);
+            _pigeonController.Heal(-60);
+            Assert.AreEqual(Pigeon.MAX_HEALTH - 30, _pigeonController.Health);
+        }
+
+        [Test]
+        public void TestHurtingPigeonNeverDropsHealthBelowZero() {
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+            _pigeonController.InflictDamage(Pigeon.MAX_HEALTH * 2);
+            Assert.AreEqual(0, _pigeonController.Health);
+        }
+
+        [Test]
+        public void TestHurtingPigeonWithNegativeValueDoesNotAlterPigeonHealth() {
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+            _pigeonController.InflictDamage(-50);
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+        }
+
+        [Test]
+        public void TestHurtingPigeonWithPositiveValueAdjustsHealthAppropriately() {
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+            _pigeonController.InflictDamage(30);
+            Assert.AreEqual(Pigeon.MAX_HEALTH - 30, _pigeonController.Health);
+        }
+
+        [Test]
+        public void TestWhenPigeonDiesFromFireDamageTileIsMarkedUnoccupied() {
+            // Inflict some initial damage to the pigeon
+            _pigeonController.InflictDamage(80);
+            
+            // Set tile and neighbouring tiles to be on fire
+            _tileController.IsOnFire().Returns(true);
+            _neighbourTile0.IsOnFire().Returns(true);
+            _neighbourTile1.IsOnFire().Returns(true);
+
+            // Pigeon will die from fire damage
+            _pigeonController.TakeFireDamage();
+
+            // Make sure the tile is marked as unoccupied
+            _tileController.Received().MarkUnoccupied();
         }
     }
 }

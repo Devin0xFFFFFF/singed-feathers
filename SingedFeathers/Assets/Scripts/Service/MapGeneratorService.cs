@@ -27,7 +27,6 @@ namespace Assets.Scripts.Service {
 	            return map;
             } catch (Exception e) {
                 Console.Write(string.Format("Error loading Map{0}: {1}", id,  e));
-
                 return null;
             }
         }
@@ -44,7 +43,9 @@ namespace Assets.Scripts.Service {
         private void InitializePigeons(Map map) {
             map.Pigeons = new List<IPigeonController>();
             foreach (Position pigeonPosition in map.InitialPigeonPositions) {
-                map.Pigeons.Add(new PigeonController(map.TileMap[pigeonPosition.X, pigeonPosition.Y]));
+                ITileController tile = map.TileMap[pigeonPosition.X, pigeonPosition.Y];
+                map.Pigeons.Add(new PigeonController(tile));
+                tile.MarkOccupied();
             }
         }
     }
