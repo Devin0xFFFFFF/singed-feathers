@@ -129,9 +129,9 @@ namespace Assets.Editor.ControllerTests {
         [Test]
         public void TestOccupyingAndLeavingTile() {
             Assert.False(_tileController.IsOccupied);
-            _tileController.OccupyTile();
+            _tileController.MarkOccupied();
             Assert.True(_tileController.IsOccupied);
-            _tileController.LeaveTile();
+            _tileController.MarkUnoccupied();
             Assert.False(_tileController.IsOccupied);    
         }
 
@@ -140,11 +140,11 @@ namespace Assets.Editor.ControllerTests {
             Assert.False(_tileController.IsOccupied);
 
             // Occupying an unoccupied tile should return true => occupy was successful
-            Assert.True(_tileController.OccupyTile());
+            Assert.True(_tileController.MarkOccupied());
             Assert.True(_tileController.IsOccupied);
 
             // Occupying an occupied tile should return false => cannot occupy occupied tile
-            Assert.False(_tileController.OccupyTile());
+            Assert.False(_tileController.MarkOccupied());
             Assert.True(_tileController.IsOccupied);
         }
 
@@ -153,14 +153,14 @@ namespace Assets.Editor.ControllerTests {
             Assert.False(_tileController.IsOccupied);
 
             // Leaving an unoccupied tile should return false => can't leave what isn't occupied
-            Assert.False(_tileController.LeaveTile());
+            Assert.False(_tileController.MarkUnoccupied());
             Assert.False(_tileController.IsOccupied);
 
-            Assert.True(_tileController.OccupyTile());
+            Assert.True(_tileController.MarkOccupied());
             Assert.True(_tileController.IsOccupied);
 
             // Leaving an occupied tile should return true => successfully left
-            Assert.True(_tileController.LeaveTile());
+            Assert.True(_tileController.MarkUnoccupied());
             Assert.False(_tileController.IsOccupied);
         }
     }

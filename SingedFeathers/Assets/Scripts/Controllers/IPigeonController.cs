@@ -6,10 +6,12 @@ namespace Assets.Scripts.Controllers {
         Position CurrentPosition { get; }
         Pigeon Pigeon { get; }
         int GetHealth();
+        void Heal(int delta);
+        void InflictDamage(int delta);
         bool IsDead();
         bool Kill();
         bool Move();
-        void UpdateHealth();
+        void TakeFireDamage();
         bool HasMoved();
         void React();
     }
