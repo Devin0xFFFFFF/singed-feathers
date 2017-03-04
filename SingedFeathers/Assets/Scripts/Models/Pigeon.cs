@@ -1,5 +1,5 @@
 ﻿namespace Assets.Scripts.Models {
-    class Pigeon {
+    public class Pigeon {
         public int Health;
         private const int INITIAL_HEALTH = 100;
 

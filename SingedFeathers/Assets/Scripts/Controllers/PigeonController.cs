@@ -5,19 +5,20 @@ namespace Assets.Scripts.Controllers {
         public const int FIRE_DAMAGE = 10;
         public Position CurrentPosition { get { return _tileController.Position; } }
         public Position InitialPosition { get; private set; }
-        public int Health { get { return _pigeon.Health; } }
+        public Pigeon Pigeon { get; }
         private ITileController _tileController;
-        private readonly Pigeon _pigeon;
 
         public PigeonController(ITileController tileController) {
-            _pigeon = new Pigeon();
+            Pigeon = new Pigeon();
             _tileController = tileController;
             InitialPosition = _tileController.Position;
         }
 
+        public int GetHealth() { return Pigeon.Health; }
+        
         public bool HasMoved() { return InitialPosition != CurrentPosition; }
 
-        public bool IsDead() { return _pigeon.Health <= 0; }
+        public bool IsDead() { return Pigeon.Health <= 0; }
 
         public void React() {
             Move();
@@ -26,7 +27,7 @@ namespace Assets.Scripts.Controllers {
 
         public bool Kill() {
             if (!IsDead()) {
-                _pigeon.Health = 0;
+                Pigeon.Health = 0;
                 return true;
             }
             return false;
@@ -50,12 +51,12 @@ namespace Assets.Scripts.Controllers {
 
         public void UpdateHealth() {
             if (_tileController.IsOnFire()) {
-                _pigeon.Health -= FIRE_DAMAGE * 2;
+                Pigeon.Health -= FIRE_DAMAGE * 2;
             }
 
             foreach (ITileController neighbour in _tileController.GetNeighbours()) {
                 if (neighbour.IsOnFire()) {
-                    _pigeon.Health -= FIRE_DAMAGE;
+                    Pigeon.Health -= FIRE_DAMAGE;
                 }
             }
         }

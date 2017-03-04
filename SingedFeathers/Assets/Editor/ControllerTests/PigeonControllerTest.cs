@@ -30,7 +30,7 @@ namespace Assets.Editor.ControllerTests {
         [Test]
         public void TestInitialization() {
             Assert.False(_pigeonController.IsDead());
-            Assert.AreEqual(100, _pigeonController.Health);
+            Assert.AreEqual(100, _pigeonController.GetHealth());
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace Assets.Editor.ControllerTests {
             Assert.False(_pigeonController.IsDead());
             Assert.True(_pigeonController.Kill());
             Assert.True(_pigeonController.IsDead());
-            Assert.AreEqual(0, _pigeonController.Health);
+            Assert.AreEqual(0, _pigeonController.GetHealth());
         }
 
         [Test]
@@ -150,7 +150,7 @@ namespace Assets.Editor.ControllerTests {
             _neighbourTile0.IsOnFire().Returns(false);
             _neighbourTile1.IsOnFire().Returns(false);
 
-            Assert.AreEqual(100, _pigeonController.Health);
+            Assert.AreEqual(100, _pigeonController.GetHealth());
             _pigeonController.UpdateHealth();
             
             // All relevant tiles were queried for onfire status
@@ -158,7 +158,7 @@ namespace Assets.Editor.ControllerTests {
             _neighbourTile0.Received().IsOnFire();
             _neighbourTile1.Received().IsOnFire();
             
-            Assert.AreEqual(100, _pigeonController.Health);
+            Assert.AreEqual(100, _pigeonController.GetHealth());
         }
 
         [Test]
@@ -167,7 +167,7 @@ namespace Assets.Editor.ControllerTests {
             _neighbourTile0.IsOnFire().Returns(false);
             _neighbourTile1.IsOnFire().Returns(false);
 
-            Assert.AreEqual(100, _pigeonController.Health);
+            Assert.AreEqual(100, _pigeonController.GetHealth());
             _pigeonController.UpdateHealth();
 
             // All relevant tiles were queried for onfire status
@@ -175,7 +175,7 @@ namespace Assets.Editor.ControllerTests {
             _neighbourTile0.Received().IsOnFire();
             _neighbourTile1.Received().IsOnFire();
 
-            Assert.AreEqual(80, _pigeonController.Health);
+            Assert.AreEqual(80, _pigeonController.GetHealth());
         }
 
         [Test]
@@ -184,7 +184,7 @@ namespace Assets.Editor.ControllerTests {
             _neighbourTile0.IsOnFire().Returns(false);
             _neighbourTile1.IsOnFire().Returns(true);
 
-            Assert.AreEqual(100, _pigeonController.Health);
+            Assert.AreEqual(100, _pigeonController.GetHealth());
             _pigeonController.UpdateHealth();
 
             // All relevant tiles were queried for onfire status
@@ -192,7 +192,7 @@ namespace Assets.Editor.ControllerTests {
             _neighbourTile0.Received().IsOnFire();
             _neighbourTile1.Received().IsOnFire();
 
-            Assert.AreEqual(90, _pigeonController.Health);
+            Assert.AreEqual(90, _pigeonController.GetHealth());
         }
 
         [Test]
@@ -201,7 +201,7 @@ namespace Assets.Editor.ControllerTests {
             _neighbourTile0.IsOnFire().Returns(false);
             _neighbourTile1.IsOnFire().Returns(true);
 
-            Assert.AreEqual(100, _pigeonController.Health);
+            Assert.AreEqual(100, _pigeonController.GetHealth());
             _pigeonController.UpdateHealth();
 
             // All relevant tiles were queried for onfire status
@@ -209,7 +209,7 @@ namespace Assets.Editor.ControllerTests {
             _neighbourTile0.Received().IsOnFire();
             _neighbourTile1.Received().IsOnFire();
 
-            Assert.AreEqual(70, _pigeonController.Health);
+            Assert.AreEqual(70, _pigeonController.GetHealth());
         }
     }
 }
