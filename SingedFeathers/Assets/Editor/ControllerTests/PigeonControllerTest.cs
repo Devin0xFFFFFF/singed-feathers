@@ -183,7 +183,7 @@ namespace Assets.Editor.ControllerTests {
             _neighbourTile0.IsOnFire().Returns(false);
             _neighbourTile1.IsOnFire().Returns(false);
 
-            Assert.AreEqual(100, _pigeonController.GetHealth());
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.GetHealth());
             _pigeonController.TakeFireDamage();
 
             // All relevant tiles were queried for onfire status
@@ -226,7 +226,7 @@ namespace Assets.Editor.ControllerTests {
             _neighbourTile1.Received().IsOnFire();
 
             // Takes double damage from tile it is standing on
-            Assert.AreEqual(Pigeon.MAX_HEALTH - 3 * PigeonController.FIRE_DAMAGE, _pigeonController.Health);
+            Assert.AreEqual(Pigeon.MAX_HEALTH - 3 * PigeonController.FIRE_DAMAGE, _pigeonController.GetHealth());
         }
 
         [Test]
