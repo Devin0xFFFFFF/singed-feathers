@@ -221,10 +221,8 @@ namespace Assets.Editor.ControllerTests {
             // Pigeon0 is dead and is not invoked
             _pigeon0.Received().IsDead();
             _pigeon0.DidNotReceive().React();
-            _pigeon0.DidNotReceive().Move();
-            _pigeon0.DidNotReceive().TakeFireDamage();
 
-            // Pigeon1 is alive and should have been invoked and take action
+            // Pigeon1 is alive and should have been invoked
             _pigeon1.Received().IsDead();
             _pigeon1.Received().React();
         }
