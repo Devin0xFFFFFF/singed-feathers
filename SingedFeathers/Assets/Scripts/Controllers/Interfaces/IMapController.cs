@@ -11,7 +11,10 @@ namespace Assets.Scripts.Controllers {
         ITileController GetTileController(int x, int y);
         IDictionary<NewStatus, IList<Position>> SpreadFires();
         IList<IPigeonController> GetPigeonControllers();
+        ITurnResolver GetTurnResolver();
+        ITurnController GetTurnController();
         void MovePigeons();
         Position GetInitialFirePosition();
+        void EndTurn();
     }
 }

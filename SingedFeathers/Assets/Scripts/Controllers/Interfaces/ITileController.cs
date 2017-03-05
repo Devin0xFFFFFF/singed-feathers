@@ -10,10 +10,12 @@ namespace Assets.Scripts.Controllers {
         TileType GetTileType();
         void Extinguish();
         void ApplyHeat(int heat);
+        void ReduceHeat(int heat);
         void AddNeighbouringTile(ITileController neighbourController);
         IEnumerable<ITileController> GetNeighbours();
         void SpreadFire();
         bool IsBurntOut();
+        bool IsFlammable();
         bool IsOnFire();
         bool IsSpreadingHeat();
         bool OccupyTile();

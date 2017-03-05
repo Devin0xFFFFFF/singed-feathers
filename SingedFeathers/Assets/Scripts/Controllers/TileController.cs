@@ -77,6 +77,14 @@ namespace Assets.Scripts.Controllers {
             }
         }
 
+        public void ReduceHeat(int heat) {
+            bool startedOnFire = IsOnFire();
+            _tile.Heat -= heat;
+            if (startedOnFire && !IsOnFire()) {
+                StateHasChanged = true;
+            }
+        }
+
         public bool OccupyTile() {
             if (CanBeOccupied()) {
                 IsOccupied = true;

@@ -1,9 +1,9 @@
-﻿using Assets.Scripts.States;
+﻿using Assets.Scripts.Managers;
 using UnityEngine;
 
 namespace Assets.Scripts.Input {
     public class MapInput : MonoBehaviour {
-        public GameStateManager GameStateManager;
+        public InputManager InputManager;
 
         public void Awake() {}
 
@@ -28,7 +28,7 @@ namespace Assets.Scripts.Input {
             if (hit.collider != null) {
                 if (hit.transform.gameObject.tag == "Tile") {
                     Debug.Log(hit.transform.gameObject.GetComponent<TileManager>().type);
-                    GameStateManager.HandleMapInput(hit.transform.gameObject.GetComponent<TileManager>());
+                    InputManager.HandleMapInput(hit.transform.gameObject.GetComponent<TileManager>());
                 }
             }
         }

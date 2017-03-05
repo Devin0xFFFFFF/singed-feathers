@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 namespace Assets.Scripts.Service {
     public class MapGeneratorService : IMapGeneratorService {
         private const int MINIMUM_MAP_ID = 1;
+        private const int DEFAULT_MAX_TURNS = 8;
 
         public Map GenerateMap(int id = 1) {
             if (id < MINIMUM_MAP_ID) {
@@ -23,6 +24,7 @@ namespace Assets.Scripts.Service {
 	            Map map = JsonConvert.DeserializeObject<Map>(json);
 	            InitializeTileMapFromRaw(map);
                 InitializePigeons(map);
+                InitializeStateManagers(map);
 
 	            return map;
             } catch (Exception e) {
@@ -46,6 +48,11 @@ namespace Assets.Scripts.Service {
             foreach (Position pigeonPosition in map.InitialPigeonPositions) {
                 map.Pigeons.Add(new PigeonController(map.TileMap[pigeonPosition.X, pigeonPosition.Y]));
             }
+        }
+
+        private void InitializeStateManagers(Map map) {
+            map.TurnController = new TurnController(DEFAULT_MAX_TURNS);
+            map.TurnResolver = new LocalTurnResolver();
         }
     }
 }

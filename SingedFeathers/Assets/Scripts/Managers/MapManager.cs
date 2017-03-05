@@ -1,42 +1,31 @@
 using System.Collections.Generic;
 using Assets.Scripts.Controllers;
 using Assets.Scripts.Models;
-using Assets.Scripts.States;
 using UnityEngine;
 
-namespace Assets.Scripts {
+namespace Assets.Scripts.Managers {
     public class MapManager : MonoBehaviour {
-        public GameStateManager GameStateManager;
         public List<TileManager> TileSet;
         public PigeonManager Pigeon;
         private List<PigeonManager> _pigeons;
         private Dictionary<TileType, TileManager> _tileDictionary;
         private IMapController _mapController;
         private TileManager[,] _map;
-        private List<ICommand> _turnCommands;
         private int _width, _height;
         private float _tileSizeX, _tileSizeY;
-        private int _turnCount;
 
         // Start here!
         public void Start() {
             if (TileSet.Count > 0) {
                 LoadTileDictionary();
                 LoadMap();
-                _turnCommands = new List<ICommand>();
                 LoadFires();
                 LoadPigeons();
-                _turnCount = 1;
             }
         }
 
         // Update is called once per frame
         public void Update() {
-            IGameState currState = GameStateManager.CurrState;
-            if(currState is ResolveState) {
-                ProcessTurn();
-                currState.ChangeState();
-            }
         }
 
         public void LoadTileDictionary() {
@@ -77,12 +66,9 @@ namespace Assets.Scripts {
         }
 
         public void ProcessTurn() {
-            Debug.Log("Resolving turn: " + _turnCount);
+            Debug.Log("Resolving turn: " + _mapController.GetTurnController().GetTurnsLeft());
 
-            foreach (ICommand command in _turnCommands) {
-                command.ExecuteCommand();
-            }
-            _turnCommands.Clear();
+            _mapController.EndTurn();
 
             IDictionary<NewStatus, IList<Position>> modifiedTilePositions = _mapController.SpreadFires();
             foreach (Position pos in modifiedTilePositions[NewStatus.BurntOut]) {
@@ -93,21 +79,9 @@ namespace Assets.Scripts {
             foreach (PigeonManager pigeon in _pigeons) {
                 pigeon.UpdatePigeon();
             }
-
-            _turnCount++;
         }
 
         public void SetFire(int x, int y) { _mapController.ApplyHeat(x, y); }
-
-        public void AddCommand(ICommand command) { _turnCommands.Add(command); }
-
-        public void UndoLastCommand() {
-            if (_turnCommands.Count > 0) {
-                _turnCommands.Remove(_turnCommands [_turnCommands.Count - 1]);
-            }
-        }
-
-        public int GetNumberOfTurns() { return _turnCount; }
 
         private void InstantiateTiles() {
             for (int x = 0; x < _width; x++) {
@@ -126,6 +100,30 @@ namespace Assets.Scripts {
         private void UpdateTileType(TileType type, int x, int y) {
             Destroy(_map[x, y].gameObject);
             InstantiateTile(type, x, y);
+        }
+
+        public ITurnController GetTurnController() {
+            return _mapController.GetTurnController();
+        }
+
+        public ITurnResolver GetTurnResolver() {
+            return _mapController.GetTurnResolver();
+        }
+
+        public void Undo() {
+            _mapController.GetTurnController().UndoAllActions();
+        }
+
+        public void Fire() {
+            _mapController.GetTurnController().SetMoveType(MoveTypes.Fire);
+        }
+
+        public void Blank() {
+            _mapController.GetTurnController().SetMoveType(MoveTypes.Blank);
+        }
+
+        public void Water() {
+            _mapController.GetTurnController().SetMoveType(MoveTypes.Water);
         }
     }
 }

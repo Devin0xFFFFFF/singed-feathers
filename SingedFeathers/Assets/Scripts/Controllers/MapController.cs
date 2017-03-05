@@ -22,7 +22,11 @@ namespace Assets.Scripts.Controllers {
                 _map.TileMap[x, y].ApplyHeat(HEAT);
             }
         }
-			
+
+        public void EndTurn() {
+            _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMoves());
+        }
+		
         public TileType GetTileType(int x, int y) {
             if (CoordinatesAreValid(x, y)) {
                 return _map.TileMap[x, y].GetTileType();
@@ -40,6 +44,10 @@ namespace Assets.Scripts.Controllers {
         public IList<IPigeonController> GetPigeonControllers() { return _map.Pigeons; }
 
         public Position GetInitialFirePosition() { return _map.InitialFirePosition; }
+
+        public ITurnResolver GetTurnResolver() { return _map.TurnResolver; }
+
+        public ITurnController GetTurnController() { return _map.TurnController; }
 
         public IDictionary<NewStatus, IList<Position>> SpreadFires() {
             IDictionary<NewStatus, IList<Position>> modifiedTiles = new Dictionary<NewStatus, IList<Position>>();

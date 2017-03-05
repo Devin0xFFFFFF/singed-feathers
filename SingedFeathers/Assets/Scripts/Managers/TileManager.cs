@@ -2,7 +2,7 @@
 using Assets.Scripts.Models;
 using UnityEngine;
 
-namespace Assets.Scripts {
+namespace Assets.Scripts.Managers {
     public class TileManager : MonoBehaviour {
         public TileType type;
         private ITileController _tileController;
@@ -27,5 +27,7 @@ namespace Assets.Scripts {
         public bool IsBurntOut() { return _tileController.IsBurntOut(); }
         
         public void SetController(ITileController controller) { _tileController = controller; }
+
+        public ITileController GetTileController() { return _tileController; }
     }
 }
