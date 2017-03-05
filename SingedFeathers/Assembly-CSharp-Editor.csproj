@@ -47,9 +47,12 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Editor\Build\AutoBuilder.cs" />
+     <Compile Include="Assets\Editor\CommandTests\AddWaterCommand.cs" />
+     <Compile Include="Assets\Editor\CommandTests\SetFireCommandTest.cs" />
      <Compile Include="Assets\Editor\ControllerTests\MapControllerTest.cs" />
      <Compile Include="Assets\Editor\ControllerTests\PigeonControllerTest.cs" />
      <Compile Include="Assets\Editor\ControllerTests\TileControllerTest.cs" />
+     <Compile Include="Assets\Editor\ControllerTests\TurnControllerTest.cs" />
      <Compile Include="Assets\Editor\ServiceTests\MapGeneratorServiceTest.cs" />
      <None Include="Assets\link.xml" />
  <Reference Include="UnityEngine.Analytics">
