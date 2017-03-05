@@ -20,7 +20,7 @@ script:
 os: osx
 
 after_success:
- deploy:
+- deploy:
     provider: s3
     access_key_id: $ACCESS_KEY_ID
     secret_access_key: $ACCESS_KEY
