@@ -23,9 +23,7 @@ namespace Assets.Scripts.Controllers {
             }
         }
 
-        public void EndTurn() {
-            _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMoves());
-        }
+        public void EndTurn() { _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMoves()); }
 		
         public TileType GetTileType(int x, int y) {
             if (CoordinatesAreValid(x, y)) {
@@ -48,6 +46,16 @@ namespace Assets.Scripts.Controllers {
         public ITurnResolver GetTurnResolver() { return _map.TurnResolver; }
 
         public ITurnController GetTurnController() { return _map.TurnController; }
+
+        public int GetTurnsLeft() { return _map.TurnController.GetTurnsLeft(); }
+
+        public void UndoAllActions() { _map.TurnController.UndoAllActions(); }
+
+        public void Fire() { _map.TurnController.SetMoveType(MoveTypes.Fire); }
+
+        public void Water() { _map.TurnController.SetMoveType(MoveTypes.Water); }
+
+        public void Blank() { _map.TurnController.SetMoveType(MoveTypes.Blank); }
 
         public IDictionary<NewStatus, IList<Position>> SpreadFires() {
             IDictionary<NewStatus, IList<Position>> modifiedTiles = new Dictionary<NewStatus, IList<Position>>();

@@ -16,5 +16,10 @@ namespace Assets.Scripts.Controllers {
         void MovePigeons();
         Position GetInitialFirePosition();
         void EndTurn();
+        int GetTurnsLeft();
+        void UndoAllActions();
+        void Fire();
+        void Water();
+        void Blank();
     }
 }

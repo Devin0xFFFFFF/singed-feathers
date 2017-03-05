@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.Managers {
-    public class InputManager : MonoBehaviour {
+    public class InputView : MonoBehaviour {
         public const string TURN_COUNT_STRING = "Turns Left: ";
         private ITurnController _TurnController;
         private ITurnResolver _TurnResolver;
-        public MapManager MapManager;
+        public MapView MapView;
         public Button FireButton;
         public Button WaterButton;
         public Button BlankButton;
@@ -18,12 +18,12 @@ namespace Assets.Scripts.Managers {
         public Sprite Fire;
         public Sprite Water;
         public Sprite Blank;
-        private Button[] ActionButtons;
+        private Button[] _ActionButtons;
         public Text TurnCountText;
 
         // Use this for initialization
         public void Start() {
-            ActionButtons = new Button[] { FireButton, WaterButton };
+            _ActionButtons = new Button[] { FireButton, WaterButton };
         }
 
         // Update is called once per frame
@@ -36,18 +36,18 @@ namespace Assets.Scripts.Managers {
 
         private void Initialize() {
             if (_TurnController == null) {
-                _TurnController = MapManager.GetTurnController();
-                _TurnResolver = MapManager.GetTurnResolver();
+                _TurnController = MapView.GetTurnController();
+                _TurnResolver = MapView.GetTurnResolver();
             }
         }
 
         public void UpdateButtons() {
             if (_TurnController.CanTakeAction()) {
-                foreach (Button button in ActionButtons) {
+                foreach (Button button in _ActionButtons) {
                     button.interactable = true;
                 }
             } else {
-                foreach (Button button in ActionButtons) {
+                foreach (Button button in _ActionButtons) {
                     button.interactable = false;
                 }
             }
@@ -74,7 +74,7 @@ namespace Assets.Scripts.Managers {
 
         public void UpdateTurnCountText() { TurnCountText.text = TURN_COUNT_STRING + _TurnController.GetTurnsLeft(); }
 
-        public void HandleMapInput(TileManager tileManager) { _TurnController.ProcessAction(tileManager.GetTileController()); }
+        public void HandleMapInput(TileView tileManager) { _TurnController.ProcessAction(tileManager.GetTileController()); }
 
         public void SetTurnController(ITurnController turnController) { _TurnController = turnController; }
 

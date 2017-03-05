@@ -6,6 +6,7 @@ using Assets.Scripts.Models;
 using Assets.Scripts.Service;
 using NUnit.Framework;
 using NSubstitute;
+using Assets.Scripts.Models.Commands;
 
 namespace Assets.Editor.ControllerTests {
     [TestFixture]
@@ -16,6 +17,8 @@ namespace Assets.Editor.ControllerTests {
         private ITileController _tile0;
         private ITileController _tile1;
         private ITileController _tile2;
+        private ITurnController _turnController;
+        private ITurnResolver _turnResolver;
 
         [SetUp]
         public void Init() {
@@ -227,6 +230,38 @@ namespace Assets.Editor.ControllerTests {
             _pigeon1.Received().React();
         }
 
+        [Test]
+        public void TestEndTurnMethod() {
+            _mapController.EndTurn();
+            _turnController.Received().GetAndResetMoves();
+            _turnResolver.Received().ResolveTurn(Arg.Any<IDictionary<ITileController, ICommand>>());
+        }
+
+        [Test]
+        public void TestGetTurnsLeft() {
+            _turnController.GetTurnsLeft().Returns(57);
+            Assert.AreEqual(57, _mapController.GetTurnsLeft());
+            _turnController.Received().GetTurnsLeft();
+        }
+
+        [Test]
+        public void TestFire() {
+            _mapController.Fire();
+            _turnController.Received().SetMoveType(MoveTypes.Fire);
+        }
+
+        [Test]
+        public void TestWater() {
+            _mapController.Water();
+            _turnController.Received().SetMoveType(MoveTypes.Water);
+        }
+
+        [Test]
+        public void TestBlank() {
+            _mapController.Blank();
+            _turnController.Received().SetMoveType(MoveTypes.Blank);
+        }
+
         private Map GenerateTestMap() {
             return new Map() {
                 Height = 3,
@@ -234,7 +269,9 @@ namespace Assets.Editor.ControllerTests {
                 InitialFirePosition = new Position(1, 0),
                 InitialPigeonPositions = new List<Position>() { new Position(0, 0), new Position(0, 1) },
                 TileMap = IntializeControllers(),
-                Pigeons = InitializePigeons()
+                Pigeons = InitializePigeons(),
+                TurnController = InitializeTurnController(),
+                TurnResolver = InitializeTurnResolver()
             };
         }
 
@@ -267,6 +304,16 @@ namespace Assets.Editor.ControllerTests {
 
             IList<IPigeonController> pigeons = new List<IPigeonController>() { _pigeon0, _pigeon1 };
             return pigeons;
+        }
+
+        private ITurnController InitializeTurnController() {
+            _turnController = Substitute.For<ITurnController>();
+            return _turnController;
+        }
+
+        private ITurnResolver InitializeTurnResolver() {
+            _turnResolver = Substitute.For<ITurnResolver>();
+            return _turnResolver;
         }
     }
 }
