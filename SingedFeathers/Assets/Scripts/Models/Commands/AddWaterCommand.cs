@@ -6,7 +6,7 @@ namespace Assets.Scripts.Models.Commands {
 
         public AddWaterCommand(int heat) { _heat = heat; }
 
-        public void ExecuteCommand(ITileController tileController) { tileController.ApplyHeat(_heat); }
+        public void ExecuteCommand(ITileController tileController) { tileController.ReduceHeat(_heat); }
 
         public bool CanBeExecutedOnTile(ITileController tileController) { return tileController.IsFlammable(); }
     }

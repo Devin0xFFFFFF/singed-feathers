@@ -61,6 +61,10 @@ namespace Assets.Scripts.Controllers
             return _turnsLeft > 0;
         }
 
+        public MoveTypes GetMoveType() {
+            return _moveType;
+        }
+
         public void ProcessAction(ITileController tileController) {
             if (_moveType == MoveTypes.Blank) {
                 moves.Remove(tileController);
@@ -80,7 +84,6 @@ namespace Assets.Scripts.Controllers
         public IDictionary<ITileController, ICommand> GetAndResetMoves() {
             _turnsLeft--;
             _turnsLeft = Math.Max(0, _turnsLeft);
-            Debug.Log(moves.Count);
             IDictionary<ITileController, ICommand> moveCopy = new Dictionary<ITileController, ICommand>(moves);
             moves = new Dictionary<ITileController, ICommand>();
             return moveCopy;

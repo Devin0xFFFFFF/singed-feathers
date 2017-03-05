@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Controllers;
+using Assets.Scripts.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,10 @@ namespace Assets.Scripts.Managers {
         public Button BlankButton;
         public Button UndoButton;
         public Button EndTurnButton;
+        public Image InputImage;
+        public Sprite Fire;
+        public Sprite Water;
+        public Sprite Blank;
         private Button[] ActionButtons;
         public Text TurnCountText;
 
@@ -25,6 +30,7 @@ namespace Assets.Scripts.Managers {
         public void Update() {
             Initialize();
             UpdateButtons();
+            UpdateImage();
             UpdateTurnCountText();
         }
 
@@ -50,6 +56,20 @@ namespace Assets.Scripts.Managers {
 
             BlankButton.interactable = _TurnResolver.IsTurnResolved() && _TurnController.HasTurnsLeft();
             EndTurnButton.interactable = _TurnResolver.IsTurnResolved() && _TurnController.HasTurnsLeft();
+        }
+
+        public void UpdateImage() {
+            switch (_TurnController.GetMoveType()) {
+                case MoveTypes.Blank:
+                    InputImage.sprite = Blank;
+                    break;
+                case MoveTypes.Fire:
+                    InputImage.sprite = Fire;
+                    break;
+                case MoveTypes.Water:
+                    InputImage.sprite = Water;
+                    break;
+            }
         }
 
         public void UpdateTurnCountText() { TurnCountText.text = TURN_COUNT_STRING + _TurnController.GetTurnsLeft(); }

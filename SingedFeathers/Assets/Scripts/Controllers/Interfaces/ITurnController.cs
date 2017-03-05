@@ -14,5 +14,6 @@ namespace Assets.Scripts.Controllers {
         int GetTurnsLeft();
         bool HasTurnsLeft();
         IDictionary<ITileController, ICommand> GetAndResetMoves();
+        MoveTypes GetMoveType();
     }
 }

@@ -3,9 +3,10 @@ using UnityEngine;
 
 namespace Assets.Scripts.Input {
     public class MapInput : MonoBehaviour {
-        public InputManager InputManager;
+        public MonoBehaviour InputManager;
+        private InputManager _InputManager;
 
-        public void Awake() {}
+        public void Awake() { _InputManager = (InputManager) InputManager; }
 
         // Update is called once per frame
         public void Update() {
@@ -28,7 +29,7 @@ namespace Assets.Scripts.Input {
             if (hit.collider != null) {
                 if (hit.transform.gameObject.tag == "Tile") {
                     Debug.Log(hit.transform.gameObject.GetComponent<TileManager>().type);
-                    InputManager.HandleMapInput(hit.transform.gameObject.GetComponent<TileManager>());
+                    _InputManager.HandleMapInput(hit.transform.gameObject.GetComponent<TileManager>());
                 }
             }
         }

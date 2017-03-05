@@ -12,10 +12,8 @@ namespace Assets.Scripts.Managers {
 
         // Update is called once per frame
         public void Update() {
-            if (_tileController.IsOnFire()) {
-                Transform child = transform.GetChild(0);
-                child.gameObject.SetActive(true);
-            }
+            Transform child = transform.GetChild(0);
+            child.gameObject.SetActive(_tileController.IsOnFire());
         }
 			
         public void ApplyHeat(int heat) { _tileController.ApplyHeat(heat); }
