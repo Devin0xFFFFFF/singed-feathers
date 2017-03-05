@@ -257,9 +257,9 @@ namespace Assets.Editor.ControllerTests {
         }
 
         [Test]
-        public void TestBlank() {
-            _mapController.Blank();
-            _turnController.Received().SetMoveType(MoveTypes.Blank);
+        public void TestCancel() {
+            _mapController.Cancel();
+            _turnController.Received().SetMoveType(MoveTypes.Cancel);
         }
 
         private Map GenerateTestMap() {

@@ -55,7 +55,7 @@ namespace Assets.Scripts.Controllers {
 
         public void Water() { _map.TurnController.SetMoveType(MoveTypes.Water); }
 
-        public void Blank() { _map.TurnController.SetMoveType(MoveTypes.Blank); }
+        public void Cancel() { _map.TurnController.SetMoveType(MoveTypes.Cancel); }
 
         public IDictionary<NewStatus, IList<Position>> SpreadFires() {
             IDictionary<NewStatus, IList<Position>> modifiedTiles = new Dictionary<NewStatus, IList<Position>>();

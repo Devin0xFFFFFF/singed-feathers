@@ -20,6 +20,6 @@ namespace Assets.Scripts.Controllers {
         void UndoAllActions();
         void Fire();
         void Water();
-        void Blank();
+        void Cancel();
     }
 }

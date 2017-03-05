@@ -16,7 +16,7 @@ namespace Assets.Scripts.Controllers
         public TurnController(int turnsLeft, int maxMoves) {
             _moves = new Dictionary<ITileController, ICommand>();
             _turnsLeft = turnsLeft;
-            _moveType = MoveTypes.Blank;
+            _moveType = MoveTypes.Cancel;
             _maxMoves = maxMoves;
             UpdateCommand();
         }
@@ -28,8 +28,8 @@ namespace Assets.Scripts.Controllers
 
         private void UpdateCommand() {
             switch (_moveType) {
-                case MoveTypes.Blank:
-                    _command = new BlankCommand();
+                case MoveTypes.Cancel:
+                    _command = new CancelCommand();
                     break;
                 case MoveTypes.Fire:
                     _command = new SetFireCommand(_intensity);
@@ -57,7 +57,7 @@ namespace Assets.Scripts.Controllers
 
         public void ProcessAction(ITileController tileController) {
             _moves.Remove(tileController);
-            if (_moveType != MoveTypes.Blank && CanTakeAction() 
+            if (_moveType != MoveTypes.Cancel && CanTakeAction() 
                     && _command.CanBeExecutedOnTile(tileController)) {
                 _moves.Add(tileController, _command);
             }

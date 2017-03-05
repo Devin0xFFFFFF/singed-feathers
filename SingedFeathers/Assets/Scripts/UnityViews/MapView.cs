@@ -112,12 +112,12 @@ namespace Assets.Scripts.Managers {
 
         public ITurnResolver GetTurnResolver() { return _MapController.GetTurnResolver(); }
 
-        public void Undo() { _MapController.UndoAllActions(); }
+        public void UndoAll() { _MapController.UndoAllActions(); }
 
         public void Fire() { _MapController.Fire(); }
 
         public void Water() { _MapController.Water(); }
 
-        public void Blank() { _MapController.Blank(); }
+        public void Cancel() { _MapController.Cancel(); }
     }
 }

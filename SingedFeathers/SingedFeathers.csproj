@@ -106,7 +106,7 @@
     <Compile Include="Assets\Scripts\UnityViews\PigeonView.cs" />
     <Compile Include="Assets\Scripts\UnityViews\TileView.cs" />
     <Compile Include="Assets\Scripts\Models\Commands\AddWaterCommand.cs" />
-    <Compile Include="Assets\Scripts\Models\Commands\BlankCommand.cs" />
+    <Compile Include="Assets\Scripts\Models\Commands\CancelCommand.cs" />
     <Compile Include="Assets\Scripts\Models\Commands\ICommand.cs" />
     <Compile Include="Assets\Scripts\Models\Commands\SetFireCommand.cs" />
     <Compile Include="Assets\Scripts\Models\Map.cs" />

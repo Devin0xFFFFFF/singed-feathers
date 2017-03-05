@@ -11,9 +11,7 @@ namespace Assets.Editor.CommandTests {
         private ITileController _tile;
 
         [SetUp]
-        public void Init() {
-            _tile = Substitute.For<ITileController>();
-        }
+        public void Init() { _tile = Substitute.For<ITileController>(); }
 
         [Test]
         public void TestReturnsCorrectMoveType() {

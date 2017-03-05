@@ -51,7 +51,7 @@ namespace Assets.Scripts.Managers {
 
         public void UpdateImage() {
             switch (_TurnController.GetMoveType()) {
-                case MoveTypes.Blank:
+                case MoveTypes.Cancel:
                     InputImage.sprite = Blank;
                     break;
                 case MoveTypes.Fire:
