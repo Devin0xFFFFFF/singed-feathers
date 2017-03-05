@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Models;
+﻿using System;
+using Assets.Scripts.Models;
 
 namespace Assets.Scripts.Controllers {
     public class PigeonController : IPigeonController {
@@ -19,14 +20,29 @@ namespace Assets.Scripts.Controllers {
 
         public bool IsDead() { return _pigeon.Health <= 0; }
 
+        public void Heal(int delta) {
+            if (delta > 0) {
+                _pigeon.Health = Math.Min(Pigeon.MAX_HEALTH, _pigeon.Health + delta);
+            }
+        }
+
+        public void InflictDamage(int delta) {
+            if (delta > 0) {
+                _pigeon.Health = Math.Max(0, _pigeon.Health - delta);
+            }
+        }
+
         public void React() {
-            Move();
-            UpdateHealth();
+            if (!IsDead()) {
+                Move();
+                TakeFireDamage();
+            }
         }
 
         public bool Kill() {
             if (!IsDead()) {
                 _pigeon.Health = 0;
+                _tileController.MarkUnoccupied();
                 return true;
             }
             return false;
@@ -38,9 +54,9 @@ namespace Assets.Scripts.Controllers {
                 foreach (ITileController neighbour in _tileController.GetNeighbours()) {
                     if (!neighbour.IsOnFire() && neighbour.CanBeOccupied()) {
                         // Move to new tile
-                        _tileController.LeaveTile();
+                        _tileController.MarkUnoccupied();
                         _tileController = neighbour;
-                        _tileController.OccupyTile();
+                        _tileController.MarkOccupied();
                         return true;
                     }
                 }
@@ -48,15 +64,19 @@ namespace Assets.Scripts.Controllers {
             return false;
         }
 
-        public void UpdateHealth() {
+        public void TakeFireDamage() {
             if (_tileController.IsOnFire()) {
-                _pigeon.Health -= FIRE_DAMAGE * 2;
+                InflictDamage(FIRE_DAMAGE * 2);
             }
 
             foreach (ITileController neighbour in _tileController.GetNeighbours()) {
                 if (neighbour.IsOnFire()) {
-                    _pigeon.Health -= FIRE_DAMAGE;
+                    InflictDamage(FIRE_DAMAGE);
                 }
+            }
+
+            if (IsDead()) {
+                _tileController.MarkUnoccupied();
             }
         }
     }

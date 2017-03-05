@@ -18,7 +18,7 @@ namespace Assets.Scripts.Controllers {
         bool IsFlammable();
         bool IsOnFire();
         bool IsSpreadingHeat();
-        bool OccupyTile();
-        bool LeaveTile();
+        bool MarkOccupied();
+        bool MarkUnoccupied();
     }
 }

@@ -85,7 +85,7 @@ namespace Assets.Scripts.Controllers {
             }
         }
 
-        public bool OccupyTile() {
+        public bool MarkOccupied() {
             if (CanBeOccupied()) {
                 IsOccupied = true;
                 return true;
@@ -93,7 +93,7 @@ namespace Assets.Scripts.Controllers {
             return false;
         }
 
-        public bool LeaveTile() {
+        public bool MarkUnoccupied() {
             if (IsOccupied) {
                 IsOccupied = false;
                 return true;
