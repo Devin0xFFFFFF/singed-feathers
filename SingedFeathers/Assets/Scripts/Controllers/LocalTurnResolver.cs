@@ -3,7 +3,6 @@ using Assets.Scripts.Models.Commands;
 
 namespace Assets.Scripts.Controllers {
     class LocalTurnResolver :ITurnResolver {
-
         private bool _isTurnResolved = true;
 
         public bool IsTurnResolved() { return _isTurnResolved; }

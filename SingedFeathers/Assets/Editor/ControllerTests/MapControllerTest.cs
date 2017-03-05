@@ -259,7 +259,7 @@ namespace Assets.Editor.ControllerTests {
         [Test]
         public void TestCancel() {
             _mapController.Cancel();
-            _turnController.Received().SetMoveType(MoveTypes.Cancel);
+            _turnController.Received().SetMoveType(MoveTypes.Remove);
         }
 
         private Map GenerateTestMap() {

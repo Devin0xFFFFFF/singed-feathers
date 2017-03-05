@@ -6,8 +6,6 @@ using UnityEngine.UI;
 namespace Assets.Scripts.Managers {
     public class InputView : MonoBehaviour {
         public const string TURN_COUNT_STRING = "Turns Left: ";
-        private ITurnController _TurnController;
-        private ITurnResolver _TurnResolver;
         public Button FireButton;
         public Button WaterButton;
         public Button BlankButton;
@@ -17,12 +15,14 @@ namespace Assets.Scripts.Managers {
         public Sprite Fire;
         public Sprite Water;
         public Sprite Blank;
-        private Button[] _ActionButtons;
         public Text TurnCountText;
+        private Button[] _actionButtons;
+        private ITurnController _turnController;
+        private ITurnResolver _turnResolver;
 
         // Use this for initialization
         public void Start() {
-            _ActionButtons = new Button[] { FireButton, WaterButton };
+            _actionButtons = new Button[] { FireButton, WaterButton };
         }
 
         // Update is called once per frame
@@ -33,25 +33,25 @@ namespace Assets.Scripts.Managers {
         }
 
         public void UpdateButtons() {
-            if (_TurnController.CanTakeAction()) {
-                foreach (Button button in _ActionButtons) {
+            if (_turnController.CanTakeAction()) {
+                foreach (Button button in _actionButtons) {
                     button.interactable = true;
                 }
             } else {
-                foreach (Button button in _ActionButtons) {
+                foreach (Button button in _actionButtons) {
                     button.interactable = false;
                 }
             }
 
-            UndoButton.interactable = _TurnController.HasQueuedActions();
+            UndoButton.interactable = _turnController.HasQueuedActions();
 
-            BlankButton.interactable = _TurnResolver.IsTurnResolved() && _TurnController.HasTurnsLeft();
-            EndTurnButton.interactable = _TurnResolver.IsTurnResolved() && _TurnController.HasTurnsLeft();
+            BlankButton.interactable = _turnResolver.IsTurnResolved() && _turnController.HasTurnsLeft();
+            EndTurnButton.interactable = _turnResolver.IsTurnResolved() && _turnController.HasTurnsLeft();
         }
 
         public void UpdateImage() {
-            switch (_TurnController.GetMoveType()) {
-                case MoveTypes.Cancel:
+            switch (_turnController.GetMoveType()) {
+                case MoveTypes.Remove:
                     InputImage.sprite = Blank;
                     break;
                 case MoveTypes.Fire:
@@ -63,12 +63,12 @@ namespace Assets.Scripts.Managers {
             }
         }
 
-        public void UpdateTurnCountText() { TurnCountText.text = TURN_COUNT_STRING + _TurnController.GetTurnsLeft(); }
+        public void UpdateTurnCountText() { TurnCountText.text = TURN_COUNT_STRING + _turnController.GetTurnsLeft(); }
 
-        public void HandleMapInput(TileView tileManager) { _TurnController.ProcessAction(tileManager.GetTileController()); }
+        public void HandleMapInput(TileView tileManager) { _turnController.ProcessAction(tileManager.GetTileController()); }
 
-        public void SetTurnController(ITurnController turnController) { _TurnController = turnController; }
+        public void SetTurnController(ITurnController turnController) { _turnController = turnController; }
 
-        public void SetTurnResolver(ITurnResolver turnResolver) { _TurnResolver = turnResolver; }
+        public void SetTurnResolver(ITurnResolver turnResolver) { _turnResolver = turnResolver; }
     }
 }

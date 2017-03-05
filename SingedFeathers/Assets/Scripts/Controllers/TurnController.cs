@@ -16,7 +16,7 @@ namespace Assets.Scripts.Controllers
         public TurnController(int turnsLeft, int maxMoves) {
             _moves = new Dictionary<ITileController, ICommand>();
             _turnsLeft = turnsLeft;
-            _moveType = MoveTypes.Cancel;
+            _moveType = MoveTypes.Remove;
             _maxMoves = maxMoves;
             UpdateCommand();
         }
@@ -28,8 +28,8 @@ namespace Assets.Scripts.Controllers
 
         private void UpdateCommand() {
             switch (_moveType) {
-                case MoveTypes.Cancel:
-                    _command = new CancelCommand();
+                case MoveTypes.Remove:
+                    _command = new RemoveCommand();
                     break;
                 case MoveTypes.Fire:
                     _command = new SetFireCommand(_intensity);
@@ -57,7 +57,7 @@ namespace Assets.Scripts.Controllers
 
         public void ProcessAction(ITileController tileController) {
             _moves.Remove(tileController);
-            if (_moveType != MoveTypes.Cancel && CanTakeAction() 
+            if (_moveType != MoveTypes.Remove && CanTakeAction() 
                     && _command.CanBeExecutedOnTile(tileController)) {
                 _moves.Add(tileController, _command);
             }
@@ -68,8 +68,7 @@ namespace Assets.Scripts.Controllers
         public void ClearTile(ITileController tileController) { _moves.Remove(tileController); }
 
         public IDictionary<ITileController, ICommand> GetAndResetMoves() {
-            _turnsLeft--;
-            _turnsLeft = Math.Max(0, _turnsLeft);
+            _turnsLeft = Math.Max(0, _turnsLeft - 1);
             IDictionary<ITileController, ICommand> moveCopy = new Dictionary<ITileController, ICommand>(_moves);
             _moves = new Dictionary<ITileController, ICommand>();
             return moveCopy;

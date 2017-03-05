@@ -52,7 +52,7 @@ namespace Assets.Editor.ControllerTests {
         }
 
         [Test]
-        public void TestChangingOnWaterStatus() {
+        public void TestChangingWaterStatus() {
             Assert.AreEqual(false, _tileController.IsOnFire());
             _tileController.ApplyHeat(100);
             Assert.AreEqual(true, _tileController.IsOnFire());

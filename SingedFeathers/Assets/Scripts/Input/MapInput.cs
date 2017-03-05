@@ -5,7 +5,7 @@ namespace Assets.Scripts.Input {
     public class MapInput : MonoBehaviour {
         public InputView InputManager;
 
-        public void Awake() { }
+        public void Awake() {}
 
         // Update is called once per frame
         public void Update() {
@@ -27,7 +27,7 @@ namespace Assets.Scripts.Input {
             RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
             if (hit.collider != null) {
                 if (hit.transform.gameObject.tag == "Tile") {
-                    Debug.Log(hit.transform.gameObject.GetComponent<TileView>().type);
+                    Debug.Log(hit.transform.gameObject.GetComponent<TileView>().Type);
                     InputManager.HandleMapInput(hit.transform.gameObject.GetComponent<TileView>());
                 }
             }

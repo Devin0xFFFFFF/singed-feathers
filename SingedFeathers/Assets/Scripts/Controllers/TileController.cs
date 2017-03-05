@@ -79,8 +79,7 @@ namespace Assets.Scripts.Controllers {
 
         public void ReduceHeat(int heat) {
             bool startedOnFire = IsOnFire();
-            _tile.Heat -= heat;
-            _tile.Heat = Math.Max(_tile.Heat, 0);
+            _tile.Heat = Math.Max(0, _tile.Heat - heat);
             if (startedOnFire && !IsOnFire()) {
                 StateHasChanged = true;
             }

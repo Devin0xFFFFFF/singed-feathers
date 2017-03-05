@@ -28,7 +28,7 @@ namespace Assets.Editor.ControllerTests {
             Assert.False(_turnController.HasQueuedActions());
             Assert.AreEqual(1, _turnController.GetTurnsLeft());
             Assert.True(_turnController.HasTurnsLeft());
-            Assert.AreEqual(MoveTypes.Cancel, _turnController.GetMoveType());
+            Assert.AreEqual(MoveTypes.Remove, _turnController.GetMoveType());
         }
 
         [Test]
@@ -48,8 +48,8 @@ namespace Assets.Editor.ControllerTests {
         [Test]
         public void TestCancelInitializesProperly() {
             _turnController = new TurnController(1,1);
-            _turnController.SetMoveType(MoveTypes.Cancel);
-            Assert.AreEqual(MoveTypes.Cancel, _turnController.GetMoveType());
+            _turnController.SetMoveType(MoveTypes.Remove);
+            Assert.AreEqual(MoveTypes.Remove, _turnController.GetMoveType());
         }
 
         [Test]
@@ -202,14 +202,14 @@ namespace Assets.Editor.ControllerTests {
             Assert.False(_turnController.HasQueuedActions());
             Assert.AreEqual(1, _turnController.GetTurnsLeft());
             Assert.True(_turnController.HasTurnsLeft());
-            Assert.AreEqual(MoveTypes.Cancel, _turnController.GetMoveType());
+            Assert.AreEqual(MoveTypes.Remove, _turnController.GetMoveType());
 
             IDictionary<ITileController, ICommand> moves = _turnController.GetAndResetMoves();
             Assert.False(_turnController.CanTakeAction());
             Assert.False(_turnController.HasQueuedActions());
             Assert.AreEqual(0, _turnController.GetTurnsLeft());
             Assert.False(_turnController.HasTurnsLeft());
-            Assert.AreEqual(MoveTypes.Cancel, _turnController.GetMoveType());
+            Assert.AreEqual(MoveTypes.Remove, _turnController.GetMoveType());
 
             Assert.AreEqual(0, moves.Count);
         }
