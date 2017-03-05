@@ -3,11 +3,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Input {
     public class MapInput : MonoBehaviour {
-        public MonoBehaviour InputManager;
-        private InputView _InputManager;
-        //This is a workaround to a bug in Unity
+        public InputView InputManager;
 
-        public void Awake() { _InputManager = (InputView) InputManager; }
+        public void Awake() { }
 
         // Update is called once per frame
         public void Update() {
@@ -30,7 +28,7 @@ namespace Assets.Scripts.Input {
             if (hit.collider != null) {
                 if (hit.transform.gameObject.tag == "Tile") {
                     Debug.Log(hit.transform.gameObject.GetComponent<TileView>().type);
-                    _InputManager.HandleMapInput(hit.transform.gameObject.GetComponent<TileView>());
+                    InputManager.HandleMapInput(hit.transform.gameObject.GetComponent<TileView>());
                 }
             }
         }

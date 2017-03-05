@@ -8,7 +8,6 @@ namespace Assets.Scripts.Managers {
         public const string TURN_COUNT_STRING = "Turns Left: ";
         private ITurnController _TurnController;
         private ITurnResolver _TurnResolver;
-        public MapView MapView;
         public Button FireButton;
         public Button WaterButton;
         public Button BlankButton;
@@ -28,17 +27,9 @@ namespace Assets.Scripts.Managers {
 
         // Update is called once per frame
         public void Update() {
-            Initialize();
             UpdateButtons();
             UpdateImage();
             UpdateTurnCountText();
-        }
-
-        private void Initialize() {
-            if (_TurnController == null) {
-                _TurnController = MapView.GetTurnController();
-                _TurnResolver = MapView.GetTurnResolver();
-            }
         }
 
         public void UpdateButtons() {

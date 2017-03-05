@@ -7,6 +7,7 @@ namespace Assets.Scripts.Managers {
     public class MapView : MonoBehaviour {
         public List<TileView> TileSet;
         public PigeonView Pigeon;
+        public InputView InputView;
         private List<PigeonView> _Pigeons;
         private Dictionary<TileType, TileView> _TileDictionary;
         private IMapController _MapController;
@@ -21,6 +22,7 @@ namespace Assets.Scripts.Managers {
                 LoadMap();
                 LoadFires();
                 LoadPigeons();
+                LoadInputView();
             }
         }
 
@@ -50,6 +52,11 @@ namespace Assets.Scripts.Managers {
         public void LoadFires() {
             Position initialFirePosition = _MapController.GetInitialFirePosition();
             SetFire(initialFirePosition.X, initialFirePosition.Y);
+        }
+
+        public void LoadInputView() {
+            InputView.SetTurnController(_MapController.GetTurnController());
+            InputView.SetTurnResolver(_MapController.GetTurnResolver());
         }
 
         public void LoadPigeons() {
