@@ -50,7 +50,7 @@ namespace Assets.Scripts.Controllers
         }
 
         public bool HasQueuedActions() {
-            return moves.Count < 0;
+            return moves.Count > 0;
         }
 
         public int GetTurnsLeft() {
