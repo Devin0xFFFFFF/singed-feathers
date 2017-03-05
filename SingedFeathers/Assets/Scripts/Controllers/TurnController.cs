@@ -3,12 +3,11 @@ using Assets.Scripts.Models.Commands;
 using System.Collections.Generic;
 using System;
 
-namespace Assets.Scripts.Controllers
-{
+namespace Assets.Scripts.Controllers {
     public class TurnController : ITurnController {
         private MoveTypes _moveType;
         private ICommand _command;
-        private int _intensity = 100;
+        private const int _intensity = 100;
         private int _maxMoves;
         private int _turnsLeft;
         private IDictionary<ITileController, ICommand> _moves;
@@ -40,10 +39,11 @@ namespace Assets.Scripts.Controllers
             }
         }
 
-        public void UpdateIntensity(int intensity) {
-            _intensity = intensity;
-            UpdateCommand();
-        }
+        //public void UpdateIntensity(int intensity) {
+        //    _intensity = intensity;
+        //    UpdateCommand();
+        //}
+        //for when 
 
         public bool CanTakeAction() { return HasTurnsLeft() && _moves.Count < _maxMoves; }
 
