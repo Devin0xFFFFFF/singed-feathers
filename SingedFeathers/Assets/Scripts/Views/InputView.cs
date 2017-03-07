@@ -57,8 +57,8 @@ namespace Assets.Scripts.Views {
             OptionsText.gameObject.SetActive(_turnController.HasTurnsLeft());
 
             if (!_turnController.HasTurnsLeft()) {
-                GameHUD.gameObject.SetActive (false);
-                GameMenu.gameObject.SetActive (true);
+                GameHUD.gameObject.SetActive(false);
+                GameMenu.gameObject.SetActive(true);
             }
         }
 
