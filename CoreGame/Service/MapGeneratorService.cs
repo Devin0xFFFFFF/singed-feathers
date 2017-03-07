@@ -14,8 +14,8 @@ namespace Assets.Scripts.Service {
                 return null;
             }
 
-			try {
-                string json = File.ReadAllText(string.Format("Assets/Resources/Map{0}.json", id));
+            try {
+                string json = File.ReadAllText($"Assets/Resources/Map{id}.json");
 
                 Map map = JsonConvert.DeserializeObject<Map>(json);
                 InitializeTileMapFromRaw(map);
@@ -24,7 +24,7 @@ namespace Assets.Scripts.Service {
 
 	            return map;
             } catch (Exception e) {
-                Console.Write(string.Format("Error loading Map{0}: {1}", id,  e));
+                Console.Write($"Error loading Map{id}: {e}");
                 return null;
             }
         }

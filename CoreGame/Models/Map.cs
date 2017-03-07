@@ -6,7 +6,7 @@ namespace Assets.Scripts.Models {
     [Serializable]
     public class Map {
         public int TurnsLeft;
-        public int MovesPerTurn;
+        public int MaxMovesPerTurn;
         public Position InitialFirePosition;
         public IList<Position> InitialPigeonPositions;
         public ITileController[,] TileMap;
