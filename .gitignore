@@ -72,3 +72,11 @@ CoreGame/CoreGame/obj/Debug/CoreGame.csproj.FilesWrittenAbsolute.txt
 SingedFeathers/Assets/Plugins/CoreGame.dll.mdb.meta
 
 CoreGame/CoreGame.userprefs
+
+*.mdb
+
+*.dll
+
+CoreGame/obj*
+
+CoreGame/CoreGame/obj/Release/CoreGame.csproj.FilesWrittenAbsolute.txt

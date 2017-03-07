@@ -1,5 +1,0 @@
-D:\University\Soft Eng 2\comp4350-project\CoreGame\CoreGame\bin\Release\CoreGame.dll
-D:\University\Soft Eng 2\comp4350-project\CoreGame\CoreGame\bin\Release\CoreGame.pdb
-D:\University\Soft Eng 2\comp4350-project\CoreGame\CoreGame\bin\Release\Newtonsoft.Json.dll
-D:\University\Soft Eng 2\comp4350-project\CoreGame\CoreGame\obj\Release\CoreGame.dll
-D:\University\Soft Eng 2\comp4350-project\CoreGame\CoreGame\obj\Release\CoreGame.pdb
