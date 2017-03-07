@@ -51,3 +51,24 @@ ehthumbs.db
 [Dd]esktop.ini
 
 # Source: http://kleber-swf.com/the-definitive-gitignore-for-unity-projects/
+CoreGame/CoreGame/bin/Debug/CoreGame.dll
+
+CoreGame/CoreGame/bin/Debug/CoreGame.dll
+
+CoreGame/CoreGame/bin/Debug/CoreGame.dll.mdb
+
+CoreGame/CoreGame/bin/Debug/CoreGame.dll
+
+CoreGame/CoreGame/obj/Debug/CoreGame.dll
+
+CoreGame/CoreGame/obj/Debug/CoreGame.dll
+
+CoreGame/CoreGame/obj/Debug/CoreGame.dll.mdb
+
+SingedFeathers/Assets/Plugins/CoreGame.dll.mdb
+
+CoreGame/CoreGame/obj/Debug/CoreGame.csproj.FilesWrittenAbsolute.txt
+
+SingedFeathers/Assets/Plugins/CoreGame.dll.mdb.meta
+
+CoreGame/CoreGame.userprefs
