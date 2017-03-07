@@ -46,7 +46,7 @@ namespace Assets.Scripts.Views {
                 }
             }
 
-            //GameHUD UI elements
+            // GameHUD UI elements
             UndoButton.interactable = _turnController.HasQueuedActions();
             BlankButton.interactable = _turnResolver.IsTurnResolved() && _turnController.HasTurnsLeft();
             EndTurnButton.interactable = _turnResolver.IsTurnResolved() && _turnController.HasTurnsLeft();
