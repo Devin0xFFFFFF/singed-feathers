@@ -1,0 +1,6 @@
+D:\University\Soft Eng 2\comp4350-project\CoreGame\CoreGame\bin\Debug\CoreGame.dll
+D:\University\Soft Eng 2\comp4350-project\CoreGame\CoreGame\bin\Debug\CoreGame.pdb
+D:\University\Soft Eng 2\comp4350-project\CoreGame\CoreGame\bin\Debug\Newtonsoft.Json.dll
+D:\University\Soft Eng 2\comp4350-project\CoreGame\CoreGame\obj\Debug\CoreGame.csprojResolveAssemblyReference.cache
+D:\University\Soft Eng 2\comp4350-project\CoreGame\CoreGame\obj\Debug\CoreGame.dll
+D:\University\Soft Eng 2\comp4350-project\CoreGame\CoreGame\obj\Debug\CoreGame.pdb
