@@ -6,16 +6,21 @@ using UnityEngine.UI;
 namespace Assets.Scripts.Views {
     public class InputView : MonoBehaviour {
         public const string TURN_COUNT_STRING = "Turns Left: ";
+		public Canvas GameHUD;
+		public Canvas GameMenu;
         public Button FireButton;
         public Button WaterButton;
         public Button BlankButton;
         public Button UndoButton;
         public Button EndTurnButton;
+		public Button BackButton;
         public Image InputImage;
         public Sprite Fire;
         public Sprite Water;
         public Sprite Blank;
         public Text TurnCountText;
+		public Text OptionsText;
+		public Text GameOverText;
         private Button[] _actionButtons;
         private ITurnController _turnController;
         private ITurnResolver _turnResolver;
@@ -41,10 +46,20 @@ namespace Assets.Scripts.Views {
                 }
             }
 
+			//GameHUD UI elements
             UndoButton.interactable = _turnController.HasQueuedActions();
-
             BlankButton.interactable = _turnResolver.IsTurnResolved() && _turnController.HasTurnsLeft();
             EndTurnButton.interactable = _turnResolver.IsTurnResolved() && _turnController.HasTurnsLeft();
+
+			//GameMenu UI elements
+			BackButton.gameObject.SetActive (_turnController.HasTurnsLeft());
+			GameOverText.gameObject.SetActive (!_turnController.HasTurnsLeft());
+			OptionsText.gameObject.SetActive (_turnController.HasTurnsLeft());
+
+			if(!_turnController.HasTurnsLeft()) {
+				GameHUD.gameObject.SetActive (false);
+				GameMenu.gameObject.SetActive (true);
+			}
         }
 
         public void UpdateImage() {
