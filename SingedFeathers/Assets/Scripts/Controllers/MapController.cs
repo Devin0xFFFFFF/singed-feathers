@@ -51,11 +51,11 @@ namespace Assets.Scripts.Controllers {
 
         public void UndoAllActions() { _map.TurnController.UndoAllActions(); }
 
-        public void Fire() { _map.TurnController.SetMoveType(MoveTypes.Fire); }
+        public void Fire() { _map.TurnController.SetMoveType(MoveType.Fire); }
 
-        public void Water() { _map.TurnController.SetMoveType(MoveTypes.Water); }
+        public void Water() { _map.TurnController.SetMoveType(MoveType.Water); }
 
-        public void Cancel() { _map.TurnController.SetMoveType(MoveTypes.Remove); }
+        public void Cancel() { _map.TurnController.SetMoveType(MoveType.Remove); }
 
         public IDictionary<NewStatus, IList<Position>> SpreadFires() {
             IDictionary<NewStatus, IList<Position>> modifiedTiles = new Dictionary<NewStatus, IList<Position>>();

@@ -28,70 +28,70 @@ namespace Assets.Editor.ControllerTests {
             Assert.False(_turnController.HasQueuedActions());
             Assert.AreEqual(1, _turnController.GetTurnsLeft());
             Assert.True(_turnController.HasTurnsLeft());
-            Assert.AreEqual(MoveTypes.Remove, _turnController.GetMoveType());
+            Assert.AreEqual(MoveType.Remove, _turnController.GetMoveType());
         }
 
         [Test]
         public void TestFireInitializesProperly() {
             _turnController = new TurnController(1,1);
-            _turnController.SetMoveType(MoveTypes.Fire);
-            Assert.AreEqual(MoveTypes.Fire, _turnController.GetMoveType());
+            _turnController.SetMoveType(MoveType.Fire);
+            Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
         }
 
         [Test]
         public void TestWaterInitializesProperly() {
             _turnController = new TurnController(1,1);
-            _turnController.SetMoveType(MoveTypes.Water);
-            Assert.AreEqual(MoveTypes.Water, _turnController.GetMoveType());
+            _turnController.SetMoveType(MoveType.Water);
+            Assert.AreEqual(MoveType.Water, _turnController.GetMoveType());
         }
 
         [Test]
         public void TestCancelInitializesProperly() {
             _turnController = new TurnController(1,1);
-            _turnController.SetMoveType(MoveTypes.Remove);
-            Assert.AreEqual(MoveTypes.Remove, _turnController.GetMoveType());
+            _turnController.SetMoveType(MoveType.Remove);
+            Assert.AreEqual(MoveType.Remove, _turnController.GetMoveType());
         }
 
         [Test]
         public void TestSingleCommandLimit() {
             _turnController = new TurnController(10, 1);
-            _turnController.SetMoveType(MoveTypes.Fire);
+            _turnController.SetMoveType(MoveType.Fire);
             _turnController.ProcessAction(_tile0);
             Assert.False(_turnController.CanTakeAction());
             Assert.True(_turnController.HasQueuedActions());
-            Assert.AreEqual(MoveTypes.Fire, _turnController.GetMoveType());
+            Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
         }
 
         [Test]
         public void TestUndoForSingleCommand() {
             _turnController = new TurnController(10, 1);
-            _turnController.SetMoveType(MoveTypes.Fire);
+            _turnController.SetMoveType(MoveType.Fire);
             _turnController.ProcessAction(_tile0);
             _turnController.UndoAllActions();
             Assert.True(_turnController.CanTakeAction());
             Assert.False(_turnController.HasQueuedActions());
-            Assert.AreEqual(MoveTypes.Fire, _turnController.GetMoveType());
+            Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
         }
 
         [Test]
         public void TestMultipleCommandLimit() {
             _turnController = new TurnController(10, 3);
-            _turnController.SetMoveType(MoveTypes.Fire);
+            _turnController.SetMoveType(MoveType.Fire);
             _turnController.ProcessAction(_tile0);
             _turnController.ProcessAction(_tile1);
             Assert.True(_turnController.CanTakeAction());
             Assert.True(_turnController.HasQueuedActions());
-            Assert.AreEqual(MoveTypes.Fire, _turnController.GetMoveType());
+            Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
             _turnController.ProcessAction(_tile2);
             Assert.False(_turnController.CanTakeAction());
             Assert.True(_turnController.HasQueuedActions());
-            Assert.AreEqual(MoveTypes.Fire, _turnController.GetMoveType());
+            Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
         }
 
         [Test]
         public void TestUndoForMultipleCommands() {
             _turnController = new TurnController(10, 3);
-            _turnController.SetMoveType(MoveTypes.Fire);
+            _turnController.SetMoveType(MoveType.Fire);
             _turnController.ProcessAction(_tile0);
             _turnController.ProcessAction(_tile1);
             _turnController.ProcessAction(_tile2);
@@ -100,13 +100,13 @@ namespace Assets.Editor.ControllerTests {
             Assert.False(_turnController.HasQueuedActions());
             Assert.AreEqual(10, _turnController.GetTurnsLeft());
             Assert.True(_turnController.HasTurnsLeft());
-            Assert.AreEqual(MoveTypes.Fire, _turnController.GetMoveType());
+            Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
         }
 
         [Test]
         public void TestClearTile() {
             _turnController = new TurnController(10, 3);
-            _turnController.SetMoveType(MoveTypes.Fire);
+            _turnController.SetMoveType(MoveType.Fire);
             _turnController.ProcessAction(_tile0);
             _turnController.ProcessAction(_tile1);
             _turnController.ProcessAction(_tile2);
@@ -114,83 +114,83 @@ namespace Assets.Editor.ControllerTests {
             Assert.True(_turnController.HasQueuedActions());
             Assert.AreEqual(10, _turnController.GetTurnsLeft());
             Assert.True(_turnController.HasTurnsLeft());
-            Assert.AreEqual(MoveTypes.Fire, _turnController.GetMoveType());
+            Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
 
             _turnController.ClearTile(_tile0);
             Assert.True(_turnController.CanTakeAction());
             Assert.True(_turnController.HasQueuedActions());
             Assert.AreEqual(10, _turnController.GetTurnsLeft());
             Assert.True(_turnController.HasTurnsLeft());
-            Assert.AreEqual(MoveTypes.Fire, _turnController.GetMoveType());
+            Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
 
             _turnController.ClearTile(_tile1);
             Assert.True(_turnController.CanTakeAction());
             Assert.True(_turnController.HasQueuedActions());
             Assert.AreEqual(10, _turnController.GetTurnsLeft());
             Assert.True(_turnController.HasTurnsLeft());
-            Assert.AreEqual(MoveTypes.Fire, _turnController.GetMoveType());
+            Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
 
             _turnController.ClearTile(_tile2);
             Assert.True(_turnController.CanTakeAction());
             Assert.False(_turnController.HasQueuedActions());
             Assert.AreEqual(10, _turnController.GetTurnsLeft());
             Assert.True(_turnController.HasTurnsLeft());
-            Assert.AreEqual(MoveTypes.Fire, _turnController.GetMoveType());
+            Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
         }
 
         [Test]
         public void TestGetAndResetForMultipleCommands() {
             _turnController = new TurnController(10, 3);
-            _turnController.SetMoveType(MoveTypes.Fire);
+            _turnController.SetMoveType(MoveType.Fire);
             _turnController.ProcessAction(_tile0);
-            _turnController.SetMoveType(MoveTypes.Water);
+            _turnController.SetMoveType(MoveType.Water);
             _turnController.ProcessAction(_tile1);
-            _turnController.SetMoveType(MoveTypes.Fire);
+            _turnController.SetMoveType(MoveType.Fire);
             _turnController.ProcessAction(_tile2);
             Assert.False(_turnController.CanTakeAction());
             Assert.True(_turnController.HasQueuedActions());
             Assert.AreEqual(10, _turnController.GetTurnsLeft());
             Assert.True(_turnController.HasTurnsLeft());
-            Assert.AreEqual(MoveTypes.Fire, _turnController.GetMoveType());
+            Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
 
             IDictionary<ITileController, ICommand> moves = _turnController.GetAndResetMoves();
             Assert.True(_turnController.CanTakeAction());
             Assert.False(_turnController.HasQueuedActions());
             Assert.AreEqual(9, _turnController.GetTurnsLeft());
             Assert.True(_turnController.HasTurnsLeft());
-            Assert.AreEqual(MoveTypes.Fire, _turnController.GetMoveType());
+            Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
 
             Assert.AreEqual(3, moves.Count);
-            Assert.AreEqual(moves[_tile0].GetMoveType(), MoveTypes.Fire);
-            Assert.AreEqual(moves[_tile1].GetMoveType(), MoveTypes.Water);
-            Assert.AreEqual(moves[_tile2].GetMoveType(), MoveTypes.Fire);
+            Assert.AreEqual(moves[_tile0].GetMoveType(), MoveType.Fire);
+            Assert.AreEqual(moves[_tile1].GetMoveType(), MoveType.Water);
+            Assert.AreEqual(moves[_tile2].GetMoveType(), MoveType.Fire);
         }
 
         [Test]
         public void TestGetAndResetForMoreCommandsThenMax() {
             _turnController = new TurnController(10, 2);
-            _turnController.SetMoveType(MoveTypes.Fire);
+            _turnController.SetMoveType(MoveType.Fire);
             _turnController.ProcessAction(_tile0);
-            _turnController.SetMoveType(MoveTypes.Water);
+            _turnController.SetMoveType(MoveType.Water);
             _turnController.ProcessAction(_tile1);
-            _turnController.SetMoveType(MoveTypes.Fire);
+            _turnController.SetMoveType(MoveType.Fire);
             _turnController.ProcessAction(_tile2);
             Assert.False(_turnController.CanTakeAction());
             Assert.True(_turnController.HasQueuedActions());
             Assert.AreEqual(10, _turnController.GetTurnsLeft());
             Assert.True(_turnController.HasTurnsLeft());
-            Assert.AreEqual(MoveTypes.Fire, _turnController.GetMoveType());
+            Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
 
             IDictionary<ITileController, ICommand> moves = _turnController.GetAndResetMoves();
             Assert.True(_turnController.CanTakeAction());
             Assert.False(_turnController.HasQueuedActions());
             Assert.AreEqual(9, _turnController.GetTurnsLeft());
             Assert.True(_turnController.HasTurnsLeft());
-            Assert.AreEqual(MoveTypes.Fire, _turnController.GetMoveType());
+            Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
 
             Assert.AreEqual(2, moves.Count);
-            Assert.AreEqual(moves[_tile0].GetMoveType(), MoveTypes.Fire);
-            Assert.AreEqual(moves[_tile1].GetMoveType(), MoveTypes.Water);
+            Assert.AreEqual(moves[_tile0].GetMoveType(), MoveType.Fire);
+            Assert.AreEqual(moves[_tile1].GetMoveType(), MoveType.Water);
             Assert.False(moves.ContainsKey(_tile2));
         }
 
@@ -202,14 +202,14 @@ namespace Assets.Editor.ControllerTests {
             Assert.False(_turnController.HasQueuedActions());
             Assert.AreEqual(1, _turnController.GetTurnsLeft());
             Assert.True(_turnController.HasTurnsLeft());
-            Assert.AreEqual(MoveTypes.Remove, _turnController.GetMoveType());
+            Assert.AreEqual(MoveType.Remove, _turnController.GetMoveType());
 
             IDictionary<ITileController, ICommand> moves = _turnController.GetAndResetMoves();
             Assert.False(_turnController.CanTakeAction());
             Assert.False(_turnController.HasQueuedActions());
             Assert.AreEqual(0, _turnController.GetTurnsLeft());
             Assert.False(_turnController.HasTurnsLeft());
-            Assert.AreEqual(MoveTypes.Remove, _turnController.GetMoveType());
+            Assert.AreEqual(MoveType.Remove, _turnController.GetMoveType());
 
             Assert.AreEqual(0, moves.Count);
         }
@@ -217,22 +217,22 @@ namespace Assets.Editor.ControllerTests {
         private void InitializeTiles() {
             _tile0 = Substitute.For<ITileController>();
             _tile0.IsFlammable().Returns(true);
-            _tile0.HasPositiveHeat().Returns(true);
+            _tile0.IsHeatZero().Returns(false);
             _tile0.IsOccupied.Returns(false);
 
             _tile1 = Substitute.For<ITileController>();
             _tile1.IsFlammable().Returns(true);
-            _tile1.HasPositiveHeat().Returns(true);
+            _tile1.IsHeatZero().Returns(false);
             _tile1.IsOccupied.Returns(false);
 
             _tile2 = Substitute.For<ITileController>();
             _tile2.IsFlammable().Returns(true);
-            _tile2.HasPositiveHeat().Returns(true);
+            _tile2.IsHeatZero().Returns(false);
             _tile2.IsOccupied.Returns(false);
 
             _tile3 = Substitute.For<ITileController>();
             _tile3.IsFlammable().Returns(true);
-            _tile3.HasPositiveHeat().Returns(true);
+            _tile3.IsHeatZero().Returns(false);
             _tile3.IsOccupied.Returns(false);
         }
     }

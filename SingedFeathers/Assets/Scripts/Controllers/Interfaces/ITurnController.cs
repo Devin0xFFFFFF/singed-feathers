@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Assets.Scripts.Controllers {
     public interface ITurnController {
-        void SetMoveType(MoveTypes moveType);
+        void SetMoveType(MoveType moveType);
         //void UpdateIntensity(int intensity);
         void ProcessAction(ITileController tileController);
         void UndoAllActions();
@@ -14,6 +14,6 @@ namespace Assets.Scripts.Controllers {
         int GetTurnsLeft();
         bool HasTurnsLeft();
         IDictionary<ITileController, ICommand> GetAndResetMoves();
-        MoveTypes GetMoveType();
+        MoveType GetMoveType();
     }
 }

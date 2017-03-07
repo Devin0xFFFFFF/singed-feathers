@@ -6,6 +6,6 @@ namespace Assets.Scripts.Models.Commands {
 
         public bool CanBeExecutedOnTile(ITileController tileController) { return false; }
 
-        public MoveTypes GetMoveType() { return MoveTypes.Remove; }
+        public MoveType GetMoveType() { return MoveType.Remove; }
     }
 }

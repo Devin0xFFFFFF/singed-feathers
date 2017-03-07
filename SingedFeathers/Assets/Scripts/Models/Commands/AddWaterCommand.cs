@@ -8,8 +8,8 @@ namespace Assets.Scripts.Models.Commands {
 
         public void ExecuteCommand(ITileController tileController) { tileController.ReduceHeat(_heat); }
 
-        public bool CanBeExecutedOnTile(ITileController tileController) { return tileController.IsFlammable() && tileController.HasPositiveHeat(); }
+        public bool CanBeExecutedOnTile(ITileController tileController) { return tileController.IsFlammable() && !tileController.IsHeatZero(); }
 
-        public MoveTypes GetMoveType() { return MoveTypes.Water; }
+        public MoveType GetMoveType() { return MoveType.Water; }
     }
 }

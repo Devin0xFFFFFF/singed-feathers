@@ -247,19 +247,19 @@ namespace Assets.Editor.ControllerTests {
         [Test]
         public void TestFire() {
             _mapController.Fire();
-            _turnController.Received().SetMoveType(MoveTypes.Fire);
+            _turnController.Received().SetMoveType(MoveType.Fire);
         }
 
         [Test]
         public void TestWater() {
             _mapController.Water();
-            _turnController.Received().SetMoveType(MoveTypes.Water);
+            _turnController.Received().SetMoveType(MoveType.Water);
         }
 
         [Test]
         public void TestCancel() {
             _mapController.Cancel();
-            _turnController.Received().SetMoveType(MoveTypes.Remove);
+            _turnController.Received().SetMoveType(MoveType.Remove);
         }
 
         private Map GenerateTestMap() {

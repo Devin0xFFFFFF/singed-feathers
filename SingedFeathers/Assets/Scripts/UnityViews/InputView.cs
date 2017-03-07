@@ -21,9 +21,7 @@ namespace Assets.Scripts.Managers {
         private ITurnResolver _turnResolver;
 
         // Use this for initialization
-        public void Start() {
-            _actionButtons = new Button[] { FireButton, WaterButton };
-        }
+        public void Start() { _actionButtons = new Button[] { FireButton, WaterButton }; }
 
         // Update is called once per frame
         public void Update() {
@@ -51,13 +49,13 @@ namespace Assets.Scripts.Managers {
 
         public void UpdateImage() {
             switch (_turnController.GetMoveType()) {
-                case MoveTypes.Remove:
+                case MoveType.Remove:
                     InputImage.sprite = Blank;
                     break;
-                case MoveTypes.Fire:
+                case MoveType.Fire:
                     InputImage.sprite = Fire;
                     break;
-                case MoveTypes.Water:
+                case MoveType.Water:
                     InputImage.sprite = Water;
                     break;
             }

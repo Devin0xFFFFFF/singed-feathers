@@ -16,7 +16,7 @@ namespace Assets.Editor.CommandTests {
         [Test]
         public void TestReturnsCorrectMoveType() {
             _fireCommand = new SetFireCommand(0);
-            Assert.AreEqual(MoveTypes.Fire, _fireCommand.GetMoveType());
+            Assert.AreEqual(MoveType.Fire, _fireCommand.GetMoveType());
         }
 
         [Test]

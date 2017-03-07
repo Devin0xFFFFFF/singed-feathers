@@ -1,5 +1,5 @@
 ﻿namespace Assets.Scripts.Models {
-    public enum MoveTypes {
+    public enum MoveType {
         Remove, Fire, Water
     }
 }

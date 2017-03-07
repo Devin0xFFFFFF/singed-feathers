@@ -11,6 +11,6 @@ namespace Assets.Scripts.Models.Commands {
 
         public bool CanBeExecutedOnTile(ITileController tileController) { return tileController.IsFlammable() && !tileController.IsOccupied; }
 
-        public MoveTypes GetMoveType() { return MoveTypes.Fire; }
+        public MoveType GetMoveType() { return MoveType.Fire; }
     }
 }

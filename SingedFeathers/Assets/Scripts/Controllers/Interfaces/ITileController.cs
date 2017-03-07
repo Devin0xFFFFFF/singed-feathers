@@ -20,6 +20,6 @@ namespace Assets.Scripts.Controllers {
         bool IsSpreadingHeat();
         bool MarkOccupied();
         bool MarkUnoccupied();
-        bool HasPositiveHeat();
+        bool IsHeatZero();
     }
 }

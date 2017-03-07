@@ -103,7 +103,7 @@ namespace Assets.Scripts.Controllers {
 
         public bool CanBeOccupied() { return !IsOccupied; }
 
-        public bool HasPositiveHeat() { return _tile.Heat > 0; }
+        public bool IsHeatZero() { return _tile.Heat == 0; }
 
         private Tile InitializeTile(TileType type) {
             switch (type) {

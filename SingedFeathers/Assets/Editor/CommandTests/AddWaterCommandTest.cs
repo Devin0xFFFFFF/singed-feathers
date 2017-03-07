@@ -16,7 +16,7 @@ namespace Assets.Editor.CommandTests {
         [Test]
         public void TestReturnsCorrectMoveType() {
             _waterCommand = new AddWaterCommand(0);
-            Assert.AreEqual(MoveTypes.Water, _waterCommand.GetMoveType());
+            Assert.AreEqual(MoveType.Water, _waterCommand.GetMoveType());
         }
 
         [Test]
@@ -46,19 +46,19 @@ namespace Assets.Editor.CommandTests {
             _waterCommand = new AddWaterCommand(0);
 
             _tile.IsFlammable().Returns(true);
-            _tile.HasPositiveHeat().Returns(true);
+            _tile.IsHeatZero().Returns(false);
             Assert.True(_waterCommand.CanBeExecutedOnTile(_tile));
 
             _tile.IsFlammable().Returns(false);
-            _tile.HasPositiveHeat().Returns(true);
+            _tile.IsHeatZero().Returns(false);
             Assert.False(_waterCommand.CanBeExecutedOnTile(_tile));
 
             _tile.IsFlammable().Returns(false);
-            _tile.HasPositiveHeat().Returns(false);
+            _tile.IsHeatZero().Returns(true);
             Assert.False(_waterCommand.CanBeExecutedOnTile(_tile));
 
             _tile.IsFlammable().Returns(true);
-            _tile.HasPositiveHeat().Returns(false);
+            _tile.IsHeatZero().Returns(true);
             Assert.False(_waterCommand.CanBeExecutedOnTile(_tile));
         }
     }

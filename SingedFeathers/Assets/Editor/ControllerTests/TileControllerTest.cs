@@ -154,12 +154,12 @@ namespace Assets.Editor.ControllerTests {
         }
 
         [Test]
-        public void TestHasPositiveHeat() {
-            Assert.False(_tileController.HasPositiveHeat());
+        public void TestIsHeatZero() {
+            Assert.True(_tileController.IsHeatZero());
             _tileController.ApplyHeat(1);
-            Assert.True(_tileController.HasPositiveHeat());
+            Assert.False(_tileController.IsHeatZero());
             _tileController.ReduceHeat(1);
-            Assert.False(_tileController.HasPositiveHeat());
+            Assert.True(_tileController.IsHeatZero());
         }
 
         [Test]

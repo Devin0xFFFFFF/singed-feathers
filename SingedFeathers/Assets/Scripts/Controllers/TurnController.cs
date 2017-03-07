@@ -5,7 +5,7 @@ using System;
 
 namespace Assets.Scripts.Controllers {
     public class TurnController : ITurnController {
-        private MoveTypes _moveType;
+        private MoveType _moveType;
         private ICommand _command;
         private const int _intensity = 100;
         private int _maxMoves;
@@ -15,25 +15,25 @@ namespace Assets.Scripts.Controllers {
         public TurnController(int turnsLeft, int maxMoves) {
             _moves = new Dictionary<ITileController, ICommand>();
             _turnsLeft = turnsLeft;
-            _moveType = MoveTypes.Remove;
+            _moveType = MoveType.Remove;
             _maxMoves = maxMoves;
             UpdateCommand();
         }
 
-        public void SetMoveType(MoveTypes moveType) {
+        public void SetMoveType(MoveType moveType) {
             _moveType = moveType;
             UpdateCommand();
         }
 
         private void UpdateCommand() {
             switch (_moveType) {
-                case MoveTypes.Remove:
+                case MoveType.Remove:
                     _command = new RemoveCommand();
                     break;
-                case MoveTypes.Fire:
+                case MoveType.Fire:
                     _command = new SetFireCommand(_intensity);
                     break;
-                case MoveTypes.Water:
+                case MoveType.Water:
                     _command = new AddWaterCommand(_intensity);
                     break;
             }
@@ -43,7 +43,7 @@ namespace Assets.Scripts.Controllers {
         //    _intensity = intensity;
         //    UpdateCommand();
         //}
-        //for when 
+        //for when intensity stops being a constant
 
         public bool CanTakeAction() { return HasTurnsLeft() && _moves.Count < _maxMoves; }
 
@@ -53,11 +53,11 @@ namespace Assets.Scripts.Controllers {
 
         public bool HasTurnsLeft() { return _turnsLeft > 0; }
 
-        public MoveTypes GetMoveType() { return _moveType; }
+        public MoveType GetMoveType() { return _moveType; }
 
         public void ProcessAction(ITileController tileController) {
             _moves.Remove(tileController);
-            if (_moveType != MoveTypes.Remove && CanTakeAction() 
+            if (_moveType != MoveType.Remove && CanTakeAction() 
                     && _command.CanBeExecutedOnTile(tileController)) {
                 _moves.Add(tileController, _command);
             }

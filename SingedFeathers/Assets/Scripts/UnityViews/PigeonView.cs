@@ -7,9 +7,6 @@ namespace Assets.Scripts.Managers {
         private IPigeonController _pigeonController;
         private float _width;
         private float _height;
-
-        // Use this for initialization
-        public void Start() {}
 	
         // Update is called once per frame
         public void Update() {

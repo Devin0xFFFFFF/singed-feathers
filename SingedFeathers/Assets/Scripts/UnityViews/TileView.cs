@@ -7,9 +7,6 @@ namespace Assets.Scripts.Managers {
         public TileType Type;
         private ITileController _tileController;
 
-        // Use this for initialization
-        public void Awake() {}
-
         // Update is called once per frame
         public void Update() {
             Transform child = transform.GetChild(0);
