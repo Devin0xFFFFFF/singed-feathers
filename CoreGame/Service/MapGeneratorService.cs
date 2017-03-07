@@ -8,8 +8,6 @@ using Newtonsoft.Json;
 namespace Assets.Scripts.Service {
     public class MapGeneratorService : IMapGeneratorService {
         private const int MINIMUM_MAP_ID = 1;
-        private const int DEFAULT_MAX_TURNS = 8;
-        private const int DEFAULT_MAX_MOVES_PER_TURN = 1;
 
         public Map GenerateMap(int id = 1) {
             if (id < MINIMUM_MAP_ID) {
@@ -50,7 +48,7 @@ namespace Assets.Scripts.Service {
         }
 
         private void InitializeStateManagers(Map map) {
-            map.TurnController = new TurnController(DEFAULT_MAX_TURNS, DEFAULT_MAX_MOVES_PER_TURN);
+            map.TurnController = new TurnController(map.TurnsLeft, map.MaxMovesPerTurn);
             map.TurnResolver = new LocalTurnResolver();
         }
     }
