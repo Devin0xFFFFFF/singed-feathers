@@ -51,10 +51,10 @@ namespace Assets.Scripts.Views {
             BlankButton.interactable = _turnResolver.IsTurnResolved() && _turnController.HasTurnsLeft();
             EndTurnButton.interactable = _turnResolver.IsTurnResolved() && _turnController.HasTurnsLeft();
 
-            //GameMenu UI elements
-            BackButton.gameObject.SetActive (_turnController.HasTurnsLeft());
-            GameOverText.gameObject.SetActive (!_turnController.HasTurnsLeft());
-            OptionsText.gameObject.SetActive (_turnController.HasTurnsLeft());
+            // GameMenu UI elements
+            BackButton.gameObject.SetActive(_turnController.HasTurnsLeft());
+            GameOverText.gameObject.SetActive(!_turnController.HasTurnsLeft());
+            OptionsText.gameObject.SetActive(_turnController.HasTurnsLeft());
 
             if (!_turnController.HasTurnsLeft()) {
                 GameHUD.gameObject.SetActive (false);
