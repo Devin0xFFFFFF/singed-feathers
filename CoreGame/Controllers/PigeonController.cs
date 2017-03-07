@@ -23,13 +23,13 @@ namespace Assets.Scripts.Controllers {
 
         public void Heal(int delta) {
             if (delta > 0) {
-                _pigeon.Health = Math.Min(Pigeon.MAX_HEALTH, _pigeon.Health + delta);
+                Pigeon.Health = Math.Min(Pigeon.MAX_HEALTH, Pigeon.Health + delta);
             }
         }
 
         public void InflictDamage(int delta) {
             if (delta > 0) {
-                _pigeon.Health = Math.Max(0, _pigeon.Health - delta);
+                Pigeon.Health = Math.Max(0, Pigeon.Health - delta);
             }
         }
 
