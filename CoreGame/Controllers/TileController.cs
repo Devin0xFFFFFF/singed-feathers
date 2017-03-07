@@ -79,7 +79,7 @@ namespace Assets.Scripts.Controllers {
 
         public void ReduceHeat(int heat) {
             bool startedOnFire = IsOnFire();
-            _tile.Heat = Math.Max(0, _tile.Heat - heat);
+            Tile.Heat = Math.Max(0, Tile.Heat - heat);
             if (startedOnFire && !IsOnFire()) {
                 StateHasChanged = true;
             }
@@ -103,7 +103,7 @@ namespace Assets.Scripts.Controllers {
 
         public bool CanBeOccupied() { return !IsOccupied; }
 
-        public bool IsHeatZero() { return _tile.Heat == 0; }
+        public bool IsHeatZero() { return Tile.Heat == 0; }
 
         private Tile InitializeTile(TileType type) {
             switch (type) {

@@ -36,7 +36,7 @@ namespace Assets.Editor.ControllerTests {
         [Test]
         public void TestKillingPigeon() {
             Assert.False(_pigeonController.IsDead());
-            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.GetHealth());
 
             Assert.True(_pigeonController.Kill());
 
@@ -231,50 +231,50 @@ namespace Assets.Editor.ControllerTests {
 
         [Test]
         public void TestHealingPigeonNeverExceedsMaxHealth() {
-            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.GetHealth());
             _pigeonController.Heal(50);
-            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.GetHealth());
         }
 
         [Test]
         public void TestHealingPigeonWithPositiveValueAdjustsHealthAppropriately() {
             _pigeonController.InflictDamage(60);
-            Assert.AreEqual(Pigeon.MAX_HEALTH - 60, _pigeonController.Health);
+            Assert.AreEqual(Pigeon.MAX_HEALTH - 60, _pigeonController.GetHealth());
             
             _pigeonController.Heal(10);
-            Assert.AreEqual(Pigeon.MAX_HEALTH - 50, _pigeonController.Health);    
+            Assert.AreEqual(Pigeon.MAX_HEALTH - 50, _pigeonController.GetHealth());    
         }
 
         [Test]
         public void TestHealingPigeonWithNegativeValueDoesNotAlterPigeonHealth() {
-            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.GetHealth());
             _pigeonController.Heal(-50);
-            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.GetHealth());
 
             _pigeonController.InflictDamage(30);
             _pigeonController.Heal(-60);
-            Assert.AreEqual(Pigeon.MAX_HEALTH - 30, _pigeonController.Health);
+            Assert.AreEqual(Pigeon.MAX_HEALTH - 30, _pigeonController.GetHealth());
         }
 
         [Test]
         public void TestHurtingPigeonNeverDropsHealthBelowZero() {
-            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.GetHealth());
             _pigeonController.InflictDamage(Pigeon.MAX_HEALTH * 2);
-            Assert.AreEqual(0, _pigeonController.Health);
+            Assert.AreEqual(0, _pigeonController.GetHealth());
         }
 
         [Test]
         public void TestHurtingPigeonWithNegativeValueDoesNotAlterPigeonHealth() {
-            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.GetHealth());
             _pigeonController.InflictDamage(-50);
-            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.GetHealth());
         }
 
         [Test]
         public void TestHurtingPigeonWithPositiveValueAdjustsHealthAppropriately() {
-            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.Health);
+            Assert.AreEqual(Pigeon.MAX_HEALTH, _pigeonController.GetHealth());
             _pigeonController.InflictDamage(30);
-            Assert.AreEqual(Pigeon.MAX_HEALTH - 30, _pigeonController.Health);
+            Assert.AreEqual(Pigeon.MAX_HEALTH - 30, _pigeonController.GetHealth());
         }
 
         [Test]
