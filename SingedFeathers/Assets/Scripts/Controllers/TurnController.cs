@@ -25,26 +25,6 @@ namespace Assets.Scripts.Controllers {
             UpdateCommand();
         }
 
-        private void UpdateCommand() {
-            switch (_moveType) {
-                case MoveType.Remove:
-                    _command = new RemoveCommand();
-                    break;
-                case MoveType.Fire:
-                    _command = new SetFireCommand(_INTENSITY);
-                    break;
-                case MoveType.Water:
-                    _command = new AddWaterCommand(_INTENSITY);
-                    break;
-            }
-        }
-
-        //public void UpdateIntensity(int intensity) {
-        //    _intensity = intensity;
-        //    UpdateCommand();
-        //}
-        //for when intensity stops being a constant
-
         public bool CanTakeAction() { return HasTurnsLeft() && _moves.Count < _maxMoves; }
 
         public bool HasQueuedActions() { return _moves.Count > 0; }
@@ -73,5 +53,19 @@ namespace Assets.Scripts.Controllers {
             _moves = new Dictionary<ITileController, ICommand>();
             return moveCopy;
         }
+
+		private void UpdateCommand() {
+			switch (_moveType) {
+			case MoveType.Remove:
+				_command = new RemoveCommand();
+				break;
+			case MoveType.Fire:
+				_command = new SetFireCommand(_INTENSITY);
+				break;
+			case MoveType.Water:
+				_command = new AddWaterCommand(_INTENSITY);
+				break;
+			}
+		}
     }
 }
