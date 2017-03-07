@@ -20,7 +20,7 @@ script:
 os: osx
 
 after_success:
-  deploy:
+- deploy:
     provider: s3
     access_key_id: $ACCESS_KEY_ID
     secret_access_key: $ACCESS_KEY
@@ -31,6 +31,7 @@ after_success:
     region: "us-west-2"
     on:
       branch: master
+- '[ "${TRAVIS_BRANCH}" = "develop" ] && git push https://${GITHUB_TOKEN}:x-oauth-basic@github.com/${TRAVIS_REPO_SLUG}.git HEAD:master'
 
 notifications:
   slack:
