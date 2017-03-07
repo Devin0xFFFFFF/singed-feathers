@@ -2,7 +2,7 @@
 using Assets.Scripts.Models;
 using UnityEngine;
 
-namespace Assets.Scripts.Managers {
+namespace Assets.Scripts.Views {
     public class PigeonView : MonoBehaviour {
         private IPigeonController _pigeonController;
         private float _width;

@@ -18,12 +18,12 @@ namespace Assets.Scripts.Service {
             }
 
 			try {
-				TextAsset targetFile = Resources.Load<TextAsset>(string.Format("Map{0}", id));
+                TextAsset targetFile = Resources.Load<TextAsset>(string.Format("Map{0}", id));
 
-				string json = targetFile.text;
+                string json = targetFile.text;
 
-	            Map map = JsonConvert.DeserializeObject<Map>(json);
-	            InitializeTileMapFromRaw(map);
+                Map map = JsonConvert.DeserializeObject<Map>(json);
+                InitializeTileMapFromRaw(map);
                 InitializePigeons(map);
                 InitializeStateManagers(map);
 

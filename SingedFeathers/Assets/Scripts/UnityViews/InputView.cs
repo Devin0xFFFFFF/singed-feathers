@@ -3,7 +3,7 @@ using Assets.Scripts.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.Managers {
+namespace Assets.Scripts.Views {
     public class InputView : MonoBehaviour {
         public const string TURN_COUNT_STRING = "Turns Left: ";
         public Button FireButton;

@@ -3,13 +3,13 @@ using Assets.Scripts.Controllers;
 using Assets.Scripts.Models;
 using UnityEngine;
 
-namespace Assets.Scripts.Managers {
+namespace Assets.Scripts.Views {
     public class GameView : MonoBehaviour {
         public List<TileView> TileSet;
         public PigeonView Pigeon;
         public InputView InputView;
-        private List<PigeonView> _Pigeons;
-        private Dictionary<TileType, TileView> _TileDictionary;
+        private List<PigeonView> _pigeons;
+        private Dictionary<TileType, TileView> _tileDictionary;
         private IMapController _mapController;
         private TileView[,] _map;
         private int _width, _height;
@@ -30,9 +30,9 @@ namespace Assets.Scripts.Managers {
         public void Update() { }
 
         public void LoadTileDictionary() {
-            _TileDictionary = new Dictionary<TileType, TileView>();
+            _tileDictionary = new Dictionary<TileType, TileView>();
             foreach (TileView tile in TileSet) {
-                _TileDictionary.Add(tile.Type, tile);
+                _tileDictionary.Add(tile.Type, tile);
             }
         }
 
@@ -60,14 +60,14 @@ namespace Assets.Scripts.Managers {
         }
 
         public void LoadPigeons() {
-            _Pigeons = new List<PigeonView>();
+            _pigeons = new List<PigeonView>();
             IList<IPigeonController> controllers = _mapController.GetPigeonControllers();
             foreach (IPigeonController controller in controllers) {
                 Position pigeonPosition = controller.CurrentPosition;
                 PigeonView pigeon = Instantiate(Pigeon, new Vector3(_tileSizeX * pigeonPosition.X, _tileSizeY * pigeonPosition.Y, 1), Quaternion.identity);
                 pigeon.SetDimensions(_tileSizeX, _tileSizeY);
                 pigeon.SetController(controller);
-                _Pigeons.Add(pigeon);
+                _pigeons.Add(pigeon);
             }
         }
 
@@ -82,7 +82,7 @@ namespace Assets.Scripts.Managers {
             }
 
             _mapController.MovePigeons();
-            foreach (PigeonView pigeon in _Pigeons) {
+            foreach (PigeonView pigeon in _pigeons) {
                 pigeon.UpdatePigeon();
             }
         }
@@ -98,7 +98,7 @@ namespace Assets.Scripts.Managers {
         }
 
         private void InstantiateTile(TileType type, int x, int y) {
-            TileView manager = _TileDictionary[type];
+            TileView manager = _tileDictionary[type];
             _map[x, y] = Instantiate(manager, new Vector3(_tileSizeX * x, _tileSizeY * y, 1), Quaternion.identity);
             _map[x, y].SetController(_mapController.GetTileController(x, y));
         }

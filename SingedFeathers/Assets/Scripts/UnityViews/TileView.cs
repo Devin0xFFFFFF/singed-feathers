@@ -2,7 +2,7 @@
 using Assets.Scripts.Models;
 using UnityEngine;
 
-namespace Assets.Scripts.Managers {
+namespace Assets.Scripts.Views {
     public class TileView : MonoBehaviour {
         public TileType Type;
         private ITileController _tileController;

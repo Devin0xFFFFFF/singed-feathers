@@ -7,7 +7,7 @@ namespace Assets.Scripts.Controllers {
     public class TurnController : ITurnController {
         private MoveType _moveType;
         private ICommand _command;
-        private const int _intensity = 100;
+        private const int _INTENSITY = 100;
         private int _maxMoves;
         private int _turnsLeft;
         private IDictionary<ITileController, ICommand> _moves;
@@ -31,10 +31,10 @@ namespace Assets.Scripts.Controllers {
                     _command = new RemoveCommand();
                     break;
                 case MoveType.Fire:
-                    _command = new SetFireCommand(_intensity);
+                    _command = new SetFireCommand(_INTENSITY);
                     break;
                 case MoveType.Water:
-                    _command = new AddWaterCommand(_intensity);
+                    _command = new AddWaterCommand(_INTENSITY);
                     break;
             }
         }

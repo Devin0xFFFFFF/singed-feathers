@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Managers;
+﻿using Assets.Scripts.Views;
 using UnityEngine;
 
 namespace Assets.Scripts.Input {
