@@ -1,6 +1,6 @@
 {
 	"TurnsLeft": 8,
-	"MovesPerTurn": 1,
+	"MaxMovesPerTurn": 1,
 	"Width": 5,
 	"Height": 5,
 	"InitialFirePosition": {
