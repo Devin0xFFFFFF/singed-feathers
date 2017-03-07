@@ -80,7 +80,7 @@
     <PostBuildEvent Condition=" '$(OS)' != 'Unix' ">
       copy /Y "CoreGame.dll" "../../../SingedFeathers/Assets/Plugins"
     </PostBuildEvent>
-    <PostBuildEvent Condition=" '$(OS)' = 'Unix' ">
+    <PostBuildEvent Condition=" '$(OS)' == 'Unix' ">
       cp CoreGame.dll ../../../SingedFeathers/Assets/Plugins
     </PostBuildEvent>
   </PropertyGroup>
