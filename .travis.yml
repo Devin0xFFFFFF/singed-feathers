@@ -31,7 +31,7 @@ after_success:
     region: "us-west-2"
     on:
       branch: master
-- '[ "${TRAVIS_BRANCH}" = "101-Automatic-Merge" ] && git push https://${GITHUB_TOKEN}:x-oauth-basic@github.com/${TRAVIS_REPO_SLUG}.git HEAD:101-Test-Branch'
+- '[ "${TRAVIS_BRANCH}" = "develop" ] && git push https://${GITHUB_TOKEN}:x-oauth-basic@github.com/${TRAVIS_REPO_SLUG}.git HEAD:101-Test-Branch'
 
 notifications:
   slack:
