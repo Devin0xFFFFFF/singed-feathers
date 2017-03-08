@@ -5,8 +5,8 @@ namespace Assets.Scripts.Controllers {
         Position InitialPosition { get; }
         Position CurrentPosition { get; }
         Pigeon Pigeon { get; }
-        void Heal(int delta);
         int GetHealth();
+        void Heal(int delta);
         void InflictDamage(int delta);
         bool IsDead();
         bool Kill();
