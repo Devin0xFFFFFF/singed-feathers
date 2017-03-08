@@ -8,9 +8,7 @@ namespace Assets.Editor.ServiceTests {
         private MapGeneratorService _mapGeneratorService;
 
         [SetUp]
-        public void Init() {
-            _mapGeneratorService = new MapGeneratorService();
-        }
+        public void Init() { _mapGeneratorService = new MapGeneratorService(); }
 
         [Test]
         public void TestIfNoMapFoundReturnsNull() {

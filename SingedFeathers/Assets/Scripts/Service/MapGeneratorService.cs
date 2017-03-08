@@ -9,6 +9,8 @@ using Newtonsoft.Json;
 namespace Assets.Scripts.Service {
     public class MapGeneratorService : IMapGeneratorService {
         private const int MINIMUM_MAP_ID = 1;
+        private const int DEFAULT_MAX_TURNS = 8;
+        private const int DEFAULT_MAX_MOVES_PER_TURN = 1;
 
         public Map GenerateMap(int id = 1) {
             if (id < MINIMUM_MAP_ID) {
@@ -16,13 +18,14 @@ namespace Assets.Scripts.Service {
             }
 
 			try {
-				TextAsset targetFile = Resources.Load<TextAsset>(string.Format("Map{0}", id));
+                TextAsset targetFile = Resources.Load<TextAsset>(string.Format("Map{0}", id));
 
-				string json = targetFile.text;
+                string json = targetFile.text;
 
-	            Map map = JsonConvert.DeserializeObject<Map>(json);
-	            InitializeTileMapFromRaw(map);
+                Map map = JsonConvert.DeserializeObject<Map>(json);
+                InitializeTileMapFromRaw(map);
                 InitializePigeons(map);
+                InitializeStateManagers(map);
 
 	            return map;
             } catch (Exception e) {
@@ -47,6 +50,11 @@ namespace Assets.Scripts.Service {
                 map.Pigeons.Add(new PigeonController(tile));
                 tile.MarkOccupied();
             }
+        }
+
+        private void InitializeStateManagers(Map map) {
+            map.TurnController = new TurnController(DEFAULT_MAX_TURNS, DEFAULT_MAX_MOVES_PER_TURN);
+            map.TurnResolver = new LocalTurnResolver();
         }
     }
 }

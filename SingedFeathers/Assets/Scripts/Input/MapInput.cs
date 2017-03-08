@@ -1,9 +1,9 @@
-﻿using Assets.Scripts.States;
+﻿using Assets.Scripts.Views;
 using UnityEngine;
 
 namespace Assets.Scripts.Input {
     public class MapInput : MonoBehaviour {
-        public GameStateManager GameStateManager;
+        public InputView InputManager;
 
         public void Awake() {}
 
@@ -27,8 +27,8 @@ namespace Assets.Scripts.Input {
             RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
             if (hit.collider != null) {
                 if (hit.transform.gameObject.tag == "Tile") {
-                    Debug.Log(hit.transform.gameObject.GetComponent<TileManager>().type);
-                    GameStateManager.HandleMapInput(hit.transform.gameObject.GetComponent<TileManager>());
+                    Debug.Log(hit.transform.gameObject.GetComponent<TileView>().Type);
+                    InputManager.HandleMapInput(hit.transform.gameObject.GetComponent<TileView>());
                 }
             }
         }

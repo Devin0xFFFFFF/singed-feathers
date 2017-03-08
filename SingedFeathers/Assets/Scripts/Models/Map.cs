@@ -10,6 +10,8 @@ namespace Assets.Scripts.Models {
         public ITileController[,] TileMap;
         public IList<IPigeonController> Pigeons;
         public TileType[,] RawMap;
+        public ITurnController TurnController;
+        public ITurnResolver TurnResolver;
         public int Width;
         public int Height;
     }

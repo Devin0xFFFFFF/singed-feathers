@@ -52,6 +52,24 @@ namespace Assets.Editor.ControllerTests {
         }
 
         [Test]
+        public void TestChangingWaterStatus() {
+            Assert.AreEqual(false, _tileController.IsOnFire());
+            _tileController.ApplyHeat(100);
+            Assert.AreEqual(true, _tileController.IsOnFire());
+            _tileController.ReduceHeat(100);
+            Assert.AreEqual(false, _tileController.IsOnFire());
+        }
+
+        [Test]
+        public void TestHeatCannotBeReducedBelowZero() {
+            Assert.AreEqual(false, _tileController.IsOnFire());
+            _tileController.ReduceHeat(100);
+            Assert.AreEqual(false, _tileController.IsOnFire());
+            _tileController.ApplyHeat(100);
+            Assert.AreEqual(true, _tileController.IsOnFire());
+        }
+
+        [Test]
         public void TestTileUpdatesAfterBurnout() {
             Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
             Assert.AreEqual(false, _tileController.IsOnFire());
@@ -133,6 +151,15 @@ namespace Assets.Editor.ControllerTests {
             Assert.True(_tileController.IsOccupied);
             _tileController.MarkUnoccupied();
             Assert.False(_tileController.IsOccupied);    
+        }
+
+        [Test]
+        public void TestIsHeatZero() {
+            Assert.True(_tileController.IsHeatZero());
+            _tileController.ApplyHeat(1);
+            Assert.False(_tileController.IsHeatZero());
+            _tileController.ReduceHeat(1);
+            Assert.True(_tileController.IsHeatZero());
         }
 
         [Test]
