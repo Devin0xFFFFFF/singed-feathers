@@ -8,6 +8,6 @@ namespace Assets.Scripts.Models.Commands {
 
         public MoveType GetMoveType() { return MoveType.Remove; }
 
-        public Command GetCommand() { return new Command(MoveType.Remove, 0);  }
+        public Command GetCommand() { return new Command(MoveType.Remove); }
     }
 }

@@ -10,7 +10,7 @@ namespace Assets.Scripts.Controllers {
         private readonly IMapGeneratorService _mapGenerator;
         private Map _map;
 
-		public MapController(IMapGeneratorService mapGenerator = null) { _mapGenerator = mapGenerator ?? new MapGeneratorService(); }
+        public MapController(IMapGeneratorService mapGenerator = null) { _mapGenerator = mapGenerator ?? new MapGeneratorService(); }
 
         public void GenerateMap() {
             _map = _mapGenerator.GenerateMap();

@@ -15,8 +15,8 @@ namespace Assets.Scripts.Controllers {
                 Delta delta = new Delta(move.Key.Position, move.Value.GetCommand());
                 string json = JsonConvert.SerializeObject(delta);
                 Delta translatedDelta = JsonConvert.DeserializeObject<Delta>(json);
-                ICommand iCommand = translatedDelta._command.MakeICommand();
-                ITileController tileController = mapController.GetTileController(translatedDelta._position);
+                ICommand iCommand = translatedDelta.command.MakeICommand();
+                ITileController tileController = mapController.GetTileController(translatedDelta.position);
                 iCommand.ExecuteCommand(tileController);
             }
             _isTurnResolved = true;
