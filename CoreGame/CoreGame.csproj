@@ -41,7 +41,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\SingedFeathers\Assets\Plugins\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\SingedFeathers\Assets\Plugins\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -78,10 +78,10 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent Condition=" '$(OS)' != 'Unix' ">
-      copy /Y "CoreGame.dll" "../../../SingedFeathers/Assets/Plugins"
+      copy /Y "CoreGame.dll" "../../SingedFeathers/Assets/Plugins"
     </PostBuildEvent>
     <PostBuildEvent Condition=" '$(OS)' == 'Unix' ">
-      cp CoreGame.dll ../../../SingedFeathers/Assets/Plugins
+      cp CoreGame.dll ../../SingedFeathers/Assets/Plugins
     </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
