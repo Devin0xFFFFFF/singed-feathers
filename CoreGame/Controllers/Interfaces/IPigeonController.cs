@@ -4,7 +4,8 @@ namespace Assets.Scripts.Controllers {
     public interface IPigeonController {
         Position InitialPosition { get; }
         Position CurrentPosition { get; }
-        int Health { get; }
+        Pigeon Pigeon { get; }
+        int GetHealth();
         void Heal(int delta);
         void InflictDamage(int delta);
         bool IsDead();

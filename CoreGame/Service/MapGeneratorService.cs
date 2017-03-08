@@ -8,16 +8,14 @@ using Newtonsoft.Json;
 namespace Assets.Scripts.Service {
     public class MapGeneratorService : IMapGeneratorService {
         private const int MINIMUM_MAP_ID = 1;
-        private const int DEFAULT_MAX_TURNS = 8;
-        private const int DEFAULT_MAX_MOVES_PER_TURN = 1;
 
         public Map GenerateMap(int id = 1) {
             if (id < MINIMUM_MAP_ID) {
                 return null;
             }
 
-			try {
-                string json = File.ReadAllText(string.Format("Assets/Resources/Map{0}.json", id));
+            try {
+                string json = File.ReadAllText($"Assets/Resources/Map{id}.json");
 
                 Map map = JsonConvert.DeserializeObject<Map>(json);
                 InitializeTileMapFromRaw(map);
@@ -26,7 +24,7 @@ namespace Assets.Scripts.Service {
 
 	            return map;
             } catch (Exception e) {
-                Console.Write(string.Format("Error loading Map{0}: {1}", id,  e));
+                Console.Write($"Error loading Map{id}: {e}");
                 return null;
             }
         }
@@ -50,7 +48,7 @@ namespace Assets.Scripts.Service {
         }
 
         private void InitializeStateManagers(Map map) {
-            map.TurnController = new TurnController(DEFAULT_MAX_TURNS, DEFAULT_MAX_MOVES_PER_TURN);
+            map.TurnController = new TurnController(map.TurnsLeft, map.MaxMovesPerTurn);
             map.TurnResolver = new LocalTurnResolver();
         }
     }
