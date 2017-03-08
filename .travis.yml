@@ -18,17 +18,18 @@ script:
 
 os: osx
 
-deploy:
-  provider: s3
-  access_key_id: $ACCESS_KEY_ID
-  secret_access_key: $ACCESS_KEY
-  bucket: "singedfeathers.online"
-  local-dir: ./SingedFeathers/Builds/Web/
-  skip_cleanup: true
-  acl: public_read
-  region: "us-west-2"
-  on:
-    branch: master
+after_success:
+  deploy:
+    provider: s3
+    access_key_id: $ACCESS_KEY_ID
+    secret_access_key: $ACCESS_KEY
+    bucket: "singedfeathers.online"
+    local-dir: ./SingedFeathers/Builds/Web/
+    skip_cleanup: true
+    acl: public_read
+    region: "us-west-2"
+    on:
+      branch: master
       
 after_success:
 - '[ "${TRAVIS_BRANCH}" = "develop" ] && [ "${TRAVIS_PULL_REQUEST}" = "false" ] && git push https://${GITHUB_TOKEN}:x-oauth-basic@github.com/${TRAVIS_REPO_SLUG}.git HEAD:master'
