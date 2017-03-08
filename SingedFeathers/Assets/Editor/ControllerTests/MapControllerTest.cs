@@ -234,7 +234,7 @@ namespace Assets.Editor.ControllerTests {
         public void TestEndTurnMethod() {
             _mapController.EndTurn();
             _turnController.Received().GetAndResetMoves();
-            _turnResolver.Received().ResolveTurn(Arg.Any<IDictionary<ITileController, ICommand>>());
+            _turnResolver.Received().ResolveTurn(Arg.Any<IDictionary<ITileController, ICommand>>(), _mapController);
         }
 
         [Test]
