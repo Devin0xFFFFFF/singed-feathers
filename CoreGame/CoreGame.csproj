@@ -83,13 +83,8 @@
       copy /Y "CoreGame.dll" "../../../SingedFeathers/Assets/Plugins"
     </PostBuildEvent>
     <PostBuildEvent Condition=" '$(OS)' == 'Unix' ">
-      cp CoreGame.dll ../../../SingedFeathers/Assets/Plugins
+      cp CoreGame.dll ../../SingedFeathers/Assets/Plugins
     </PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>
-      copy /Y "CoreGame.dll" "../../SingedFeathers/Assets/Plugins"
-</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

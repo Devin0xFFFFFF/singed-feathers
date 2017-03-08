@@ -58,3 +58,7 @@ ehthumbs.db
 CoreGame/[Bb]in*
 
 # Source: http://kleber-swf.com/the-definitive-gitignore-for-unity-projects/
+
+SingedFeathers/Assembly-CSharp-Editor.csproj
+
+SingedFeathers/Assembly-CSharp.csproj
