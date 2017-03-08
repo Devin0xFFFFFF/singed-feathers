@@ -1,43 +1,44 @@
 # =============== #
 # Unity generated #
 # =============== #
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/Assets/AssetStoreTools*
+/*/[Ll]ibrary/
+/*/[Tt]emp/
+/*/[Oo]bj/
+/*/[Bb]uild/
+/*/[Bb]uilds/
+/*/Assets/AssetStoreTools*
 SingedFeathers/SingedFeathers.Editor.csproj
-sysinfo.txt
-*.stackdump
+SingedFeathers/SingedFeathers.csproj
+/*/sysinfo.txt
+/*/*.stackdump
 
 # ============================================= #
 # Visual Studio / MonoDevelop / Rider generated #
 # ============================================= #
-[Ee]xported[Oo]bj/
-/.vs/
-/.consulo/
-/*.unityproj
-/*.suo
-/*.tmp
-/*.user
-/*.userprefs
-/*.pidb
-/*.booproj
-/*.svd
-/*.pdb
-/.idea*/
+/*/[Ee]xported[Oo]bj/
+/*/.vs/
+/*/.consulo/
+/*/*.unityproj
+/*/*.suo
+/*/*.tmp
+/*/*.user
+/*/*.userprefs
+/*/*.pidb
+/*/*.booproj
+/*/*.svd
+/*/*.pdb
+/*/.idea*/
 
 # ============================ #
 # Unity3D generated meta files #
 # ============================ #
-*.pidb.meta
+/*/*.pidb.meta
 
 # ====== #
 # Builds #
 # ====== #
-*.apk
-*.unitypackage
+/*/*.apk
+/*/*.unitypackage
  
 # ============ #
 # OS generated #
@@ -51,32 +52,3 @@ ehthumbs.db
 [Dd]esktop.ini
 
 # Source: http://kleber-swf.com/the-definitive-gitignore-for-unity-projects/
-CoreGame/CoreGame/bin/Debug/CoreGame.dll
-
-CoreGame/CoreGame/bin/Debug/CoreGame.dll
-
-CoreGame/CoreGame/bin/Debug/CoreGame.dll.mdb
-
-CoreGame/CoreGame/bin/Debug/CoreGame.dll
-
-CoreGame/CoreGame/obj/Debug/CoreGame.dll
-
-CoreGame/CoreGame/obj/Debug/CoreGame.dll
-
-CoreGame/CoreGame/obj/Debug/CoreGame.dll.mdb
-
-SingedFeathers/Assets/Plugins/CoreGame.dll.mdb
-
-CoreGame/CoreGame/obj/Debug/CoreGame.csproj.FilesWrittenAbsolute.txt
-
-SingedFeathers/Assets/Plugins/CoreGame.dll.mdb.meta
-
-CoreGame/CoreGame.userprefs
-
-*.mdb
-
-*.dll
-
-CoreGame/obj*
-
-CoreGame/CoreGame/obj/Release/CoreGame.csproj.FilesWrittenAbsolute.txt
