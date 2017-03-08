@@ -23,7 +23,7 @@ namespace Assets.Scripts.Controllers {
             }
         }
 
-        public void EndTurn() { _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMoves(), this); }
+        public void EndTurn() { _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMoves(), _map.TileMap); }
 		
         public TileType GetTileType(int x, int y) {
             if (CoordinatesAreValid(x, y)) {
@@ -38,8 +38,6 @@ namespace Assets.Scripts.Controllers {
             }
             return null;
         }
-
-        public ITileController GetTileController(Position position) { return GetTileController(position.X, position.Y); }
 
         public IList<IPigeonController> GetPigeonControllers() { return _map.Pigeons; }
 

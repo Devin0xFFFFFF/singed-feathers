@@ -9,15 +9,20 @@ namespace Assets.Scripts.Controllers {
 
         public bool IsTurnResolved() { return _isTurnResolved; }
 
-        public void ResolveTurn(IDictionary<ITileController, ICommand> moves, IMapController mapController) {
+        public void ResolveTurn(IDictionary<ITileController, ICommand> moves, ITileController[,] tileMap) {
             _isTurnResolved = false;
+            int mapWidth = tileMap.GetLength(0);
+            int mapHeight = tileMap.GetLength(1);
             foreach (KeyValuePair<ITileController, ICommand> move in moves) {
                 Delta delta = new Delta(move.Key.Position, move.Value.GetCommand());
                 string json = JsonConvert.SerializeObject(delta);
                 Delta translatedDelta = JsonConvert.DeserializeObject<Delta>(json);
-                ICommand iCommand = translatedDelta.command.MakeICommand();
-                ITileController tileController = mapController.GetTileController(translatedDelta.position);
-                iCommand.ExecuteCommand(tileController);
+                Position position = translatedDelta.Position;
+                ICommand iCommand = translatedDelta.Command.MakeICommand();
+                if (mapWidth > position.X && position.X >= 0 && mapHeight > position.Y && position.Y >= 0) {
+                    ITileController tileController = tileMap[position.X, position.Y];
+                    iCommand.ExecuteCommand(tileController);
+                }
             }
             _isTurnResolved = true;
         }

@@ -1,20 +1,20 @@
 ﻿namespace Assets.Scripts.Models.Commands {
     public class Command {
-        public MoveType moveType;
-        public int? heat;
+        public MoveType MoveType;
+        public int? Heat;
 
         public Command(MoveType moveType, int? heat = null) {
-            this.moveType = moveType;
-            this.heat = heat;
+            MoveType = moveType;
+            Heat = heat;
         }
 
         public ICommand MakeICommand() {
-            if (heat != null) {
-                switch (moveType) {
+            if (Heat != null) {
+                switch (MoveType) {
                     case MoveType.Fire:
-                        return new SetFireCommand(heat.Value);
+                        return new SetFireCommand(Heat.Value);
                     case MoveType.Water:
-                        return new AddWaterCommand(heat.Value);
+                        return new AddWaterCommand(Heat.Value);
                 }
             }
             return new RemoveCommand();

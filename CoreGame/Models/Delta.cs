@@ -4,12 +4,12 @@ using Assets.Scripts.Models.Commands;
 namespace Assets.Scripts.Models {
     [Serializable]
     public class Delta {
-        public Position position;
-        public Command command;
+        public Position Position;
+        public Command Command;
 
         public Delta(Position position, Command command) {
-            this.position = position;
-            this.command = command;
+            Position = position;
+            Command = command;
         }
     }
 }
