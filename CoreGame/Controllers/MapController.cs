@@ -11,7 +11,7 @@ namespace Assets.Scripts.Controllers {
         private readonly IMapGeneratorService _mapGenerator;
         private Map _map;
 
-		public MapController(IMapGeneratorService mapGenerator = null) { _mapGenerator = mapGenerator ?? new MapGeneratorService(); }
+        public MapController(IMapGeneratorService mapGenerator = null) { _mapGenerator = mapGenerator ?? new MapGeneratorService(); }
 
         public void GenerateMap() {
             _map = _mapGenerator.GenerateMap();
@@ -24,9 +24,9 @@ namespace Assets.Scripts.Controllers {
                 _map.TileMap[x, y].ApplyHeat(HEAT);
             }
         }
-
+            
         public void EndTurn() {
-            _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMoves());
+            _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMoves(), _map.TileMap);
             SpreadFires();
             MovePigeons();
         }
