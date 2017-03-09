@@ -2,7 +2,7 @@
 using System;
 
 namespace Assets.Scripts.Models.Commands {
-	public class SetFireCommand : ICommand {
+    public class SetFireCommand : ICommand {
         private readonly int _heat;
 
         public SetFireCommand(int heat) { _heat = Math.Max(0, heat); }
