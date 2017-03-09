@@ -15,7 +15,7 @@ namespace Assets.Scripts.Controllers {
             List<Delta> deltaList = new List<Delta>();
             foreach (KeyValuePair<ITileController, ICommand> move in moves) {
                 Delta delta = new Delta(move.Key.Position, move.Value.GetCommand());
-                deltaList.Add (delta);
+                deltaList.Add(delta);
             }
 
             string json = JsonConvert.SerializeObject(deltaList);
