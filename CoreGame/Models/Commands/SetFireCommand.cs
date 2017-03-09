@@ -9,7 +9,7 @@ namespace Assets.Scripts.Models.Commands {
 
         public void ExecuteCommand(ITileController tileController) { tileController.ApplyHeat(_heat); }
 
-        public bool CanBeExecutedOnTile(ITileController tileController) { return tileController.IsFlammable() && !tileController.IsOccupied; }
+        public bool CanBeExecutedOnTile(ITileController tileController) { return tileController.IsFlammable() && !tileController.IsOccupied && !tileController.IsOnFire(); }
 
         public MoveType GetMoveType() { return MoveType.Fire; }
 
