@@ -89,25 +89,6 @@ namespace Assets.Scripts.Views {
 
         public void SetFire(int x, int y) { _mapController.ApplyHeat(x, y); }
 
-        private void InstantiateTiles() {
-            for (int x = 0; x < _width; x++) {
-                for (int y = 0; y < _height; y++) {
-                    InstantiateTile(_mapController.GetTileType(x, y), x, y);
-                }
-            }
-        }
-
-        private void InstantiateTile(TileType type, int x, int y) {
-            TileView manager = _tileDictionary[type];
-            _map[x, y] = Instantiate(manager, new Vector3(_tileSizeX * x, _tileSizeY * y, 1), Quaternion.identity);
-            _map[x, y].SetController(_mapController.GetTileController(x, y));
-        }
-
-        private void UpdateTileType(TileType type, int x, int y) {
-            Destroy(_map[x, y].gameObject);
-            InstantiateTile(type, x, y);
-        }
-
         public ITurnController GetTurnController() { return _mapController.GetTurnController(); }
 
         public ITurnResolver GetTurnResolver() { return _mapController.GetTurnResolver(); }
@@ -119,5 +100,24 @@ namespace Assets.Scripts.Views {
         public void Water() { _mapController.Water(); }
 
         public void Cancel() { _mapController.Cancel(); }
+
+		private void InstantiateTiles() {
+			for (int x = 0; x < _width; x++) {
+				for (int y = 0; y < _height; y++) {
+					InstantiateTile(_mapController.GetTileType(x, y), x, y);
+				}
+			}
+		}
+
+		private void InstantiateTile(TileType type, int x, int y) {
+			TileView manager = _tileDictionary[type];
+			_map[x, y] = Instantiate(manager, new Vector3(_tileSizeX * x, _tileSizeY * y, 1), Quaternion.identity);
+			_map[x, y].SetController(_mapController.GetTileController(x, y));
+		}
+
+		private void UpdateTileType(TileType type, int x, int y) {
+			Destroy(_map[x, y].gameObject);
+			InstantiateTile(type, x, y);
+		}
     }
 }
