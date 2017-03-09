@@ -14,7 +14,7 @@ namespace Assets.Scripts.Controllers {
             _isTurnResolved = false;
             List<Delta> deltaList = new List<Delta>();
             foreach (KeyValuePair<ITileController, ICommand> move in moves) {
-                Delta delta = new Delta (move.Key.Position, move.Value.GetCommand ());
+                Delta delta = new Delta (move.Key.Position, move.Value.GetCommand());
                 deltaList.Add (delta);
             }
 
