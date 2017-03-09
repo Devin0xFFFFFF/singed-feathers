@@ -30,7 +30,10 @@ namespace Assets.Scripts.Views {
 
         // Update is called once per frame
         public void Update() {
-            UpdateButtons();
+            if(_turnController == null) {
+                return;
+            }
+                UpdateButtons();
             UpdateImage();
             UpdateTurnCountText();
         }
