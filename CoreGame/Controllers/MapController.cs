@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.Models;
 using Assets.Scripts.Service;
+using Assests.Scripts.Utility;
 
 namespace Assets.Scripts.Controllers {
     public class MapController : IMapController {
@@ -14,11 +15,12 @@ namespace Assets.Scripts.Controllers {
 
         public void GenerateMap() {
             _map = _mapGenerator.GenerateMap();
+            MapLocationValidator.InitializeValues(_map);
             LinkNeighbouringTiles();
         }
 
         public void ApplyHeat(int x, int y) {
-            if (CoordinatesAreValid(x, y)) {
+            if (MapLocationValidator.CoordinatesAreValid(x, y)) {
                 _map.TileMap[x, y].ApplyHeat(HEAT);
             }
         }
@@ -26,14 +28,14 @@ namespace Assets.Scripts.Controllers {
         public void EndTurn() { _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMoves(), _map.TileMap); }
 		
         public TileType GetTileType(int x, int y) {
-            if (CoordinatesAreValid(x, y)) {
+            if (MapLocationValidator.CoordinatesAreValid(x, y)) {
                 return _map.TileMap[x, y].GetTileType();
             }
             return TileType.Error;
         }
 
         public ITileController GetTileController(int x, int y) {
-            if (CoordinatesAreValid(x, y)) {
+            if (MapLocationValidator.CoordinatesAreValid(x, y)) {
                 return _map.TileMap[x, y];
             }
             return null;
@@ -97,8 +99,6 @@ namespace Assets.Scripts.Controllers {
                 }
             }
         }
-
-        private bool CoordinatesAreValid(int x, int y) { return x >= 0 && y >= 0 && x < Width && y < Height; }
 
         private void LinkNeighbouringTiles() {
             for (int x = 0; x < Width; x++) {
