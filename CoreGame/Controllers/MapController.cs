@@ -7,6 +7,7 @@ namespace Assets.Scripts.Controllers {
         public const int HEAT = 100;
         public int Width { get { return _map.Width; } }
         public int Height { get { return _map.Height; } }
+        public IDictionary<NewStatus, IList<Position>> ModifiedTilePositions { get; private set; }
         private readonly IMapGeneratorService _mapGenerator;
         private Map _map;
 
@@ -15,6 +16,7 @@ namespace Assets.Scripts.Controllers {
         public void GenerateMap() {
             _map = _mapGenerator.GenerateMap();
             LinkNeighbouringTiles();
+            InitializeFires();
         }
 
         public void ApplyHeat(int x, int y) {
@@ -23,7 +25,11 @@ namespace Assets.Scripts.Controllers {
             }
         }
 
-        public void EndTurn() { _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMoves()); }
+        public void EndTurn() {
+            _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMoves());
+            SpreadFires();
+            MovePigeons();
+        }
 		
         public TileType GetTileType(int x, int y) {
             if (CoordinatesAreValid(x, y)) {
@@ -41,8 +47,6 @@ namespace Assets.Scripts.Controllers {
 
         public IList<IPigeonController> GetPigeonControllers() { return _map.Pigeons; }
 
-        public Position GetInitialFirePosition() { return _map.InitialFirePosition; }
-
         public ITurnResolver GetTurnResolver() { return _map.TurnResolver; }
 
         public ITurnController GetTurnController() { return _map.TurnController; }
@@ -57,7 +61,7 @@ namespace Assets.Scripts.Controllers {
 
         public void Cancel() { _map.TurnController.SetMoveType(MoveType.Remove); }
 
-        public IDictionary<NewStatus, IList<Position>> SpreadFires() {
+        public void SpreadFires() {
             IDictionary<NewStatus, IList<Position>> modifiedTiles = new Dictionary<NewStatus, IList<Position>>();
 
             modifiedTiles.Add(NewStatus.BurntOut, new List<Position>());
@@ -87,7 +91,7 @@ namespace Assets.Scripts.Controllers {
                 }
             }
 
-            return modifiedTiles;
+            ModifiedTilePositions = modifiedTiles;
         }
 
         public void MovePigeons() {
@@ -121,6 +125,12 @@ namespace Assets.Scripts.Controllers {
             if (x < Width - 1) {
                 _map.TileMap[x, y].AddNeighbouringTile(_map.TileMap[x + 1, y]);
             }
+        }
+
+        private void InitializeFires() {
+            Position position = _map.InitialFirePosition;
+            ApplyHeat(position.X, position.Y);
+            SpreadFires();
         }
     }
 }
