@@ -31,11 +31,27 @@ namespace Assets.Scripts.Views {
         // Update is called once per frame
         public void Update() {
             if(_turnController == null) {
+                DisableAllButtons();
                 return;
             }
-                UpdateButtons();
+            UpdateButtons();
             UpdateImage();
             UpdateTurnCountText();
+        }
+
+        public void DisableAllButtons() {
+            foreach (Button button in _actionButtons) {
+                button.interactable = false;
+            }
+
+            UndoButton.interactable = false;
+            BlankButton.interactable = false;
+            EndTurnButton.interactable = false;
+
+            // GameMenu UI elements
+            BackButton.gameObject.SetActive(false);
+            GameOverText.gameObject.SetActive(false);
+            OptionsText.gameObject.SetActive(false);
         }
 
         public void UpdateButtons() {
