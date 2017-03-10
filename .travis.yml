@@ -15,22 +15,23 @@ script:
 - if [ $TRAVIS_BRANCH = "136-Fix-Travis-Deploy" ]; then travis_wait ./Scripts/build.sh; fi
 - xbuild /p:TargetFrameworkProfile="" /p:Configuration=Release ./SingedFeathers/SingedFeathers.sln
 - nunit-console ./SingedFeathers/Temp/bin/Release/Assembly-CSharp-Editor.dll
+
+after_success:
 - '[ "${TRAVIS_TEST_RESULT}" = "0" ] && [ "${TRAVIS_BRANCH}" = "develop" ] && [ "${TRAVIS_PULL_REQUEST}" = "false" ] && git push https://${GITHUB_TOKEN}:x-oauth-basic@github.com/${TRAVIS_REPO_SLUG}.git HEAD:master'
 
 os: osx
 
-after_success:
-  deploy:
-    provider: s3
-    access_key_id: $ACCESS_KEY_ID
-    secret_access_key: $ACCESS_KEY
-    bucket: "singedfeathers.online"
-    local-dir: ./SingedFeathers/Builds/Web/
-    skip_cleanup: true
-    acl: public_read
-    region: "us-west-2"
-    on:
-      branch: 136-Fix-Travis-Deploy
+deploy:
+  provider: s3
+  access_key_id: $ACCESS_KEY_ID
+  secret_access_key: $ACCESS_KEY
+  bucket: "singedfeathers.online"
+  local-dir: ./SingedFeathers/Builds/Web/
+  skip_cleanup: true
+  acl: public_read
+  region: "us-west-2"
+  on:
+    branch: 136-Fix-Travis-Deploy
 
 notifications:
   slack:
