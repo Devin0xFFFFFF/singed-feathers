@@ -60,7 +60,7 @@ namespace Assets.Scripts.Views {
         }
 
         public void LoadPigeons() {
-			AotHelper.EnsureList<IPigeonController>();
+            AotHelper.EnsureList<IPigeonController>();
             _pigeons = new List<PigeonView>();
             IList<IPigeonController> controllers = _mapController.GetPigeonControllers();
             foreach (IPigeonController controller in controllers) {
