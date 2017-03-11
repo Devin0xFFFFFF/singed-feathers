@@ -10,23 +10,21 @@ namespace Assets.Scripts.Views {
 		private SpriteRenderer _spriteRenderer;
 
 		public void Start() {
-			_spriteRenderer = gameObject.GetComponent<SpriteRenderer>();	
-		    _spriteRenderer.sprite = Sprites[0];
+            _spriteRenderer = gameObject.GetComponent<SpriteRenderer> ();
+            _spriteRenderer.sprite = Sprites[0];
 		}
 
         // Update is called once per frame
         public void Update() {
             Transform child = transform.GetChild(0);
+            int frame = GetSpriteHeatFrame();
             child.gameObject.SetActive(_tileController.IsOnFire());
-			//if (StateHasChanged()) {
-				int frame = GetSpriteHeatFrame();
-				_spriteRenderer.sprite = Sprites[frame];
-			//}
+            _spriteRenderer.sprite = Sprites[frame];
         }
 
-		public int GetSpriteHeatFrame() { return _tileController.GetSpriteHeatFrame(); }	
+		public int GetSpriteHeatFrame() { return _tileController.GetSpriteHeatFrame(); }
 
-        public bool StateHasChanged() { return _tileController.StateHasChanged; } 
+        public bool StateHasChanged() { return _tileController.StateHasChanged; }
 			
         public void ApplyHeat(int heat) { _tileController.ApplyHeat(heat); }
 

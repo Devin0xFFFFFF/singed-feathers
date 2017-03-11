@@ -190,5 +190,20 @@ namespace Assets.Editor.ControllerTests {
             Assert.True(_tileController.MarkUnoccupied());
             Assert.False(_tileController.IsOccupied);
         }
+
+        [Test]
+        public void TestGetSpriteHeatFrameBounds() {
+            // Tile should have Sprite Heat Frame 0 after init
+            Assert.True(_tileController.GetSpriteHeatFrame() == 0);
+
+            // Tile should have Sprite Heat Frame 3 after ApplyHeat()
+            _tileController.ApplyHeat(MapController.HEAT);
+            Assert.True(_tileController.GetSpriteHeatFrame() == 3);
+
+            // Tile should have Sprite Heat Frame 0 after ReduceHeat(int.maxValue)
+            _tileController.ReduceHeat(MapController.HEAT);
+            Assert.True(_tileController.GetSpriteHeatFrame() == 0);
+            
+        }
     }
 }

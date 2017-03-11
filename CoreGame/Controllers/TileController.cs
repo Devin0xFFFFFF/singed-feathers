@@ -68,8 +68,6 @@ namespace Assets.Scripts.Controllers {
                     Extinguish();
                     StateHasChanged = true;
                 }
-            } else {
-                Tile.Heat = 0;
             }
         }
 
