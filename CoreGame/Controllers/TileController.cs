@@ -9,6 +9,7 @@ namespace Assets.Scripts.Controllers {
         public Position Position { get; set; }
         public bool StateHasChanged { get; set; }
         public bool IsOccupied { get; private set; }
+        public bool HasVisualChange { get; private set; }
         public Tile Tile { get; private set; }
         private readonly IList<ITileController> _neighbouringTiles;
 
@@ -37,6 +38,16 @@ namespace Assets.Scripts.Controllers {
 
         public IEnumerable<ITileController> GetNeighbours() { return _neighbouringTiles; }
 
+        // Calculate which sprite index the TileView should be using (for heat level indication)
+        public int GetSpriteHeatFrame() {
+            int heat = Tile.Heat;
+            int frame = 2 * heat / BURN_HEAT;
+            if (frame > 3) {
+                frame = 3;
+            }
+            return frame;
+        }
+
         public void SpreadFire() {
             bool startedOnFire = IsOnFire();
 
@@ -57,6 +68,8 @@ namespace Assets.Scripts.Controllers {
                     Extinguish();
                     StateHasChanged = true;
                 }
+            } else {
+                Tile.Heat = 0;
             }
         }
 

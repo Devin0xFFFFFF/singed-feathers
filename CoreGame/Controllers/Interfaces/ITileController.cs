@@ -22,5 +22,7 @@ namespace Assets.Scripts.Controllers {
         bool MarkOccupied();
         bool MarkUnoccupied();
         bool IsHeatZero();
+        int GetSpriteHeatFrame();
+        //bool HasVisualChange();
     }
 }

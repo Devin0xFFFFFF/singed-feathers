@@ -18,11 +18,15 @@ namespace Assets.Scripts.Views {
         public void Update() {
             Transform child = transform.GetChild(0);
             child.gameObject.SetActive(_tileController.IsOnFire());
+			//if (StateHasChanged()) {
+				int frame = GetSpriteHeatFrame();
+				_spriteRenderer.sprite = Sprites[frame];
+			//}
         }
 
-		public int GetSpriteFrameCount() { return Sprites.Length; }
+		public int GetSpriteHeatFrame() { return _tileController.GetSpriteHeatFrame(); }	
 
-		public void SetSpriteFrame(int frame) { _spriteRenderer.sprite = Sprites[frame]; }
+        public bool StateHasChanged() { return _tileController.StateHasChanged; } 
 			
         public void ApplyHeat(int heat) { _tileController.ApplyHeat(heat); }
 
