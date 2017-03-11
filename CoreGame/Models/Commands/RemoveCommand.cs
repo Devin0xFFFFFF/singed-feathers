@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Controllers;
+﻿using System;
+using Assets.Scripts.Controllers;
 
 namespace Assets.Scripts.Models.Commands {
     class RemoveCommand : ICommand {
