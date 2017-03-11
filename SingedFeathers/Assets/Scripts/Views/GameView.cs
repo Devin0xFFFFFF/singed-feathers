@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Assets.Scripts.Controllers;
 using Assets.Scripts.Models;
 using UnityEngine;
+using Assets.Scripts.Service;
+using Newtonsoft.Json.Utilities;
 
 namespace Assets.Scripts.Views {
     public class GameView : MonoBehaviour {
@@ -14,14 +16,13 @@ namespace Assets.Scripts.Views {
         private TileView[,] _map;
         private int _width, _height;
         private float _tileSizeX, _tileSizeY;
+        private MapPersistenceClient _mapClient;
 
         // Start here!
         public void Start() {
             if (TileSet.Count > 0) {
                 LoadTileDictionary();
                 LoadMap();
-                LoadPigeons();
-                LoadInputView();
             }
         }
 
@@ -33,16 +34,24 @@ namespace Assets.Scripts.Views {
         }
 
         public void LoadMap() {
-            _mapController = new MapController();
-            _mapController.GenerateMap();
-            _width = _mapController.Width;
-            _height = _mapController.Height;
-            _map = new TileView[_width, _height];
+            string mapID = "Map1";
+            _mapClient = new MapPersistenceClient();
+            StartCoroutine(_mapClient.GetMapData(mapID, delegate (MapClientResult result) {
+                _mapController = new MapController();
+                _mapController.GenerateMap(result.ResponseBody);
 
-            _tileSizeX = TileSet[0].GetComponent<Renderer>().bounds.size.x;
-            _tileSizeY = TileSet[0].GetComponent<Renderer>().bounds.size.y;
+                _width = _mapController.Width;
+                _height = _mapController.Height;
+                _map = new TileView[_width, _height];
 
-            InstantiateTiles();
+                _tileSizeX = TileSet[0].GetComponent<Renderer>().bounds.size.x;
+                _tileSizeY = TileSet[0].GetComponent<Renderer>().bounds.size.y;
+
+                InstantiateTiles();
+
+                LoadPigeons();
+                LoadInputView();
+            }));
         }
 
         public void LoadInputView() {
@@ -51,6 +60,7 @@ namespace Assets.Scripts.Views {
         }
 
         public void LoadPigeons() {
+            AotHelper.EnsureList<IPigeonController>();
             _pigeons = new List<PigeonView>();
             IList<IPigeonController> controllers = _mapController.GetPigeonControllers();
             foreach (IPigeonController controller in controllers) {

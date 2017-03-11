@@ -14,8 +14,8 @@ namespace Assets.Scripts.Controllers {
 
         public MapController(IMapGeneratorService mapGenerator = null) { _mapGenerator = mapGenerator ?? new MapGeneratorService(); }
 
-        public void GenerateMap() {
-            _map = _mapGenerator.GenerateMap();
+        public void GenerateMap(string serializedMap) {
+            _map = _mapGenerator.GenerateMap(serializedMap);
             MapLocationValidator.InitializeValues(_map);
             LinkNeighbouringTiles();
             InitializeFires();

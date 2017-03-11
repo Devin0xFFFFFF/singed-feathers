@@ -24,9 +24,9 @@ namespace Assets.Editor.ControllerTests {
         public void Init() {
             IMapGeneratorService mapGenerator = Substitute.For<IMapGeneratorService>();
             Map testMap = GenerateTestMap();
-            mapGenerator.GenerateMap(Arg.Any<int>()).Returns(testMap);
+            mapGenerator.GenerateMap(Arg.Any<string>()).Returns(testMap);
             _mapController = new MapController(mapGenerator);
-            _mapController.GenerateMap();
+            _mapController.GenerateMap(Arg.Any<string>());
         }
 
         [Test]
