@@ -9,29 +9,29 @@ namespace Assets.Scripts.Controllers {
         public Position Position { get; set; }
         public bool StateHasChanged { get; set; }
         public bool IsOccupied { get; private set; }
-        private readonly Tile _tile;
+        public Tile Tile { get; private set; }
         private readonly IList<ITileController> _neighbouringTiles;
 
         public TileController(TileType type, int x, int y) {
             Position = new Position(x, y);
             StateHasChanged = false;
             IsOccupied = false;
-            _tile = InitializeTile(type);
+            Tile = InitializeTile(type);
             _neighbouringTiles = new List<ITileController>();
         }
 
-        public TileType GetTileType() { return _tile.Type; }
+        public TileType GetTileType() { return Tile.Type; }
 
-        public bool IsFlammable() { return _tile.FlashPoint < int.MaxValue && !IsBurntOut(); }
+        public bool IsFlammable() { return Tile.FlashPoint < int.MaxValue && !IsBurntOut(); }
 
         public bool IsSpreadingHeat() {
             // Spread heat if the tile has been burning for more than one turn (at the end of the last turn)
             return (StateHasChanged && IsBurntOut()) || (!StateHasChanged && IsOnFire());
         }
 
-        public bool IsOnFire() { return IsFlammable() && _tile.Heat >= _tile.FlashPoint && !IsBurntOut(); }
+        public bool IsOnFire() { return IsFlammable() && Tile.Heat >= Tile.FlashPoint && !IsBurntOut(); }
 
-        public bool IsBurntOut() { return _tile.Type == TileType.Ash || (_tile.TurnsOnFire > 0 &&  _tile.TurnsOnFire >= _tile.MaxTurnsOnFire); }
+        public bool IsBurntOut() { return Tile.Type == TileType.Ash || (Tile.TurnsOnFire > 0 &&  Tile.TurnsOnFire >= Tile.MaxTurnsOnFire); }
 
         public void AddNeighbouringTile(ITileController neighbourController) { _neighbouringTiles.Add(neighbourController); }
 
@@ -48,12 +48,12 @@ namespace Assets.Scripts.Controllers {
             }
 
             if (IsOnFire()) {
-                _tile.TurnsOnFire += 1;
+                Tile.TurnsOnFire += 1;
 
                 if (startedOnFire && IsBurntOut()) {
-                    _tile.Type = TileType.Ash;
-                    _tile.FlashPoint = int.MaxValue;
-                    _tile.MaxTurnsOnFire = 0;
+                    Tile.Type = TileType.Ash;
+                    Tile.FlashPoint = int.MaxValue;
+                    Tile.MaxTurnsOnFire = 0;
                     Extinguish();
                     StateHasChanged = true;
                 }
@@ -62,8 +62,8 @@ namespace Assets.Scripts.Controllers {
 
         public void Extinguish() {
             bool startedOnFire = IsOnFire();
-            _tile.Heat = 0;
-            _tile.TurnsOnFire = 0;
+            Tile.Heat = 0;
+            Tile.TurnsOnFire = 0;
             if (startedOnFire) {
                 StateHasChanged = true;
             }
@@ -71,7 +71,7 @@ namespace Assets.Scripts.Controllers {
 
         public void ApplyHeat(int heat) {
             bool startedOnFire = IsOnFire();
-            _tile.Heat += heat;
+            Tile.Heat += heat;
             if (!startedOnFire && IsOnFire()) {
                 StateHasChanged = true;
             }
@@ -79,7 +79,7 @@ namespace Assets.Scripts.Controllers {
 
         public void ReduceHeat(int heat) {
             bool startedOnFire = IsOnFire();
-            _tile.Heat = Math.Max(0, _tile.Heat - heat);
+            Tile.Heat = Math.Max(0, Tile.Heat - heat);
             if (startedOnFire && !IsOnFire()) {
                 StateHasChanged = true;
             }
@@ -103,7 +103,7 @@ namespace Assets.Scripts.Controllers {
 
         public bool CanBeOccupied() { return !IsOccupied; }
 
-        public bool IsHeatZero() { return _tile.Heat == 0; }
+        public bool IsHeatZero() { return Tile.Heat == 0; }
 
         private Tile InitializeTile(TileType type) {
             switch (type) {

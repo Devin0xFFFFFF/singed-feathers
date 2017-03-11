@@ -34,7 +34,7 @@
     <ApplicationIcon>Singed.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\SingedFeathers\Assets\Plugins\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -84,7 +84,7 @@
       copy /Y "CoreGame.dll" "../../../SingedFeathers/Assets/Plugins"
     </PostBuildEvent>
     <PostBuildEvent Condition=" '$(OS)' == 'Unix' ">
-      cp CoreGame.dll ../../../SingedFeathers/Assets/Plugins
+      cp CoreGame.dll ../../SingedFeathers/Assets/Plugins
     </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>

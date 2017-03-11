@@ -194,7 +194,6 @@ namespace Assets.Editor.ControllerTests {
             Assert.False(moves.ContainsKey(_tile2));
         }
 
-
         [Test]
         public void TestLastTurn() {
             _turnController = new TurnController(1, 2);

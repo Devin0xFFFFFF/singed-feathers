@@ -9,12 +9,12 @@ namespace Assets.Scripts.Controllers {
         void ApplyHeat(int x, int y);
         TileType GetTileType(int x, int y);
         ITileController GetTileController(int x, int y);
-        IDictionary<NewStatus, IList<Position>> SpreadFires();
+        void SpreadFires();
+        IDictionary<NewStatus, IList<Position>> ModifiedTilePositions { get; }
         IList<IPigeonController> GetPigeonControllers();
         ITurnResolver GetTurnResolver();
         ITurnController GetTurnController();
         void MovePigeons();
-        Position GetInitialFirePosition();
         void EndTurn();
         int GetTurnsLeft();
         void UndoAllActions();

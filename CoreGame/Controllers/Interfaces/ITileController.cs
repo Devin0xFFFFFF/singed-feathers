@@ -3,6 +3,7 @@ using Assets.Scripts.Models;
 
 namespace Assets.Scripts.Controllers {
     public interface ITileController {
+        Tile Tile { get; }
         bool StateHasChanged { get; set; }
         bool IsOccupied { get; }
         Position Position { get; set; }
