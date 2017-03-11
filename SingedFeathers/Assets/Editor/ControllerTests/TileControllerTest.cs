@@ -196,14 +196,13 @@ namespace Assets.Editor.ControllerTests {
             // Tile should have Sprite Heat Frame 0 after init
             Assert.True(_tileController.GetSpriteHeatFrame() == 0);
 
-            // Tile should have Sprite Heat Frame 3 after ApplyHeat()
+            // Tile should have Sprite Heat Frame 3 after ApplyHeat(MapController.HEAT)
             _tileController.ApplyHeat(MapController.HEAT);
             Assert.True(_tileController.GetSpriteHeatFrame() == 3);
 
-            // Tile should have Sprite Heat Frame 0 after ReduceHeat(int.maxValue)
+            // Tile should have Sprite Heat Frame 0 after ReduceHeat(MapController.HEAT)
             _tileController.ReduceHeat(MapController.HEAT);
             Assert.True(_tileController.GetSpriteHeatFrame() == 0);
-            
         }
     }
 }
