@@ -18,13 +18,14 @@ namespace Assets.Scripts.Controllers {
                 Delta delta = new Delta(move.Key.Position, move.Value.GetCommand());
                 deltaList.Add(delta);
             }
+            if (CommandValidator.ValidateDeltas(deltaList, tileMap)) {
+                string json = JsonConvert.SerializeObject(deltaList);
 
-            string json = JsonConvert.SerializeObject(deltaList);
-
-            Timer timer = new Timer(3000);
-            timer.Elapsed += (sender, e) => ApplyDelta(sender, e, json, tileMap);
-            timer.AutoReset = false;
-            timer.Enabled = true;
+                Timer timer = new Timer(3000);
+                timer.Elapsed += (sender, e) => ApplyDelta(sender, e, json, tileMap);
+                timer.AutoReset = false;
+                timer.Enabled = true;
+            }
         }
 
         private void ApplyDelta(object sender, ElapsedEventArgs e, string json, ITileController[,] tileMap) {

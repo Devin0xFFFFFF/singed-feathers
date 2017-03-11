@@ -17,6 +17,7 @@ namespace Assets.Scripts.Controllers {
         public void GenerateMap(string serializedMap) {
             _map = _mapGenerator.GenerateMap(serializedMap);
             MapLocationValidator.InitializeValues(_map);
+            CommandValidator.InitializeValues(_map);
             LinkNeighbouringTiles();
             InitializeFires();
         }

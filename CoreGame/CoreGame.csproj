@@ -73,6 +73,7 @@
     <Compile Include="Service\IMapGeneratorService.cs" />
     <Compile Include="Service\MapClientResult.cs" />
     <Compile Include="Service\MapGeneratorService.cs" />
+    <Compile Include="Utility\CommandValidator.cs" />
     <Compile Include="Utility\MapLocationValidator.cs" />
   </ItemGroup>
   <ItemGroup>
