@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Controllers;
 using Assets.Scripts.Models;
 using UnityEngine;
+using System;
 
 namespace Assets.Scripts.Views {
     public class TileView : MonoBehaviour {
@@ -24,7 +25,7 @@ namespace Assets.Scripts.Views {
         // Update is called once per frame
         public void Update() {
             Transform child = transform.GetChild(0);
-            int spriteIndex = Mathf.Min(_tileController.GetTileHeat() / HEAT_PER_INDEX, _maxIndex);
+            int spriteIndex = Math.Min(_tileController.GetTileHeat() / HEAT_PER_INDEX, _maxIndex);
             child.gameObject.SetActive(_tileController.IsOnFire());
             _spriteRenderer.sprite = _heatLevelSprites[spriteIndex];
         }
