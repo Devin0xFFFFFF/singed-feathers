@@ -10,7 +10,9 @@ namespace Assests.Scripts.Utility {
             MapHeight = map.Height;
             MapWidth = map.Width;
         }
+
         public static bool PositionIsValid(Position position) { return CoordinatesAreValid(position.X, position.Y); }
+
         public static bool CoordinatesAreValid(int x, int y) { return MapWidth > x && x >= 0 && MapHeight > y && y >= 0; }
     }
 }

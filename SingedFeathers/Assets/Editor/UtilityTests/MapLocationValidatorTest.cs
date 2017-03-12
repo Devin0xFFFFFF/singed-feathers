@@ -5,7 +5,6 @@ using Assests.Scripts.Utility;
 namespace Assets.Editor.UtilityTests {
     [TestFixture]
     public class MapLocationValidatorTest {
-
         Map _map;
 
         [SetUp]
