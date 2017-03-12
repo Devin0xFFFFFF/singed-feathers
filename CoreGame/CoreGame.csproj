@@ -55,11 +55,7 @@
     <Compile Include="Controllers\PigeonController.cs" />
     <Compile Include="Controllers\TileController.cs" />
     <Compile Include="Controllers\TurnController.cs" />
-    <Compile Include="Models\Commands\AddWaterCommand.cs" />
     <Compile Include="Models\Commands\Command.cs" />
-    <Compile Include="Models\Commands\ICommand.cs" />
-    <Compile Include="Models\Commands\RemoveCommand.cs" />
-    <Compile Include="Models\Commands\SetFireCommand.cs" />
     <Compile Include="Models\Delta.cs" />
     <Compile Include="Models\Map.cs" />
     <Compile Include="Models\MapInfo.cs" />

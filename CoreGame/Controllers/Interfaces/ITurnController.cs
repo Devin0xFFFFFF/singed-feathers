@@ -12,7 +12,7 @@ namespace Assets.Scripts.Controllers {
         bool HasQueuedActions();
         int GetTurnsLeft();
         bool HasTurnsLeft();
-        IDictionary<ITileController, ICommand> GetAndResetMoves();
+        IDictionary<ITileController, Command> GetAndResetMoves();
         MoveType GetMoveType();
     }
 }

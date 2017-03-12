@@ -6,14 +6,14 @@ using System;
 namespace Assets.Scripts.Controllers {
     public class TurnController : ITurnController {
         private MoveType _moveType;
-        private ICommand _command;
+        private Command _command;
         private const int _INTENSITY = 100;
         private int _maxMoves;
         private int _turnsLeft;
-        private IDictionary<ITileController, ICommand> _moves;
+        private IDictionary<ITileController, Command> _moves;
 
         public TurnController(int turnsLeft, int maxMoves) {
-            _moves = new Dictionary<ITileController, ICommand>();
+            _moves = new Dictionary<ITileController, Command>();
             _turnsLeft = turnsLeft;
             _moveType = MoveType.Remove;
             _maxMoves = maxMoves;
@@ -43,28 +43,28 @@ namespace Assets.Scripts.Controllers {
             }
         }
 
-        public void UndoAllActions() { _moves = new Dictionary<ITileController, ICommand>(); }
+        public void UndoAllActions() { _moves = new Dictionary<ITileController, Command>(); }
 
         public void ClearTile(ITileController tileController) { _moves.Remove(tileController); }
 
-        public IDictionary<ITileController, ICommand> GetAndResetMoves() {
+        public IDictionary<ITileController, Command> GetAndResetMoves() {
             _turnsLeft = Math.Max(0, _turnsLeft - 1);
-            IDictionary<ITileController, ICommand> moveCopy = new Dictionary<ITileController, ICommand>(_moves);
-            _moves = new Dictionary<ITileController, ICommand>();
+            IDictionary<ITileController, Command> moveCopy = new Dictionary<ITileController, Command>(_moves);
+            _moves = new Dictionary<ITileController, Command>();
             return moveCopy;
         }
 
 		private void UpdateCommand() {
 			switch (_moveType) {
-			case MoveType.Remove:
-				_command = new RemoveCommand();
-				break;
-			case MoveType.Fire:
-				_command = new SetFireCommand(_INTENSITY);
-				break;
-			case MoveType.Water:
-				_command = new AddWaterCommand(_INTENSITY);
-				break;
+			    case MoveType.Remove:
+				    _command = new Command(MoveType.Remove);
+				    break;
+			    case MoveType.Fire:
+                    _command = new Command(MoveType.Fire, _INTENSITY);
+                    break;
+			    case MoveType.Water:
+                    _command = new Command(MoveType.Water, _INTENSITY);
+                    break;
 			}
 		}
     }

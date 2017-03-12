@@ -18,7 +18,7 @@ namespace Assests.Scripts.Utility {
                 Position position = delta.Position;
                 if (MapLocationValidator.PositionIsValid(position)) {
                     ITileController tileController = tileMap[position.X, position.Y];
-                    if (!delta.Command.MakeICommand().CanBeExecutedOnTile(tileController)) {
+                    if (!delta.Command.CanBeExecutedOnTile(tileController)) {
                         return false;
                     }
                 } else {

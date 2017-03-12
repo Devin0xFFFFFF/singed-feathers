@@ -7,7 +7,7 @@ using Assets.Scripts.Models;
 namespace Assets.Editor.CommandTests {
     [TestFixture]
     public class AddWaterCommandTest {
-        private AddWaterCommand _waterCommand;
+        private Command _waterCommand;
         private ITileController _tile;
 
         [SetUp]
@@ -15,35 +15,35 @@ namespace Assets.Editor.CommandTests {
 
         [Test]
         public void TestReturnsCorrectMoveType() {
-            _waterCommand = new AddWaterCommand(0);
-            Assert.AreEqual(MoveType.Water, _waterCommand.GetMoveType());
+            _waterCommand = new Command(MoveType.Water, 0);
+            Assert.AreEqual(MoveType.Water, _waterCommand.MoveType);
         }
 
         [Test]
         public void TestExecuteCommand() {
-            _waterCommand = new AddWaterCommand(1);
+            _waterCommand = new Command(MoveType.Water, 1);
             _waterCommand.ExecuteCommand(_tile);
             _tile.Received().ReduceHeat(1);
 
-            _waterCommand = new AddWaterCommand(10);
+            _waterCommand = new Command(MoveType.Water, 10);
             _waterCommand.ExecuteCommand(_tile);
             _tile.Received().ReduceHeat(10);
         }
 
         [Test]
         public void TestHeatCannotBeNegative() {
-            _waterCommand = new AddWaterCommand(0);
+            _waterCommand = new Command(MoveType.Water, 0);
             _waterCommand.ExecuteCommand(_tile);
             _tile.Received().ReduceHeat(0);
 
-            _waterCommand = new AddWaterCommand(-1);
+            _waterCommand = new Command(MoveType.Water, -1);
             _waterCommand.ExecuteCommand(_tile);
             _tile.Received().ReduceHeat(0);
         }
 
         [Test]
         public void TestCanBeExecutedOnTile() {
-            _waterCommand = new AddWaterCommand(0);
+            _waterCommand = new Command(MoveType.Water, 0);
 
             _tile.IsFlammable().Returns(true);
             _tile.IsHeatZero().Returns(false);

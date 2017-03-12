@@ -153,7 +153,7 @@ namespace Assets.Editor.ControllerTests {
             Assert.True(_turnController.HasTurnsLeft());
             Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
 
-            IDictionary<ITileController, ICommand> moves = _turnController.GetAndResetMoves();
+            IDictionary<ITileController, Command> moves = _turnController.GetAndResetMoves();
             Assert.True(_turnController.CanTakeAction());
             Assert.False(_turnController.HasQueuedActions());
             Assert.AreEqual(9, _turnController.GetTurnsLeft());
@@ -161,9 +161,9 @@ namespace Assets.Editor.ControllerTests {
             Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
 
             Assert.AreEqual(3, moves.Count);
-            Assert.AreEqual(moves[_tile0].GetMoveType(), MoveType.Fire);
-            Assert.AreEqual(moves[_tile1].GetMoveType(), MoveType.Water);
-            Assert.AreEqual(moves[_tile2].GetMoveType(), MoveType.Fire);
+            Assert.AreEqual(moves[_tile0].MoveType, MoveType.Fire);
+            Assert.AreEqual(moves[_tile1].MoveType, MoveType.Water);
+            Assert.AreEqual(moves[_tile2].MoveType, MoveType.Fire);
         }
 
         [Test]
@@ -181,7 +181,7 @@ namespace Assets.Editor.ControllerTests {
             Assert.True(_turnController.HasTurnsLeft());
             Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
 
-            IDictionary<ITileController, ICommand> moves = _turnController.GetAndResetMoves();
+            IDictionary<ITileController, Command> moves = _turnController.GetAndResetMoves();
             Assert.True(_turnController.CanTakeAction());
             Assert.False(_turnController.HasQueuedActions());
             Assert.AreEqual(9, _turnController.GetTurnsLeft());
@@ -189,8 +189,8 @@ namespace Assets.Editor.ControllerTests {
             Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
 
             Assert.AreEqual(2, moves.Count);
-            Assert.AreEqual(moves[_tile0].GetMoveType(), MoveType.Fire);
-            Assert.AreEqual(moves[_tile1].GetMoveType(), MoveType.Water);
+            Assert.AreEqual(moves[_tile0].MoveType, MoveType.Fire);
+            Assert.AreEqual(moves[_tile1].MoveType, MoveType.Water);
             Assert.False(moves.ContainsKey(_tile2));
         }
 
@@ -203,7 +203,7 @@ namespace Assets.Editor.ControllerTests {
             Assert.True(_turnController.HasTurnsLeft());
             Assert.AreEqual(MoveType.Remove, _turnController.GetMoveType());
 
-            IDictionary<ITileController, ICommand> moves = _turnController.GetAndResetMoves();
+            IDictionary<ITileController, Command> moves = _turnController.GetAndResetMoves();
             Assert.False(_turnController.CanTakeAction());
             Assert.False(_turnController.HasQueuedActions());
             Assert.AreEqual(0, _turnController.GetTurnsLeft());
