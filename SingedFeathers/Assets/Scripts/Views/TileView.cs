@@ -24,11 +24,8 @@ namespace Assets.Scripts.Views {
         // Update is called once per frame
         public void Update() {
             Transform child = transform.GetChild(0);
-            int spriteIndex = _tileController.GetTileHeat() / HEAT_PER_INDEX;
+            int spriteIndex = Mathf.Min(_tileController.GetTileHeat() / HEAT_PER_INDEX, _maxIndex);
             child.gameObject.SetActive(_tileController.IsOnFire());
-            if (spriteIndex >= _maxIndex) {
-                spriteIndex = _maxIndex;
-            }
             _spriteRenderer.sprite = _heatLevelSprites[spriteIndex];
         }
 			
