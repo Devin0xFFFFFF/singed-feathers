@@ -14,18 +14,18 @@ namespace Assets.Scripts.Views {
         private ITileController _tileController;
         private SpriteRenderer _spriteRenderer;
         private const int HEAT_PER_INDEX = 10;
-        private int _maxIndex;
+        private int _maxSpriteIndex;
 
         public void Start() {
             _heatLevelSprites = new Sprite[] { SpriteHeatLevel0, SpriteHeatLevel1, SpriteHeatLevel2, SpriteHeatLevel3 };
             _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-            _maxIndex = _heatLevelSprites.Length - 1;
+            _maxSpriteIndex = _heatLevelSprites.Length - 1;
         }
 
         // Update is called once per frame
         public void Update() {
             Transform child = transform.GetChild(0);
-            int spriteIndex = Math.Min(_tileController.GetTileHeat() / HEAT_PER_INDEX, _maxIndex);
+            int spriteIndex = Math.Min(_tileController.GetTileHeat() / HEAT_PER_INDEX, _maxSpriteIndex);
             child.gameObject.SetActive(_tileController.IsOnFire());
             _spriteRenderer.sprite = _heatLevelSprites[spriteIndex];
         }
