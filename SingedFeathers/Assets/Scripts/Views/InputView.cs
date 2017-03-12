@@ -2,6 +2,7 @@
 using Assets.Scripts.Models;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Views {
     public class InputView : MonoBehaviour {
@@ -18,15 +19,28 @@ namespace Assets.Scripts.Views {
         public Sprite Fire;
         public Sprite Water;
         public Sprite Blank;
+        public GameObject ControlBorderRed;
+        public GameObject ControlBorderBlue;
         public Text TurnCountText;
         public Text OptionsText;
         public Text GameOverText;
         private Button[] _actionButtons;
         private ITurnController _turnController;
         private ITurnResolver _turnResolver;
+        private Dictionary<Vector3, GameObject> _borders;
 
         // Use this for initialization
-        public void Start() { _actionButtons = new Button[] { FireButton, WaterButton }; }
+        public void Start() { 
+            _actionButtons = new Button[] { FireButton, WaterButton };
+            _borders = new Dictionary<Vector3, GameObject>();
+        }
+
+        public void ClearSelected() { 
+            foreach (GameObject border in _borders.Values) {
+                Destroy(border.gameObject);
+            }
+            _borders = new Dictionary<Vector3, GameObject>();
+        }
 
         // Update is called once per frame
         public void Update() {
@@ -34,7 +48,7 @@ namespace Assets.Scripts.Views {
             UpdateImage();
             UpdateTurnCountText();
         }
-
+            
         public void UpdateButtons() {
             if (_turnController.CanTakeAction()) {
                 foreach (Button button in _actionButtons) {
@@ -78,10 +92,43 @@ namespace Assets.Scripts.Views {
 
         public void UpdateTurnCountText() { TurnCountText.text = TURN_COUNT_STRING + _turnController.GetTurnsLeft(); }
 
-        public void HandleMapInput(TileView tileManager) { _turnController.ProcessAction(tileManager.GetTileController()); }
+        public void HandleMapInput(TileView tileManager) { 
+            Vector3 position = tileManager.gameObject.transform.position;
+
+            if (_turnController.ProcessAction(tileManager.GetTileController())) {
+                createBorder(position);
+            }
+
+            if (_turnController.GetMoveType() == MoveType.Remove) {
+                removeBorder(position);
+            }
+        }
 
         public void SetTurnController(ITurnController turnController) { _turnController = turnController; }
 
         public void SetTurnResolver(ITurnResolver turnResolver) { _turnResolver = turnResolver; }
+
+        private void createBorder(Vector3 pos) {
+            GameObject border = null; 
+
+            switch (_turnController.GetMoveType()){
+                case MoveType.Water:
+                    border = Instantiate(ControlBorderBlue, new Vector3(pos.x, pos.y, pos.z), Quaternion.identity);
+                    break;
+                case MoveType.Fire:
+                    border = Instantiate(ControlBorderRed, new Vector3(pos.x, pos.y, pos.z), Quaternion.identity);
+                    break;
+            }
+            _borders.Add(pos, border);
+        }
+
+        private void removeBorder(Vector3 pos){
+            GameObject border = null;
+            _borders.TryGetValue(pos, out border);
+            if (border != null) {
+                Destroy(border.gameObject);
+            }
+            _borders.Remove(pos);
+        }
     }
 }
