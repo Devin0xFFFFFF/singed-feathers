@@ -16,15 +16,17 @@ namespace Assets.Scripts.Views {
 
         // Update is called once per frame
         public void Update() {
-            Transform child = transform.GetChild(0);
-            int frame = GetSpriteHeatFrame();
-            child.gameObject.SetActive(_tileController.IsOnFire());
-            _spriteRenderer.sprite = Sprites[frame];
+            if (_tileController.HasVisualStateChange()) {
+                Transform child = transform.GetChild(0);
+                int frame = GetSpriteHeatFrame();
+                child.gameObject.SetActive(_tileController.IsOnFire());
+                _spriteRenderer.sprite = Sprites[frame];
+            }
         }
 
 		public int GetSpriteHeatFrame() { return _tileController.GetSpriteHeatFrame(); }
 
-        public bool StateHasChanged() { return _tileController.StateHasChanged; }
+        public bool HasVisualStateChange() { return _tileController.StateHasChanged; }
 			
         public void ApplyHeat(int heat) { _tileController.ApplyHeat(heat); }
 

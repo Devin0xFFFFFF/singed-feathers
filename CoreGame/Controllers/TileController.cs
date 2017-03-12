@@ -5,11 +5,12 @@ using Assets.Scripts.Models;
 namespace Assets.Scripts.Controllers {
     [Serializable]
     public class TileController : ITileController {
-        public const int BURN_HEAT = 10;
+        public const int BURN_HEAT = 25;
+        public const int HEAT_LOSS = 200;
         public Position Position { get; set; }
         public bool StateHasChanged { get; set; }
-        public bool IsOccupied { get; private set; }
         public bool HasVisualChange { get; private set; }
+        public bool IsOccupied { get; private set; }
         public Tile Tile { get; private set; }
         private readonly IList<ITileController> _neighbouringTiles;
 
@@ -34,6 +35,8 @@ namespace Assets.Scripts.Controllers {
 
         public bool IsBurntOut() { return Tile.Type == TileType.Ash || (Tile.TurnsOnFire > 0 &&  Tile.TurnsOnFire >= Tile.MaxTurnsOnFire); }
 
+        public bool HasVisualStateChange() { return HasVisualChange || StateHasChanged; }
+
         public void AddNeighbouringTile(ITileController neighbourController) { _neighbouringTiles.Add(neighbourController); }
 
         public IEnumerable<ITileController> GetNeighbours() { return _neighbouringTiles; }
@@ -41,7 +44,7 @@ namespace Assets.Scripts.Controllers {
         // Calculate which sprite index the TileView should be using (for heat level indication)
         public int GetSpriteHeatFrame() {
             int heat = Tile.Heat;
-            int frame = 2 * heat / BURN_HEAT;
+            int frame = heat / BURN_HEAT;
             if (frame > 3) {
                 frame = 3;
             }
@@ -52,22 +55,27 @@ namespace Assets.Scripts.Controllers {
             bool startedOnFire = IsOnFire();
 
             // Apply heat for each neighbouring tile that is spreading heat
+            bool neighbourAppliedHeat = false;
             foreach (ITileController neighbour in _neighbouringTiles) {
                 if (neighbour.IsSpreadingHeat()) {
                     ApplyHeat(BURN_HEAT);
+                    neighbourAppliedHeat = true;
                 }
             }
 
             if (IsOnFire()) {
                 Tile.TurnsOnFire += 1;
-
                 if (startedOnFire && IsBurntOut()) {
+                    int tmpHeat = Tile.Heat;
                     Tile.Type = TileType.Ash;
                     Tile.FlashPoint = int.MaxValue;
-                    Tile.MaxTurnsOnFire = 0;
                     Extinguish();
+                    Tile.Heat = tmpHeat;
                     StateHasChanged = true;
                 }
+            } else if (!neighbourAppliedHeat) {
+                ReduceHeat(HEAT_LOSS);
+                HasVisualChange = true;
             }
         }
 

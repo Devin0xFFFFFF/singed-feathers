@@ -257,7 +257,7 @@ namespace Assets.Editor.ControllerTests {
         [Test]
         public void TestCancel() {
             _mapController.Cancel();
-            _turnController.Received().SetMoveType(MoveType.Remove);
+            _turnController.Received().SetMoveType(MoveType.Remove);    
         }
         
         private Map GenerateTestMap() {
