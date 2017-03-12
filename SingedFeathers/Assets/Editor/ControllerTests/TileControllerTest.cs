@@ -192,38 +192,9 @@ namespace Assets.Editor.ControllerTests {
         }
 
         [Test]
-        public void TestGetSpriteHeatFrameBounds() {
-            // Tile should have Sprite Heat Frame 0 after init
-            Assert.True(_tileController.GetSpriteHeatFrame() == 0);
-
-            // Tile should have Sprite Heat Frame 3 after ApplyHeat(MapController.HEAT)
-            _tileController.ApplyHeat(MapController.HEAT);
-            Assert.True(_tileController.GetSpriteHeatFrame() == 3);
-
-            // Tile should have Sprite Heat Frame 0 after ReduceHeat(MapController.HEAT)
-            _tileController.ReduceHeat(MapController.HEAT);
-            Assert.True(_tileController.GetSpriteHeatFrame() == 0);
-        }
-
-        [Test]
-        public void TestHasVisualStateChange() {
-            // There should be no change after init
-            Assert.False(_tileController.HasVisualStateChange());
-
-            // There should be a visual change after we set a tile on fire
-            // First, ignite tile
-            _tileController.ApplyHeat(100);
-
-            // Tile should be on fire
-            Assert.True(_tileController.IsOnFire());
-
-            // Let tile burn out
-            _tileController.SpreadFire();
-            _tileController.SpreadFire();
-            _tileController.SpreadFire();
-
-            // Tile should have visual change after tile is burnt out.
-            Assert.True(_tileController.HasVisualStateChange());
+        public void TestGetTileHeat() {
+            // GetTileHeat should return Tile.Heat
+            Assert.True(_tileController.GetTileHeat() == _tileController.Tile.Heat);
         }
     }
 }
