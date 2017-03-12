@@ -4,15 +4,13 @@ using System.Collections.Generic;
 
 namespace Assests.Scripts.Utility {
     public class CommandValidator {
-        private static Map _map;
+        private static int _maxMovesPerTurn;
         private CommandValidator() { }
 
-        public static void InitializeValues(Map map) {
-            _map = map;
-        }
+        public static void InitializeValues(Map map) { _maxMovesPerTurn = map.MaxMovesPerTurn; }
 
         public static bool ValidateDeltas(List<Delta> deltas, ITileController[,] tileMap) {
-            if (deltas.Count > _map.MaxMovesPerTurn) {
+            if (deltas.Count > _maxMovesPerTurn) {
                 return false;
             }
 
