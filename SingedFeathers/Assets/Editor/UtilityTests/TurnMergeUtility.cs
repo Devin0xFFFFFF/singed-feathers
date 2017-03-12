@@ -26,13 +26,13 @@ namespace Assets.Editor.UtilityTests {
 
         [Test]
         public void TestCorrectMergeSize() {
-            List<Delta> mergedList = TurnMergeUtility.MergeDeltas(_deltas0, _deltas1);
+            IList<Delta> mergedList = TurnMergeUtility.MergeDeltas(_deltas0, _deltas1);
             Assert.True(mergedList.Count == 4);
         }
 
         [Test]
         public void TestCorrectMergeSizeOrder() {
-            List<Delta> mergedList = TurnMergeUtility.MergeDeltas(_deltas0, _deltas1);
+            IList<Delta> mergedList = TurnMergeUtility.MergeDeltas(_deltas0, _deltas1);
             Assert.True(mergedList[0].Command.MoveType == MoveType.Fire);
             Assert.True(mergedList[1].Command.MoveType == MoveType.Fire);
             Assert.True(mergedList[2].Command.MoveType == MoveType.Water);
