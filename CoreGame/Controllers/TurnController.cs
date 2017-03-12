@@ -40,9 +40,9 @@ namespace Assets.Scripts.Controllers {
             if (_moveType != MoveType.Remove && CanTakeAction() 
                     && _command.CanBeExecutedOnTile(tileController)) {
                 _moves.Add(tileController, _command);
-				return true;
+                return true;
             }
-			return false;
+            return false;
         }
 
         public void UndoAllActions() { _moves = new Dictionary<ITileController, ICommand>(); }
