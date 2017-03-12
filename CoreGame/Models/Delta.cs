@@ -12,8 +12,6 @@ namespace Assets.Scripts.Models {
             Command = command;
         }
 
-        public int CompareTo(Delta other) {
-            return Command.CompareTo(other.Command);
-        }
+        public int CompareTo(Delta other) { return Command.CompareTo(other.Command); }
     }
 }
