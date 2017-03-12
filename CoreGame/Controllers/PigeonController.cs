@@ -10,7 +10,7 @@ namespace Assets.Scripts.Controllers {
         private ITileController _tileController;
 
         public PigeonController(ITileController tileController) {
-            Pigeon = new Pigeon();
+            this.Pigeon = new Pigeon();
             _tileController = tileController;
             InitialPosition = _tileController.Position;
         }
