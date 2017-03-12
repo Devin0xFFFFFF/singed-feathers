@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using Assets.Scripts.Controllers;
 using Assets.Scripts.Models;
 using Newtonsoft.Json;
@@ -12,12 +11,17 @@ namespace Assets.Scripts.Service {
                 return null;
             }
 
-            Map map = JsonConvert.DeserializeObject<Map>(serializedMap);
-            InitializeTileMapFromRaw(map);
-            InitializePigeons(map);
-            InitializeStateManagers(map);
+            try {
+                Map map = JsonConvert.DeserializeObject<Map>(serializedMap);
 
-            return map;
+                InitializeTileMapFromRaw(map);
+                InitializePigeons(map);
+                InitializeStateManagers(map);
+
+                return map;
+            } catch (Exception e) {
+                return null;
+            }
         }
         
         private void InitializeTileMapFromRaw(Map map) {

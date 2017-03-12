@@ -13,10 +13,16 @@ namespace Assets.Scripts.Controllers {
 
 		public MapController(IMapGeneratorService mapGenerator = null) { _mapGenerator = mapGenerator ?? new MapGeneratorService(); }
 
-        public void GenerateMap(string serializedMap) {
+        public bool GenerateMap(string serializedMap) {
             _map = _mapGenerator.GenerateMap(serializedMap);
+            if(_map == null) {
+                return false;
+            }
+
             LinkNeighbouringTiles();
             InitializeFires();
+
+            return true;
         }
 
         public void ApplyHeat(int x, int y) {
