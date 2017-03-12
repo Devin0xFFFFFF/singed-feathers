@@ -4,6 +4,7 @@ using Assets.Scripts.Models;
 using UnityEngine;
 using Assets.Scripts.Service;
 using Assets.Scripts.Utility;
+using Newtonsoft.Json.Utilities;
 
 namespace Assets.Scripts.Views {
     public class GameView : MonoBehaviour {
@@ -69,6 +70,7 @@ namespace Assets.Scripts.Views {
         }
 
         public void LoadPigeons() {
+            AotHelper.EnsureList<IPigeonController>();
             _pigeons = new List<PigeonView>();
             IList<IPigeonController> controllers = _mapController.GetPigeonControllers();
             foreach (IPigeonController controller in controllers) {
