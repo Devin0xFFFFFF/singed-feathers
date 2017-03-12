@@ -7,7 +7,7 @@ namespace Assests.Scripts.Utility {
         private TurnMergeUtility() { }
 
         public static IList<Delta> MergeDeltas(List<Delta> deltasOne, List<Delta> deltasTwo) {
-            return deltasOne.Concat(deltasTwo).OrderBy(delta => delta.Command.MoveType).ToList();
+            return deltasOne.Concat(deltasTwo).OrderBy(delta => delta.Command).ToList();
         }
     }
 }
