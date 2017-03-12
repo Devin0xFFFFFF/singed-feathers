@@ -15,7 +15,7 @@ namespace Assets.Scripts.Controllers {
 
         public bool GenerateMap(string serializedMap) {
             _map = _mapGenerator.GenerateMap(serializedMap);
-            if(_map == null) {
+            if (_map == null) {
                 return false;
             }
 
