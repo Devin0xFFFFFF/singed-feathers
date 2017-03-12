@@ -78,7 +78,7 @@ namespace Assets.Scripts.Views {
 
             IDictionary<NewStatus, IList<Position>> modifiedTilePositions = _mapController.SpreadFires();
             foreach (Position pos in modifiedTilePositions[NewStatus.BurntOut]) {
-           		UpdateTileType(TileType.Ash, pos.X, pos.Y);
+                UpdateTileType(TileType.Ash, pos.X, pos.Y);
             }
 
             _mapController.MovePigeons();
