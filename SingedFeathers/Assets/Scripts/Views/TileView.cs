@@ -5,14 +5,14 @@ using UnityEngine;
 namespace Assets.Scripts.Views {
     public class TileView : MonoBehaviour {
         public TileType Type;
-		public Sprite[] Sprites = new Sprite[4];
+        public Sprite[] Sprites = new Sprite[4];
         private ITileController _tileController;
-		private SpriteRenderer _spriteRenderer;
+        private SpriteRenderer _spriteRenderer;
 
-		public void Start() {
-            _spriteRenderer = gameObject.GetComponent<SpriteRenderer> ();
+        public void Start() {
+            _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
             _spriteRenderer.sprite = Sprites[0];
-		}
+        }
 
         // Update is called once per frame
         public void Update() {
@@ -24,7 +24,7 @@ namespace Assets.Scripts.Views {
             }
         }
 
-		public int GetSpriteHeatFrame() { return _tileController.GetSpriteHeatFrame(); }
+        public int GetSpriteHeatFrame() { return _tileController.GetSpriteHeatFrame(); }
 
         public bool HasVisualStateChange() { return _tileController.StateHasChanged; }
 			
