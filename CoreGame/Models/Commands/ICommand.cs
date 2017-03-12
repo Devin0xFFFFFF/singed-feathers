@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Controllers;
+using System;
 
 namespace Assets.Scripts.Models.Commands {
     public interface ICommand {

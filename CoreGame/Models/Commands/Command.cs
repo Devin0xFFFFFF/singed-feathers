@@ -1,5 +1,7 @@
-﻿namespace Assets.Scripts.Models.Commands {
-    public class Command {
+﻿using System;
+
+namespace Assets.Scripts.Models.Commands {
+    public class Command : IComparable<Command> {
         public MoveType MoveType;
         public int? Heat;
 
@@ -19,5 +21,7 @@
             }
             return new RemoveCommand();
         }
+
+        public int CompareTo(Command other) { return MoveType.CompareTo(other.MoveType); }
     }
 }
