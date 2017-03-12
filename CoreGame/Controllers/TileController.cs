@@ -43,8 +43,7 @@ namespace Assets.Scripts.Controllers {
 
         // Calculate which sprite index the TileView should be using (for heat level indication)
         public int GetSpriteHeatFrame() {
-            int heat = Tile.Heat;
-            int frame = heat / BURN_HEAT;
+            int frame = Tile.Heat; / BURN_HEAT;
             if (frame > 3) {
                 frame = 3;
             }
