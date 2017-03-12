@@ -110,14 +110,16 @@ namespace Assets.Scripts.Views {
 
         private void createBorder(Vector3 pos) {
             GameObject border = null; 
-
-            switch (_turnController.GetMoveType()){
-                case MoveType.Water:
-                    border = Instantiate(ControlBorderBlue, new Vector3(pos.x, pos.y, pos.z), Quaternion.identity);
-                    break;
-                case MoveType.Fire:
-                    border = Instantiate(ControlBorderRed, new Vector3(pos.x, pos.y, pos.z), Quaternion.identity);
-                    break;
+            _borders.TryGetValue(pos, out border);
+            if (border == null) {
+                switch (_turnController.GetMoveType()) {
+                    case MoveType.Water:
+                        border = Instantiate(ControlBorderBlue, new Vector3(pos.x, pos.y, pos.z), Quaternion.identity);
+                        break;
+                    case MoveType.Fire:
+                        border = Instantiate(ControlBorderRed, new Vector3(pos.x, pos.y, pos.z), Quaternion.identity);
+                        break;
+                }
             }
             _borders.Add(pos, border);
         }
