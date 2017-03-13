@@ -6,8 +6,9 @@ using Assets.Scripts.Models;
 
 namespace Assets.Editor.CommandTests {
     [TestFixture]
-    public class SetFireCommandTest {
+    public class CommandTest {
         private Command _fireCommand;
+        private Command _waterCommand;
         private ITileController _tile;
 
         [SetUp]
@@ -17,10 +18,13 @@ namespace Assets.Editor.CommandTests {
         public void TestReturnsCorrectMoveType() {
             _fireCommand = new Command(MoveType.Fire, 0);
             Assert.AreEqual(MoveType.Fire, _fireCommand.MoveType);
+
+            _waterCommand = new Command(MoveType.Water, 0);
+            Assert.AreEqual(MoveType.Water, _waterCommand.MoveType);
         }
 
         [Test]
-        public void TestExecuteCommand() {
+        public void TestExecuteFireCommand() {
             _fireCommand = new Command(MoveType.Fire, 1);
             _fireCommand.ExecuteCommand(_tile);
             _tile.Received().ApplyHeat(1);
@@ -28,6 +32,17 @@ namespace Assets.Editor.CommandTests {
             _fireCommand = new Command(MoveType.Fire, 10);
             _fireCommand.ExecuteCommand(_tile);
             _tile.Received().ApplyHeat(10);
+        }
+
+        [Test]
+        public void TestExecuteWaterCommand() {
+            _waterCommand = new Command(MoveType.Water, 1);
+            _waterCommand.ExecuteCommand(_tile);
+            _tile.Received().ReduceHeat(1);
+
+            _waterCommand = new Command(MoveType.Water, 10);
+            _waterCommand.ExecuteCommand(_tile);
+            _tile.Received().ReduceHeat(10);
         }
 
         [Test]
@@ -39,10 +54,18 @@ namespace Assets.Editor.CommandTests {
             _fireCommand = new Command(MoveType.Fire, -1);
             _fireCommand.ExecuteCommand(_tile);
             _tile.Received().ApplyHeat(0);
+
+            _waterCommand = new Command(MoveType.Water, 0);
+            _waterCommand.ExecuteCommand(_tile);
+            _tile.Received().ReduceHeat(0);
+
+            _waterCommand = new Command(MoveType.Water, -1);
+            _waterCommand.ExecuteCommand(_tile);
+            _tile.Received().ReduceHeat(0);
         }
 
         [Test]
-        public void TestCanBeExecutedOnTile() {
+        public void TestCanBeExecutedOnTileIfMoveTypeIsFire() {
             _fireCommand = new Command(MoveType.Fire, 0);
 
             _tile.IsFlammable().Returns(true);
@@ -85,5 +108,27 @@ namespace Assets.Editor.CommandTests {
             _tile.IsOnFire().Returns(false);
             Assert.True(_fireCommand.CanBeExecutedOnTile(_tile));
         }
+
+        [Test]
+        public void TestCanBeExecutedOnTileIfMoveTypeIsWater() {
+            _waterCommand = new Command(MoveType.Water, 0);
+
+            _tile.IsFlammable().Returns(true);
+            _tile.IsHeatZero().Returns(false);
+            Assert.True(_waterCommand.CanBeExecutedOnTile(_tile));
+
+            _tile.IsFlammable().Returns(false);
+            _tile.IsHeatZero().Returns(false);
+            Assert.False(_waterCommand.CanBeExecutedOnTile(_tile));
+
+            _tile.IsFlammable().Returns(false);
+            _tile.IsHeatZero().Returns(true);
+            Assert.False(_waterCommand.CanBeExecutedOnTile(_tile));
+
+            _tile.IsFlammable().Returns(true);
+            _tile.IsHeatZero().Returns(true);
+            Assert.False(_waterCommand.CanBeExecutedOnTile(_tile));
+        }
+
     }
 }
