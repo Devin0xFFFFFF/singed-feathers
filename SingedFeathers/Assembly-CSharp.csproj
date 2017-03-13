@@ -43,11 +43,11 @@
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\Managed\UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
-    <Reference Include="NSubstitute, Version=0.0.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca">
-      <HintPath>Assets\Plugins\NSubstitute.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>Assets\Plugins\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NSubstitute, Version=0.0.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca">
+      <HintPath>Assets\Plugins\NSubstitute.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,7 @@ using System.Timers;
 using Assets.Scripts.Models;
 using Assets.Scripts.Models.Commands;
 using Newtonsoft.Json;
+using Assests.Scripts.Utility;
 
 namespace Assets.Scripts.Controllers {
     public class LocalTurnResolver : ITurnResolver {
@@ -27,13 +28,11 @@ namespace Assets.Scripts.Controllers {
         }
 
         private void ApplyDelta(object sender, ElapsedEventArgs e, string json, ITileController[,] tileMap) {
-            int mapWidth = tileMap.GetLength(0);
-            int mapHeight = tileMap.GetLength(1);
             List<Delta> translatedDeltaList = JsonConvert.DeserializeObject<List<Delta>>(json);
             foreach (Delta delta in translatedDeltaList) {
                 Position position = delta.Position;
                 ICommand iCommand = delta.Command.MakeICommand();
-                if (mapWidth > position.X && position.X >= 0 && mapHeight > position.Y && position.Y >= 0) {
+                if (MapLocationValidator.PositionIsValid(position)) {
                     ITileController tileController = tileMap[position.X, position.Y];
                     iCommand.ExecuteCommand(tileController);
                 }
