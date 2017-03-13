@@ -1,43 +1,45 @@
 # =============== #
 # Unity generated #
 # =============== #
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/Assets/AssetStoreTools*
+/*/[Ll]ibrary/
+/*/[Tt]emp/
+/*/[Oo]bj/
+/*/[Bb]in/
+/*/[Bb]uild/
+/*/[Bb]uilds/
+/*/Assets/AssetStoreTools*
 SingedFeathers/SingedFeathers.Editor.csproj
-sysinfo.txt
-*.stackdump
+SingedFeathers/SingedFeathers.csproj
+/*/sysinfo.txt
+/*/*.stackdump
 
 # ============================================= #
 # Visual Studio / MonoDevelop / Rider generated #
 # ============================================= #
-[Ee]xported[Oo]bj/
-/.vs/
-/.consulo/
-/*.unityproj
-/*.suo
-/*.tmp
-/*.user
-/*.userprefs
-/*.pidb
-/*.booproj
-/*.svd
-/*.pdb
-/.idea*/
+/*/[Ee]xported[Oo]bj/
+/*/.vs/
+/*/.consulo/
+/*/*.unityproj
+/*/*.suo
+/*/*.tmp
+/*/*.user
+/*/*.userprefs
+/*/*.pidb
+/*/*.booproj
+/*/*.svd
+/*/*.pdb
+/*/.idea*/
 
 # ============================ #
 # Unity3D generated meta files #
 # ============================ #
-*.pidb.meta
+/*/*.pidb.meta
 
 # ====== #
 # Builds #
 # ====== #
-*.apk
-*.unitypackage
+/*/*.apk
+/*/*.unitypackage
  
 # ============ #
 # OS generated #
@@ -49,5 +51,11 @@ sysinfo.txt
 ehthumbs.db
 [Tt]humbs.db
 [Dd]esktop.ini
+
+# =================== #
+# Core Game generated #
+# =================== #
+
+CoreGame/[Bb]in*
 
 # Source: http://kleber-swf.com/the-definitive-gitignore-for-unity-projects/

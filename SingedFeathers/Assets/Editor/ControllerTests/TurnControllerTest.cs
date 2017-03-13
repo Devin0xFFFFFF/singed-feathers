@@ -17,6 +17,7 @@ namespace Assets.Editor.ControllerTests {
         private ITileController _tile1;
         private ITileController _tile2;
         private ITileController _tile3;
+		private ITileController _tile4;
 
         [SetUp]
         public void Init() { InitializeTiles(); }
@@ -51,6 +52,45 @@ namespace Assets.Editor.ControllerTests {
             _turnController.SetMoveType(MoveType.Remove);
             Assert.AreEqual(MoveType.Remove, _turnController.GetMoveType());
         }
+
+		[Test]
+		public void TestCancelCommandReturnsFalse() {
+		    _turnController = new TurnController(10, 1);
+			_turnController.SetMoveType(MoveType.Remove);
+			Assert.False(_turnController.ProcessAction(_tile0));
+		}
+
+		[Test]
+		public void TestFireCommandReturnsTrueOnFlammable()
+		{
+			_turnController = new TurnController(10, 1);
+			_turnController.SetMoveType(MoveType.Fire);
+			Assert.True(_turnController.ProcessAction(_tile0));
+		}
+
+		[Test]
+		public void TestFireCommandReturnsFalseOnNonFlammable()
+		{
+			_turnController = new TurnController(10, 1);
+			_turnController.SetMoveType(MoveType.Fire);
+			Assert.False(_turnController.ProcessAction(_tile4));
+		}
+
+		[Test]
+		public void TestWaterCommandReturnsFalseOnNoHeat()
+		{
+			_turnController = new TurnController(10, 1);
+			_turnController.SetMoveType(MoveType.Water);
+			Assert.False(_turnController.ProcessAction(_tile4));
+		}
+
+		[Test]
+		public void TestWaterCommandReturnsTrueOnHeat()
+		{
+			_turnController = new TurnController(10, 1);
+			_turnController.SetMoveType(MoveType.Water);
+			Assert.True(_turnController.ProcessAction(_tile0));
+		}
 
         [Test]
         public void TestSingleCommandLimit() {
@@ -233,6 +273,11 @@ namespace Assets.Editor.ControllerTests {
             _tile3.IsFlammable().Returns(true);
             _tile3.IsHeatZero().Returns(false);
             _tile3.IsOccupied.Returns(false);
+
+			_tile4 = Substitute.For<ITileController>();
+			_tile4.IsFlammable().Returns(false);
+			_tile4.IsHeatZero().Returns(true);
+			_tile4.IsOccupied.Returns(false);
         }
     }
 }

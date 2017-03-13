@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8BB2C643-4722-4023-A8F2-4B3E23DF6B6F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CoreGame</RootNamespace>
+    <AssemblyName>CoreGame</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Singed.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\SingedFeathers\Assets\Plugins\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\Interfaces\IMapController.cs" />
+    <Compile Include="Controllers\Interfaces\IPigeonController.cs" />
+    <Compile Include="Controllers\Interfaces\ITileController.cs" />
+    <Compile Include="Controllers\Interfaces\ITurnController.cs" />
+    <Compile Include="Controllers\Interfaces\ITurnResolver.cs" />
+    <Compile Include="Controllers\LocalTurnResolver.cs" />
+    <Compile Include="Controllers\MapController.cs" />
+    <Compile Include="Controllers\PigeonController.cs" />
+    <Compile Include="Controllers\TileController.cs" />
+    <Compile Include="Controllers\TurnController.cs" />
+    <Compile Include="Models\Commands\AddWaterCommand.cs" />
+    <Compile Include="Models\Commands\Command.cs" />
+    <Compile Include="Models\Commands\ICommand.cs" />
+    <Compile Include="Models\Commands\RemoveCommand.cs" />
+    <Compile Include="Models\Commands\SetFireCommand.cs" />
+    <Compile Include="Models\Delta.cs" />
+    <Compile Include="Models\Map.cs" />
+    <Compile Include="Models\MapInfo.cs" />
+    <Compile Include="Models\MoveType.cs" />
+    <Compile Include="Models\NewStatus.cs" />
+    <Compile Include="Models\Pigeon.cs" />
+    <Compile Include="Models\Position.cs" />
+    <Compile Include="Models\Tile.cs" />
+    <Compile Include="Models\TIleType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\IMapGeneratorService.cs" />
+    <Compile Include="Service\MapGeneratorService.cs" />
+    <Compile Include="Utility\MapLocationValidator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Singed.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent Condition=" '$(OS)' != 'Unix' ">
+      copy /Y "CoreGame.dll" "../../SingedFeathers/Assets/Plugins"
+    </PostBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' == 'Unix' ">
+      cp CoreGame.dll ../../SingedFeathers/Assets/Plugins
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

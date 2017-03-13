@@ -1,50 +1,65 @@
 ﻿using Assets.Scripts.Models;
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Assets.Scripts.MapIO {
+namespace Assets.Scripts.Service {
     public class MapPersistenceClient {
         private const string CREATE_MAP_PATH = "createMap";
         private const string GET_MAP_DATA_PATH = "getMapData";
         private const string GET_MAPS_PATH = "getMaps";
 
-        private AWSAPIGatewayClient _client;
+        private const string MAP_ID_FIELD = "MapID";
+
+        private AWSAPIRequestBuilder _requestBuilder;
 
         public delegate void ResultCallback(MapClientResult result);
 
-        public MapPersistenceClient(AWSAPIGatewayConfig apiConfig) { _client = new AWSAPIGatewayClient(apiConfig); }
+        public MapPersistenceClient(AWSAPIClientConfig apiConfig = null) { _requestBuilder = new AWSAPIRequestBuilder(apiConfig ?? new AWSAPIClientConfig()); }
 
         public IEnumerator CreateMap(MapInfo mapInfo, ResultCallback resultCallback) {
-            string serializedMapInfo = "{ \"MapInfo\": { " +
-                "\"MapName\": \"" + mapInfo.MapName +
-                "\", \"CreatorName\": \"" + mapInfo.CreatorName +
-                "\", \"MapType\": \"" + mapInfo.MapType +
-                "\", \"MapData\": \"" + mapInfo.SerializedMapData +
-                "\" } }";
+            string serializedMapInfo = SerializeMapInfo(mapInfo);
 
-            yield return _client.Put(CREATE_MAP_PATH, serializedMapInfo, delegate (UnityWebRequest webRequest) {
-                resultCallback(ConvertRequestToMapClientResult(CREATE_MAP_PATH, webRequest));
-            });
+            UnityWebRequest request = _requestBuilder.BuildPutRequest(CREATE_MAP_PATH, serializedMapInfo);
+
+            yield return request.Send();
+
+            resultCallback(ConvertRequestToMapClientResult(CREATE_MAP_PATH, request));
         }
 
         public IEnumerator GetMapData(string mapID, ResultCallback resultCallback) {
-            SortedDictionary<string, string> queryParameters = new SortedDictionary<string, string> {
-            { "MapID", mapID }
-        };
+            SortedDictionary<string, string> queryParameters = BuildGetMapDataQueryParameters(mapID);
 
-            yield return _client.Get(GET_MAP_DATA_PATH, queryParameters, delegate (UnityWebRequest webRequest) {
-                resultCallback(ConvertRequestToMapClientResult(GET_MAP_DATA_PATH, webRequest));
-            });
+            UnityWebRequest request = _requestBuilder.BuildGetRequest(GET_MAP_DATA_PATH, queryParameters);
+
+            yield return request.Send();
+
+            resultCallback(ConvertRequestToMapClientResult(GET_MAP_DATA_PATH, request));
         }
 
         public IEnumerator GetMaps(ResultCallback resultCallback) {
-            SortedDictionary<string, string> queryParameters = new SortedDictionary<string, string> {};
+            SortedDictionary<string, string> queryParameters = BuildGetMapsQueryParameters();
 
-            yield return _client.Get(GET_MAPS_PATH, queryParameters, delegate (UnityWebRequest webRequest) {
-                resultCallback(ConvertRequestToMapClientResult(GET_MAPS_PATH, webRequest));
-            });
+            UnityWebRequest request = _requestBuilder.BuildGetRequest(GET_MAPS_PATH, queryParameters);
+
+            yield return request.Send();
+
+            resultCallback(ConvertRequestToMapClientResult(GET_MAPS_PATH, request));
         }
+
+        private string SerializeMapInfo(MapInfo mapInfo) {
+            return JsonConvert.SerializeObject(mapInfo);
+        }
+
+        private SortedDictionary<string, string> BuildGetMapDataQueryParameters(string mapID) {
+            return new SortedDictionary<string, string> {
+                { MAP_ID_FIELD, mapID }
+            };
+        }
+
+        private SortedDictionary<string, string> BuildGetMapsQueryParameters() { return new SortedDictionary<string, string> { }; }
 
         private static MapClientResult ConvertRequestToMapClientResult(string requestType, UnityWebRequest request) {
             string responseBody = request.downloadHandler.text;

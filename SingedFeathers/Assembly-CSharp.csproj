@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_5_1;UNITY_5_5;UNITY_5;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GENERICS;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;UNITY_WEBGL;UNITY_WEBGL_API;UNITY_DISABLE_WEB_VERIFICATION;UNITY_GFX_USE_PLATFORM_VSYNC;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_VR;ENABLE_IL2CPP;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;UNITY_TEAM_LICENSE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_5_1;UNITY_5_5;UNITY_5;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GENERICS;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;UNITY_WEBGL;UNITY_WEBGL_API;UNITY_DISABLE_WEB_VERIFICATION;UNITY_GFX_USE_PLATFORM_VSYNC;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_VR;ENABLE_IL2CPP;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;UNITY_TEAM_LICENSE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
@@ -43,49 +43,25 @@
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\Managed\UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>Assets\Plugins\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="NSubstitute, Version=0.0.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca">
       <HintPath>Assets\Plugins\NSubstitute.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>Assets\Plugins\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Controllers\Interfaces\IMapController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Interfaces\IPigeonController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Interfaces\ITileController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Interfaces\ITurnController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\Interfaces\ITurnResolver.cs" />
-    <Compile Include="Assets\Scripts\Controllers\LocalTurnResolver.cs" />
-    <Compile Include="Assets\Scripts\Controllers\MapController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\PigeonController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\TileController.cs" />
-    <Compile Include="Assets\Scripts\Controllers\TurnController.cs" />
     <Compile Include="Assets\Scripts\GameSelection.cs" />
     <Compile Include="Assets\Scripts\Input\MapInput.cs" />
-    <Compile Include="Assets\Scripts\Models\Commands\AddWaterCommand.cs" />
-    <Compile Include="Assets\Scripts\Models\Commands\ICommand.cs" />
-    <Compile Include="Assets\Scripts\Models\Commands\RemoveCommand.cs" />
-    <Compile Include="Assets\Scripts\Models\Commands\SetFireCommand.cs" />
-    <Compile Include="Assets\Scripts\Models\Map.cs" />
-    <Compile Include="Assets\Scripts\Models\MapInfo.cs" />
-    <Compile Include="Assets\Scripts\Models\MoveType.cs" />
-    <Compile Include="Assets\Scripts\Models\NewStatus.cs" />
-    <Compile Include="Assets\Scripts\Models\Pigeon.cs" />
-    <Compile Include="Assets\Scripts\Models\Position.cs" />
-    <Compile Include="Assets\Scripts\Models\TIleType.cs" />
-    <Compile Include="Assets\Scripts\Models\Tile.cs" />
-    <Compile Include="Assets\Scripts\Service\AWSAPIGatewayClient.cs" />
-    <Compile Include="Assets\Scripts\Service\AWSAPIGatewayConfig.cs" />
-    <Compile Include="Assets\Scripts\Service\IMapGeneratorService.cs" />
+    <Compile Include="Assets\Scripts\Service\AWSAPIClientConfig.cs" />
+    <Compile Include="Assets\Scripts\Service\AWSAPIRequestBuilder.cs" />
     <Compile Include="Assets\Scripts\Service\MapClientResult.cs" />
-    <Compile Include="Assets\Scripts\Service\MapGeneratorService.cs" />
-    <Compile Include="Assets\Scripts\Service\MapIO.cs" />
     <Compile Include="Assets\Scripts\Service\MapPersistenceClient.cs" />
-    <Compile Include="Assets\Scripts\UnityViews\GameView.cs" />
-    <Compile Include="Assets\Scripts\UnityViews\InputView.cs" />
-    <Compile Include="Assets\Scripts\UnityViews\PigeonView.cs" />
-    <Compile Include="Assets\Scripts\UnityViews\TileView.cs" />
+    <Compile Include="Assets\Scripts\Utility\UnitySystemConsoleRedirector.cs" />
+    <Compile Include="Assets\Scripts\Views\GameView.cs" />
+    <Compile Include="Assets\Scripts\Views\InputView.cs" />
+    <Compile Include="Assets\Scripts\Views\PigeonView.cs" />
+    <Compile Include="Assets\Scripts\Views\TileView.cs" />
     <None Include="Assets\link.xml" />
     <Reference Include="UnityEngine.Analytics">
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\UnityAnalytics\UnityEngine.Analytics.dll</HintPath>
@@ -104,6 +80,9 @@
     </Reference>
     <Reference Include="UnityEngine.VR">
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\UnityVR\RuntimeEditor\UnityEngine.VR.dll</HintPath>
+    </Reference>
+    <Reference Include="CoreGame">
+      <HintPath>Assets\Plugins\CoreGame.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
