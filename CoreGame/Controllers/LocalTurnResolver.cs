@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Timers;
 using Assets.Scripts.Models;
 using Assets.Scripts.Models.Commands;
 using Newtonsoft.Json;
@@ -21,13 +20,10 @@ namespace Assets.Scripts.Controllers {
 
             string json = JsonConvert.SerializeObject(deltaList);
 
-            Timer timer = new Timer(3000);
-            timer.Elapsed += (sender, e) => ApplyDelta(sender, e, json, tileMap);
-            timer.AutoReset = false;
-            timer.Enabled = true;
+            ApplyDelta(json, tileMap);
         }
 
-        private void ApplyDelta(object sender, ElapsedEventArgs e, string json, ITileController[,] tileMap) {
+        private void ApplyDelta(string json, ITileController[,] tileMap) {
             List<Delta> translatedDeltaList = JsonConvert.DeserializeObject<List<Delta>>(json);
             foreach (Delta delta in translatedDeltaList) {
                 Position position = delta.Position;
