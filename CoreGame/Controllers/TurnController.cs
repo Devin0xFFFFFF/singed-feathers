@@ -35,12 +35,14 @@ namespace Assets.Scripts.Controllers {
 
         public MoveType GetMoveType() { return _moveType; }
 
-        public void ProcessAction(ITileController tileController) {
+        public bool ProcessAction(ITileController tileController) {
             _moves.Remove(tileController);
             if (_moveType != MoveType.Remove && CanTakeAction() 
                     && _command.CanBeExecutedOnTile(tileController)) {
                 _moves.Add(tileController, _command);
+                return true;
             }
+            return false;
         }
 
         public void UndoAllActions() { _moves = new Dictionary<ITileController, ICommand>(); }

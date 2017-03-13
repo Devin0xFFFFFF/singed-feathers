@@ -86,6 +86,7 @@ namespace Assets.Scripts.Views {
             Debug.Log("Resolving turn: " + _mapController.GetTurnsLeft());
 
             _mapController.EndTurn();
+            InputView.ClearSelected();
 
             IDictionary<NewStatus, IList<Position>> modifiedTilePositions = _mapController.ModifiedTilePositions;
             foreach (Position pos in modifiedTilePositions[NewStatus.BurntOut]) {
@@ -101,7 +102,10 @@ namespace Assets.Scripts.Views {
 
         public ITurnResolver GetTurnResolver() { return _mapController.GetTurnResolver(); }
 
-        public void UndoAll() { _mapController.UndoAllActions(); }
+        public void UndoAll() { 
+            _mapController.UndoAllActions();
+            InputView.ClearSelected();
+        }
 
         public void Fire() { _mapController.Fire(); }
 
