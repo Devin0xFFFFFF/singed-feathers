@@ -1,6 +1,6 @@
-﻿using Assets.Scripts.Models;
+﻿using CoreGame.Models;
 
-namespace Assests.Scripts.Utility {
+namespace CoreGame.Utility {
     public class MapLocationValidator {
         private static int MapHeight;
         private static int MapWidth;

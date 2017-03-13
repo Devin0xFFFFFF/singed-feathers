@@ -1,6 +1,6 @@
-﻿using Assets.Scripts.Controllers;
+﻿using CoreGame.Controllers.Interfaces;
 
-namespace Assets.Scripts.Models.Commands {
+namespace CoreGame.Models.Commands {
     class RemoveCommand : ICommand {
         public void ExecuteCommand(ITileController tileController) {}
 

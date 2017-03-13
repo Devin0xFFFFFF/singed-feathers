@@ -1,7 +1,7 @@
-﻿using Assets.Scripts.Controllers;
-using System;
+﻿using System;
+using CoreGame.Controllers.Interfaces;
 
-namespace Assets.Scripts.Models.Commands {
+namespace CoreGame.Models.Commands {
     public class AddWaterCommand : ICommand {
         private readonly int _heat;
 

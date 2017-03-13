@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts.Models;
-using Assets.Scripts.Models.Commands;
+using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
+using CoreGame.Models.Commands;
+using CoreGame.Utility;
 using Newtonsoft.Json;
-using Assests.Scripts.Utility;
 
-namespace Assets.Scripts.Controllers {
+namespace CoreGame.Controllers {
     public class LocalTurnResolver : ITurnResolver {
         private bool _isTurnResolved = true;
 

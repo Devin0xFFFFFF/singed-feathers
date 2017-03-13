@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Scripts.Controllers;
+using CoreGame.Controllers.Interfaces;
 
-namespace Assets.Scripts.Models {
+namespace CoreGame.Models {
     [Serializable]
     public class Map {
         public int TurnsLeft;

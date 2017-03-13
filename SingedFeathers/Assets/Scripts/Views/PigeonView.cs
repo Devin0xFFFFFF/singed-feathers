@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.Controllers;
-using Assets.Scripts.Models;
+﻿using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
 using UnityEngine;
 
 namespace Assets.Scripts.Views {
