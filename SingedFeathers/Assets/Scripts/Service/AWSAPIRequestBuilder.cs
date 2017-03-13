@@ -30,9 +30,9 @@ namespace Assets.Scripts.Service {
         private const string CONTENT_TYPE_JSON = "application/json";
         private const string SIGNED_HEADERS = "content-type;host;x-amz-date";
 
-        private AWSAPIConfig _apiConfig;
+        private AWSAPIClientConfig _apiConfig;
 
-        public AWSAPIRequestBuilder(AWSAPIConfig apiConfig) { _apiConfig = apiConfig; }
+        public AWSAPIRequestBuilder(AWSAPIClientConfig apiConfig) { _apiConfig = apiConfig; }
 
         public UnityWebRequest BuildGetRequest(string path, SortedDictionary<string, string> queryParameters) {
             string canonicalUri = GetCanonicalUri(path);

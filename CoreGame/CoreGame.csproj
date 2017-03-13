@@ -71,7 +71,6 @@
     <Compile Include="Models\TIleType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IMapGeneratorService.cs" />
-    <Compile Include="Service\MapClientResult.cs" />
     <Compile Include="Service\MapGeneratorService.cs" />
   </ItemGroup>
   <ItemGroup>

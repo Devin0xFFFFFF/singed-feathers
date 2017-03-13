@@ -15,5 +15,11 @@ namespace Assets.Editor.ServiceTests {
             Map map = _mapGeneratorService.GenerateMap(null);
             Assert.Null(map);
         }
+
+        [Test]
+        public void TestIfInvalidSerializedMapReturnsNull() {
+            Map map = _mapGeneratorService.GenerateMap("{");
+            Assert.Null(map);
+        }
     }
 }

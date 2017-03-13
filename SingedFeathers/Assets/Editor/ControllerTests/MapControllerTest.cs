@@ -262,6 +262,13 @@ namespace Assets.Editor.ControllerTests {
             _turnController.Received().SetMoveType(MoveType.Remove);
         }
 
+        [Test]
+        public void TestGenerateMap() {
+            MapController mc = new MapController();
+            Assert.IsFalse(mc.GenerateMap(null));
+            Assert.IsFalse(mc.GenerateMap("{"));
+        }
+
         private Map GenerateTestMap() {
             return new Map() {
                 Height = 3,
