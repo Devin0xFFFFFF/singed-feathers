@@ -10,6 +10,7 @@ namespace Assets.Scripts.Views {
         public Sprite SpriteHeatLevel1;
         public Sprite SpriteHeatLevel2;
         public Sprite SpriteHeatLevel3;
+        public Sprite BurntOutSprite;
         private Sprite[] _heatLevelSprites;
         private ITileController _tileController;
         private SpriteRenderer _spriteRenderer;
@@ -25,9 +26,8 @@ namespace Assets.Scripts.Views {
         // Update is called once per frame
         public void Update() {
             Transform child = transform.GetChild(0);
-            int spriteIndex = Math.Min(_tileController.GetTileHeat() / HEAT_PER_INDEX, _maxSpriteIndex);
             child.gameObject.SetActive(_tileController.IsOnFire());
-            _spriteRenderer.sprite = _heatLevelSprites[spriteIndex];
+            SetSprite();
         }
 			
         public void ApplyHeat(int heat) { _tileController.ApplyHeat(heat); }
@@ -41,5 +41,14 @@ namespace Assets.Scripts.Views {
         public void SetController(ITileController controller) { _tileController = controller; }
 
         public ITileController GetTileController() { return _tileController; }
+
+        private void SetSprite() {
+            if (_tileController.IsBurntOut()) {
+                _spriteRenderer.sprite = BurntOutSprite;
+            } else {
+                int spriteIndex = Math.Min(_tileController.GetTileHeat() / HEAT_PER_INDEX, _maxSpriteIndex);
+                _spriteRenderer.sprite = _heatLevelSprites[spriteIndex];
+            }
+        }
     }
 }

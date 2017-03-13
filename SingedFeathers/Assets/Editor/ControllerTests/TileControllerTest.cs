@@ -17,20 +17,17 @@ namespace Assets.Editor.ControllerTests {
             Assert.True(_tileController.IsFlammable());
             Assert.False(_tileController.IsBurntOut());
             Assert.False(_tileController.IsOnFire());
-            Assert.False(_tileController.IsSpreadingHeat());
 
             _tileController = new TileController(TileType.Stone, 0, 0);
             Assert.AreEqual(TileType.Stone, _tileController.GetTileType());
             Assert.False(_tileController.IsFlammable());
             Assert.False(_tileController.IsBurntOut());
-            Assert.False(_tileController.IsSpreadingHeat());
             Assert.False(_tileController.IsOnFire());
 
             _tileController = new TileController(TileType.Ash, 0, 0);
             Assert.AreEqual(TileType.Ash, _tileController.GetTileType());
             Assert.False(_tileController.IsFlammable());
-            Assert.True(_tileController.IsBurntOut());
-            Assert.False(_tileController.IsSpreadingHeat());
+            Assert.False(_tileController.IsBurntOut());
             Assert.False(_tileController.IsOnFire());
 
             _tileController = new TileController(TileType.Wood, 0, 0);
@@ -38,7 +35,6 @@ namespace Assets.Editor.ControllerTests {
             Assert.True(_tileController.IsFlammable());
             Assert.False(_tileController.IsBurntOut());
             Assert.False(_tileController.IsOnFire());
-            Assert.False(_tileController.IsSpreadingHeat());
 
         }
 
@@ -46,15 +42,8 @@ namespace Assets.Editor.ControllerTests {
         public void TestChangingOnFireStatus() {
             Assert.AreEqual(false, _tileController.IsOnFire());
             _tileController.ApplyHeat(100);
-            Assert.AreEqual(true, _tileController.IsOnFire());
-            _tileController.Extinguish();
             Assert.AreEqual(false, _tileController.IsOnFire());
-        }
-
-        [Test]
-        public void TestChangingWaterStatus() {
-            Assert.AreEqual(false, _tileController.IsOnFire());
-            _tileController.ApplyHeat(100);
+            _tileController.UpKeep();
             Assert.AreEqual(true, _tileController.IsOnFire());
             _tileController.ReduceHeat(100);
             Assert.AreEqual(false, _tileController.IsOnFire());
@@ -65,48 +54,43 @@ namespace Assets.Editor.ControllerTests {
             Assert.AreEqual(false, _tileController.IsOnFire());
             _tileController.ReduceHeat(100);
             Assert.AreEqual(false, _tileController.IsOnFire());
-            _tileController.ApplyHeat(100);
+            _tileController.ApplyHeat(99);
+            _tileController.UpKeep();
             Assert.AreEqual(true, _tileController.IsOnFire());
         }
 
         [Test]
-        public void TestTileUpdatesAfterBurnout() {
+        public void TestTileBurnsOut() {
             Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
             Assert.AreEqual(false, _tileController.IsOnFire());
             Assert.AreEqual(false, _tileController.IsBurntOut());
 
             // Light the tile and spread once
             _tileController.ApplyHeat(100);
+            _tileController.UpKeep();
+            Assert.AreEqual(false, _tileController.IsBurntOut());
+            Assert.AreEqual(true, _tileController.IsOnFire());
+            Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
+
             _tileController.SpreadFire();
+            _tileController.UpKeep();
             Assert.AreEqual(false, _tileController.IsBurntOut());
             Assert.AreEqual(true, _tileController.IsOnFire());
             Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
 
             // Spread again -- still not burnt out
             _tileController.SpreadFire();
+            _tileController.UpKeep();
             Assert.AreEqual(false, _tileController.IsBurntOut());
             Assert.AreEqual(true, _tileController.IsOnFire());
             Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
 
             // Spread again -- burnt out
             _tileController.SpreadFire();
+            _tileController.UpKeep();
             Assert.AreEqual(true, _tileController.IsBurntOut());
-            Assert.AreEqual(TileType.Ash, _tileController.GetTileType());
-        }
-
-        [Test]
-        public void TestTileTypeUpdatesAfterBurnsOut() {
+            Assert.AreEqual(false, _tileController.IsOnFire());
             Assert.AreEqual(TileType.Grass, _tileController.GetTileType());
-
-            //Ignite tile and burn it out
-            _tileController.ApplyHeat(100);
-            Assert.True(_tileController.IsOnFire());
-
-            _tileController.SpreadFire();
-            _tileController.SpreadFire();
-            _tileController.SpreadFire();
-
-            Assert.AreEqual(TileType.Ash, _tileController.GetTileType());
         }
 
         [Test]
@@ -125,23 +109,20 @@ namespace Assets.Editor.ControllerTests {
         public void TestIncrementallyTakesHeatFromNeighbours() {
             ITileController woodNeighbour = new TileController(TileType.Wood, 0, 0);
             woodNeighbour.ApplyHeat(100);
-            woodNeighbour.StateHasChanged = false;
+            woodNeighbour.UpKeep();
             Assert.True(woodNeighbour.IsOnFire());
-            Assert.True(woodNeighbour.IsSpreadingHeat());
-            _tileController.AddNeighbouringTile(woodNeighbour);
+            woodNeighbour.AddNeighbouringTile(_tileController);
 
             Assert.False(_tileController.IsOnFire());
-            Assert.False(_tileController.StateHasChanged);
 
-            _tileController.SpreadFire();
-
-            Assert.True(_tileController.IsOnFire());
-            Assert.True(_tileController.StateHasChanged);
-
-            _tileController.SpreadFire();
+            woodNeighbour.SpreadFire();
+            _tileController.UpKeep();
 
             Assert.True(_tileController.IsOnFire());
-            Assert.True(_tileController.StateHasChanged);
+            woodNeighbour.SpreadFire();
+            _tileController.UpKeep();
+
+            Assert.True(_tileController.IsOnFire());
         }
 
         [Test]

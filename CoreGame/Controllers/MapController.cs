@@ -8,7 +8,6 @@ namespace Assets.Scripts.Controllers {
         public const int HEAT = 100;
         public int Width { get { return _map.Width; } }
         public int Height { get { return _map.Height; } }
-        public IDictionary<NewStatus, IList<Position>> ModifiedTilePositions { get; private set; }
         private readonly IMapGeneratorService _mapGenerator;
         private Map _map;
 
@@ -69,36 +68,20 @@ namespace Assets.Scripts.Controllers {
         public void Cancel() { _map.TurnController.SetMoveType(MoveType.Remove); }
 
         public void SpreadFires() {
-            IDictionary<NewStatus, IList<Position>> modifiedTiles = new Dictionary<NewStatus, IList<Position>>();
-
-            modifiedTiles.Add(NewStatus.BurntOut, new List<Position>());
-            modifiedTiles.Add(NewStatus.OnFire, new List<Position>());
-
             // Update tiles
             for (int x = 0; x < Width; x++) {
                 for (int y = 0; y < Height; y++) {
                     ITileController tile = _map.TileMap[x, y];
                     tile.SpreadFire();
-
-                    if (tile.StateHasChanged) {
-                        if (tile.IsBurntOut()) {
-                            modifiedTiles[NewStatus.BurntOut].Add(new Position(x, y));
-                        }
-                        if (tile.IsOnFire()) {
-                            modifiedTiles[NewStatus.OnFire].Add(new Position(x, y));
-                        }
-                    }
                 }
             }
 
-            // Reset map
             for (int x = 0; x < Width; x++) {
                 for (int y = 0; y < Height; y++) {
-                    _map.TileMap[x, y].StateHasChanged = false;
+                    ITileController tile = _map.TileMap[x, y];
+                    tile.UpKeep();
                 }
             }
-
-            ModifiedTilePositions = modifiedTiles;
         }
 
         public void MovePigeons() {
