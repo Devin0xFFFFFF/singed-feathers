@@ -19,7 +19,7 @@ namespace Assets.Scripts.Service {
                 InitializeStateManagers(map);
 
                 return map;
-            } catch (Exception e) {
+            } catch (Exception) {
                 return null;
             }
         }

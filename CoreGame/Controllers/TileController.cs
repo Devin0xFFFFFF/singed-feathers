@@ -22,6 +22,8 @@ namespace Assets.Scripts.Controllers {
 
         public TileType GetTileType() { return Tile.Type; }
 
+        public int GetTileHeat() { return Tile.Heat; }
+
         public bool IsFlammable() { return Tile.FlashPoint < int.MaxValue && !IsBurntOut(); }
 
         public bool IsSpreadingHeat() {
