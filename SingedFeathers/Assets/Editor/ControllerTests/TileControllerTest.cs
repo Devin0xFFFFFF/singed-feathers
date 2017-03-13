@@ -1,5 +1,6 @@
-﻿using Assets.Scripts.Controllers;
-using Assets.Scripts.Models;
+﻿using CoreGame.Controllers;
+using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
 using NUnit.Framework;
 
 namespace Assets.Editor.ControllerTests {

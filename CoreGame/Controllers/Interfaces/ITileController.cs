@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts.Models;
+using CoreGame.Models;
 
-namespace Assets.Scripts.Controllers {
+namespace CoreGame.Controllers.Interfaces {
     public interface ITileController {
         Tile Tile { get; }
         bool StateHasChanged { get; set; }

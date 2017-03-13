@@ -1,6 +1,6 @@
-﻿using Assets.Scripts.Controllers;
+﻿using CoreGame.Controllers.Interfaces;
 
-namespace Assets.Scripts.Models.Commands {
+namespace CoreGame.Models.Commands {
     public interface ICommand {
         void ExecuteCommand(ITileController tileController);
         bool CanBeExecutedOnTile(ITileController tileController);

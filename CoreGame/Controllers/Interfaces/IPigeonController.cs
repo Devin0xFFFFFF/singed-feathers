@@ -1,6 +1,6 @@
-﻿using Assets.Scripts.Models;
+﻿using CoreGame.Models;
 
-namespace Assets.Scripts.Controllers {
+namespace CoreGame.Controllers.Interfaces {
     public interface IPigeonController {
         Position InitialPosition { get; }
         Position CurrentPosition { get; }

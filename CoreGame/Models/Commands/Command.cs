@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Models.Commands {
+﻿namespace CoreGame.Models.Commands {
     public class Command {
         public MoveType MoveType;
         public int? Heat;

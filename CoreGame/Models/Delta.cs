@@ -1,7 +1,7 @@
 ﻿using System;
-using Assets.Scripts.Models.Commands;
+using CoreGame.Models.Commands;
 
-namespace Assets.Scripts.Models {
+namespace CoreGame.Models {
     [Serializable]
     public class Delta {
         public Position Position;
