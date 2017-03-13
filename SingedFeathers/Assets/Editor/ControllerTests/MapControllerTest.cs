@@ -223,12 +223,10 @@ namespace Assets.Editor.ControllerTests {
 
             _mapController.MovePigeons();
 
-            // Pigeon0 is dead and is not invoked
-            _pigeon0.Received().IsDead();
-            _pigeon0.DidNotReceive().React();
+            // Pigeon0 React() invoked
+            _pigeon0.Received().React();
 
-            // Pigeon1 is alive and should have been invoked
-            _pigeon1.Received().IsDead();
+            // Pigeon1 React() invoked
             _pigeon1.Received().React();
         }
 
@@ -262,6 +260,13 @@ namespace Assets.Editor.ControllerTests {
         public void TestCancel() {
             _mapController.Cancel();
             _turnController.Received().SetMoveType(MoveType.Remove);
+        }
+
+        [Test]
+        public void TestGenerateMap() {
+            MapController mc = new MapController();
+            Assert.IsFalse(mc.GenerateMap(null));
+            Assert.IsFalse(mc.GenerateMap("{"));
         }
 
         private Map GenerateTestMap() {

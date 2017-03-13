@@ -68,7 +68,6 @@
     <Compile Include="Models\TIleType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IMapGeneratorService.cs" />
-    <Compile Include="Service\MapClientResult.cs" />
     <Compile Include="Service\MapGeneratorService.cs" />
     <Compile Include="Utility\CommandValidator.cs" />
     <Compile Include="Utility\MapLocationValidator.cs" />
@@ -80,16 +79,11 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent Condition=" '$(OS)' != 'Unix' ">
-      copy /Y "CoreGame.dll" "../../../SingedFeathers/Assets/Plugins"
+      copy /Y "CoreGame.dll" "../../SingedFeathers/Assets/Plugins"
     </PostBuildEvent>
     <PostBuildEvent Condition=" '$(OS)' == 'Unix' ">
       cp CoreGame.dll ../../SingedFeathers/Assets/Plugins
     </PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>
-      copy /Y "CoreGame.dll" "../../SingedFeathers/Assets/Plugins"
-</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

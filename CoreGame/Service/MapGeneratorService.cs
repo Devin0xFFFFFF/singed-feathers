@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Assets.Scripts.Controllers;
 using Assets.Scripts.Models;
 using Newtonsoft.Json;
@@ -6,16 +6,21 @@ using Newtonsoft.Json;
 namespace Assets.Scripts.Service {
     public class MapGeneratorService : IMapGeneratorService {
         public Map GenerateMap(string serializedMap) {
-            if(serializedMap == null) {
+            if (serializedMap == null) {
                 return null;
             }
 
-            Map map = JsonConvert.DeserializeObject<Map>(serializedMap);
-            InitializeTileMapFromRaw(map);
-            InitializePigeons(map);
-            InitializeStateManagers(map);
+            try {
+                Map map = JsonConvert.DeserializeObject<Map>(serializedMap);
 
-            return map;
+                InitializeTileMapFromRaw(map);
+                InitializePigeons(map);
+                InitializeStateManagers(map);
+
+                return map;
+            } catch (Exception) {
+                return null;
+            }
         }
         
         private void InitializeTileMapFromRaw(Map map) {

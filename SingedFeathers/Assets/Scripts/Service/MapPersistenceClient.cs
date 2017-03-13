@@ -17,7 +17,7 @@ namespace Assets.Scripts.Service {
 
         public delegate void ResultCallback(MapClientResult result);
 
-        public MapPersistenceClient(AWSAPIConfig apiConfig = null) { _requestBuilder = new AWSAPIRequestBuilder(apiConfig ?? new AWSAPIConfig()); }
+        public MapPersistenceClient(AWSAPIClientConfig apiConfig = null) { _requestBuilder = new AWSAPIRequestBuilder(apiConfig ?? new AWSAPIClientConfig()); }
 
         public IEnumerator CreateMap(MapInfo mapInfo, ResultCallback resultCallback) {
             string serializedMapInfo = SerializeMapInfo(mapInfo);

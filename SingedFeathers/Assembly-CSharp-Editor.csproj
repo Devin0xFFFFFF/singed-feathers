@@ -59,6 +59,9 @@
     <Compile Include="Assets\Editor\ControllerTests\TileControllerTest.cs" />
     <Compile Include="Assets\Editor\ControllerTests\TurnControllerTest.cs" />
     <Compile Include="Assets\Editor\ServiceTests\MapGeneratorServiceTest.cs" />
+    <Compile Include="Assets\Editor\UtilityTests\CommandValidatorTest.cs" />
+    <Compile Include="Assets\Editor\UtilityTests\MapLocationValidatorTest.cs" />
+    <Compile Include="Assets\Editor\UtilityTests\TurnMergeUtilityTest.cs" />
     <None Include="Assets\link.xml" />
     <Reference Include="UnityEngine.Analytics">
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\UnityAnalytics\UnityEngine.Analytics.dll</HintPath>
@@ -108,6 +111,9 @@
     <Reference Include="UnityEngine.VR">
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\UnityVR\RuntimeEditor\UnityEngine.VR.dll</HintPath>
     </Reference>
+    <Reference Include="CoreGame">
+      <HintPath>Assets\Plugins\CoreGame.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.Graphs">
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\Managed\UnityEditor.Graphs.dll</HintPath>
     </Reference>
@@ -122,9 +128,6 @@
     </Reference>
     <Reference Include="UnityEditor.OSXStandalone.Extensions">
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\PlaybackEngines\macstandalonesupport\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="CoreGame">
-      <HintPath>Assets\Plugins\CoreGame.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>

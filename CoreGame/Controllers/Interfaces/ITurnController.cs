@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Assets.Scripts.Controllers {
     public interface ITurnController {
         void SetMoveType(MoveType moveType);
-        void ProcessAction(ITileController tileController);
+        bool ProcessAction(ITileController tileController);
         void UndoAllActions();
         void ClearTile(ITileController tileController);
         bool CanTakeAction();

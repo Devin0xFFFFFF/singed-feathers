@@ -3,6 +3,7 @@ using Assets.Scripts.Controllers;
 using Assets.Scripts.Models;
 using UnityEngine;
 using Assets.Scripts.Service;
+using Assets.Scripts.Utility;
 using Newtonsoft.Json.Utilities;
 
 namespace Assets.Scripts.Views {
@@ -20,6 +21,7 @@ namespace Assets.Scripts.Views {
 
         // Start here!
         public void Start() {
+            UnitySystemConsoleRedirector.Redirect();
             if (TileSet.Count > 0) {
                 LoadTileDictionary();
                 LoadMap();
@@ -33,12 +35,20 @@ namespace Assets.Scripts.Views {
             }
         }
 
-        public void LoadMap() {
-            string mapID = "Map1";
+        public void LoadMap(string mapID = "Map1") {
             _mapClient = new MapPersistenceClient();
             StartCoroutine(_mapClient.GetMapData(mapID, delegate (MapClientResult result) {
+                if (result.IsError || result.ResponseCode != 200) {
+                    Debug.LogError("Failed to fetch map from server: " + result.ErrorMessage ?? result.ResponseCode + " " + result.ResponseBody);
+                    return;
+                }
+
+                Debug.Log("Map fetched from server: " + result.ResponseBody);
                 _mapController = new MapController();
-                _mapController.GenerateMap(result.ResponseBody);
+                if (!_mapController.GenerateMap(result.ResponseBody)) {
+                    Debug.LogError("Failed to generate map.");
+                    return;
+                }
 
                 _width = _mapController.Width;
                 _height = _mapController.Height;
@@ -76,6 +86,7 @@ namespace Assets.Scripts.Views {
             Debug.Log("Resolving turn: " + _mapController.GetTurnsLeft());
 
             _mapController.EndTurn();
+            InputView.ClearSelected();
 
             IDictionary<NewStatus, IList<Position>> modifiedTilePositions = _mapController.ModifiedTilePositions;
             foreach (Position pos in modifiedTilePositions[NewStatus.BurntOut]) {
@@ -87,6 +98,21 @@ namespace Assets.Scripts.Views {
             }
         }
         
+        public ITurnController GetTurnController() { return _mapController.GetTurnController(); }
+
+        public ITurnResolver GetTurnResolver() { return _mapController.GetTurnResolver(); }
+
+        public void UndoAll() { 
+            _mapController.UndoAllActions();
+            InputView.ClearSelected();
+        }
+
+        public void Fire() { _mapController.Fire(); }
+
+        public void Water() { _mapController.Water(); }
+
+        public void Cancel() { _mapController.Cancel(); }
+
         private void InstantiateTiles() {
             for (int x = 0; x < _width; x++) {
                 for (int y = 0; y < _height; y++) {
@@ -105,13 +131,5 @@ namespace Assets.Scripts.Views {
             Destroy(_map[x, y].gameObject);
             InstantiateTile(type, x, y);
         }
-
-        public void UndoAll() { _mapController.UndoAllActions(); }
-
-        public void Fire() { _mapController.Fire(); }
-
-        public void Water() { _mapController.Water(); }
-
-        public void Cancel() { _mapController.Cancel(); }
     }
 }
