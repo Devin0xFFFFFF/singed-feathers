@@ -190,5 +190,11 @@ namespace Assets.Editor.ControllerTests {
             Assert.True(_tileController.MarkUnoccupied());
             Assert.False(_tileController.IsOccupied);
         }
+
+        [Test]
+        public void TestGetTileHeat() {
+            // GetTileHeat should return Tile.Heat
+            Assert.True(_tileController.GetTileHeat() == _tileController.Tile.Heat);
+        }
     }
 }

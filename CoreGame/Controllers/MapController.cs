@@ -14,11 +14,16 @@ namespace Assets.Scripts.Controllers {
 
         public MapController(IMapGeneratorService mapGenerator = null) { _mapGenerator = mapGenerator ?? new MapGeneratorService(); }
 
-        public void GenerateMap(string serializedMap) {
+        public bool GenerateMap(string serializedMap) {
             _map = _mapGenerator.GenerateMap(serializedMap);
+            if (_map == null) {
+                return false;
+            }
             MapLocationValidator.InitializeValues(_map);
             LinkNeighbouringTiles();
             InitializeFires();
+
+            return true;
         }
 
         public void ApplyHeat(int x, int y) {
@@ -98,9 +103,7 @@ namespace Assets.Scripts.Controllers {
 
         public void MovePigeons() {
             foreach (IPigeonController pigeon in _map.Pigeons) {
-                if (!pigeon.IsDead()) {
-                    pigeon.React();
-                }
+                pigeon.React();
             }
         }
 

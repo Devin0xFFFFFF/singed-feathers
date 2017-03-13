@@ -3,6 +3,7 @@ using Assets.Scripts.Controllers;
 using Assets.Scripts.Models;
 using UnityEngine;
 using Assets.Scripts.Service;
+using Assets.Scripts.Utility;
 using Newtonsoft.Json.Utilities;
 
 namespace Assets.Scripts.Views {
@@ -20,6 +21,7 @@ namespace Assets.Scripts.Views {
 
         // Start here!
         public void Start() {
+            UnitySystemConsoleRedirector.Redirect();
             if (TileSet.Count > 0) {
                 LoadTileDictionary();
                 LoadMap();
@@ -33,12 +35,20 @@ namespace Assets.Scripts.Views {
             }
         }
 
-        public void LoadMap() {
-            string mapID = "Map1";
+        public void LoadMap(string mapID = "Map1") {
             _mapClient = new MapPersistenceClient();
             StartCoroutine(_mapClient.GetMapData(mapID, delegate (MapClientResult result) {
+                if(result.IsError || result.ResponseCode != 200) {
+                    Debug.LogError("Failed to fetch map from server: " + result.ErrorMessage ?? result.ResponseCode + " " + result.ResponseBody);
+                    return;
+                }
+
+                Debug.Log("Map fetched from server: " + result.ResponseBody);
                 _mapController = new MapController();
-                _mapController.GenerateMap(result.ResponseBody);
+                if(!_mapController.GenerateMap(result.ResponseBody)) {
+                    Debug.LogError("Failed to generate map.");
+                    return;
+                }
 
                 _width = _mapController.Width;
                 _height = _mapController.Height;

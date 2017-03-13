@@ -28,8 +28,6 @@ namespace Assets.Scripts.Controllers {
         }
 
         private void ApplyDelta(object sender, ElapsedEventArgs e, string json, ITileController[,] tileMap) {
-            int mapWidth = tileMap.GetLength(0);
-            int mapHeight = tileMap.GetLength(1);
             List<Delta> translatedDeltaList = JsonConvert.DeserializeObject<List<Delta>>(json);
             foreach (Delta delta in translatedDeltaList) {
                 Position position = delta.Position;
