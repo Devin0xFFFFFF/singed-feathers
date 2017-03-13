@@ -5,8 +5,8 @@ using System;
 using System.Text;
 using System.Security.Cryptography;
 
-namespace Assets.Scripts.MapIO {
-    public class AWSAPIGatewayClient {
+namespace Assets.Scripts.Service {
+    public class AWSAPIRequestBuilder {
         // Relevant Guides for making requests to an APIGateway
         // Amazon Request Docs: http://docs.aws.amazon.com/apigateway/api-reference/making-http-requests/
         // Amazon Request Signing Docs: http://docs.aws.amazon.com/apigateway/api-reference/signing-requests/
@@ -30,29 +30,11 @@ namespace Assets.Scripts.MapIO {
         private const string CONTENT_TYPE_JSON = "application/json";
         private const string SIGNED_HEADERS = "content-type;host;x-amz-date";
 
-        private AWSAPIGatewayConfig _apiConfig;
+        private AWSAPIConfig _apiConfig;
 
-        public delegate void RequestCallback(UnityWebRequest webRequest);
+        public AWSAPIRequestBuilder(AWSAPIConfig apiConfig) { _apiConfig = apiConfig; }
 
-        public AWSAPIGatewayClient(AWSAPIGatewayConfig apiConfig) { _apiConfig = apiConfig; }
-
-        public IEnumerator Get(string path, SortedDictionary<string, string> queryParameters, RequestCallback requestCallback) {
-            UnityWebRequest request = BuildGetRequest(path, queryParameters);
-
-            yield return request.Send();
-
-            requestCallback(request);
-        }
-
-        public IEnumerator Put(string path, string serializedData, RequestCallback requestCallback) {
-            UnityWebRequest request = BuildPutRequest(path, serializedData);
-
-            yield return request.Send();
-
-            requestCallback(request);
-        }
-
-        private UnityWebRequest BuildGetRequest(string path, SortedDictionary<string, string> queryParameters) {
+        public UnityWebRequest BuildGetRequest(string path, SortedDictionary<string, string> queryParameters) {
             string canonicalUri = GetCanonicalUri(path);
             string canonicalQueryString = BuildCanonicalQueryString(queryParameters);
 
@@ -71,7 +53,7 @@ namespace Assets.Scripts.MapIO {
             return request;
         }
 
-        private UnityWebRequest BuildPutRequest(string path, string serializedData) {
+        public UnityWebRequest BuildPutRequest(string path, string serializedData) {
             string canonicalUri = GetCanonicalUri(path);
             string canonicalQueryString = string.Empty;
 

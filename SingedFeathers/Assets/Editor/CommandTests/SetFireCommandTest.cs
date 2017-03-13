@@ -47,18 +47,42 @@ namespace Assets.Editor.CommandTests {
 
             _tile.IsFlammable().Returns(true);
             _tile.IsOccupied.Returns(true);
+            _tile.IsOnFire().Returns(true);
             Assert.False(_fireCommand.CanBeExecutedOnTile(_tile));
 
             _tile.IsFlammable().Returns(false);
             _tile.IsOccupied.Returns(true);
+            _tile.IsOnFire().Returns(true);
             Assert.False(_fireCommand.CanBeExecutedOnTile(_tile));
 
             _tile.IsFlammable().Returns(false);
             _tile.IsOccupied.Returns(false);
+            _tile.IsOnFire().Returns(true);
             Assert.False(_fireCommand.CanBeExecutedOnTile(_tile));
 
             _tile.IsFlammable().Returns(true);
             _tile.IsOccupied.Returns(false);
+            _tile.IsOnFire().Returns(true);
+            Assert.False(_fireCommand.CanBeExecutedOnTile(_tile));
+
+            _tile.IsFlammable().Returns(true);
+            _tile.IsOccupied.Returns(true);
+            _tile.IsOnFire().Returns(false);
+            Assert.False(_fireCommand.CanBeExecutedOnTile(_tile));
+
+            _tile.IsFlammable().Returns(false);
+            _tile.IsOccupied.Returns(true);
+            _tile.IsOnFire().Returns(false);
+            Assert.False(_fireCommand.CanBeExecutedOnTile(_tile));
+
+            _tile.IsFlammable().Returns(false);
+            _tile.IsOccupied.Returns(false);
+            _tile.IsOnFire().Returns(false);
+            Assert.False(_fireCommand.CanBeExecutedOnTile(_tile));
+
+            _tile.IsFlammable().Returns(true);
+            _tile.IsOccupied.Returns(false);
+            _tile.IsOnFire().Returns(false);
             Assert.True(_fireCommand.CanBeExecutedOnTile(_tile));
         }
     }

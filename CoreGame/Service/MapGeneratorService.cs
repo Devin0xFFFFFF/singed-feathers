@@ -1,32 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using Assets.Scripts.Controllers;
 using Assets.Scripts.Models;
 using Newtonsoft.Json;
 
 namespace Assets.Scripts.Service {
     public class MapGeneratorService : IMapGeneratorService {
-        private const int MINIMUM_MAP_ID = 1;
-
-        public Map GenerateMap(int id = 1) {
-            if (id < MINIMUM_MAP_ID) {
+        public Map GenerateMap(string serializedMap) {
+            if (serializedMap == null) {
                 return null;
             }
 
-            try {
-                string json = File.ReadAllText($"Assets/Resources/Map{id}.json");
+            Map map = JsonConvert.DeserializeObject<Map>(serializedMap);
+            InitializeTileMapFromRaw(map);
+            InitializePigeons(map);
+            InitializeStateManagers(map);
 
-                Map map = JsonConvert.DeserializeObject<Map>(json);
-                InitializeTileMapFromRaw(map);
-                InitializePigeons(map);
-                InitializeStateManagers(map);
-
-	            return map;
-            } catch (Exception e) {
-                Console.Write($"Error loading Map{id}: {e}");
-                return null;
-            }
+            return map;
         }
         
         private void InitializeTileMapFromRaw(Map map) {

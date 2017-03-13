@@ -34,15 +34,15 @@
     <ApplicationIcon>Singed.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\SingedFeathers\Assets\Plugins\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\SingedFeathers\Assets\Plugins\Newtonsoft.Json.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Interfaces\IMapController.cs" />
@@ -56,9 +56,11 @@
     <Compile Include="Controllers\TileController.cs" />
     <Compile Include="Controllers\TurnController.cs" />
     <Compile Include="Models\Commands\AddWaterCommand.cs" />
+    <Compile Include="Models\Commands\Command.cs" />
     <Compile Include="Models\Commands\ICommand.cs" />
     <Compile Include="Models\Commands\RemoveCommand.cs" />
     <Compile Include="Models\Commands\SetFireCommand.cs" />
+    <Compile Include="Models\Delta.cs" />
     <Compile Include="Models\Map.cs" />
     <Compile Include="Models\MapInfo.cs" />
     <Compile Include="Models\MoveType.cs" />

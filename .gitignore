@@ -52,4 +52,10 @@ ehthumbs.db
 [Tt]humbs.db
 [Dd]esktop.ini
 
+# =================== #
+# Core Game generated #
+# =================== #
+
+CoreGame/[Bb]in*
+
 # Source: http://kleber-swf.com/the-definitive-gitignore-for-unity-projects/

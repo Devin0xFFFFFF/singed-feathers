@@ -24,9 +24,9 @@ namespace Assets.Editor.ControllerTests {
         public void Init() {
             IMapGeneratorService mapGenerator = Substitute.For<IMapGeneratorService>();
             Map testMap = GenerateTestMap();
-            mapGenerator.GenerateMap(Arg.Any<int>()).Returns(testMap);
+            mapGenerator.GenerateMap(Arg.Any<string>()).Returns(testMap);
             _mapController = new MapController(mapGenerator);
-            _mapController.GenerateMap();
+            _mapController.GenerateMap(Arg.Any<string>());
         }
 
         [Test]
@@ -177,13 +177,15 @@ namespace Assets.Editor.ControllerTests {
         }
 
         [Test]
-        public void TestSpreadFiresReturnsEmptyDictionaryIfNoTilesHaveChanged() {
+        public void TestModifiedTilePositionsReturnsEmptyDictionaryIfNoTilesHaveChanged() {
             // Mark tiles as not having been changed
             _tile0.StateHasChanged.Returns(false);
             _tile1.StateHasChanged.Returns(false);
             _tile2.StateHasChanged.Returns(false);
 
-            IDictionary<NewStatus, IList<Position>> modifiedTiles = _mapController.SpreadFires();
+            _mapController.SpreadFires();
+
+            IDictionary<NewStatus, IList<Position>> modifiedTiles = _mapController.ModifiedTilePositions;
             
             Assert.NotNull(modifiedTiles);
             foreach (IList<Position> tilesOfNewStatus in modifiedTiles.Values) {
@@ -192,8 +194,8 @@ namespace Assets.Editor.ControllerTests {
         }
 
         [Test]
-        public void TestSpreadFiresRetursExpectedDictionaryForChangedTiles() {
-            IDictionary<NewStatus, IList<Position>> modifiedTiles = _mapController.SpreadFires();
+        public void TestModifiedTilePositionsRetursExpectedDictionaryForChangedTiles() {
+            IDictionary<NewStatus, IList<Position>> modifiedTiles = _mapController.ModifiedTilePositions;
             Assert.NotNull(modifiedTiles);
 
             IList<Position> tilesNowOnFire = modifiedTiles[NewStatus.OnFire];
@@ -232,7 +234,7 @@ namespace Assets.Editor.ControllerTests {
         public void TestEndTurnMethod() {
             _mapController.EndTurn();
             _turnController.Received().GetAndResetMoves();
-            _turnResolver.Received().ResolveTurn(Arg.Any<IDictionary<ITileController, ICommand>>());
+            _turnResolver.Received().ResolveTurn(Arg.Any<IDictionary<ITileController, ICommand>>(), Arg.Any<ITileController[,]>());
         }
 
         [Test]

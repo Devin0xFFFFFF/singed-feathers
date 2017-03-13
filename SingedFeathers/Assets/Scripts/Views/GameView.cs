@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Assets.Scripts.Controllers;
 using Assets.Scripts.Models;
 using UnityEngine;
+using Assets.Scripts.Service;
+using Newtonsoft.Json.Utilities;
 
 namespace Assets.Scripts.Views {
     public class GameView : MonoBehaviour {
@@ -14,20 +16,15 @@ namespace Assets.Scripts.Views {
         private TileView[,] _map;
         private int _width, _height;
         private float _tileSizeX, _tileSizeY;
+        private MapPersistenceClient _mapClient;
 
         // Start here!
         public void Start() {
             if (TileSet.Count > 0) {
                 LoadTileDictionary();
                 LoadMap();
-                LoadFires();
-                LoadPigeons();
-                LoadInputView();
             }
         }
-
-        // Update is called once per frame
-        public void Update() { }
 
         public void LoadTileDictionary() {
             _tileDictionary = new Dictionary<TileType, TileView>();
@@ -37,21 +34,24 @@ namespace Assets.Scripts.Views {
         }
 
         public void LoadMap() {
-            _mapController = new MapController();
-            _mapController.GenerateMap();
-            _width = _mapController.Width;
-            _height = _mapController.Height;
-            _map = new TileView[_width, _height];
+            string mapID = "Map1";
+            _mapClient = new MapPersistenceClient();
+            StartCoroutine(_mapClient.GetMapData(mapID, delegate (MapClientResult result) {
+                _mapController = new MapController();
+                _mapController.GenerateMap(result.ResponseBody);
 
-            _tileSizeX = TileSet[0].GetComponent<Renderer>().bounds.size.x;
-            _tileSizeY = TileSet[0].GetComponent<Renderer>().bounds.size.y;
+                _width = _mapController.Width;
+                _height = _mapController.Height;
+                _map = new TileView[_width, _height];
 
-            InstantiateTiles();
-        }
+                _tileSizeX = TileSet[0].GetComponent<Renderer>().bounds.size.x;
+                _tileSizeY = TileSet[0].GetComponent<Renderer>().bounds.size.y;
 
-        public void LoadFires() {
-            Position initialFirePosition = _mapController.GetInitialFirePosition();
-            SetFire(initialFirePosition.X, initialFirePosition.Y);
+                InstantiateTiles();
+
+                LoadPigeons();
+                LoadInputView();
+            }));
         }
 
         public void LoadInputView() {
@@ -60,6 +60,7 @@ namespace Assets.Scripts.Views {
         }
 
         public void LoadPigeons() {
+            AotHelper.EnsureList<IPigeonController>();
             _pigeons = new List<PigeonView>();
             IList<IPigeonController> controllers = _mapController.GetPigeonControllers();
             foreach (IPigeonController controller in controllers) {
@@ -76,18 +77,15 @@ namespace Assets.Scripts.Views {
 
             _mapController.EndTurn();
 
-            IDictionary<NewStatus, IList<Position>> modifiedTilePositions = _mapController.SpreadFires();
+            IDictionary<NewStatus, IList<Position>> modifiedTilePositions = _mapController.ModifiedTilePositions;
             foreach (Position pos in modifiedTilePositions[NewStatus.BurntOut]) {
                 UpdateTileType(TileType.Ash, pos.X, pos.Y);
             }
 
-            _mapController.MovePigeons();
             foreach (PigeonView pigeon in _pigeons) {
                 pigeon.UpdatePigeon();
             }
         }
-
-        public void SetFire(int x, int y) { _mapController.ApplyHeat(x, y); }
 
         public ITurnController GetTurnController() { return _mapController.GetTurnController(); }
 
@@ -101,23 +99,23 @@ namespace Assets.Scripts.Views {
 
         public void Cancel() { _mapController.Cancel(); }
 
-		private void InstantiateTiles() {
-			for (int x = 0; x < _width; x++) {
-				for (int y = 0; y < _height; y++) {
-					InstantiateTile(_mapController.GetTileType(x, y), x, y);
-				}
-			}
-		}
+        private void InstantiateTiles() {
+            for (int x = 0; x < _width; x++) {
+                for (int y = 0; y < _height; y++) {
+                    InstantiateTile(_mapController.GetTileType(x, y), x, y);
+                }
+            }
+        }
 
-		private void InstantiateTile(TileType type, int x, int y) {
-			TileView manager = _tileDictionary[type];
-			_map[x, y] = Instantiate(manager, new Vector3(_tileSizeX * x, _tileSizeY * y, 1), Quaternion.identity);
-			_map[x, y].SetController(_mapController.GetTileController(x, y));
-		}
+        private void InstantiateTile(TileType type, int x, int y) {
+            TileView manager = _tileDictionary[type];
+            _map[x, y] = Instantiate(manager, new Vector3(_tileSizeX * x, _tileSizeY * y, 1), Quaternion.identity);
+            _map[x, y].SetController(_mapController.GetTileController(x, y));
+        }
 
-		private void UpdateTileType(TileType type, int x, int y) {
-			Destroy(_map[x, y].gameObject);
-			InstantiateTile(type, x, y);
-		}
+        private void UpdateTileType(TileType type, int x, int y) {
+            Destroy(_map[x, y].gameObject);
+            InstantiateTile(type, x, y);
+        }
     }
 }
