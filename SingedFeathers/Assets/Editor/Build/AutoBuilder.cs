@@ -18,7 +18,7 @@ namespace Assets.Editor.Build {
 		[MenuItem("File/AutoBuilder/Android")]
 		public static void PerformAndroidBuild() {
 			EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.Android);
-			BuildPipeline.BuildPlayer(GetScenePaths(), "Builds/Android", BuildTarget.Android, BuildOptions.None);
+			BuildPipeline.BuildPlayer(GetScenePaths(), "Builds/Android", BuildTarget.Android, BuildOptions.Development);
 		}
 
 		[MenuItem("File/AutoBuilder/iOS")]
