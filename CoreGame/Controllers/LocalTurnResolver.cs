@@ -11,7 +11,7 @@ namespace Assets.Scripts.Controllers {
 
         public bool IsTurnResolved() { return _isTurnResolved; }
 
-        public void ResolveTurn(IDictionary<ITileController, ICommand> moves, ITileController[,] tileMap) {
+        public void ResolveTurn(IDictionary<ITileController, ICommand> moves, Map map) {
             _isTurnResolved = false;
             List<Delta> deltaList = new List<Delta>();
             foreach (KeyValuePair<ITileController, ICommand> move in moves) {
@@ -22,21 +22,23 @@ namespace Assets.Scripts.Controllers {
             string json = JsonConvert.SerializeObject(deltaList);
 
             Timer timer = new Timer(3000);
-            timer.Elapsed += (sender, e) => ApplyDelta(sender, e, json, tileMap);
+            timer.Elapsed += (sender, e) => ApplyDelta(sender, e, json, map);
             timer.AutoReset = false;
             timer.Enabled = true;
         }
 
-        private void ApplyDelta(object sender, ElapsedEventArgs e, string json, ITileController[,] tileMap) {
+        private void ApplyDelta(object sender, ElapsedEventArgs e, string json, Map map) {
             List<Delta> translatedDeltaList = JsonConvert.DeserializeObject<List<Delta>>(json);
             foreach (Delta delta in translatedDeltaList) {
                 Position position = delta.Position;
                 ICommand iCommand = delta.Command.MakeICommand();
                 if (MapLocationValidator.PositionIsValid(position)) {
-                    ITileController tileController = tileMap[position.X, position.Y];
+                    ITileController tileController = map.TileMap[position.X, position.Y];
                     iCommand.ExecuteCommand(tileController);
                 }
             }
+            TurnResolveUtility.SpreadFires(map);
+            TurnResolveUtility.MovePigeons(map);
             _isTurnResolved = true;
         }
     }

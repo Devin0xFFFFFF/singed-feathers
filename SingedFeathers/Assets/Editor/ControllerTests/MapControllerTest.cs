@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Assets.Scripts.Controllers;
 using Assets.Scripts.Models;
 using Assets.Scripts.Service;
@@ -184,26 +183,10 @@ namespace Assets.Editor.ControllerTests {
         }
 
         [Test]
-        public void TestAllPigeonsCallReactEvenIfDead() {
-            _pigeon0.IsDead().Returns(true);
-            _pigeon0.Move().Returns(true); // If invoked, return true
-            _pigeon1.IsDead().Returns(false);
-            _pigeon1.Move().Returns(true); // If invoked, return true
-
-            _mapController.MovePigeons();
-
-            // Pigeon0 React() invoked
-            _pigeon0.Received().React();
-
-            // Pigeon1 React() invoked
-            _pigeon1.Received().React();
-        }
-
-        [Test]
         public void TestEndTurnMethod() {
             _mapController.EndTurn();
             _turnController.Received().GetAndResetMoves();
-            _turnResolver.Received().ResolveTurn(Arg.Any<IDictionary<ITileController, ICommand>>(), Arg.Any<ITileController[,]>());
+            _turnResolver.Received().ResolveTurn(Arg.Any<IDictionary<ITileController, ICommand>>(), Arg.Any<Map>());
         }
 
         [Test]

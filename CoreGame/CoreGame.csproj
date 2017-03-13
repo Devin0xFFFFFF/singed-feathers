@@ -73,6 +73,7 @@
     <Compile Include="Service\IMapGeneratorService.cs" />
     <Compile Include="Service\MapGeneratorService.cs" />
     <Compile Include="Utility\MapLocationValidator.cs" />
+    <Compile Include="Utility\TurnResolveUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Singed.ico" />
