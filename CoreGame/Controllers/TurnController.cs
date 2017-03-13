@@ -6,14 +6,14 @@ using System;
 namespace Assets.Scripts.Controllers {
     public class TurnController : ITurnController {
         private MoveType _moveType;
-        private Command _command;
+        private ICommand _command;
         private const int _INTENSITY = 100;
         private int _maxMoves;
         private int _turnsLeft;
-        private IDictionary<ITileController, Command> _moves;
+        private IDictionary<ITileController, ICommand> _moves;
 
         public TurnController(int turnsLeft, int maxMoves) {
-            _moves = new Dictionary<ITileController, Command>();
+            _moves = new Dictionary<ITileController, ICommand>();
             _turnsLeft = turnsLeft;
             _moveType = MoveType.Remove;
             _maxMoves = maxMoves;
@@ -43,14 +43,14 @@ namespace Assets.Scripts.Controllers {
             }
         }
 
-        public void UndoAllActions() { _moves = new Dictionary<ITileController, Command>(); }
+        public void UndoAllActions() { _moves = new Dictionary<ITileController, ICommand>(); }
 
         public void ClearTile(ITileController tileController) { _moves.Remove(tileController); }
 
-        public IDictionary<ITileController, Command> GetAndResetMoves() {
+        public IDictionary<ITileController, ICommand> GetAndResetMoves() {
             _turnsLeft = Math.Max(0, _turnsLeft - 1);
-            IDictionary<ITileController, Command> moveCopy = new Dictionary<ITileController, Command>(_moves);
-            _moves = new Dictionary<ITileController, Command>();
+            IDictionary<ITileController, ICommand> moveCopy = new Dictionary<ITileController, ICommand>(_moves);
+            _moves = new Dictionary<ITileController, ICommand>();
             return moveCopy;
         }
 

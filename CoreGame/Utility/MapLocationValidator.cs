@@ -11,6 +11,7 @@ namespace Assests.Scripts.Utility {
             _mapWidth = map.Width;
         }
         public static bool PositionIsValid(Position position) { return CoordinatesAreValid(position.X, position.Y); }
+
         public static bool CoordinatesAreValid(int x, int y) { return _mapWidth > x && x >= 0 && _mapHeight > y && y >= 0; }
     }
 }

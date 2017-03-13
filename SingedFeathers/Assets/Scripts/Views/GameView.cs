@@ -86,7 +86,7 @@ namespace Assets.Scripts.Views {
                 pigeon.UpdatePigeon();
             }
         }
-
+        
         private void InstantiateTiles() {
             for (int x = 0; x < _width; x++) {
                 for (int y = 0; y < _height; y++) {
@@ -105,10 +105,6 @@ namespace Assets.Scripts.Views {
             Destroy(_map[x, y].gameObject);
             InstantiateTile(type, x, y);
         }
-
-        public ITurnController GetTurnController() { return _mapController.GetTurnController(); }
-
-        public ITurnResolver GetTurnResolver() { return _mapController.GetTurnResolver(); }
 
         public void UndoAll() { _mapController.UndoAllActions(); }
 

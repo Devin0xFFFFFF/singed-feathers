@@ -65,13 +65,7 @@ namespace Assets.Editor.UtilityTests {
         private Map GenerateTestMap() {
             return new Map() {
                 Height = 3,
-                Width = 3,
-                InitialFirePosition = null,
-                InitialPigeonPositions = null,
-                TileMap = null,
-                Pigeons = null,
-                TurnController = null,
-                TurnResolver = null
+                Width = 3
             };
         }
     }

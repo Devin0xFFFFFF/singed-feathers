@@ -11,10 +11,10 @@ namespace Assets.Scripts.Controllers {
 
         public bool IsTurnResolved() { return _isTurnResolved; }
 
-        public void ResolveTurn(IDictionary<ITileController, Command> moves, ITileController[,] tileMap) {
+        public void ResolveTurn(IDictionary<ITileController, ICommand> moves, ITileController[,] tileMap) {
             _isTurnResolved = false;
             List<Delta> deltaList = new List<Delta>();
-            foreach (KeyValuePair<ITileController, Command> move in moves) {
+            foreach (KeyValuePair<ITileController, ICommand> move in moves) {
                 Delta delta = new Delta(move.Key.Position, move.Value);
                 deltaList.Add(delta);
             }
@@ -29,12 +29,10 @@ namespace Assets.Scripts.Controllers {
         }
 
         private void ApplyDelta(object sender, ElapsedEventArgs e, string json, ITileController[,] tileMap) {
-            int mapWidth = tileMap.GetLength(0);
-            int mapHeight = tileMap.GetLength(1);
-            List<Delta> translatedDeltaList = JsonConvert.DeserializeObject<List<Delta>>(json);
+            IList<Delta> translatedDeltaList = JsonConvert.DeserializeObject<IList<Delta>>(json);
             foreach (Delta delta in translatedDeltaList) {
                 Position position = delta.Position;
-                Command command = delta.Command;
+                ICommand command = delta.Command;
                 if (MapLocationValidator.PositionIsValid(position)) {
                     ITileController tileController = tileMap[position.X, position.Y];
                     command.ExecuteCommand(tileController);

@@ -153,7 +153,7 @@ namespace Assets.Editor.ControllerTests {
             Assert.True(_turnController.HasTurnsLeft());
             Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
 
-            IDictionary<ITileController, Command> moves = _turnController.GetAndResetMoves();
+            IDictionary<ITileController, ICommand> moves = _turnController.GetAndResetMoves();
             Assert.True(_turnController.CanTakeAction());
             Assert.False(_turnController.HasQueuedActions());
             Assert.AreEqual(9, _turnController.GetTurnsLeft());
@@ -181,7 +181,7 @@ namespace Assets.Editor.ControllerTests {
             Assert.True(_turnController.HasTurnsLeft());
             Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
 
-            IDictionary<ITileController, Command> moves = _turnController.GetAndResetMoves();
+            IDictionary<ITileController, ICommand> moves = _turnController.GetAndResetMoves();
             Assert.True(_turnController.CanTakeAction());
             Assert.False(_turnController.HasQueuedActions());
             Assert.AreEqual(9, _turnController.GetTurnsLeft());
@@ -203,7 +203,7 @@ namespace Assets.Editor.ControllerTests {
             Assert.True(_turnController.HasTurnsLeft());
             Assert.AreEqual(MoveType.Remove, _turnController.GetMoveType());
 
-            IDictionary<ITileController, Command> moves = _turnController.GetAndResetMoves();
+            IDictionary<ITileController, ICommand> moves = _turnController.GetAndResetMoves();
             Assert.False(_turnController.CanTakeAction());
             Assert.False(_turnController.HasQueuedActions());
             Assert.AreEqual(0, _turnController.GetTurnsLeft());

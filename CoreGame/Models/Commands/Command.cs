@@ -3,7 +3,7 @@ using System;
 
 namespace Assets.Scripts.Models.Commands {
     [Serializable]
-    public class Command : IComparable<Command> {
+    public class Command : ICommand {
         public MoveType MoveType { get; private set; }
         public int Heat { get; private set; }
 
@@ -12,7 +12,7 @@ namespace Assets.Scripts.Models.Commands {
             Heat = Math.Max(0, heat);
         }
 
-        public int CompareTo(Command other) { return MoveType.CompareTo(other.MoveType); }
+        public int CompareTo(ICommand other) { return MoveType.CompareTo(other.MoveType); }
 
         public void ExecuteCommand(ITileController tileController) {
             switch (MoveType) {
