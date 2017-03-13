@@ -1,5 +1,5 @@
-﻿namespace Assets.Scripts.MapIO {
-    public class AWSAPIGatewayConfig {
+﻿namespace Assets.Scripts.Service {
+    public class AWSAPIClientConfig {
         public readonly string ApiEndpointHostname;
         public readonly string ApiEndpointStage;
         public readonly string ApiEndpointRegion;
@@ -7,7 +7,7 @@
         public readonly string AccessKey;
         public readonly string SecretKey;
 
-        public AWSAPIGatewayConfig() {
+        public AWSAPIClientConfig() {
             ApiEndpointHostname = "pb3g13anjh.execute-api.us-west-2.amazonaws.com";
             ApiEndpointStage = "/prod";
             ApiEndpointRegion = "us-west-2";

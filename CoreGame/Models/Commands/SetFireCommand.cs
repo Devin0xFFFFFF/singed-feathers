@@ -2,8 +2,8 @@
 using System;
 
 namespace Assets.Scripts.Models.Commands {
-	public class SetFireCommand : ICommand {
-	    private readonly int _heat;
+    public class SetFireCommand : ICommand {
+        private readonly int _heat;
 
         public SetFireCommand(int heat) { _heat = Math.Max(0, heat); }
 
@@ -12,5 +12,7 @@ namespace Assets.Scripts.Models.Commands {
         public bool CanBeExecutedOnTile(ITileController tileController) { return tileController.IsFlammable() && !tileController.IsOccupied && !tileController.IsOnFire(); }
 
         public MoveType GetMoveType() { return MoveType.Fire; }
+
+        public Command GetCommand() { return new Command(GetMoveType(), _heat); }
     }
 }

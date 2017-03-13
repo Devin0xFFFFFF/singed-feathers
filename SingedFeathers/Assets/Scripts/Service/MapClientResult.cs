@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.MapIO {
+﻿namespace Assets.Scripts.Service {
     public class MapClientResult {
         public readonly string RequestType;
         public readonly long ResponseCode;

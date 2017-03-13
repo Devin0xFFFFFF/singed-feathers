@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using Assets.Scripts.Controllers;
 using Assets.Scripts.Models;
 using UnityEngine;
+using Assets.Scripts.Service;
+using Assets.Scripts.Utility;
+using Newtonsoft.Json.Utilities;
 
 namespace Assets.Scripts.Views {
     public class GameView : MonoBehaviour {
@@ -14,14 +17,14 @@ namespace Assets.Scripts.Views {
         private TileView[,] _map;
         private int _width, _height;
         private float _tileSizeX, _tileSizeY;
+        private MapPersistenceClient _mapClient;
 
         // Start here!
         public void Start() {
+            UnitySystemConsoleRedirector.Redirect();
             if (TileSet.Count > 0) {
                 LoadTileDictionary();
                 LoadMap();
-                LoadPigeons();
-                LoadInputView();
             }
         }
 
@@ -32,17 +35,33 @@ namespace Assets.Scripts.Views {
             }
         }
 
-        public void LoadMap() {
-            _mapController = new MapController();
-            _mapController.GenerateMap();
-            _width = _mapController.Width;
-            _height = _mapController.Height;
-            _map = new TileView[_width, _height];
+        public void LoadMap(string mapID = "Map1") {
+            _mapClient = new MapPersistenceClient();
+            StartCoroutine(_mapClient.GetMapData(mapID, delegate (MapClientResult result) {
+                if(result.IsError || result.ResponseCode != 200) {
+                    Debug.LogError("Failed to fetch map from server: " + result.ErrorMessage ?? result.ResponseCode + " " + result.ResponseBody);
+                    return;
+                }
 
-            _tileSizeX = TileSet[0].GetComponent<Renderer>().bounds.size.x;
-            _tileSizeY = TileSet[0].GetComponent<Renderer>().bounds.size.y;
+                Debug.Log("Map fetched from server: " + result.ResponseBody);
+                _mapController = new MapController();
+                if(!_mapController.GenerateMap(result.ResponseBody)) {
+                    Debug.LogError("Failed to generate map.");
+                    return;
+                }
 
-            InstantiateTiles();
+                _width = _mapController.Width;
+                _height = _mapController.Height;
+                _map = new TileView[_width, _height];
+
+                _tileSizeX = TileSet[0].GetComponent<Renderer>().bounds.size.x;
+                _tileSizeY = TileSet[0].GetComponent<Renderer>().bounds.size.y;
+
+                InstantiateTiles();
+
+                LoadPigeons();
+                LoadInputView();
+            }));
         }
 
         public void LoadInputView() {
@@ -51,6 +70,7 @@ namespace Assets.Scripts.Views {
         }
 
         public void LoadPigeons() {
+            AotHelper.EnsureList<IPigeonController>();
             _pigeons = new List<PigeonView>();
             IList<IPigeonController> controllers = _mapController.GetPigeonControllers();
             foreach (IPigeonController controller in controllers) {
@@ -78,6 +98,21 @@ namespace Assets.Scripts.Views {
             }
         }
 
+        public ITurnController GetTurnController() { return _mapController.GetTurnController(); }
+
+        public ITurnResolver GetTurnResolver() { return _mapController.GetTurnResolver(); }
+
+        public void UndoAll() { 
+            _mapController.UndoAllActions();
+            InputView.ClearSelected();
+        }
+
+        public void Fire() { _mapController.Fire(); }
+
+        public void Water() { _mapController.Water(); }
+
+        public void Cancel() { _mapController.Cancel(); }
+
         private void InstantiateTiles() {
             for (int x = 0; x < _width; x++) {
                 for (int y = 0; y < _height; y++) {
@@ -96,20 +131,5 @@ namespace Assets.Scripts.Views {
             Destroy(_map[x, y].gameObject);
             InstantiateTile(type, x, y);
         }
-        
-        public ITurnController GetTurnController() { return _mapController.GetTurnController(); }
-
-        public ITurnResolver GetTurnResolver() { return _mapController.GetTurnResolver(); }
-
-        public void UndoAll() { 
-            _mapController.UndoAllActions();
-            InputView.ClearSelected();
-        }
-
-        public void Fire() { _mapController.Fire(); }
-
-        public void Water() { _mapController.Water(); }
-
-        public void Cancel() { _mapController.Cancel(); }
     }
 }

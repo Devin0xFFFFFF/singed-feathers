@@ -5,7 +5,7 @@ namespace Assets.Scripts.Controllers {
     public interface IMapController {
         int Width { get; }
         int Height { get; }
-        void GenerateMap();
+        bool GenerateMap(string serializedMap);
         void ApplyHeat(int x, int y);
         TileType GetTileType(int x, int y);
         ITileController GetTileController(int x, int y);
