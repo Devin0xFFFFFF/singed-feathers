@@ -96,9 +96,7 @@ namespace Assets.Scripts.Controllers {
 
         public void MovePigeons() {
             foreach (IPigeonController pigeon in _map.Pigeons) {
-                if (!pigeon.IsDead()) {
-                    pigeon.React();
-                }
+                pigeon.React();
             }
         }
 
