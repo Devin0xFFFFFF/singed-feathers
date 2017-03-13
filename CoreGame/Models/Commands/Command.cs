@@ -5,8 +5,8 @@ using System;
 
     [Serializable]
     public class Command : ICommand {
-        public MoveType MoveType { get; private set; }
-        public int Heat { get; private set; }
+        public MoveType MoveType { get; }
+        public int Heat { get; }
 
         public Command(MoveType moveType, int heat = 0) {
             MoveType = moveType;
