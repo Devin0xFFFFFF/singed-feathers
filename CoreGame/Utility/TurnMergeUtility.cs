@@ -1,8 +1,8 @@
-﻿using Assets.Scripts.Models;
+﻿using CoreGame.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Assests.Scripts.Utility {
+namespace CoreGame.Utility {
     public class TurnMergeUtility {
         private TurnMergeUtility() { }
 

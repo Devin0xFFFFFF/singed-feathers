@@ -1,7 +1,8 @@
-﻿using Assets.Scripts.Controllers;
+﻿using CoreGame.Controllers.Interfaces;
+
+namespace CoreGame.Models.Commands {
 using System;
 
-namespace Assets.Scripts.Models.Commands {
     [Serializable]
     public class Command : ICommand {
         public MoveType MoveType { get; private set; }

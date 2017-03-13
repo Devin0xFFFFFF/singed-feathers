@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assets.Scripts.Models {
+namespace CoreGame.Models {
     [Serializable]
     public class Position {
         public int X;

@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts.Models;
-using Assets.Scripts.Service;
-using Assests.Scripts.Utility;
+using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
+using CoreGame.Service;
+using CoreGame.Utility;
 
-namespace Assets.Scripts.Controllers {
+namespace CoreGame.Controllers {
     public class MapController : IMapController {
         public const int HEAT = 100;
         public int Width { get { return _map.Width; } }
@@ -52,7 +53,7 @@ namespace Assets.Scripts.Controllers {
             }
             return null;
         }
-
+        
         public IList<IPigeonController> GetPigeonControllers() { return _map.Pigeons; }
 
         public ITurnResolver GetTurnResolver() { return _map.TurnResolver; }

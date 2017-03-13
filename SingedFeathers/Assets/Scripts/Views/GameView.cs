@@ -1,9 +1,10 @@
 using System.Collections.Generic;
-using Assets.Scripts.Controllers;
-using Assets.Scripts.Models;
 using UnityEngine;
 using Assets.Scripts.Service;
 using Assets.Scripts.Utility;
+using CoreGame.Controllers;
+using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
 using Newtonsoft.Json.Utilities;
 
 namespace Assets.Scripts.Views {

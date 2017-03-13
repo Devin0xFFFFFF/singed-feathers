@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Models {
+﻿namespace CoreGame.Models {
 	public enum NewStatus {
          OnFire, BurntOut
 	}

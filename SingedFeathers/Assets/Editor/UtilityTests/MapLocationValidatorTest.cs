@@ -1,6 +1,6 @@
-﻿using NUnit.Framework;
-using Assets.Scripts.Models;
-using Assests.Scripts.Utility;
+﻿using CoreGame.Models;
+using CoreGame.Utility;
+using NUnit.Framework;
 
 namespace Assets.Editor.UtilityTests {
     [TestFixture]

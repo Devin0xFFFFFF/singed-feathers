@@ -1,9 +1,10 @@
-﻿using Assets.Scripts.Models;
-using Assets.Scripts.Models.Commands;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
+using CoreGame.Models.Commands;
 
-namespace Assets.Scripts.Controllers {
+namespace CoreGame.Controllers {
     public class TurnController : ITurnController {
         private MoveType _moveType;
         private ICommand _command;

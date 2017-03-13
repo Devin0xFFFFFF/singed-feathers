@@ -1,7 +1,7 @@
-﻿using Assets.Scripts.Controllers;
+﻿using CoreGame.Controllers.Interfaces;
 using System;
 
-namespace Assets.Scripts.Models.Commands {
+namespace CoreGame.Models.Commands {
     public interface ICommand : IComparable<ICommand> {
         MoveType MoveType { get; }
         int Heat { get; }

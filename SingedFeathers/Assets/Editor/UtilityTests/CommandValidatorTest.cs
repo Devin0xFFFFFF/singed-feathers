@@ -1,11 +1,11 @@
-﻿using Assests.Scripts.Utility;
-using Assets.Scripts.Controllers;
-using Assets.Scripts.Models;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using NSubstitute;
-using Assets.Scripts.Models.Commands;
 using System.Collections.Generic;
 using System;
+using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
+using CoreGame.Models.Commands;
+using CoreGame.Utility;
 
 namespace Assets.Editor.UtilityTests {
     [TestFixture]

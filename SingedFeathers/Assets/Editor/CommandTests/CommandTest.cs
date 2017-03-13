@@ -1,8 +1,8 @@
-﻿using Assets.Scripts.Controllers;
+﻿using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
+using CoreGame.Models.Commands;
 using NUnit.Framework;
 using NSubstitute;
-using Assets.Scripts.Models.Commands;
-using Assets.Scripts.Models;
 
 namespace Assets.Editor.CommandTests {
     [TestFixture]

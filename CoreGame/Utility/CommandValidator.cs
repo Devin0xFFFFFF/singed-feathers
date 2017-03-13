@@ -1,8 +1,8 @@
-﻿using Assets.Scripts.Controllers;
-using Assets.Scripts.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
 
-namespace Assests.Scripts.Utility {
+namespace CoreGame.Utility {
     public class CommandValidator {
         private static int _maxMovesPerTurn;
         private CommandValidator() { }

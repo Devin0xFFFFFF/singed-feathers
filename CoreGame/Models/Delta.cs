@@ -1,8 +1,8 @@
 ﻿using System;
-using Assets.Scripts.Models.Commands;
+using CoreGame.Models.Commands;
 using Newtonsoft.Json;
 
-namespace Assets.Scripts.Models {
+namespace CoreGame.Models {
     [Serializable]
     public class Delta {
         public Position Position;

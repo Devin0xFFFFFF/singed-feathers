@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
-using Assets.Scripts.Models;
-using Assests.Scripts.Utility;
 using System.Collections.Generic;
-using Assets.Scripts.Models.Commands;
+using CoreGame.Models;
+using CoreGame.Models.Commands;
+using CoreGame.Utility;
 
 namespace Assets.Editor.UtilityTests {
     [TestFixture]
