@@ -14,8 +14,7 @@ namespace Assets.Scripts.Models {
         }
 
         [JsonConstructor]
-        public Delta(Position position, Command command)
-        {
+        public Delta(Position position, Command command) {
             Position = position;
             Command = command;
         }

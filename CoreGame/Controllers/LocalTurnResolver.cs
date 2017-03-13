@@ -6,6 +6,12 @@ using Assests.Scripts.Utility;
 
 namespace Assets.Scripts.Controllers {
     public class LocalTurnResolver : ITurnResolver {
+        private readonly JsonSerializerSettings _settings;
+
+        public LocalTurnResolver() {
+            _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+        }
+
         private bool _isTurnResolved = true;
 
         public bool IsTurnResolved() { return _isTurnResolved; }
@@ -18,13 +24,13 @@ namespace Assets.Scripts.Controllers {
                 deltaList.Add(delta);
             }
             if (CommandValidator.ValidateDeltas(deltaList, tileMap)) {
-                string json = JsonConvert.SerializeObject(deltaList);
+                string json = JsonConvert.SerializeObject(deltaList, _settings);
                 ApplyDelta(json, tileMap);
             }
         }
 
         private void ApplyDelta(string json, ITileController[,] tileMap) {
-            IList<Delta> translatedDeltaList = JsonConvert.DeserializeObject<List<Delta>>(json);
+            IList<Delta> translatedDeltaList = JsonConvert.DeserializeObject<List<Delta>>(json, _settings);
             foreach (Delta delta in translatedDeltaList) {
                 Position position = delta.Position;
                 ICommand command = delta.Command;
