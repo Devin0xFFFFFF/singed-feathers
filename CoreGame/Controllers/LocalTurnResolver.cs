@@ -7,6 +7,12 @@ using Newtonsoft.Json;
 
 namespace CoreGame.Controllers {
     public class LocalTurnResolver : ITurnResolver {
+        private readonly JsonSerializerSettings _settings;
+
+        public LocalTurnResolver() {
+            _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+        }
+
         private bool _isTurnResolved = true;
 
         public bool IsTurnResolved() { return _isTurnResolved; }
@@ -15,23 +21,23 @@ namespace CoreGame.Controllers {
             _isTurnResolved = false;
             List<Delta> deltaList = new List<Delta>();
             foreach (KeyValuePair<ITileController, ICommand> move in moves) {
-                Delta delta = new Delta(move.Key.Position, move.Value.GetCommand());
+                Delta delta = new Delta(move.Key.Position, move.Value);
                 deltaList.Add(delta);
             }
-
-            string json = JsonConvert.SerializeObject(deltaList);
-
-            ApplyDelta(json, tileMap);
+            if (CommandValidator.ValidateDeltas(deltaList, tileMap)) {
+                string json = JsonConvert.SerializeObject(deltaList, _settings);
+                ApplyDelta(json, tileMap);
+            }
         }
 
         private void ApplyDelta(string json, ITileController[,] tileMap) {
-            List<Delta> translatedDeltaList = JsonConvert.DeserializeObject<List<Delta>>(json);
+            IList<Delta> translatedDeltaList = JsonConvert.DeserializeObject<List<Delta>>(json, _settings);
             foreach (Delta delta in translatedDeltaList) {
                 Position position = delta.Position;
-                ICommand iCommand = delta.Command.MakeICommand();
+                ICommand command = delta.Command;
                 if (MapLocationValidator.PositionIsValid(position)) {
                     ITileController tileController = tileMap[position.X, position.Y];
-                    iCommand.ExecuteCommand(tileController);
+                    command.ExecuteCommand(tileController);
                 }
             }
             _isTurnResolved = true;

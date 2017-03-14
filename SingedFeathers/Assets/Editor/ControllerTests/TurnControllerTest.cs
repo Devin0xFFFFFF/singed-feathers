@@ -198,9 +198,9 @@ namespace Assets.Editor.ControllerTests {
             Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
 
             Assert.AreEqual(3, moves.Count);
-            Assert.AreEqual(moves[_tile0].GetMoveType(), MoveType.Fire);
-            Assert.AreEqual(moves[_tile1].GetMoveType(), MoveType.Water);
-            Assert.AreEqual(moves[_tile2].GetMoveType(), MoveType.Fire);
+            Assert.AreEqual(moves[_tile0].MoveType, MoveType.Fire);
+            Assert.AreEqual(moves[_tile1].MoveType, MoveType.Water);
+            Assert.AreEqual(moves[_tile2].MoveType, MoveType.Fire);
         }
 
         [Test]
@@ -226,8 +226,8 @@ namespace Assets.Editor.ControllerTests {
             Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
 
             Assert.AreEqual(2, moves.Count);
-            Assert.AreEqual(moves[_tile0].GetMoveType(), MoveType.Fire);
-            Assert.AreEqual(moves[_tile1].GetMoveType(), MoveType.Water);
+            Assert.AreEqual(moves[_tile0].MoveType, MoveType.Fire);
+            Assert.AreEqual(moves[_tile1].MoveType, MoveType.Water);
             Assert.False(moves.ContainsKey(_tile2));
         }
 

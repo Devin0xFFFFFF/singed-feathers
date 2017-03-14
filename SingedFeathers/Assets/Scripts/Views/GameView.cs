@@ -98,7 +98,7 @@ namespace Assets.Scripts.Views {
                 pigeon.UpdatePigeon();
             }
         }
-
+        
         public ITurnController GetTurnController() { return _mapController.GetTurnController(); }
 
         public ITurnResolver GetTurnResolver() { return _mapController.GetTurnResolver(); }

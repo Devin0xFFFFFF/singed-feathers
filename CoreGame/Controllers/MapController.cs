@@ -21,6 +21,7 @@ namespace CoreGame.Controllers {
                 return false;
             }
             MapLocationValidator.InitializeValues(_map);
+            CommandValidator.InitializeValues(_map);
             LinkNeighbouringTiles();
             InitializeFires();
 

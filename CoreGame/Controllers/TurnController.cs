@@ -57,18 +57,18 @@ namespace CoreGame.Controllers {
             return moveCopy;
         }
 
-		private void UpdateCommand() {
-			switch (_moveType) {
-			case MoveType.Remove:
-				_command = new RemoveCommand();
-				break;
-			case MoveType.Fire:
-				_command = new SetFireCommand(_INTENSITY);
-				break;
-			case MoveType.Water:
-				_command = new AddWaterCommand(_INTENSITY);
-				break;
-			}
-		}
+        private void UpdateCommand() {
+            switch (_moveType) {
+                case MoveType.Remove:
+                    _command = new Command(MoveType.Remove);
+                    break;
+                case MoveType.Fire:
+                    _command = new Command(MoveType.Fire, _INTENSITY);
+                    break;
+                case MoveType.Water:
+                    _command = new Command(MoveType.Water, _INTENSITY);
+                    break;
+            }
+        }
     }
 }
