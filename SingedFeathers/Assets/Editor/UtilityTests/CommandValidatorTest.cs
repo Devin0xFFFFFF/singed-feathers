@@ -88,23 +88,13 @@ namespace Assets.Editor.UtilityTests {
         }
 
         [Test]
-        public void TestNullDeltaListThrowsException() {
-            try {
-                CommandValidator.ValidateDeltas(null, _tileMap);
-                Assert.Fail();
-            } catch (Exception) {
-                Assert.Pass();
-            }
+        public void TestNullDeltaListReturnsFalse() {
+            Assert.False(CommandValidator.ValidateDeltas(null, _tileMap));
         }
 
         [Test]
         public void TestNullTileMapThrowsException() {
-            try {
-                CommandValidator.ValidateDeltas(new List<Delta>(), null);
-                Assert.Fail();
-            } catch (Exception) {
-                Assert.Pass();
-            }
+            Assert.False(CommandValidator.ValidateDeltas(new List<Delta>(), null));
         }
 
         [Test]

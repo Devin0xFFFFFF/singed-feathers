@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 
@@ -10,7 +11,7 @@ namespace CoreGame.Utility {
         public static void InitializeValues(Map map) { _maxMovesPerTurn = map.MaxMovesPerTurn; }
 
         public static bool ValidateDeltas(List<Delta> deltas, ITileController[,] tileMap) {
-            if (deltas.Count > _maxMovesPerTurn) {
+            if (InvalidInputReceived(deltas, tileMap) || deltas.Count > _maxMovesPerTurn) {
                 return false;
             }
 
@@ -28,5 +29,7 @@ namespace CoreGame.Utility {
 
             return true;
         }
+
+        private static bool InvalidInputReceived(List<Delta> deltas, object tilemap) { return deltas == null || tilemap == null; }
     }
 }
