@@ -15,6 +15,7 @@ namespace Assets.Scripts.Views {
         public Button UndoButton;
         public Button EndTurnButton;
         public Button BackButton;
+        public Button HowToPlayButton;
         public Image InputImage;
         public Sprite Fire;
         public Sprite Water;
@@ -88,6 +89,7 @@ namespace Assets.Scripts.Views {
             BackButton.gameObject.SetActive(_turnController.HasTurnsLeft());
             GameOverText.gameObject.SetActive(!_turnController.HasTurnsLeft());
             OptionsText.gameObject.SetActive(_turnController.HasTurnsLeft());
+            HowToPlayButton.gameObject.SetActive(_turnController.HasTurnsLeft());
 
             if (!_turnController.HasTurnsLeft()) {
                 GameHUD.gameObject.SetActive(false);
