@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts.Models.Commands;
-using Assets.Scripts.Models;
+using CoreGame.Models.Commands;
+using CoreGame.Models;
 
-namespace Assets.Scripts.Controllers {
+namespace CoreGame.Controllers.Interfaces {
     public interface ITurnResolver {
         void ResolveTurn(IDictionary<ITileController, ICommand> moves, Map map);
         bool IsTurnResolved();

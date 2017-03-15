@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Scripts.Models;
+using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
 
-namespace Assets.Scripts.Controllers {
+namespace CoreGame.Controllers {
     [Serializable]
     public class TileController : ITileController {
         public const int BURN_HEAT = 10;

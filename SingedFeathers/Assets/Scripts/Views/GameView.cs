@@ -1,10 +1,11 @@
-using Assets.Scripts.Controllers;
-using Assets.Scripts.Models;
+using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Service;
 using Assets.Scripts.Utility;
+using CoreGame.Controllers;
+using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
 using Newtonsoft.Json.Utilities;
-using System.Collections.Generic;
 using Assets.Scripts.Controllwers;
 
 namespace Assets.Scripts.Views {
@@ -40,14 +41,14 @@ namespace Assets.Scripts.Views {
         public void LoadMap(string mapID = "Map1") {
             _mapClient = new MapPersistenceClient();
             StartCoroutine(_mapClient.GetMapData(mapID, delegate (MapClientResult result) {
-                if(result.IsError || result.ResponseCode != 200) {
+                if (result.IsError || result.ResponseCode != 200) {
                     Debug.LogError("Failed to fetch map from server: " + result.ErrorMessage ?? result.ResponseCode + " " + result.ResponseBody);
                     return;
                 }
 
                 Debug.Log("Map fetched from server: " + result.ResponseBody);
                 _mapController = new MapController();
-                if(!_mapController.GenerateMap(result.ResponseBody)) {
+                if (!_mapController.GenerateMap(result.ResponseBody)) {
                     Debug.LogError("Failed to generate map.");
                     return;
                 }
@@ -89,17 +90,21 @@ namespace Assets.Scripts.Views {
             Debug.Log("Resolving turn: " + _mapController.GetTurnsLeft());
 
             _mapController.EndTurn();
+            InputView.ClearSelected();
 
             foreach (PigeonView pigeon in _pigeons) {
                 pigeon.UpdatePigeon();
             }
         }
-
+        
         public ITurnController GetTurnController() { return _mapController.GetTurnController(); }
 
         public ITurnResolver GetTurnResolver() { return _mapController.GetTurnResolver(); }
 
-        public void UndoAll() { _mapController.UndoAllActions(); }
+        public void UndoAll() { 
+            _mapController.UndoAllActions();
+            InputView.ClearSelected();
+        }
 
         public void Fire() { _mapController.Fire(); }
 

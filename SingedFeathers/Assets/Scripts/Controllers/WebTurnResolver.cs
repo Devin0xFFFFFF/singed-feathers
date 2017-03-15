@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts.Models;
-using Assets.Scripts.Models.Commands;
 using Newtonsoft.Json;
-using Assests.Scripts.Utility;
-using Assets.Scripts.Controllers;
 using UnityEngine;
 using System.Collections;
+using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
+using CoreGame.Models.Commands;
+using CoreGame.Utility;
 
 namespace Assets.Scripts.Controllwers {
     public class WebTurnResolver : MonoBehaviour, ITurnResolver {
@@ -22,7 +22,7 @@ namespace Assets.Scripts.Controllwers {
             List<Delta> translatedDeltaList = JsonConvert.DeserializeObject<List<Delta>>(json);
             foreach (Delta delta in translatedDeltaList) {
                 Position position = delta.Position;
-                ICommand iCommand = delta.Command.MakeICommand();
+                ICommand iCommand = delta.Command;
                 if (MapLocationValidator.PositionIsValid(position)) {
                     ITileController tileController = map.TileMap[position.X, position.Y];
                     iCommand.ExecuteCommand(tileController);
@@ -38,7 +38,7 @@ namespace Assets.Scripts.Controllwers {
 
             List<Delta> deltaList = new List<Delta>();
             foreach (KeyValuePair<ITileController, ICommand> move in moves) {
-                Delta delta = new Delta(move.Key.Position, move.Value.GetCommand());
+                Delta delta = new Delta(move.Key.Position, move.Value);
                 deltaList.Add(delta);
             }
 

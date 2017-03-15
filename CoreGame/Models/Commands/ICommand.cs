@@ -1,10 +1,11 @@
-﻿using Assets.Scripts.Controllers;
+﻿using CoreGame.Controllers.Interfaces;
+using System;
 
-namespace Assets.Scripts.Models.Commands {
-    public interface ICommand {
+namespace CoreGame.Models.Commands {
+    public interface ICommand : IComparable<ICommand> {
+        MoveType MoveType { get; }
+        int Heat { get; }
         void ExecuteCommand(ITileController tileController);
         bool CanBeExecutedOnTile(ITileController tileController);
-        MoveType GetMoveType();
-        Command GetCommand();
     }
 }

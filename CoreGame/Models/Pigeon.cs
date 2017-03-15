@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Models {
+﻿namespace CoreGame.Models {
     public class Pigeon {
         public int Health;
         public const int MAX_HEALTH = 100;

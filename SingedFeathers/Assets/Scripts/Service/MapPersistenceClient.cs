@@ -1,7 +1,7 @@
-﻿using Assets.Scripts.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
+using CoreGame.Models;
 using UnityEngine.Networking;
 
 namespace Assets.Scripts.Service {

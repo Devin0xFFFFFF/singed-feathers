@@ -1,7 +1,7 @@
-﻿using Assets.Scripts.Controllers;
-using Assets.Scripts.Models;
+﻿using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
 
-namespace Assests.Scripts.Utility {
+namespace CoreGame.Utility {
     public class TurnResolveUtility {
         public static void SpreadFires(Map map) {
             for (int x = 0; x < map.Width; x++) {
