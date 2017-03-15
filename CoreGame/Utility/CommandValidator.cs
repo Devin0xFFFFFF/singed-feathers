@@ -6,7 +6,7 @@ namespace CoreGame.Utility {
     public class CommandValidator {
         private CommandValidator() { }
 
-        public static bool ValidateDeltas(List<Delta> deltas, ITileController[,] tileMap) {
+        public static bool ValidateDeltas(IList<Delta> deltas, ITileController[,] tileMap) {
             if (deltas == null || tileMap == null) {
                 return false;
             }

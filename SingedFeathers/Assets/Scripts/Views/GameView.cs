@@ -6,12 +6,14 @@ using CoreGame.Controllers;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 using Newtonsoft.Json.Utilities;
+using Assets.Scripts.Controllers;
 
 namespace Assets.Scripts.Views {
     public class GameView : MonoBehaviour {
         public List<TileView> TileSet;
         public PigeonView Pigeon;
         public InputView InputView;
+        public WebTurnResolver TurnResolver;
         private List<PigeonView> _pigeons;
         private Dictionary<TileType, TileView> _tileDictionary;
         private IMapController _mapController;
@@ -19,6 +21,7 @@ namespace Assets.Scripts.Views {
         private int _width, _height;
         private float _tileSizeX, _tileSizeY;
         private MapPersistenceClient _mapClient;
+        private bool _pigeonsRequireUpdate;
 
         // Start here!
         public void Start() {
@@ -26,6 +29,15 @@ namespace Assets.Scripts.Views {
             if (TileSet.Count > 0) {
                 LoadTileDictionary();
                 LoadMap();
+            }
+        }
+
+        public void Update() {
+            if (_pigeonsRequireUpdate && _mapController.IsTurnResolved()) {
+                foreach (PigeonView pigeon in _pigeons) {
+                    pigeon.UpdatePigeon();
+                }
+                _pigeonsRequireUpdate = false;
             }
         }
 
@@ -50,6 +62,7 @@ namespace Assets.Scripts.Views {
                     Debug.LogError("Failed to generate map.");
                     return;
                 }
+                _mapController.SetTurnResolver(TurnResolver);
 
                 _width = _mapController.Width;
                 _height = _mapController.Height;
@@ -88,15 +101,7 @@ namespace Assets.Scripts.Views {
 
             _mapController.EndTurn();
             InputView.ClearSelected();
-
-            IDictionary<NewStatus, IList<Position>> modifiedTilePositions = _mapController.ModifiedTilePositions;
-            foreach (Position pos in modifiedTilePositions[NewStatus.BurntOut]) {
-                UpdateTileType(TileType.Ash, pos.X, pos.Y);
-            }
-
-            foreach (PigeonView pigeon in _pigeons) {
-                pigeon.UpdatePigeon();
-            }
+            _pigeonsRequireUpdate = true;
         }
         
         public ITurnController GetTurnController() { return _mapController.GetTurnController(); }

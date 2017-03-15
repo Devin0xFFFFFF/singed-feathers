@@ -9,16 +9,15 @@ namespace CoreGame.Controllers.Interfaces {
         void ApplyHeat(int x, int y);
         TileType GetTileType(int x, int y);
         ITileController GetTileController(int x, int y);
-        void SpreadFires();
-        IDictionary<NewStatus, IList<Position>> ModifiedTilePositions { get; }
         IList<IPigeonController> GetPigeonControllers();
         ITurnResolver GetTurnResolver();
         ITurnController GetTurnController();
-        void MovePigeons();
+        void SetTurnResolver(ITurnResolver turnResolver);
         void EndTurn();
         int GetTurnsLeft();
         void UndoAction();
         void Fire();
         void Water();
+        bool IsTurnResolved();
     }
 }

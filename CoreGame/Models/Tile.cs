@@ -8,6 +8,7 @@ namespace CoreGame.Models {
         public int MaxTurnsOnFire;
         public int TurnsOnFire;
         public int Heat;
+        public bool IsOnFire;
 
         public Tile(TileType type, int flashPoint, int maxTurnsOnFire) {
             Type = type;
@@ -15,6 +16,7 @@ namespace CoreGame.Models {
             MaxTurnsOnFire = maxTurnsOnFire;
             Heat = 0;
             TurnsOnFire = 0;
+            IsOnFire = false;
         }
     }
 }

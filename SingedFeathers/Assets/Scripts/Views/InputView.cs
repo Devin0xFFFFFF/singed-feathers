@@ -43,7 +43,7 @@ namespace Assets.Scripts.Views {
 
         // Update is called once per frame
         public void Update() {
-            if (_turnController == null) {
+            if (_turnController == null || !_turnResolver.IsTurnResolved()) {
                 DisableAllButtons();
                 return;
             }
