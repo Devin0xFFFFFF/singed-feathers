@@ -10,6 +10,11 @@ using CoreGame.Utility;
 namespace Assets.Scripts.Controllers {
     public class WebTurnResolver : MonoBehaviour, ITurnResolver {
         private bool _isTurnResolved = true;
+        private readonly JsonSerializerSettings _settings;
+
+        public WebTurnResolver() {
+            _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+        }
 
         public bool IsTurnResolved() { return _isTurnResolved; }
 
@@ -19,7 +24,7 @@ namespace Assets.Scripts.Controllers {
         }
 
         private void ApplyDelta(string json, Map map) {
-            List<Delta> translatedDeltaList = JsonConvert.DeserializeObject<List<Delta>>(json);
+            List<Delta> translatedDeltaList = JsonConvert.DeserializeObject<List<Delta>>(json, _settings);
             foreach (Delta delta in translatedDeltaList) {
                 Position position = delta.Position;
                 ICommand iCommand = delta.Command;
@@ -41,7 +46,7 @@ namespace Assets.Scripts.Controllers {
                 deltaList.Add(delta);
             }
 
-            string json = JsonConvert.SerializeObject(deltaList);
+            string json = JsonConvert.SerializeObject(deltaList, _settings);
 
             ApplyDelta(json, map);
         }

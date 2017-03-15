@@ -24,13 +24,13 @@ namespace CoreGame.Controllers {
                 deltaList.Add(delta);
             }
 
-            string json = JsonConvert.SerializeObject(deltaList);
+            string json = JsonConvert.SerializeObject(deltaList, _settings);
 
             ApplyDelta(json, map);
         }
 
         private void ApplyDelta(string json, Map map) {
-            List<Delta> translatedDeltaList = JsonConvert.DeserializeObject<List<Delta>>(json);
+            List<Delta> translatedDeltaList = JsonConvert.DeserializeObject<List<Delta>>(json, _settings);
             foreach (Delta delta in translatedDeltaList) {
                 Position position = delta.Position;
                 ICommand command = delta.Command;

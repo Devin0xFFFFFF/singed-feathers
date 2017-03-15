@@ -1,7 +1,7 @@
 ﻿using CoreGame.Controllers.Interfaces;
+using System;
 
 namespace CoreGame.Models.Commands {
-using System;
 
     [Serializable]
     public class Command : ICommand {
