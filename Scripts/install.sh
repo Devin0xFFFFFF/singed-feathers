@@ -1,6 +1,6 @@
 #! /bin/sh
 
-BASE_URL=http://netstorage.unity3d.com/unity
+BASE_URL=https://s3-us-west-2.amazonaws.com/singedfeathers-unity-builds
 HASH=88d00a7498cd
 VERSION=5.5.1f1
 
