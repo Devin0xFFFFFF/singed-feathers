@@ -19,5 +19,6 @@ namespace CoreGame.Controllers.Interfaces {
         void Fire();
         void Water();
         void Cancel();
+        bool IsTurnResolved();
     }
 }

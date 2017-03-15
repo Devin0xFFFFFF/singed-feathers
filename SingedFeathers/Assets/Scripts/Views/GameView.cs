@@ -21,6 +21,7 @@ namespace Assets.Scripts.Views {
         private int _width, _height;
         private float _tileSizeX, _tileSizeY;
         private MapPersistenceClient _mapClient;
+        private bool PigeonsRequireUpdate;
 
         // Start here!
         public void Start() {
@@ -28,6 +29,15 @@ namespace Assets.Scripts.Views {
             if (TileSet.Count > 0) {
                 LoadTileDictionary();
                 LoadMap();
+            }
+        }
+
+        public void Update() {
+            if (PigeonsRequireUpdate && _mapController.IsTurnResolved()) {
+                foreach (PigeonView pigeon in _pigeons) {
+                    pigeon.UpdatePigeon();
+                }
+                PigeonsRequireUpdate = false;
             }
         }
 
@@ -91,10 +101,7 @@ namespace Assets.Scripts.Views {
 
             _mapController.EndTurn();
             InputView.ClearSelected();
-
-            foreach (PigeonView pigeon in _pigeons) {
-                pigeon.UpdatePigeon();
-            }
+            PigeonsRequireUpdate = true;
         }
         
         public ITurnController GetTurnController() { return _mapController.GetTurnController(); }

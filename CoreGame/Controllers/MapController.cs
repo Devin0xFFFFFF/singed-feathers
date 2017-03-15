@@ -34,7 +34,9 @@ namespace CoreGame.Controllers {
         }
             
         public void EndTurn() { _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMoves(), _map); }
-		
+
+        public bool IsTurnResolved() { return _map.TurnResolver.IsTurnResolved(); }
+
         public TileType GetTileType(int x, int y) {
             if (MapLocationValidator.CoordinatesAreValid(x, y)) {
                 return _map.TileMap[x, y].GetTileType();
