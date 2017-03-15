@@ -9,7 +9,7 @@ namespace CoreGame.Models.Commands {
         public int Heat { get; }
 
         public Command(MoveType moveType, int heat = 0) {
-            MoveType = moveType;
+            this.MoveType = moveType;
             Heat = Math.Max(0, heat);
         }
 

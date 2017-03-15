@@ -50,12 +50,10 @@ namespace CoreGame.Controllers {
         }
 
         public void ApplyHeat(int heat) {
-            bool startedOnFire = IsOnFire();
             Tile.Heat += heat;
         }
 
         public void ReduceHeat(int heat) {
-            bool startedOnFire = IsOnFire();
             Tile.Heat = Math.Max(0, Tile.Heat - heat);
             if (!CheckIfOnFire()) {
                 Tile.IsOnFire = false;
@@ -96,8 +94,6 @@ namespace CoreGame.Controllers {
             }
         }
 
-        private bool CheckIfOnFire() {
-            return IsFlammable() && Tile.Heat >= Tile.FlashPoint && !IsBurntOut();
-        }
+        private bool CheckIfOnFire() { return IsFlammable() && Tile.Heat >= Tile.FlashPoint && !IsBurntOut(); }
     }
 }

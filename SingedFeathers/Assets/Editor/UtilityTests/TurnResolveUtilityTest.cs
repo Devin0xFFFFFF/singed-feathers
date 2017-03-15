@@ -17,9 +17,7 @@ namespace Assets.Editor.UtilityTests {
         private ITileController _tile3;
 
         [SetUp]
-        public void Init() {
-            _map = GenerateTestMap();
-        }
+        public void Init() { _map = GenerateTestMap(); }
 
         [Test]
         public void TestAllPigeonsCallReactEvenIfDead() {
