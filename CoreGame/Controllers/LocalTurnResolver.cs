@@ -4,7 +4,6 @@ using CoreGame.Models;
 using CoreGame.Models.Commands;
 using CoreGame.Utility;
 using Newtonsoft.Json;
-using System.Timers;
 
 namespace CoreGame.Controllers {
     public class LocalTurnResolver : ITurnResolver {
@@ -18,11 +17,10 @@ namespace CoreGame.Controllers {
 
         public bool IsTurnResolved() { return _isTurnResolved; }
 
-        public void ResolveTurn(IDictionary<ITileController, ICommand> moves, Map map) {
+        public void ResolveTurn(Delta delta, Map map) {
             _isTurnResolved = false;
-            IList<Delta> deltaList = new List<Delta>();
-            foreach (KeyValuePair<ITileController, ICommand> move in moves) {
-                Delta delta = new Delta(move.Key.Position, move.Value);
+            List<Delta> deltaList = new List<Delta>();
+            if (delta != null) {
                 deltaList.Add(delta);
             }
 

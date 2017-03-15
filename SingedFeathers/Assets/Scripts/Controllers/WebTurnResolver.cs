@@ -7,15 +7,15 @@ using CoreGame.Models;
 using CoreGame.Models.Commands;
 using CoreGame.Utility;
 
-namespace Assets.Scripts.Controllwers {
+namespace Assets.Scripts.Controllers {
     public class WebTurnResolver : MonoBehaviour, ITurnResolver {
         private bool _isTurnResolved = true;
 
         public bool IsTurnResolved() { return _isTurnResolved; }
 
-        public void ResolveTurn(IDictionary<ITileController, ICommand> moves, Map map) {
+        public void ResolveTurn(Delta delta, Map map) {
             _isTurnResolved = false;
-            StartCoroutine(ExecuteAfterTime(3, moves, map));
+            StartCoroutine(ExecuteAfterTime(2, delta, map));
         }
 
         private void ApplyDelta(string json, Map map) {
@@ -33,12 +33,11 @@ namespace Assets.Scripts.Controllwers {
             _isTurnResolved = true;
         }
 
-        private IEnumerator ExecuteAfterTime(float time, IDictionary<ITileController, ICommand> moves, Map map) {
+        private IEnumerator ExecuteAfterTime(float time, Delta delta, Map map) {
             yield return new WaitForSeconds(time);
 
             List<Delta> deltaList = new List<Delta>();
-            foreach (KeyValuePair<ITileController, ICommand> move in moves) {
-                Delta delta = new Delta(move.Key.Position, move.Value);
+            if (delta != null) {
                 deltaList.Add(delta);
             }
 

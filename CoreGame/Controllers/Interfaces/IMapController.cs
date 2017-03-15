@@ -15,10 +15,9 @@ namespace CoreGame.Controllers.Interfaces {
         void SetTurnResolver(ITurnResolver turnResolver);
         void EndTurn();
         int GetTurnsLeft();
-        void UndoAllActions();
+        void UndoAction();
         void Fire();
         void Water();
-        void Cancel();
         bool IsTurnResolved();
     }
 }
