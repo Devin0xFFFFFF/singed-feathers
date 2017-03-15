@@ -2,7 +2,7 @@
 
 namespace CoreGame.Controllers.Interfaces {
     public interface ITurnResolver {
-        void ResolveTurn(Delta delta, ITileController[,] tileMap);
+        void ResolveTurn(Delta delta, Map map);
         bool IsTurnResolved();
     }
 }

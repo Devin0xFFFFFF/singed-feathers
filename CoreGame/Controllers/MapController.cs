@@ -32,11 +32,7 @@ namespace CoreGame.Controllers {
             }
         }
             
-        public void EndTurn() {
-            _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMove(), _map.TileMap);
-            SpreadFires();
-            MovePigeons();
-        }
+        public void EndTurn() { _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMove(), _map); }
 		
         public TileType GetTileType(int x, int y) {
             if (MapLocationValidator.CoordinatesAreValid(x, y)) {
@@ -66,29 +62,6 @@ namespace CoreGame.Controllers {
 
         public void Water() { _map.TurnController.SetMoveType(MoveType.Water); }
 
-        public void SpreadFires() {
-            // Update tiles
-            for (int x = 0; x < Width; x++) {
-                for (int y = 0; y < Height; y++) {
-                    ITileController tile = _map.TileMap[x, y];
-                    tile.SpreadFire();
-                }
-            }
-
-            for (int x = 0; x < Width; x++) {
-                for (int y = 0; y < Height; y++) {
-                    ITileController tile = _map.TileMap[x, y];
-                    tile.UpKeep();
-                }
-            }
-        }
-
-        public void MovePigeons() {
-            foreach (IPigeonController pigeon in _map.Pigeons) {
-                pigeon.React();
-            }
-        }
-
         private void LinkNeighbouringTiles() {
             for (int x = 0; x < Width; x++) {
                 for (int y = 0; y < Height; y++) {
@@ -115,7 +88,7 @@ namespace CoreGame.Controllers {
         private void InitializeFires() {
             Position position = _map.InitialFirePosition;
             ApplyHeat(position.X, position.Y);
-            SpreadFires();
+            TurnResolveUtility.SpreadFires(_map);
         }
     }
 }
