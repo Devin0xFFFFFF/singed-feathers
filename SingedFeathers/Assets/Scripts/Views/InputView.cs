@@ -110,6 +110,7 @@ namespace Assets.Scripts.Views {
             Vector3 position = tileManager.gameObject.transform.position;
 
             if (_turnController.ProcessAction(tileManager.GetTileController())) {
+                ClearSelected();
                 CreateBorder(position);
             }
         }
