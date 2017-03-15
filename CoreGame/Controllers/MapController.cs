@@ -51,6 +51,8 @@ namespace Assets.Scripts.Controllers {
 
         public ITurnResolver GetTurnResolver() { return _map.TurnResolver; }
 
+        public void SetTurnResolver(ITurnResolver turnResolver) { _map.TurnResolver = turnResolver; }
+
         public ITurnController GetTurnController() { return _map.TurnController; }
 
         public int GetTurnsLeft() { return _map.TurnController.GetTurnsLeft(); }

@@ -1,16 +1,18 @@
-using System.Collections.Generic;
 using Assets.Scripts.Controllers;
 using Assets.Scripts.Models;
 using UnityEngine;
 using Assets.Scripts.Service;
 using Assets.Scripts.Utility;
 using Newtonsoft.Json.Utilities;
+using System.Collections.Generic;
+using Assets.Scripts.Controllwers;
 
 namespace Assets.Scripts.Views {
     public class GameView : MonoBehaviour {
         public List<TileView> TileSet;
         public PigeonView Pigeon;
         public InputView InputView;
+        public WebTurnResolver TurnResolver;
         private List<PigeonView> _pigeons;
         private Dictionary<TileType, TileView> _tileDictionary;
         private IMapController _mapController;
@@ -49,6 +51,7 @@ namespace Assets.Scripts.Views {
                     Debug.LogError("Failed to generate map.");
                     return;
                 }
+                _mapController.SetTurnResolver(TurnResolver);
 
                 _width = _mapController.Width;
                 _height = _mapController.Height;

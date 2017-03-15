@@ -12,6 +12,7 @@ namespace Assets.Scripts.Controllers {
         IList<IPigeonController> GetPigeonControllers();
         ITurnResolver GetTurnResolver();
         ITurnController GetTurnController();
+        void SetTurnResolver(ITurnResolver turnResolver);
         void EndTurn();
         int GetTurnsLeft();
         void UndoAllActions();
