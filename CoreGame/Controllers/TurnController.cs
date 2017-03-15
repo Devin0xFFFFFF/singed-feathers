@@ -1,9 +1,10 @@
-﻿using Assets.Scripts.Models;
-using Assets.Scripts.Models.Commands;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
+using CoreGame.Models.Commands;
 
-namespace Assets.Scripts.Controllers {
+namespace CoreGame.Controllers {
     public class TurnController : ITurnController {
         private MoveType _moveType;
         private ICommand _command;
@@ -35,12 +36,14 @@ namespace Assets.Scripts.Controllers {
 
         public MoveType GetMoveType() { return _moveType; }
 
-        public void ProcessAction(ITileController tileController) {
+        public bool ProcessAction(ITileController tileController) {
             _moves.Remove(tileController);
             if (_moveType != MoveType.Remove && CanTakeAction() 
                     && _command.CanBeExecutedOnTile(tileController)) {
                 _moves.Add(tileController, _command);
+                return true;
             }
+            return false;
         }
 
         public void UndoAllActions() { _moves = new Dictionary<ITileController, ICommand>(); }
@@ -54,18 +57,18 @@ namespace Assets.Scripts.Controllers {
             return moveCopy;
         }
 
-		private void UpdateCommand() {
-			switch (_moveType) {
-			case MoveType.Remove:
-				_command = new RemoveCommand();
-				break;
-			case MoveType.Fire:
-				_command = new SetFireCommand(_INTENSITY);
-				break;
-			case MoveType.Water:
-				_command = new AddWaterCommand(_INTENSITY);
-				break;
-			}
-		}
+        private void UpdateCommand() {
+            switch (_moveType) {
+                case MoveType.Remove:
+                    _command = new Command(MoveType.Remove);
+                    break;
+                case MoveType.Fire:
+                    _command = new Command(MoveType.Fire, _INTENSITY);
+                    break;
+                case MoveType.Water:
+                    _command = new Command(MoveType.Water, _INTENSITY);
+                    break;
+            }
+        }
     }
 }

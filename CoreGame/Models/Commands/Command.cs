@@ -1,23 +1,39 @@
-﻿namespace Assets.Scripts.Models.Commands {
-    public class Command {
-        public MoveType MoveType;
-        public int? Heat;
+﻿using CoreGame.Controllers.Interfaces;
 
-        public Command(MoveType moveType, int? heat = null) {
+namespace CoreGame.Models.Commands {
+using System;
+
+    [Serializable]
+    public class Command : ICommand {
+        public MoveType MoveType { get; }
+        public int Heat { get; }
+
+        public Command(MoveType moveType, int heat = 0) {
             MoveType = moveType;
-            Heat = heat;
+            Heat = Math.Max(0, heat);
         }
 
-        public ICommand MakeICommand() {
-            if (Heat != null) {
-                switch (MoveType) {
-                    case MoveType.Fire:
-                        return new SetFireCommand(Heat.Value);
-                    case MoveType.Water:
-                        return new AddWaterCommand(Heat.Value);
-                }
+        public int CompareTo(ICommand other) { return MoveType.CompareTo(other.MoveType); }
+
+        public void ExecuteCommand(ITileController tileController) {
+            switch (MoveType) {
+                case MoveType.Fire:
+                    tileController.ApplyHeat(Heat);
+                    break;
+                case MoveType.Water:
+                    tileController.ReduceHeat(Heat);
+                    break;
             }
-            return new RemoveCommand();
+        }
+
+        public bool CanBeExecutedOnTile(ITileController tileController) {
+            switch (MoveType) {
+                case MoveType.Fire:
+                    return tileController.IsFlammable() && !tileController.IsOccupied && !tileController.IsOnFire();
+                case MoveType.Water:
+                    return tileController.IsFlammable() && !tileController.IsHeatZero();
+            }
+            return false;
         }
     }
 }

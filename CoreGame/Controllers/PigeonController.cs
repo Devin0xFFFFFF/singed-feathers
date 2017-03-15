@@ -1,7 +1,8 @@
 ﻿using System;
-using Assets.Scripts.Models;
+using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
 
-namespace Assets.Scripts.Controllers {
+namespace CoreGame.Controllers {
     public class PigeonController : IPigeonController {
         public const int FIRE_DAMAGE = 10;
         public Position CurrentPosition { get { return _tileController.Position; } }

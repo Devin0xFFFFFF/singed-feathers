@@ -1,7 +1,7 @@
-﻿using Assets.Scripts.Controllers;
-using Assets.Scripts.Models;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
+using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
 
 namespace Assets.Scripts.Views {
     public class TileView : MonoBehaviour {
