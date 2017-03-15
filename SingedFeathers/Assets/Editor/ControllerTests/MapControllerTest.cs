@@ -178,37 +178,6 @@ namespace Assets.Editor.ControllerTests {
         }
 
         [Test]
-        public void TestModifiedTilePositionsReturnsEmptyDictionaryIfNoTilesHaveChanged() {
-            // Mark tiles as not having been changed
-            _tile0.StateHasChanged.Returns(false);
-            _tile1.StateHasChanged.Returns(false);
-            _tile2.StateHasChanged.Returns(false);
-
-            _mapController.SpreadFires();
-
-            IDictionary<NewStatus, IList<Position>> modifiedTiles = _mapController.ModifiedTilePositions;
-            
-            Assert.NotNull(modifiedTiles);
-            foreach (IList<Position> tilesOfNewStatus in modifiedTiles.Values) {
-                Assert.False(tilesOfNewStatus.Any());
-            }
-        }
-
-        [Test]
-        public void TestModifiedTilePositionsRetursExpectedDictionaryForChangedTiles() {
-            IDictionary<NewStatus, IList<Position>> modifiedTiles = _mapController.ModifiedTilePositions;
-            Assert.NotNull(modifiedTiles);
-
-            IList<Position> tilesNowOnFire = modifiedTiles[NewStatus.OnFire];
-            Assert.True(tilesNowOnFire.Any());
-            Assert.AreEqual(2, tilesNowOnFire.Count);
-
-            IList<Position> tilesNowBurntOut = modifiedTiles[NewStatus.BurntOut];
-            Assert.True(tilesNowBurntOut.Any());
-            Assert.AreEqual(1, tilesNowBurntOut.Count);
-        }
-
-        [Test]
         public void TestGetPigeonControllersReturnsExpectedPigeons() {
             IList<IPigeonController> pigeons = _mapController.GetPigeonControllers();
             Assert.AreEqual(pigeons[0], _pigeon0);
@@ -280,19 +249,16 @@ namespace Assets.Editor.ControllerTests {
         private ITileController[,] IntializeControllers() {
             _tile0 = Substitute.For<ITileController>();
             _tile0.GetTileType().Returns(TileType.Stone);
-            _tile0.StateHasChanged.Returns(true);
             _tile0.IsOnFire().Returns(true);
             _tile0.IsBurntOut().Returns(false);
 
             _tile1 = Substitute.For<ITileController>();
             _tile1.GetTileType().Returns(TileType.Grass);
-            _tile1.StateHasChanged.Returns(true);
             _tile1.IsOnFire().Returns(true);
             _tile1.IsBurntOut().Returns(false);
 
             _tile2 = Substitute.For<ITileController>();
             _tile2.GetTileType().Returns(TileType.Wood);
-            _tile2.StateHasChanged.Returns(true);
             _tile2.IsOnFire().Returns(false);
             _tile2.IsBurntOut().Returns(true);
 

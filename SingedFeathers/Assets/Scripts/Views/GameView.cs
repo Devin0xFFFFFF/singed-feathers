@@ -89,11 +89,6 @@ namespace Assets.Scripts.Views {
             _mapController.EndTurn();
             InputView.ClearSelected();
 
-            IDictionary<NewStatus, IList<Position>> modifiedTilePositions = _mapController.ModifiedTilePositions;
-            foreach (Position pos in modifiedTilePositions[NewStatus.BurntOut]) {
-                UpdateTileType(TileType.Ash, pos.X, pos.Y);
-            }
-
             foreach (PigeonView pigeon in _pigeons) {
                 pigeon.UpdatePigeon();
             }
