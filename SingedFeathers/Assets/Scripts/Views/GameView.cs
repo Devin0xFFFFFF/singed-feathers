@@ -103,16 +103,14 @@ namespace Assets.Scripts.Views {
 
         public ITurnResolver GetTurnResolver() { return _mapController.GetTurnResolver(); }
 
-        public void UndoAll() { 
-            _mapController.UndoAllActions();
+        public void Undo() { 
+            _mapController.UndoAction();
             InputView.ClearSelected();
         }
 
         public void Fire() { _mapController.Fire(); }
 
         public void Water() { _mapController.Water(); }
-
-        public void Cancel() { _mapController.Cancel(); }
 
         private void InstantiateTiles() {
             for (int x = 0; x < _width; x++) {
