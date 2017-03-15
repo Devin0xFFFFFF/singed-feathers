@@ -186,8 +186,8 @@ namespace Assets.Editor.ControllerTests {
         [Test]
         public void TestEndTurnMethod() {
             _mapController.EndTurn();
-            _turnController.Received().GetAndResetMoves();
-            _turnResolver.Received().ResolveTurn(Arg.Any<IDictionary<ITileController, ICommand>>(), Arg.Any<Map>());
+            _turnController.Received().GetAndResetMove();
+            _turnResolver.Received().ResolveTurn(Arg.Any<Delta>(), Arg.Any<Map>());
         }
 
         [Test]
@@ -208,13 +208,7 @@ namespace Assets.Editor.ControllerTests {
             _mapController.Water();
             _turnController.Received().SetMoveType(MoveType.Water);
         }
-
-        [Test]
-        public void TestCancel() {
-            _mapController.Cancel();
-            _turnController.Received().SetMoveType(MoveType.Remove);
-        }
-
+        
         [Test]
         public void TestGenerateMap() {
             MapController mc = new MapController();

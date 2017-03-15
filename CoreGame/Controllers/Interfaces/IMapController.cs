@@ -14,9 +14,8 @@ namespace CoreGame.Controllers.Interfaces {
         ITurnController GetTurnController();
         void EndTurn();
         int GetTurnsLeft();
-        void UndoAllActions();
+        void UndoAction();
         void Fire();
         void Water();
-        void Cancel();
     }
 }
