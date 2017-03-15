@@ -1,0 +1,29 @@
+﻿using System.Collections.Generic;
+using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
+
+namespace CoreGame.Utility {
+    public class CommandValidator {
+        private CommandValidator() { }
+
+        public static bool ValidateDeltas(IList<Delta> deltas, ITileController[,] tileMap) {
+            if (deltas == null || tileMap == null) {
+                return false;
+            }
+
+            foreach (Delta delta in deltas) {
+                Position position = delta.Position;
+                if (MapLocationValidator.PositionIsValid(position)) {
+                    ITileController tileController = tileMap[position.X, position.Y];
+                    if (!delta.Command.CanBeExecutedOnTile(tileController)) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+}

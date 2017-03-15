@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 using CoreGame.Models.Commands;
@@ -9,15 +8,13 @@ namespace CoreGame.Controllers {
         private MoveType _moveType;
         private ICommand _command;
         private const int _INTENSITY = 100;
-        private int _maxMoves;
         private int _turnsLeft;
-        private IDictionary<ITileController, ICommand> _moves;
+        private Delta _delta;
 
-        public TurnController(int turnsLeft, int maxMoves) {
-            _moves = new Dictionary<ITileController, ICommand>();
+        public TurnController(int turnsLeft) {
+            _delta = null;
             _turnsLeft = turnsLeft;
-            _moveType = MoveType.Remove;
-            _maxMoves = maxMoves;
+            _moveType = MoveType.Fire;
             UpdateCommand();
         }
 
@@ -25,10 +22,8 @@ namespace CoreGame.Controllers {
             _moveType = moveType;
             UpdateCommand();
         }
-
-        public bool CanTakeAction() { return HasTurnsLeft() && _moves.Count < _maxMoves; }
-
-        public bool HasQueuedActions() { return _moves.Count > 0; }
+        
+        public bool HasQueuedAction() { return _delta != null; }
 
         public int GetTurnsLeft() { return _turnsLeft; }
 
@@ -37,38 +32,32 @@ namespace CoreGame.Controllers {
         public MoveType GetMoveType() { return _moveType; }
 
         public bool ProcessAction(ITileController tileController) {
-            _moves.Remove(tileController);
-            if (_moveType != MoveType.Remove && CanTakeAction() 
-                    && _command.CanBeExecutedOnTile(tileController)) {
-                _moves.Add(tileController, _command);
+            _delta = null;
+            if (_command.CanBeExecutedOnTile(tileController)) {
+                _delta = new Delta(tileController.Position, _command);
                 return true;
             }
             return false;
         }
 
-        public void UndoAllActions() { _moves = new Dictionary<ITileController, ICommand>(); }
-
-        public void ClearTile(ITileController tileController) { _moves.Remove(tileController); }
-
-        public IDictionary<ITileController, ICommand> GetAndResetMoves() {
+        public void UndoAction() { _delta = null; }
+        
+        public Delta GetAndResetMove() {
             _turnsLeft = Math.Max(0, _turnsLeft - 1);
-            IDictionary<ITileController, ICommand> moveCopy = new Dictionary<ITileController, ICommand>(_moves);
-            _moves = new Dictionary<ITileController, ICommand>();
-            return moveCopy;
+            Delta deltaCopy = _delta;
+            _delta = null;
+            return deltaCopy;
         }
 
-		private void UpdateCommand() {
-			switch (_moveType) {
-			case MoveType.Remove:
-				_command = new RemoveCommand();
-				break;
-			case MoveType.Fire:
-				_command = new SetFireCommand(_INTENSITY);
-				break;
-			case MoveType.Water:
-				_command = new AddWaterCommand(_INTENSITY);
-				break;
-			}
-		}
+        private void UpdateCommand() {
+            switch (_moveType) {
+                case MoveType.Fire:
+                    _command = new Command(MoveType.Fire, _INTENSITY);
+                    break;
+                case MoveType.Water:
+                    _command = new Command(MoveType.Water, _INTENSITY);
+                    break;
+            }
+        }
     }
 }

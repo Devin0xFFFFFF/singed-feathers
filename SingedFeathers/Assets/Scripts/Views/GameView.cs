@@ -6,12 +6,14 @@ using CoreGame.Controllers;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 using Newtonsoft.Json.Utilities;
+using Assets.Scripts.Controllers;
 
 namespace Assets.Scripts.Views {
     public class GameView : MonoBehaviour {
         public List<TileView> TileSet;
         public PigeonView Pigeon;
         public InputView InputView;
+        public WebTurnResolver TurnResolver;
         private List<PigeonView> _pigeons;
         private Dictionary<TileType, TileView> _tileDictionary;
         private IMapController _mapController;
@@ -19,6 +21,7 @@ namespace Assets.Scripts.Views {
         private int _width, _height;
         private float _tileSizeX, _tileSizeY;
         private MapPersistenceClient _mapClient;
+        private bool _pigeonsRequireUpdate;
 
         // Start here!
         public void Start() {
@@ -28,7 +31,16 @@ namespace Assets.Scripts.Views {
                 LoadMap();
             }
         }
-            
+
+        public void Update() {
+            if (_pigeonsRequireUpdate && _mapController.IsTurnResolved()) {
+                foreach (PigeonView pigeon in _pigeons) {
+                    pigeon.UpdatePigeon();
+                }
+                _pigeonsRequireUpdate = false;
+            }
+        }
+      
         public void LoadTileDictionary() {
             _tileDictionary = new Dictionary<TileType, TileView>();
             foreach (TileView tile in TileSet) {
@@ -50,6 +62,7 @@ namespace Assets.Scripts.Views {
                     Debug.LogError("Failed to generate map.");
                     return;
                 }
+                _mapController.SetTurnResolver(TurnResolver);
 
                 _width = _mapController.Width;
                 _height = _mapController.Height;
@@ -60,6 +73,7 @@ namespace Assets.Scripts.Views {
 
                 InstantiateTiles();
                 SetPlayerSideSelection();
+                SetPlayerSideSelectionText();
                 Debug.Log(_mapController.GetPlayerSideSelection());
 
                 LoadPigeons();
@@ -90,23 +104,15 @@ namespace Assets.Scripts.Views {
 
             _mapController.EndTurn();
             InputView.ClearSelected();
-
-            IDictionary<NewStatus, IList<Position>> modifiedTilePositions = _mapController.ModifiedTilePositions;
-            foreach (Position pos in modifiedTilePositions[NewStatus.BurntOut]) {
-                UpdateTileType(TileType.Ash, pos.X, pos.Y);
-            }
-
-            foreach (PigeonView pigeon in _pigeons) {
-                pigeon.UpdatePigeon();
-            }
+            _pigeonsRequireUpdate = true;
         }
-
+        
         public ITurnController GetTurnController() { return _mapController.GetTurnController(); }
 
         public ITurnResolver GetTurnResolver() { return _mapController.GetTurnResolver(); }
 
-        public void UndoAll() { 
-            _mapController.UndoAllActions();
+        public void Undo() { 
+            _mapController.UndoAction();
             InputView.ClearSelected();
         }
 
@@ -114,10 +120,18 @@ namespace Assets.Scripts.Views {
 
         public void Water() { _mapController.Water(); }
 
-        public void Cancel() { _mapController.Cancel(); }
+        public void SetPlayerSideSelection() { _mapController.SetPlayerSideSelection((PlayerSideSelection)PlayerPrefs.GetInt("Side")); }
 
-        public void SetPlayerSideSelection() { 
-            _mapController.SetPlayerSideSelection((PlayerSideSelection)PlayerPrefs.GetInt("Side")); 
+        public void SetPlayerSideSelectionText() { 
+            PlayerSideSelection playerSideSelection = _mapController.GetPlayerSideSelection();
+            string side = "not chosen";
+            if (playerSideSelection == PlayerSideSelection.SavePigeons) {
+                side = "save";
+            }
+            if (playerSideSelection == PlayerSideSelection.BurnPigeons) {
+                side = "burn";
+            }
+            InputView.UpdateSideChosenText(side);
         }
 
         public string GetGameOverPlayerStatus() { return _mapController.GetGameOverPlayerStatus(); }

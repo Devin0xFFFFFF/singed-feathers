@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 using NSubstitute;
 using CoreGame.Controllers;
@@ -219,37 +218,6 @@ namespace Assets.Editor.ControllerTests {
         }
 
         [Test]
-        public void TestModifiedTilePositionsReturnsEmptyDictionaryIfNoTilesHaveChanged() {
-            // Mark tiles as not having been changed
-            _tile0.StateHasChanged.Returns(false);
-            _tile1.StateHasChanged.Returns(false);
-            _tile2.StateHasChanged.Returns(false);
-
-            _mapController.SpreadFires();
-
-            IDictionary<NewStatus, IList<Position>> modifiedTiles = _mapController.ModifiedTilePositions;
-            
-            Assert.NotNull(modifiedTiles);
-            foreach (IList<Position> tilesOfNewStatus in modifiedTiles.Values) {
-                Assert.False(tilesOfNewStatus.Any());
-            }
-        }
-
-        [Test]
-        public void TestModifiedTilePositionsRetursExpectedDictionaryForChangedTiles() {
-            IDictionary<NewStatus, IList<Position>> modifiedTiles = _mapController.ModifiedTilePositions;
-            Assert.NotNull(modifiedTiles);
-
-            IList<Position> tilesNowOnFire = modifiedTiles[NewStatus.OnFire];
-            Assert.True(tilesNowOnFire.Any());
-            Assert.AreEqual(2, tilesNowOnFire.Count);
-
-            IList<Position> tilesNowBurntOut = modifiedTiles[NewStatus.BurntOut];
-            Assert.True(tilesNowBurntOut.Any());
-            Assert.AreEqual(1, tilesNowBurntOut.Count);
-        }
-
-        [Test]
         public void TestGetPigeonControllersReturnsExpectedPigeons() {
             IList<IPigeonController> pigeons = _mapController.GetPigeonControllers();
             Assert.AreEqual(pigeons[0], _pigeon0);
@@ -257,26 +225,10 @@ namespace Assets.Editor.ControllerTests {
         }
 
         [Test]
-        public void TestAllPigeonsCallReactEvenIfDead() {
-            _pigeon0.IsDead().Returns(true);
-            _pigeon0.Move().Returns(true); // If invoked, return true
-            _pigeon1.IsDead().Returns(false);
-            _pigeon1.Move().Returns(true); // If invoked, return true
-
-            _mapController.MovePigeons();
-
-            // Pigeon0 React() invoked
-            _pigeon0.Received().React();
-
-            // Pigeon1 React() invoked
-            _pigeon1.Received().React();
-        }
-
-        [Test]
         public void TestEndTurnMethod() {
             _mapController.EndTurn();
-            _turnController.Received().GetAndResetMoves();
-            _turnResolver.Received().ResolveTurn(Arg.Any<IDictionary<ITileController, ICommand>>(), Arg.Any<ITileController[,]>());
+            _turnController.Received().GetAndResetMove();
+            _turnResolver.Received().ResolveTurn(Arg.Any<Delta>(), Arg.Any<Map>());
         }
 
         [Test]
@@ -297,13 +249,7 @@ namespace Assets.Editor.ControllerTests {
             _mapController.Water();
             _turnController.Received().SetMoveType(MoveType.Water);
         }
-
-        [Test]
-        public void TestCancel() {
-            _mapController.Cancel();
-            _turnController.Received().SetMoveType(MoveType.Remove);
-        }
-
+        
         [Test]
         public void TestGenerateMap() {
             MapController mc = new MapController();
@@ -327,19 +273,16 @@ namespace Assets.Editor.ControllerTests {
         private ITileController[,] IntializeControllers() {
             _tile0 = Substitute.For<ITileController>();
             _tile0.GetTileType().Returns(TileType.Stone);
-            _tile0.StateHasChanged.Returns(true);
             _tile0.IsOnFire().Returns(true);
             _tile0.IsBurntOut().Returns(false);
 
             _tile1 = Substitute.For<ITileController>();
             _tile1.GetTileType().Returns(TileType.Grass);
-            _tile1.StateHasChanged.Returns(true);
             _tile1.IsOnFire().Returns(true);
             _tile1.IsBurntOut().Returns(false);
 
             _tile2 = Substitute.For<ITileController>();
             _tile2.GetTileType().Returns(TileType.Wood);
-            _tile2.StateHasChanged.Returns(true);
             _tile2.IsOnFire().Returns(false);
             _tile2.IsBurntOut().Returns(true);
 

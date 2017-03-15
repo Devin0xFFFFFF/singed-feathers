@@ -1,10 +1,11 @@
 ﻿using CoreGame.Controllers.Interfaces;
+using System;
 
 namespace CoreGame.Models.Commands {
-    public interface ICommand {
+    public interface ICommand : IComparable<ICommand> {
+        MoveType MoveType { get; }
+        int Heat { get; }
         void ExecuteCommand(ITileController tileController);
         bool CanBeExecutedOnTile(ITileController tileController);
-        MoveType GetMoveType();
-        Command GetCommand();
     }
 }
