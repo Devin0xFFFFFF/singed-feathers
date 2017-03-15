@@ -11,7 +11,6 @@ namespace Assets.Scripts.Views {
         public Canvas GameMenu;
         public Button FireButton;
         public Button WaterButton;
-        public Button BlankButton;
         public Button UndoButton;
         public Button EndTurnButton;
         public Button BackButton;
@@ -19,7 +18,6 @@ namespace Assets.Scripts.Views {
         public Image InputImage;
         public Sprite Fire;
         public Sprite Water;
-        public Sprite Blank;
         public GameObject ControlBorderRed;
         public GameObject ControlBorderBlue;
         public Text TurnCountText;
@@ -60,7 +58,6 @@ namespace Assets.Scripts.Views {
             }
 
             UndoButton.interactable = false;
-            BlankButton.interactable = false;
             EndTurnButton.interactable = false;
 
             // GameMenu UI elements
@@ -68,9 +65,9 @@ namespace Assets.Scripts.Views {
             GameOverText.gameObject.SetActive(false);
             OptionsText.gameObject.SetActive(false);
         }
-            
+
         public void UpdateButtons() {
-            if (_turnController.CanTakeAction()) {
+            if (_turnController.HasTurnsLeft()) {
                 foreach (Button button in _actionButtons) {
                     button.interactable = true;
                 }
@@ -81,8 +78,7 @@ namespace Assets.Scripts.Views {
             }
 
             // GameHUD UI elements
-            UndoButton.interactable = _turnController.HasQueuedActions();
-            BlankButton.interactable = _turnResolver.IsTurnResolved() && _turnController.HasTurnsLeft();
+            UndoButton.interactable = _turnController.HasQueuedAction();
             EndTurnButton.interactable = _turnResolver.IsTurnResolved() && _turnController.HasTurnsLeft();
 
             // GameMenu UI elements
@@ -99,9 +95,6 @@ namespace Assets.Scripts.Views {
 
         public void UpdateImage() {
             switch (_turnController.GetMoveType()) {
-                case MoveType.Remove:
-                    InputImage.sprite = Blank;
-                    break;
                 case MoveType.Fire:
                     InputImage.sprite = Fire;
                     break;
@@ -117,11 +110,7 @@ namespace Assets.Scripts.Views {
             Vector3 position = tileManager.gameObject.transform.position;
 
             if (_turnController.ProcessAction(tileManager.GetTileController())) {
-                createBorder(position);
-            }
-
-            if (_turnController.GetMoveType() == MoveType.Remove) {
-                removeBorder(position);
+                CreateBorder(position);
             }
         }
 
@@ -129,7 +118,7 @@ namespace Assets.Scripts.Views {
 
         public void SetTurnResolver(ITurnResolver turnResolver) { _turnResolver = turnResolver; }
 
-        private void createBorder(Vector3 pos) {
+        private void CreateBorder(Vector3 pos) {
             GameObject border = null; 
             _borders.TryGetValue(pos, out border);
             if (border == null) {
@@ -145,7 +134,7 @@ namespace Assets.Scripts.Views {
             _borders.Add(pos, border);
         }
 
-        private void removeBorder(Vector3 pos){
+        private void RemoveBorder(Vector3 pos){
             GameObject border = null;
             _borders.TryGetValue(pos, out border);
             if (border != null) {
