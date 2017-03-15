@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using NSubstitute;
 using CoreGame.Controllers;
@@ -104,7 +105,7 @@ namespace Assets.Editor.ControllerTests {
             _turnController = new TurnController(10, 1);
             _turnController.SetMoveType(MoveType.Fire);
             _turnController.ProcessAction(_tile0);
-            _turnController.UndoAllActions();
+            _turnController.UndoLastAction();
             Assert.True(_turnController.CanTakeAction());
             Assert.False(_turnController.HasQueuedActions());
             Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
@@ -126,18 +127,27 @@ namespace Assets.Editor.ControllerTests {
         }
 
         [Test]
-        public void TestUndoForMultipleCommands() {
+        public void TestUndoForMultipleCommandsOnlyRemovesLastAction() {
             _turnController = new TurnController(10, 3);
             _turnController.SetMoveType(MoveType.Fire);
             _turnController.ProcessAction(_tile0);
             _turnController.ProcessAction(_tile1);
             _turnController.ProcessAction(_tile2);
-            _turnController.UndoAllActions();
+            _turnController.UndoLastAction();
             Assert.True(_turnController.CanTakeAction());
-            Assert.False(_turnController.HasQueuedActions());
+            Assert.True(_turnController.HasQueuedActions());
             Assert.AreEqual(10, _turnController.GetTurnsLeft());
             Assert.True(_turnController.HasTurnsLeft());
             Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
+
+            // Make sure _tile2 was the tile that was removed
+            var moves = _turnController.GetAndResetMoves();
+            Assert.AreEqual(2, moves.Count);
+            Assert.NotNull(moves.FirstOrDefault());
+            Assert.AreEqual(MoveType.Fire, moves.FirstOrDefault().Value.MoveType);
+            Assert.AreEqual(_tile0, moves.FirstOrDefault().Key);
+            Assert.AreEqual(_tile1, moves.LastOrDefault().Key);
+            Assert.False(moves.ContainsKey(_tile2));
         }
 
         [Test]

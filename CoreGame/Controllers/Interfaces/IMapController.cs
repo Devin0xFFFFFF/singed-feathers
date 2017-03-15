@@ -17,9 +17,8 @@ namespace CoreGame.Controllers.Interfaces {
         void MovePigeons();
         void EndTurn();
         int GetTurnsLeft();
-        void UndoAllActions();
+        void UndoLastAction();
         void Fire();
         void Water();
-        void Cancel();
     }
 }

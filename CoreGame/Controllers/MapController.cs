@@ -62,13 +62,11 @@ namespace CoreGame.Controllers {
 
         public int GetTurnsLeft() { return _map.TurnController.GetTurnsLeft(); }
 
-        public void UndoAllActions() { _map.TurnController.UndoAllActions(); }
+        public void UndoLastAction() { _map.TurnController.UndoLastAction(); }
 
         public void Fire() { _map.TurnController.SetMoveType(MoveType.Fire); }
 
         public void Water() { _map.TurnController.SetMoveType(MoveType.Water); }
-
-        public void Cancel() { _map.TurnController.SetMoveType(MoveType.Remove); }
 
         public void SpreadFires() {
             IDictionary<NewStatus, IList<Position>> modifiedTiles = new Dictionary<NewStatus, IList<Position>>();

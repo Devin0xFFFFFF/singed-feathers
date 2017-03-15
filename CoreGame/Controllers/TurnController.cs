@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 using CoreGame.Models.Commands;
@@ -46,7 +47,7 @@ namespace CoreGame.Controllers {
             return false;
         }
 
-        public void UndoAllActions() { _moves = new Dictionary<ITileController, ICommand>(); }
+        public void UndoLastAction() { _moves.Remove(_moves.Keys.Last()); }
 
         public void ClearTile(ITileController tileController) { _moves.Remove(tileController); }
 

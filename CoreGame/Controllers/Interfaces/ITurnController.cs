@@ -6,7 +6,7 @@ namespace CoreGame.Controllers.Interfaces {
     public interface ITurnController {
         void SetMoveType(MoveType moveType);
         bool ProcessAction(ITileController tileController);
-        void UndoAllActions();
+        void UndoLastAction();
         void ClearTile(ITileController tileController);
         bool CanTakeAction();
         bool HasQueuedActions();

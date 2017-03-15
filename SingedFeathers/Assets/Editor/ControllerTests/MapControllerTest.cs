@@ -256,13 +256,7 @@ namespace Assets.Editor.ControllerTests {
             _mapController.Water();
             _turnController.Received().SetMoveType(MoveType.Water);
         }
-
-        [Test]
-        public void TestCancel() {
-            _mapController.Cancel();
-            _turnController.Received().SetMoveType(MoveType.Remove);
-        }
-
+        
         [Test]
         public void TestGenerateMap() {
             MapController mc = new MapController();
