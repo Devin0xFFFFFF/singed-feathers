@@ -25,6 +25,7 @@ namespace Assets.Scripts.Views {
         public Text TurnCountText;
         public Text OptionsText;
         public Text GameOverText;
+        public Text GameOverStatusText;
         private Button[] _actionButtons;
         private ITurnController _turnController;
         private ITurnResolver _turnResolver;
@@ -66,6 +67,7 @@ namespace Assets.Scripts.Views {
             // GameMenu UI elements
             BackButton.gameObject.SetActive(false);
             GameOverText.gameObject.SetActive(false);
+            GameOverStatusText.gameObject.SetActive(false);
             OptionsText.gameObject.SetActive(false);
         }
             
@@ -88,12 +90,15 @@ namespace Assets.Scripts.Views {
             // GameMenu UI elements
             BackButton.gameObject.SetActive(_turnController.HasTurnsLeft());
             GameOverText.gameObject.SetActive(!_turnController.HasTurnsLeft());
+            GameOverStatusText.gameObject.SetActive(!_turnController.HasTurnsLeft());
             OptionsText.gameObject.SetActive(_turnController.HasTurnsLeft());
             HowToPlayButton.gameObject.SetActive(_turnController.HasTurnsLeft());
 
             if (!_turnController.HasTurnsLeft()) {
                 GameHUD.gameObject.SetActive(false);
                 GameMenu.gameObject.SetActive(true);
+                GameView myGameView = GetComponent<GameView>();
+                GameOverStatusText.text = myGameView.GetGameOverPlayerStatus();
             }
         }
 

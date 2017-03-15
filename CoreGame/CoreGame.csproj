@@ -65,7 +65,6 @@
     <Compile Include="Models\MapInfo.cs" />
     <Compile Include="Models\MoveType.cs" />
     <Compile Include="Models\NewStatus.cs" />
-    <Compile Include="Models\Pigeon.cs" />
     <Compile Include="Models\Position.cs" />
     <Compile Include="Models\Tile.cs" />
     <Compile Include="Models\TIleType.cs" />
@@ -73,6 +72,9 @@
     <Compile Include="Service\IMapGeneratorService.cs" />
     <Compile Include="Service\MapGeneratorService.cs" />
     <Compile Include="Utility\MapLocationValidator.cs" />
+    <Compile Include="Models\PlayerSideSelection.cs" />
+    <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\Pigeon.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Singed.ico" />

@@ -12,8 +12,12 @@ namespace CoreGame.Controllers {
         public IDictionary<NewStatus, IList<Position>> ModifiedTilePositions { get; private set; }
         private readonly IMapGeneratorService _mapGenerator;
         private Map _map;
+        private Player _player;
 
-        public MapController(IMapGeneratorService mapGenerator = null) { _mapGenerator = mapGenerator ?? new MapGeneratorService(); }
+        public MapController(IMapGeneratorService mapGenerator = null) { 
+            _mapGenerator = mapGenerator ?? new MapGeneratorService();
+            _player = new Player();
+        }
 
         public bool GenerateMap(string serializedMap) {
             _map = _mapGenerator.GenerateMap(serializedMap);
@@ -25,6 +29,17 @@ namespace CoreGame.Controllers {
             InitializeFires();
 
             return true;
+        }
+
+        public void SetPlayerSideSelection(PlayerSideSelection playerSideSelection){ _player.PlayerSideSelection = playerSideSelection; }
+
+        public PlayerSideSelection GetPlayerSideSelection() { return _player.PlayerSideSelection; }
+
+        public string GetGameOverPlayerStatus() {
+            if (DetermineGameOverPlayerStatus()) {
+                return "You won! Congratulations!";
+            }
+            return "You lost! Better luck next time!";
         }
 
         public void ApplyHeat(int x, int y) {
@@ -135,6 +150,25 @@ namespace CoreGame.Controllers {
             Position position = _map.InitialFirePosition;
             ApplyHeat(position.X, position.Y);
             SpreadFires();
+        }
+
+        private bool DetermineGameOverPlayerStatus() {
+            bool IsAnyPigeonAlive = false;
+
+            foreach (IPigeonController pigeon in _map.Pigeons) {
+                if (!pigeon.IsDead()) {
+                    IsAnyPigeonAlive = true;
+                    break;
+                }
+            }
+
+            if (GetPlayerSideSelection() == PlayerSideSelection.BurnPigeons && !IsAnyPigeonAlive) {
+                return true;
+            }
+            if (GetPlayerSideSelection() == PlayerSideSelection.SavePigeons && IsAnyPigeonAlive) {
+                return true;
+            }
+            return false;
         }
     }
 }

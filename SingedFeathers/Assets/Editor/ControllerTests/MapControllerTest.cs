@@ -34,8 +34,49 @@ namespace Assets.Editor.ControllerTests {
         public void TestGenerateInitializesProperly() {
             Assert.AreEqual(3, _mapController.Height);
             Assert.AreEqual(1, _mapController.Width);
+            Assert.AreEqual(PlayerSideSelection.NotChosen, _mapController.GetPlayerSideSelection());
         }
 
+        [Test]
+        public void TestSetAndGetPlayerSideSelection() {
+            _mapController.SetPlayerSideSelection(0);
+            Assert.AreEqual(PlayerSideSelection.NotChosen, _mapController.GetPlayerSideSelection());
+
+            _mapController.SetPlayerSideSelection(PlayerSideSelection.SavePigeons);
+            Assert.AreEqual(PlayerSideSelection.SavePigeons, _mapController.GetPlayerSideSelection());
+
+            _mapController.SetPlayerSideSelection(PlayerSideSelection.BurnPigeons);
+            Assert.AreEqual(PlayerSideSelection.BurnPigeons, _mapController.GetPlayerSideSelection());
+        }
+
+        [Test]
+        public void TestGetGameOverPlayerStatus() {
+            // Test with all dead pigeons
+            _pigeon0.IsDead().Returns(true);
+            _pigeon1.IsDead().Returns(true);
+
+            _mapController.SetPlayerSideSelection(PlayerSideSelection.NotChosen);
+            Assert.AreEqual("You lost! Better luck next time!", _mapController.GetGameOverPlayerStatus());
+
+            _mapController.SetPlayerSideSelection(PlayerSideSelection.SavePigeons);
+            Assert.AreEqual("You lost! Better luck next time!", _mapController.GetGameOverPlayerStatus());
+
+            _mapController.SetPlayerSideSelection(PlayerSideSelection.BurnPigeons);
+            Assert.AreEqual("You won! Congratulations!", _mapController.GetGameOverPlayerStatus());
+
+            // Test with at least one live pigeon
+            _pigeon1.IsDead().Returns(false);
+
+            _mapController.SetPlayerSideSelection(PlayerSideSelection.NotChosen);
+            Assert.AreEqual("You lost! Better luck next time!", _mapController.GetGameOverPlayerStatus());
+
+            _mapController.SetPlayerSideSelection(PlayerSideSelection.SavePigeons);
+            Assert.AreEqual("You won! Congratulations!", _mapController.GetGameOverPlayerStatus());
+
+            _mapController.SetPlayerSideSelection(PlayerSideSelection.BurnPigeons);
+            Assert.AreEqual("You lost! Better luck next time!", _mapController.GetGameOverPlayerStatus());
+        }
+            
         [Test]
         public void TestApplyHeatAffectsExpectedTileAtValidLocation() {
             _mapController.ApplyHeat(0, 0);

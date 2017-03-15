@@ -28,7 +28,7 @@ namespace Assets.Scripts.Views {
                 LoadMap();
             }
         }
-
+            
         public void LoadTileDictionary() {
             _tileDictionary = new Dictionary<TileType, TileView>();
             foreach (TileView tile in TileSet) {
@@ -59,6 +59,8 @@ namespace Assets.Scripts.Views {
                 _tileSizeY = TileSet[0].GetComponent<Renderer>().bounds.size.y;
 
                 InstantiateTiles();
+                SetPlayerSideSelection();
+                Debug.Log(_mapController.GetPlayerSideSelection());
 
                 LoadPigeons();
                 LoadInputView();
@@ -113,6 +115,12 @@ namespace Assets.Scripts.Views {
         public void Water() { _mapController.Water(); }
 
         public void Cancel() { _mapController.Cancel(); }
+
+        public void SetPlayerSideSelection() { 
+            _mapController.SetPlayerSideSelection((PlayerSideSelection)PlayerPrefs.GetInt("Side")); 
+        }
+
+        public string GetGameOverPlayerStatus() { return _mapController.GetGameOverPlayerStatus(); }
 
         private void InstantiateTiles() {
             for (int x = 0; x < _width; x++) {
