@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Assets.Scripts.Controllers;
-using Assets.Scripts.Models;
-using Assets.Scripts.Service;
 using NUnit.Framework;
 using NSubstitute;
-using Assets.Scripts.Models.Commands;
+using CoreGame.Controllers;
+using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
+using CoreGame.Models.Commands;
+using CoreGame.Service;
 
 namespace Assets.Editor.ControllerTests {
     [TestFixture]

@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Assets.Scripts.Controllers;
-using Assets.Scripts.Models;
+using CoreGame.Controllers;
+using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
 using Newtonsoft.Json;
 
-namespace Assets.Scripts.Service {
+namespace CoreGame.Service {
     public class MapGeneratorService : IMapGeneratorService {
         public Map GenerateMap(string serializedMap) {
             if (serializedMap == null) {

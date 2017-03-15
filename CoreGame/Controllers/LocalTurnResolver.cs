@@ -1,40 +1,51 @@
 ﻿using System.Collections.Generic;
-using System.Timers;
-using Assets.Scripts.Models;
-using Assets.Scripts.Models.Commands;
+using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
+using CoreGame.Models.Commands;
+using CoreGame.Utility;
 using Newtonsoft.Json;
-using Assests.Scripts.Utility;
+using System.Timers;
 
-namespace Assets.Scripts.Controllers {
+namespace CoreGame.Controllers {
     public class LocalTurnResolver : ITurnResolver {
+        private readonly JsonSerializerSettings _settings;
+
+        public LocalTurnResolver() {
+            _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+        }
+
         private bool _isTurnResolved = true;
 
         public bool IsTurnResolved() { return _isTurnResolved; }
 
         public void ResolveTurn(IDictionary<ITileController, ICommand> moves, Map map) {
             _isTurnResolved = false;
-            List<Delta> deltaList = new List<Delta>();
+            IList<Delta> deltaList = new List<Delta>();
             foreach (KeyValuePair<ITileController, ICommand> move in moves) {
-                Delta delta = new Delta(move.Key.Position, move.Value.GetCommand());
+                Delta delta = new Delta(move.Key.Position, move.Value);
                 deltaList.Add(delta);
             }
 
-            string json = JsonConvert.SerializeObject(deltaList);
-
-            Timer timer = new Timer(3000);
-            timer.Elapsed += (sender, e) => ApplyDelta(sender, e, json, map);
-            timer.AutoReset = false;
-            timer.Enabled = true;
+            if (CommandValidator.ValidateDeltas(deltaList, map.TileMap)) {
+                string json = JsonConvert.SerializeObject(deltaList, _settings);
+                Timer timer = new Timer(3000);
+                timer.Elapsed += (sender, e) => ApplyDelta(sender, e, json, map);
+                timer.AutoReset = false;
+                timer.Enabled = true;
+            } else {
+                _isTurnResolved = true;
+            }
         }
 
         private void ApplyDelta(object sender, ElapsedEventArgs e, string json, Map map) {
-            List<Delta> translatedDeltaList = JsonConvert.DeserializeObject<List<Delta>>(json);
+            IList<Delta> translatedDeltaList = JsonConvert.DeserializeObject<List<Delta>>(json, _settings);
+
             foreach (Delta delta in translatedDeltaList) {
                 Position position = delta.Position;
-                ICommand iCommand = delta.Command.MakeICommand();
+                ICommand command = delta.Command;
                 if (MapLocationValidator.PositionIsValid(position)) {
                     ITileController tileController = map.TileMap[position.X, position.Y];
-                    iCommand.ExecuteCommand(tileController);
+                    command.ExecuteCommand(tileController);
                 }
             }
             TurnResolveUtility.SpreadFires(map);

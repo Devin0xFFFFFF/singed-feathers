@@ -1,11 +1,11 @@
-﻿using Assets.Scripts.Models;
-using Assets.Scripts.Models.Commands;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using CoreGame.Models;
+using CoreGame.Models.Commands;
 
-namespace Assets.Scripts.Controllers {
+namespace CoreGame.Controllers.Interfaces {
     public interface ITurnController {
         void SetMoveType(MoveType moveType);
-        void ProcessAction(ITileController tileController);
+        bool ProcessAction(ITileController tileController);
         void UndoAllActions();
         void ClearTile(ITileController tileController);
         bool CanTakeAction();

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts.Models;
+using CoreGame.Models;
 
-namespace Assets.Scripts.Controllers {
+namespace CoreGame.Controllers.Interfaces {
     public interface IMapController {
         int Width { get; }
         int Height { get; }

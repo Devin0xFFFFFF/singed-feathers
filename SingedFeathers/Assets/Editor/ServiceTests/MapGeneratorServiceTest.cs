@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.Models;
-using Assets.Scripts.Service;
+﻿using CoreGame.Models;
+using CoreGame.Service;
 using NUnit.Framework;
 
 namespace Assets.Editor.ServiceTests {

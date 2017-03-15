@@ -1,6 +1,6 @@
-﻿using Assets.Scripts.Models;
+﻿using CoreGame.Models;
 
-namespace Assets.Scripts.Service {
+namespace CoreGame.Service {
     public interface IMapGeneratorService {
         Map GenerateMap(string serializedMap);
     }
