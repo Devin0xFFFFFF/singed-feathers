@@ -1,18 +1,14 @@
-﻿using System.Collections.Generic;
-using CoreGame.Models;
-using CoreGame.Models.Commands;
+﻿using CoreGame.Models;
 
 namespace CoreGame.Controllers.Interfaces {
     public interface ITurnController {
         void SetMoveType(MoveType moveType);
         bool ProcessAction(ITileController tileController);
-        void UndoLastAction();
-        void ClearTile(ITileController tileController);
-        bool CanTakeAction();
-        bool HasQueuedActions();
+        void UndoAction();
+        bool HasQueuedAction();
         int GetTurnsLeft();
         bool HasTurnsLeft();
-        IDictionary<ITileController, ICommand> GetAndResetMoves();
+        Delta GetAndResetMove();
         MoveType GetMoveType();
     }
 }

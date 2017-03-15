@@ -65,9 +65,9 @@ namespace Assets.Scripts.Views {
             GameOverText.gameObject.SetActive(false);
             OptionsText.gameObject.SetActive(false);
         }
-            
+
         public void UpdateButtons() {
-            if (_turnController.CanTakeAction()) {
+            if (_turnController.HasTurnsLeft()) {
                 foreach (Button button in _actionButtons) {
                     button.interactable = true;
                 }
@@ -78,7 +78,7 @@ namespace Assets.Scripts.Views {
             }
 
             // GameHUD UI elements
-            UndoButton.interactable = _turnController.HasQueuedActions();
+            UndoButton.interactable = _turnController.HasQueuedAction();
             EndTurnButton.interactable = _turnResolver.IsTurnResolved() && _turnController.HasTurnsLeft();
 
             // GameMenu UI elements

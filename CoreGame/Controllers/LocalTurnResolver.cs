@@ -17,13 +17,13 @@ namespace CoreGame.Controllers {
 
         public bool IsTurnResolved() { return _isTurnResolved; }
 
-        public void ResolveTurn(IDictionary<ITileController, ICommand> moves, ITileController[,] tileMap) {
+        public void ResolveTurn(Delta delta, ITileController[,] tileMap) {
             _isTurnResolved = false;
             List<Delta> deltaList = new List<Delta>();
-            foreach (KeyValuePair<ITileController, ICommand> move in moves) {
-                Delta delta = new Delta(move.Key.Position, move.Value);
+            if (delta != null) {
                 deltaList.Add(delta);
             }
+
             if (CommandValidator.ValidateDeltas(deltaList, tileMap)) {
                 string json = JsonConvert.SerializeObject(deltaList, _settings);
                 ApplyDelta(json, tileMap);

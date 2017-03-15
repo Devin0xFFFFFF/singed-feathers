@@ -104,7 +104,7 @@ namespace Assets.Scripts.Views {
         public ITurnResolver GetTurnResolver() { return _mapController.GetTurnResolver(); }
 
         public void Undo() { 
-            _mapController.UndoLastAction();
+            _mapController.UndoAction();
             InputView.ClearSelected();
         }
 

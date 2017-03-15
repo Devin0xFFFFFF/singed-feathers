@@ -21,7 +21,6 @@ namespace CoreGame.Controllers {
                 return false;
             }
             MapLocationValidator.InitializeValues(_map);
-            CommandValidator.InitializeValues(_map);
             LinkNeighbouringTiles();
             InitializeFires();
 
@@ -35,7 +34,7 @@ namespace CoreGame.Controllers {
         }
             
         public void EndTurn() {
-            _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMoves(), _map.TileMap);
+            _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMove(), _map.TileMap);
             SpreadFires();
             MovePigeons();
         }
@@ -62,7 +61,7 @@ namespace CoreGame.Controllers {
 
         public int GetTurnsLeft() { return _map.TurnController.GetTurnsLeft(); }
 
-        public void UndoLastAction() { _map.TurnController.UndoLastAction(); }
+        public void UndoAction() { _map.TurnController.UndoAction(); }
 
         public void Fire() { _map.TurnController.SetMoveType(MoveType.Fire); }
 
