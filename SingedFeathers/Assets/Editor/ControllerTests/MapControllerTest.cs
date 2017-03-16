@@ -12,6 +12,7 @@ namespace Assets.Editor.ControllerTests {
     [TestFixture]
     public class MapControllerTest {
         private MapController _mapController;
+        private MapController _emptyMapController;
         private IPigeonController _pigeon0;
         private IPigeonController _pigeon1;
         private ITileController _tile0;
@@ -24,9 +25,16 @@ namespace Assets.Editor.ControllerTests {
         public void Init() {
             IMapGeneratorService mapGenerator = Substitute.For<IMapGeneratorService>();
             Map testMap = GenerateTestMap();
-            mapGenerator.GenerateMap(Arg.Any<string>()).Returns(testMap);
+            mapGenerator.GenerateMap("TestMap").Returns(testMap);
             _mapController = new MapController(mapGenerator);
-            _mapController.GenerateMap(Arg.Any<string>());
+            _mapController.GenerateMap("TestMap");
+
+            // Initialize empty map with no pigeons
+            IMapGeneratorService emptyMapGenerator = Substitute.For<IMapGeneratorService>();
+            Map emptyMap = GenerateEmptyMap();
+            emptyMapGenerator.GenerateMap("Empty").Returns(emptyMap);
+            _emptyMapController = new MapController(emptyMapGenerator);
+            _emptyMapController.GenerateMap("Empty");
         }
 
         [Test]
@@ -34,6 +42,9 @@ namespace Assets.Editor.ControllerTests {
             Assert.AreEqual(3, _mapController.Height);
             Assert.AreEqual(1, _mapController.Width);
             Assert.AreEqual(PlayerSideSelection.SavePigeons, _mapController.GetPlayerSideSelection());
+
+            Assert.AreEqual(0, _emptyMapController.Height);
+            Assert.AreEqual(0, _emptyMapController.Width);
         }
 
         [Test]
@@ -265,8 +276,9 @@ namespace Assets.Editor.ControllerTests {
             Assert.IsFalse(_mapController.IsMapBurntOut());
 
             _tile2.IsBurntOut().Returns(true);
-
             Assert.IsTrue(_mapController.IsMapBurntOut());
+
+//            Assert.IsTrue(_emptyMapController.IsMapBurntOut());
         }
 
         [Test]
@@ -292,6 +304,22 @@ namespace Assets.Editor.ControllerTests {
                 Pigeons = InitializePigeons(),
                 TurnController = InitializeTurnController(),
                 TurnResolver = InitializeTurnResolver()
+            };
+        }
+
+        private Map GenerateEmptyMap() {
+            ITileController[,] tiles = { {} };
+            ITurnController turnController = Substitute.For<ITurnController>();
+            ITurnResolver turnResolver = Substitute.For<ITurnResolver>();
+            return new Map() {
+                Height = 0,
+                Width = 0,
+                InitialFirePosition = new Position(0, 0),
+                InitialPigeonPositions = new List<Position>() {},
+                TileMap = tiles,
+                Pigeons = new List<IPigeonController>() {},
+                TurnController = turnController,
+                TurnResolver = turnResolver
             };
         }
 
