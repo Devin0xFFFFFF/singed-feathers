@@ -8,7 +8,6 @@ namespace Assets.Scripts.Views {
     public class InputView : MonoBehaviour {
         public const string TURN_COUNT_STRING = "Turns Left: ";
         public const string SIDE_CHOSEN_STRING = "You have chosen to {0} the pigeons.";
-        public const string NO_SIDE_CHOSEN_STRING = "You have not chosen a side.";
         public Canvas GameHUD;
         public Canvas GameMenu;
         public Button FireButton;
@@ -113,14 +112,7 @@ namespace Assets.Scripts.Views {
             }
         }
 
-        public void UpdateSideChosenText(string side) {
-            if (side.Equals("not chosen")) {
-                SideChosenText.text = NO_SIDE_CHOSEN_STRING;
-            }
-            else {
-                SideChosenText.text = string.Format(SIDE_CHOSEN_STRING, side);
-            }
-        }
+        public void UpdateSideChosenText(string side) { SideChosenText.text = string.Format(SIDE_CHOSEN_STRING, side); }
 
         public void UpdateTurnCountText() { TurnCountText.text = TURN_COUNT_STRING + _turnController.GetTurnsLeft(); }
 

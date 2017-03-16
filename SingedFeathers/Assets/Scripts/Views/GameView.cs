@@ -40,7 +40,7 @@ namespace Assets.Scripts.Views {
                 _pigeonsRequireUpdate = false;
             }
         }
-      
+
         public void LoadTileDictionary() {
             _tileDictionary = new Dictionary<TileType, TileView>();
             foreach (TileView tile in TileSet) {
@@ -124,7 +124,7 @@ namespace Assets.Scripts.Views {
 
         public void SetPlayerSideSelectionText() { 
             PlayerSideSelection playerSideSelection = _mapController.GetPlayerSideSelection();
-            string side = "not chosen";
+            string side = "";
             if (playerSideSelection == PlayerSideSelection.SavePigeons) {
                 side = "save";
             }

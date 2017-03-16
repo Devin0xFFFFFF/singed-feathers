@@ -7,6 +7,10 @@ using CoreGame.Utility;
 namespace CoreGame.Controllers {
     public class MapController : IMapController {
         public const int HEAT = 100;
+        public const string WIN = "You won!";
+        public const string LOSE = "You lost!";
+        public const string NO_PIGEONS_SURVIVED = "No pigeons survived!";
+        public const string A_PIGEON_SURVIVED = "A pigeon survived!";
         public int Width { get { return _map.Width; } }
         public int Height { get { return _map.Height; } }
         private readonly IMapGeneratorService _mapGenerator;
@@ -35,10 +39,36 @@ namespace CoreGame.Controllers {
         public PlayerSideSelection GetPlayerSideSelection() { return _player.PlayerSideSelection; }
 
         public string GetGameOverPlayerStatus() {
-            if (DetermineGameOverPlayerStatus()) {
-                return "You won! Congratulations!";
+            bool isAnyPigeonAlive = false;
+            PlayerSideSelection playerSideSelection = GetPlayerSideSelection();
+            string winOrLose = "";
+            string reason;
+
+            foreach (IPigeonController pigeon in _map.Pigeons) {
+                if (!pigeon.IsDead()) {
+                    isAnyPigeonAlive = true;
+                    break;
+                }
             }
-            return "You lost! Better luck next time!";
+
+            if (!isAnyPigeonAlive) {
+                reason = NO_PIGEONS_SURVIVED;
+                if (playerSideSelection == PlayerSideSelection.BurnPigeons) {
+                    winOrLose = WIN;
+                }
+                if (playerSideSelection == PlayerSideSelection.SavePigeons) {
+                    winOrLose = LOSE;
+                }
+            } else {
+                reason = A_PIGEON_SURVIVED;
+                if (playerSideSelection == PlayerSideSelection.BurnPigeons) {
+                    winOrLose = LOSE;
+                }
+                if (playerSideSelection == PlayerSideSelection.SavePigeons) {
+                    winOrLose = WIN;
+                }
+            }
+            return string.Format("{0} {1}", winOrLose, reason);
         }
 
         public void ApplyHeat(int x, int y) {
@@ -108,25 +138,6 @@ namespace CoreGame.Controllers {
             Position position = _map.InitialFirePosition;
             ApplyHeat(position.X, position.Y);
             TurnResolveUtility.SpreadFires(_map);
-        }
-
-        private bool DetermineGameOverPlayerStatus() {
-            bool IsAnyPigeonAlive = false;
-
-            foreach (IPigeonController pigeon in _map.Pigeons) {
-                if (!pigeon.IsDead()) {
-                    IsAnyPigeonAlive = true;
-                    break;
-                }
-            }
-
-            if (GetPlayerSideSelection() == PlayerSideSelection.BurnPigeons && !IsAnyPigeonAlive) {
-                return true;
-            }
-            if (GetPlayerSideSelection() == PlayerSideSelection.SavePigeons && IsAnyPigeonAlive) {
-                return true;
-            }
-            return false;
         }
     }
 }
