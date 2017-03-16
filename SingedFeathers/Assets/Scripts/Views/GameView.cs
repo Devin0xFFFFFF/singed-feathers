@@ -33,6 +33,10 @@ namespace Assets.Scripts.Views {
         }
 
         public void Update() {
+            if (_mapController != null && _mapController.ShouldPoll()) {
+                _mapController.Poll();
+            }
+
             if (_pigeonsRequireUpdate && _mapController.IsTurnResolved()) {
                 foreach (PigeonView pigeon in _pigeons) {
                     pigeon.UpdatePigeon();

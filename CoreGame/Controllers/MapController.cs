@@ -129,6 +129,10 @@ namespace CoreGame.Controllers {
 
         public void Water() { _map.TurnController.SetMoveType(MoveType.Water); }
 
+        public bool ShouldPoll() { return _map.TurnResolver.ShouldPoll(); }
+
+        public void Poll() { _map.TurnResolver.Poll(_map); }
+
         private void LinkNeighbouringTiles() {
             for (int x = 0; x < Width; x++) {
                 for (int y = 0; y < Height; y++) {

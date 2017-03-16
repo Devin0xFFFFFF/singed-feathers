@@ -1,5 +1,4 @@
-﻿using System;
-using CoreGame.Models;
+﻿using CoreGame.Models;
 using UnityEngine;
 
 namespace Assets.Scripts.Input {

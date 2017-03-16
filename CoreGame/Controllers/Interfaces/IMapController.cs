@@ -24,5 +24,7 @@ namespace CoreGame.Controllers.Interfaces {
         void Fire();
         void Water();
         bool IsTurnResolved();
+        bool ShouldPoll();
+        void Poll();
     }
 }
