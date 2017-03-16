@@ -136,6 +136,8 @@ namespace Assets.Scripts.Views {
 
         public string GetGameOverPlayerStatus() { return _mapController.GetGameOverPlayerStatus(); }
 
+        public bool IsGameOver() { return _mapController.IsMapBurntOut() || _mapController.AreAllPigeonsDead(); }
+
         private void InstantiateTiles() {
             for (int x = 0; x < _width; x++) {
                 for (int y = 0; y < _height; y++) {

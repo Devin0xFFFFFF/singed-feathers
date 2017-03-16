@@ -251,6 +251,37 @@ namespace Assets.Editor.ControllerTests {
             Assert.IsFalse(mc.GenerateMap("{"));
         }
 
+        [Test]
+        public void TestIsMapBurntOut() {
+            _tile0.IsFlammable().Returns(false);
+            _tile0.IsBurntOut().Returns(false);
+
+            _tile1.IsFlammable().Returns(true);
+            _tile1.IsBurntOut().Returns(true);
+
+            _tile2.IsFlammable().Returns(true);
+            _tile2.IsBurntOut().Returns(false);
+
+            Assert.IsFalse(_mapController.IsMapBurntOut());
+
+            _tile2.IsBurntOut().Returns(true);
+
+            Assert.IsTrue(_mapController.IsMapBurntOut());
+        }
+
+        [Test]
+        public void TestAreAllPigeonsDead() {
+            _pigeon0.IsDead().Returns(false);
+            _pigeon1.IsDead().Returns(false);
+            Assert.IsFalse(_mapController.AreAllPigeonsDead());
+
+            _pigeon0.IsDead().Returns(true);
+            Assert.IsFalse(_mapController.AreAllPigeonsDead());
+
+            _pigeon1.IsDead().Returns(true);
+            Assert.IsTrue(_mapController.AreAllPigeonsDead());
+        }
+
         private Map GenerateTestMap() {
             return new Map() {
                 Height = 3,

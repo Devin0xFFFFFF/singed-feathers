@@ -9,6 +9,8 @@ namespace CoreGame.Controllers.Interfaces {
         void SetPlayerSideSelection(PlayerSideSelection playerSideSelection);
         PlayerSideSelection GetPlayerSideSelection();
         string GetGameOverPlayerStatus();
+        bool IsMapBurntOut();
+        bool AreAllPigeonsDead();
         void ApplyHeat(int x, int y);
         TileType GetTileType(int x, int y);
         ITileController GetTileController(int x, int y);
