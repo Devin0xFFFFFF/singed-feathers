@@ -17,6 +17,10 @@ namespace CoreGame.Controllers {
 
         public bool IsTurnResolved() { return _isTurnResolved; }
 
+        public bool ShouldPoll() { return false; }
+
+        public void Poll(Map map) {}
+
         public void ResolveTurn(Delta delta, Map map) {
             _isTurnResolved = false;
             List<Delta> deltaList = new List<Delta>();
