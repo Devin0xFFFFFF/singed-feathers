@@ -24,17 +24,18 @@ namespace Assets.Editor.ControllerTests {
         [SetUp]
         public void Init() {
             IMapGeneratorService mapGenerator = Substitute.For<IMapGeneratorService>();
+
+            // Initialize empty map with no pigeons
+            Map emptyMap = GenerateEmptyMap();
+            mapGenerator.GenerateMap("Empty").Returns(emptyMap);
+            _emptyMapController = new MapController(mapGenerator);
+            _emptyMapController.GenerateMap("Empty");
+
             Map testMap = GenerateTestMap();
             mapGenerator.GenerateMap("TestMap").Returns(testMap);
             _mapController = new MapController(mapGenerator);
             _mapController.GenerateMap("TestMap");
-
-            // Initialize empty map with no pigeons
-            IMapGeneratorService emptyMapGenerator = Substitute.For<IMapGeneratorService>();
-            Map emptyMap = GenerateEmptyMap();
-            emptyMapGenerator.GenerateMap("Empty").Returns(emptyMap);
-            _emptyMapController = new MapController(emptyMapGenerator);
-            _emptyMapController.GenerateMap("Empty");
+           
         }
 
         [Test]
@@ -278,7 +279,8 @@ namespace Assets.Editor.ControllerTests {
             _tile2.IsBurntOut().Returns(true);
             Assert.IsTrue(_mapController.IsMapBurntOut());
 
-//            Assert.IsTrue(_emptyMapController.IsMapBurntOut());
+            // Test empty map
+            Assert.IsTrue(_emptyMapController.IsMapBurntOut());
         }
 
         [Test]
@@ -292,6 +294,9 @@ namespace Assets.Editor.ControllerTests {
 
             _pigeon1.IsDead().Returns(true);
             Assert.IsTrue(_mapController.AreAllPigeonsDead());
+
+            // Test empty map with no pigeons
+            Assert.IsTrue(_emptyMapController.AreAllPigeonsDead());
         }
 
         private Map GenerateTestMap() {

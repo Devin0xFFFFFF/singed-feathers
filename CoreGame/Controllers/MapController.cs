@@ -39,12 +39,11 @@ namespace CoreGame.Controllers {
         public PlayerSideSelection GetPlayerSideSelection() { return _player.PlayerSideSelection; }
 
         public string GetGameOverPlayerStatus() {
-            bool areAllPigeonsDead = AreAllPigeonsDead();
             PlayerSideSelection playerSideSelection = GetPlayerSideSelection();
             string winOrLose = "";
             string reason;
 
-            if (areAllPigeonsDead) {
+            if (AreAllPigeonsDead()) {
                 reason = NO_PIGEONS_SURVIVED;
                 if (playerSideSelection == PlayerSideSelection.BurnPigeons) {
                     winOrLose = WIN;
