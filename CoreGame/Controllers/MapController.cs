@@ -7,12 +7,20 @@ using CoreGame.Utility;
 namespace CoreGame.Controllers {
     public class MapController : IMapController {
         public const int HEAT = 100;
+        public const string WIN = "You won!";
+        public const string LOSE = "You lost!";
+        public const string NO_PIGEONS_SURVIVED = "No pigeons survived!";
+        public const string A_PIGEON_SURVIVED = "A pigeon survived!";
         public int Width { get { return _map.Width; } }
         public int Height { get { return _map.Height; } }
         private readonly IMapGeneratorService _mapGenerator;
         private Map _map;
+        private Player _player;
 
-        public MapController(IMapGeneratorService mapGenerator = null) { _mapGenerator = mapGenerator ?? new MapGeneratorService(); }
+        public MapController(IMapGeneratorService mapGenerator = null) { 
+            _mapGenerator = mapGenerator ?? new MapGeneratorService();
+            _player = new Player();
+        }
 
         public bool GenerateMap(string serializedMap) {
             _map = _mapGenerator.GenerateMap(serializedMap);
@@ -24,6 +32,43 @@ namespace CoreGame.Controllers {
             InitializeFires();
 
             return true;
+        }
+
+        public void SetPlayerSideSelection(PlayerSideSelection playerSideSelection){ _player.PlayerSideSelection = playerSideSelection; }
+
+        public PlayerSideSelection GetPlayerSideSelection() { return _player.PlayerSideSelection; }
+
+        public string GetGameOverPlayerStatus() {
+            bool isAnyPigeonAlive = false;
+            PlayerSideSelection playerSideSelection = GetPlayerSideSelection();
+            string winOrLose = "";
+            string reason;
+
+            foreach (IPigeonController pigeon in _map.Pigeons) {
+                if (!pigeon.IsDead()) {
+                    isAnyPigeonAlive = true;
+                    break;
+                }
+            }
+
+            if (!isAnyPigeonAlive) {
+                reason = NO_PIGEONS_SURVIVED;
+                if (playerSideSelection == PlayerSideSelection.BurnPigeons) {
+                    winOrLose = WIN;
+                }
+                if (playerSideSelection == PlayerSideSelection.SavePigeons) {
+                    winOrLose = LOSE;
+                }
+            } else {
+                reason = A_PIGEON_SURVIVED;
+                if (playerSideSelection == PlayerSideSelection.BurnPigeons) {
+                    winOrLose = LOSE;
+                }
+                if (playerSideSelection == PlayerSideSelection.SavePigeons) {
+                    winOrLose = WIN;
+                }
+            }
+            return string.Format("{0} {1}", winOrLose, reason);
         }
 
         public void ApplyHeat(int x, int y) {

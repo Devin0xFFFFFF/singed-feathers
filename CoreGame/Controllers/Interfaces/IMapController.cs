@@ -6,6 +6,9 @@ namespace CoreGame.Controllers.Interfaces {
         int Width { get; }
         int Height { get; }
         bool GenerateMap(string serializedMap);
+        void SetPlayerSideSelection(PlayerSideSelection playerSideSelection);
+        PlayerSideSelection GetPlayerSideSelection();
+        string GetGameOverPlayerStatus();
         void ApplyHeat(int x, int y);
         TileType GetTileType(int x, int y);
         ITileController GetTileController(int x, int y);

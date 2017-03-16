@@ -7,6 +7,7 @@ using CoreGame.Models;
 namespace Assets.Scripts.Views {
     public class InputView : MonoBehaviour {
         public const string TURN_COUNT_STRING = "Turns Left: ";
+        public const string SIDE_CHOSEN_STRING = "You have chosen to {0} the pigeons.";
         public Canvas GameHUD;
         public Canvas GameMenu;
         public Button FireButton;
@@ -21,17 +22,21 @@ namespace Assets.Scripts.Views {
         public GameObject ControlBorderRed;
         public GameObject ControlBorderBlue;
         public Text TurnCountText;
+        public Text SideChosenText;
         public Text OptionsText;
         public Text GameOverText;
+        public Text GameOverStatusText;
         private Button[] _actionButtons;
         private ITurnController _turnController;
         private ITurnResolver _turnResolver;
         private Dictionary<Vector3, GameObject> _borders;
+        private GameView _gameView;
 
         // Use this for initialization
         public void Start() { 
             _actionButtons = new Button[] { FireButton, WaterButton };
             _borders = new Dictionary<Vector3, GameObject>();
+            _gameView = GetComponent<GameView>();
         }
 
         public void ClearSelected() { 
@@ -63,6 +68,7 @@ namespace Assets.Scripts.Views {
             // GameMenu UI elements
             BackButton.gameObject.SetActive(false);
             GameOverText.gameObject.SetActive(false);
+            GameOverStatusText.gameObject.SetActive(false);
             OptionsText.gameObject.SetActive(false);
         }
 
@@ -84,12 +90,14 @@ namespace Assets.Scripts.Views {
             // GameMenu UI elements
             BackButton.gameObject.SetActive(_turnController.HasTurnsLeft());
             GameOverText.gameObject.SetActive(!_turnController.HasTurnsLeft());
+            GameOverStatusText.gameObject.SetActive(!_turnController.HasTurnsLeft());
             OptionsText.gameObject.SetActive(_turnController.HasTurnsLeft());
             HowToPlayButton.gameObject.SetActive(_turnController.HasTurnsLeft());
 
             if (!_turnController.HasTurnsLeft()) {
                 GameHUD.gameObject.SetActive(false);
                 GameMenu.gameObject.SetActive(true);
+                GameOverStatusText.text = _gameView.GetGameOverPlayerStatus();
             }
         }
 
@@ -103,6 +111,8 @@ namespace Assets.Scripts.Views {
                     break;
             }
         }
+
+        public void UpdateSideChosenText(string side) { SideChosenText.text = string.Format(SIDE_CHOSEN_STRING, side); }
 
         public void UpdateTurnCountText() { TurnCountText.text = TURN_COUNT_STRING + _turnController.GetTurnsLeft(); }
 

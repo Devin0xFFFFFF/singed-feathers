@@ -72,6 +72,9 @@ namespace Assets.Scripts.Views {
                 _tileSizeY = TileSet[0].GetComponent<Renderer>().bounds.size.y;
 
                 InstantiateTiles();
+                SetPlayerSideSelection();
+                SetPlayerSideSelectionText();
+                Debug.Log(_mapController.GetPlayerSideSelection());
 
                 LoadPigeons();
                 LoadInputView();
@@ -116,6 +119,22 @@ namespace Assets.Scripts.Views {
         public void Fire() { _mapController.Fire(); }
 
         public void Water() { _mapController.Water(); }
+
+        public void SetPlayerSideSelection() { _mapController.SetPlayerSideSelection((PlayerSideSelection)PlayerPrefs.GetInt("Side")); }
+
+        public void SetPlayerSideSelectionText() { 
+            PlayerSideSelection playerSideSelection = _mapController.GetPlayerSideSelection();
+            string side = "";
+            if (playerSideSelection == PlayerSideSelection.SavePigeons) {
+                side = "save";
+            }
+            if (playerSideSelection == PlayerSideSelection.BurnPigeons) {
+                side = "burn";
+            }
+            InputView.UpdateSideChosenText(side);
+        }
+
+        public string GetGameOverPlayerStatus() { return _mapController.GetGameOverPlayerStatus(); }
 
         private void InstantiateTiles() {
             for (int x = 0; x < _width; x++) {
