@@ -1,7 +1,5 @@
 language: csharp
 
-mono: latest
-
 group: edge
 
 before_install:
@@ -12,7 +10,7 @@ install:
 - ./Scripts/install.sh
 
 script:
-- if [ $TRAVIS_BRANCH = "master" ]; then travis_wait ./Scripts/build.sh; fi
+- if [ $TRAVIS_BRANCH = "175-End-Game-Logic" ]; then travis_wait ./Scripts/build.sh; fi
 - xbuild /p:TargetFrameworkProfile="" /p:Configuration=Release ./SingedFeathers/SingedFeathers.sln
 - nunit-console ./SingedFeathers/Temp/bin/Release/Assembly-CSharp-Editor.dll
 
