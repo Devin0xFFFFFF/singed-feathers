@@ -60,8 +60,8 @@ namespace CoreGame.Controllers {
             int maxHeat = allPossibleDestinations.Max(tile => tile.GetTileHeat());
             IEnumerable<ITileController> validDestinations = allPossibleDestinations.Where(tile => !tile.IsOnFire() && tile.CanBeOccupied());
 
-            if (maxHeat > 0 && validDestinations.Count() > 0) {
-                //move to the tile with min heat farthest from the most heated tile
+            if (maxHeat > 0 && validDestinations.Any()) {
+                // Move to the tile with min heat farthest from the most heated tile
                 Position maxHeatPosition = allPossibleDestinations.Where(
                     tile => tile.GetTileHeat() == maxHeat).OrderByDescending(
                         tile => tile).First().Position;
@@ -78,7 +78,7 @@ namespace CoreGame.Controllers {
 
                 return moved;
             } else {
-                //stay still
+                // Stay still
                 return false;
             }
         }
