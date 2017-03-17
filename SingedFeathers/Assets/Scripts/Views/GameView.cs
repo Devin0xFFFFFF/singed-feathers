@@ -33,6 +33,10 @@ namespace Assets.Scripts.Views {
         }
 
         public void Update() {
+            if (_mapController != null && _mapController.ShouldPoll()) {
+                _mapController.Poll();
+            }
+
             if (_pigeonsRequireUpdate && _mapController.IsTurnResolved()) {
                 foreach (PigeonView pigeon in _pigeons) {
                     pigeon.UpdatePigeon();
@@ -135,6 +139,8 @@ namespace Assets.Scripts.Views {
         }
 
         public string GetGameOverPlayerStatus() { return _mapController.GetGameOverPlayerStatus(); }
+
+        public bool IsGameOver() { return _mapController.IsMapBurntOut() || _mapController.AreAllPigeonsDead(); }
 
         private void InstantiateTiles() {
             for (int x = 0; x < _width; x++) {

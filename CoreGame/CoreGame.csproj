@@ -63,6 +63,7 @@
     <Compile Include="Models\MoveType.cs" />
     <Compile Include="Models\NewStatus.cs" />
     <Compile Include="Models\Position.cs" />
+    <Compile Include="Models\ServerResponse.cs" />
     <Compile Include="Models\Tile.cs" />
     <Compile Include="Models\TIleType.cs" />
     <Compile Include="Models\PlayerSideSelection.cs" />

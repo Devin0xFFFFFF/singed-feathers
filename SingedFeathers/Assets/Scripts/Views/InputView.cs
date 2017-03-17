@@ -72,8 +72,12 @@ namespace Assets.Scripts.Views {
             OptionsText.gameObject.SetActive(false);
         }
 
+        public bool IsGameOver() { return !_turnController.HasTurnsLeft() || _gameView.IsGameOver(); }
+
         public void UpdateButtons() {
-            if (_turnController.HasTurnsLeft()) {
+            bool isGameOver = IsGameOver();
+
+            if (!isGameOver) {
                 foreach (Button button in _actionButtons) {
                     button.interactable = true;
                 }
@@ -85,16 +89,16 @@ namespace Assets.Scripts.Views {
 
             // GameHUD UI elements
             UndoButton.interactable = _turnController.HasQueuedAction();
-            EndTurnButton.interactable = _turnResolver.IsTurnResolved() && _turnController.HasTurnsLeft();
+            EndTurnButton.interactable = _turnResolver.IsTurnResolved() && !isGameOver;
 
             // GameMenu UI elements
-            BackButton.gameObject.SetActive(_turnController.HasTurnsLeft());
-            GameOverText.gameObject.SetActive(!_turnController.HasTurnsLeft());
-            GameOverStatusText.gameObject.SetActive(!_turnController.HasTurnsLeft());
-            OptionsText.gameObject.SetActive(_turnController.HasTurnsLeft());
-            HowToPlayButton.gameObject.SetActive(_turnController.HasTurnsLeft());
+            BackButton.gameObject.SetActive(!isGameOver);
+            GameOverText.gameObject.SetActive(isGameOver);
+            GameOverStatusText.gameObject.SetActive(isGameOver);
+            OptionsText.gameObject.SetActive(!isGameOver);
+            HowToPlayButton.gameObject.SetActive(!isGameOver);
 
-            if (!_turnController.HasTurnsLeft()) {
+            if (isGameOver) {
                 GameHUD.gameObject.SetActive(false);
                 GameMenu.gameObject.SetActive(true);
                 GameOverStatusText.text = _gameView.GetGameOverPlayerStatus();
