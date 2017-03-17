@@ -8,7 +8,7 @@ before_install:
 - chmod a+x ./Scripts/build.sh
 
 install:
-- travis_wait ./Scripts/install.sh
+- ./Scripts/install.sh
 
 script:
 - if [ $TRAVIS_BRANCH = "master" ]; then travis_wait ./Scripts/build.sh; fi
