@@ -81,6 +81,8 @@ namespace CoreGame.Controllers {
         public bool IsHeatZero() { return Tile.Heat == 0; }
 
         public int CompareTo(ITileController other) {
+            if (GetTileHeat() != other.GetTileHeat()) {
+                return GetTileHeat().CompareTo(other.GetTileHeat());
             } else {
                 return Position.CompareTo(other.Position);
             }
