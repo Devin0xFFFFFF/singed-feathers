@@ -49,9 +49,7 @@ namespace CoreGame.Controllers {
             Tile.IsOnFire = CheckIfOnFire();
         }
 
-        public void ApplyHeat(int heat) {
-            Tile.Heat += heat;
-        }
+        public void ApplyHeat(int heat) { Tile.Heat += heat; }
 
         public void ReduceHeat(int heat) {
             Tile.Heat = Math.Max(0, Tile.Heat - heat);

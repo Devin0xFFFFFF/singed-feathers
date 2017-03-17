@@ -39,19 +39,11 @@ namespace CoreGame.Controllers {
         public PlayerSideSelection GetPlayerSideSelection() { return _player.PlayerSideSelection; }
 
         public string GetGameOverPlayerStatus() {
-            bool isAnyPigeonAlive = false;
             PlayerSideSelection playerSideSelection = GetPlayerSideSelection();
             string winOrLose = "";
             string reason;
 
-            foreach (IPigeonController pigeon in _map.Pigeons) {
-                if (!pigeon.IsDead()) {
-                    isAnyPigeonAlive = true;
-                    break;
-                }
-            }
-
-            if (!isAnyPigeonAlive) {
+            if (AreAllPigeonsDead()) {
                 reason = NO_PIGEONS_SURVIVED;
                 if (playerSideSelection == PlayerSideSelection.BurnPigeons) {
                     winOrLose = WIN;
@@ -69,6 +61,31 @@ namespace CoreGame.Controllers {
                 }
             }
             return string.Format("{0} {1}", winOrLose, reason);
+        }
+
+        public bool IsMapBurntOut() {
+            bool isBurntOut = true;
+            for (int x = 0; x < Width; x++) {
+                for (int y = 0; y < Height; y++) {
+                    ITileController tile = _map.TileMap[x, y];
+                    if (tile.IsFlammable() && !tile.IsBurntOut()) {
+                        isBurntOut = false;
+                        break;
+                    }
+                }
+            }
+            return isBurntOut;
+        }
+
+        public bool AreAllPigeonsDead() {
+            bool areAllPigeonsDead = true;
+            foreach (IPigeonController pigeon in _map.Pigeons) {
+                if (!pigeon.IsDead()) {
+                    areAllPigeonsDead = false;
+                    break;
+                }
+            }
+            return areAllPigeonsDead;
         }
 
         public void ApplyHeat(int x, int y) {
@@ -110,6 +127,10 @@ namespace CoreGame.Controllers {
         public void Fire() { _map.TurnController.SetMoveType(MoveType.Fire); }
 
         public void Water() { _map.TurnController.SetMoveType(MoveType.Water); }
+
+        public bool ShouldPoll() { return _map.TurnResolver.ShouldPoll(); }
+
+        public void Poll() { _map.TurnResolver.Poll(_map); }
 
         private void LinkNeighbouringTiles() {
             for (int x = 0; x < Width; x++) {
