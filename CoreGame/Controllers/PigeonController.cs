@@ -1,4 +1,6 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 
@@ -52,18 +54,33 @@ namespace CoreGame.Controllers {
 
         public bool Move() {
             InitialPosition = _tileController.Position;
-            if (_tileController.IsOnFire()) {
-                foreach (ITileController neighbour in _tileController.GetNeighbours()) {
-                    if (!neighbour.IsOnFire() && neighbour.CanBeOccupied()) {
-                        // Move to new tile
-                        _tileController.MarkUnoccupied();
-                        _tileController = neighbour;
-                        _tileController.MarkOccupied();
-                        return true;
-                    }
-                }
+            IList<ITileController> allPossibleDestinations = new List<ITileController>(_tileController.GetNeighbours());
+            allPossibleDestinations.Add(_tileController);
+
+            int maxHeat = allPossibleDestinations.Max(tile => tile.GetTileHeat());
+            IEnumerable<ITileController> validDestinations = allPossibleDestinations.Where(tile => !tile.IsOnFire() && tile.CanBeOccupied());
+
+            if (maxHeat > 0 && validDestinations.Any()) {
+                // Move to the tile with min heat farthest from the most heated tile
+                Position maxHeatPosition = allPossibleDestinations.Where(
+                    tile => tile.GetTileHeat() == maxHeat).OrderByDescending(
+                        tile => tile).First().Position;
+
+                int minHeat = validDestinations.Min(tile => tile.GetTileHeat());
+                validDestinations = validDestinations.Where(tile => tile.GetTileHeat() == minHeat);
+                ITileController bestDestination = validDestinations.OrderByDescending(tile => maxHeatPosition.GetLargestDistanceFrom(tile.Position)).First();
+
+                bool moved = bestDestination != _tileController;
+
+                _tileController.MarkUnoccupied();
+                _tileController = bestDestination;
+                _tileController.MarkOccupied();
+
+                return moved;
+            } else {
+                // Stay still
+                return false;
             }
-            return false;
         }
 
         public void TakeFireDamage() {

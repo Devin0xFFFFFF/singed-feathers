@@ -1,6 +1,7 @@
 ﻿using CoreGame.Controllers;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Assets.Editor.ControllerTests {
@@ -177,6 +178,43 @@ namespace Assets.Editor.ControllerTests {
         public void TestGetTileHeat() {
             // GetTileHeat should return Tile.Heat
             Assert.True(_tileController.GetTileHeat() == _tileController.Tile.Heat);
+        }
+
+        [Test]
+        public void TestCompareTo() {
+            ITileController other0 = Substitute.For<ITileController>();
+            other0.GetTileHeat().Returns(0);
+            other0.Position.Returns(new Position(0, 0));
+
+            ITileController other1 = Substitute.For<ITileController>();
+            other1.GetTileHeat().Returns(0);
+            other1.Position.Returns(new Position(5, 5));
+
+            ITileController other2 = Substitute.For<ITileController>();
+            other2.GetTileHeat().Returns(1);
+            other2.Position.Returns(new Position(0, 0));
+
+            ITileController other3 = Substitute.For<ITileController>();
+            other3.GetTileHeat().Returns(1);
+            other3.Position.Returns(new Position(5, 5));
+
+            ITileController other4 = Substitute.For<ITileController>();
+            other4.GetTileHeat().Returns(2);
+            other4.Position.Returns(new Position(0, 0));
+
+            ITileController other5 = Substitute.For<ITileController>();
+            other5.GetTileHeat().Returns(2);
+            other5.Position.Returns(new Position(5, 5));
+
+            _tileController = new TileController(TileType.Grass, 2, 2);
+            _tileController.ApplyHeat(1);
+
+            Assert.True(_tileController.CompareTo(other0) > 0);
+            Assert.True(_tileController.CompareTo(other1) > 0);
+            Assert.True(_tileController.CompareTo(other2) > 0);
+            Assert.True(_tileController.CompareTo(other3) < 0);
+            Assert.True(_tileController.CompareTo(other4) < 0);
+            Assert.True(_tileController.CompareTo(other5) < 0);
         }
     }
 }
