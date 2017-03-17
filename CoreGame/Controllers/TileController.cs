@@ -31,7 +31,7 @@ namespace CoreGame.Controllers {
 
         public void AddNeighbouringTile(ITileController neighbourController) { _neighbouringTiles.Add(neighbourController); }
 
-        public IEnumerable<ITileController> GetNeighbours() { return _neighbouringTiles; }
+        public IList<ITileController> GetNeighbours() { return _neighbouringTiles; }
 
         public void SpreadFire() {
             if (IsOnFire()) {
@@ -79,6 +79,12 @@ namespace CoreGame.Controllers {
         public bool CanBeOccupied() { return !IsOccupied; }
 
         public bool IsHeatZero() { return Tile.Heat == 0; }
+
+        public int CompareTo(ITileController other) {
+            } else {
+                return Position.CompareTo(other.Position);
+            }
+        }
 
         private Tile InitializeTile(TileType type) {
             switch (type) {

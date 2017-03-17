@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System;
 using CoreGame.Models;
 
 namespace CoreGame.Controllers.Interfaces {
-    public interface ITileController {
+    public interface ITileController : IComparable<ITileController> {
         Tile Tile { get; }
         bool IsOccupied { get; }
         Position Position { get; set; }
@@ -11,7 +12,7 @@ namespace CoreGame.Controllers.Interfaces {
         void ApplyHeat(int heat);
         void ReduceHeat(int heat);
         void AddNeighbouringTile(ITileController neighbourController);
-        IEnumerable<ITileController> GetNeighbours();
+        IList<ITileController> GetNeighbours();
         void SpreadFire();
         void UpKeep();
         bool IsBurntOut();

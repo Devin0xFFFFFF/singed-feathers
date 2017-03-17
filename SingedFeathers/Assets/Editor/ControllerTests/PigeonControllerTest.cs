@@ -60,7 +60,9 @@ namespace Assets.Editor.ControllerTests {
         public void TestPigeonFlipsOccupiedFlagWhenArrivingAndLeaving() {
             // Set current tile to be on fire, and neighbourTile0 to be safe and available
             _tileController.IsOnFire().Returns(true);
+            _tileController.GetTileHeat().Returns(100);
             _neighbourTile0.IsOnFire().Returns(false);
+            _neighbourTile0.GetTileHeat().Returns(0);
             _neighbourTile0.CanBeOccupied().Returns(true);
             
             Assert.False(_pigeonController.HasMoved());
@@ -72,19 +74,22 @@ namespace Assets.Editor.ControllerTests {
         }
 
         [Test]
-        public void TestPigeonOnlyMovesIfCurrentTileOnFire() {
+        public void TestPigeonMovesIfCurrentTileOnFire() {
             // Set up safe, available neighbour
             _neighbourTile0.CanBeOccupied().Returns(true);
             _neighbourTile0.IsOnFire().Returns(false);
+            _neighbourTile0.GetTileHeat().Returns(0);
 
             // Current tile is not on fire; doesn't move
             _tileController.IsOnFire().Returns(false);
+            _tileController.GetTileHeat().Returns(0);
 
             Assert.False(_pigeonController.Move());
             Assert.False(_pigeonController.HasMoved());
 
             // Current tile is on fire; moves to safe neighbour
             _tileController.IsOnFire().Returns(true);
+            _tileController.GetTileHeat().Returns(100);
 
             Assert.False(_pigeonController.HasMoved());
             Assert.True(_pigeonController.Move());
@@ -99,18 +104,193 @@ namespace Assets.Editor.ControllerTests {
             // Set up unsafe neighbour
             _neighbourTile0.CanBeOccupied().Returns(true);
             _neighbourTile0.IsOnFire().Returns(true);
+            _neighbourTile0.GetTileHeat().Returns(100);
 
             // Set up safe neighbour
             _neighbourTile1.CanBeOccupied().Returns(true);
             _neighbourTile1.IsOnFire().Returns(false);
+            _neighbourTile0.GetTileHeat().Returns(0);
 
             _tileController.IsOnFire().Returns(true);
+            _tileController.GetTileHeat().Returns(100);
             Assert.False(_pigeonController.HasMoved());
             Assert.True(_pigeonController.Move());
             Assert.True(_pigeonController.HasMoved());
 
             // Should have moved to neighbourTile1
             Assert.AreEqual(_pigeonController.CurrentPosition, _neighbourTile1.Position);
+        }
+
+        [Test]
+        public void TestMoveAwayFromHottestTile() {
+            ITileController tileController = Substitute.For<ITileController>();
+            tileController.Position.Returns(new Position(1, 1));
+            tileController.CanBeOccupied().Returns(true);
+            tileController.IsOnFire().Returns(false);
+            tileController.GetTileHeat().Returns(0);
+
+            ITileController neighbourTile0 = Substitute.For<ITileController>();
+            neighbourTile0.Position.Returns(new Position(0, 1));
+            neighbourTile0.CanBeOccupied().Returns(true);
+            neighbourTile0.IsOnFire().Returns(true);
+            neighbourTile0.GetTileHeat().Returns(100000);
+
+            ITileController neighbourTile1 = Substitute.For<ITileController>();
+            neighbourTile1.Position.Returns(new Position(1, 0));
+            neighbourTile1.CanBeOccupied().Returns(true);
+            neighbourTile1.IsOnFire().Returns(false);
+            neighbourTile1.GetTileHeat().Returns(0);
+
+            ITileController neighbourTile2 = Substitute.For<ITileController>();
+            neighbourTile2.Position.Returns(new Position(1, 2));
+            neighbourTile2.CanBeOccupied().Returns(true);
+            neighbourTile2.IsOnFire().Returns(false);
+            neighbourTile2.GetTileHeat().Returns(0);
+
+            ITileController neighbourTile3 = Substitute.For<ITileController>();
+            neighbourTile3.Position.Returns(new Position(2, 1));
+            neighbourTile3.CanBeOccupied().Returns(true);
+            neighbourTile3.IsOnFire().Returns(false);
+            neighbourTile3.GetTileHeat().Returns(0);
+
+            tileController.GetNeighbours().Returns(new List<ITileController>() { neighbourTile0, neighbourTile1, neighbourTile2, neighbourTile3 });
+            _pigeonController = new PigeonController(tileController);
+
+            Assert.False(_pigeonController.HasMoved());
+            Assert.True(_pigeonController.Move());
+            Assert.True(_pigeonController.HasMoved());
+
+            // Should have moved to neighbourTile1
+            Assert.AreEqual(_pigeonController.CurrentPosition, neighbourTile3.Position);
+        }
+
+        [Test]
+        public void TestMoveAwayFromHottestTileIfUnpassible() {
+            ITileController tileController = Substitute.For<ITileController>();
+            tileController.Position.Returns(new Position(1, 1));
+            tileController.CanBeOccupied().Returns(true);
+            tileController.IsOnFire().Returns(false);
+            tileController.GetTileHeat().Returns(0);
+
+            ITileController neighbourTile0 = Substitute.For<ITileController>();
+            neighbourTile0.Position.Returns(new Position(0, 1));
+            neighbourTile0.CanBeOccupied().Returns(true);
+            neighbourTile0.IsOnFire().Returns(true);
+            neighbourTile0.GetTileHeat().Returns(100000);
+
+            ITileController neighbourTile1 = Substitute.For<ITileController>();
+            neighbourTile1.Position.Returns(new Position(1, 0));
+            neighbourTile1.CanBeOccupied().Returns(true);
+            neighbourTile1.IsOnFire().Returns(false);
+            neighbourTile1.GetTileHeat().Returns(0);
+
+            ITileController neighbourTile2 = Substitute.For<ITileController>();
+            neighbourTile2.Position.Returns(new Position(1, 2));
+            neighbourTile2.CanBeOccupied().Returns(true);
+            neighbourTile2.IsOnFire().Returns(false);
+            neighbourTile2.GetTileHeat().Returns(0);
+
+            ITileController neighbourTile3 = Substitute.For<ITileController>();
+            neighbourTile3.Position.Returns(new Position(2, 1));
+            neighbourTile3.CanBeOccupied().Returns(false);
+            neighbourTile3.IsOnFire().Returns(false);
+            neighbourTile3.GetTileHeat().Returns(0);
+
+            tileController.GetNeighbours().Returns(new List<ITileController>() { neighbourTile0, neighbourTile1, neighbourTile2, neighbourTile3 });
+            _pigeonController = new PigeonController(tileController);
+
+            Assert.False(_pigeonController.HasMoved());
+            Assert.True(_pigeonController.Move());
+            Assert.True(_pigeonController.HasMoved());
+
+            // Should have moved to neighbourTile1
+            Assert.AreEqual(_pigeonController.CurrentPosition, neighbourTile1.Position);
+        }
+
+        [Test]
+        public void TestMoveTowardsCoolestTile() {
+            ITileController tileController = Substitute.For<ITileController>();
+            tileController.Position.Returns(new Position(1, 1));
+            tileController.CanBeOccupied().Returns(true);
+            tileController.IsOnFire().Returns(false);
+            tileController.GetTileHeat().Returns(2);
+
+            ITileController neighbourTile0 = Substitute.For<ITileController>();
+            neighbourTile0.Position.Returns(new Position(0, 1));
+            neighbourTile0.CanBeOccupied().Returns(true);
+            neighbourTile0.IsOnFire().Returns(false);
+            neighbourTile0.GetTileHeat().Returns(2);
+
+            ITileController neighbourTile1 = Substitute.For<ITileController>();
+            neighbourTile1.Position.Returns(new Position(1, 0));
+            neighbourTile1.CanBeOccupied().Returns(true);
+            neighbourTile1.IsOnFire().Returns(false);
+            neighbourTile1.GetTileHeat().Returns(2);
+
+            ITileController neighbourTile2 = Substitute.For<ITileController>();
+            neighbourTile2.Position.Returns(new Position(1, 2));
+            neighbourTile2.CanBeOccupied().Returns(true);
+            neighbourTile2.IsOnFire().Returns(false);
+            neighbourTile2.GetTileHeat().Returns(1);
+
+            ITileController neighbourTile3 = Substitute.For<ITileController>();
+            neighbourTile3.Position.Returns(new Position(2, 1));
+            neighbourTile3.CanBeOccupied().Returns(true);
+            neighbourTile3.IsOnFire().Returns(false);
+            neighbourTile3.GetTileHeat().Returns(2);
+
+            tileController.GetNeighbours().Returns(new List<ITileController>() { neighbourTile0, neighbourTile1, neighbourTile2, neighbourTile3 });
+            _pigeonController = new PigeonController(tileController);
+
+            Assert.False(_pigeonController.HasMoved());
+            Assert.True(_pigeonController.Move());
+            Assert.True(_pigeonController.HasMoved());
+
+            // Should have moved to neighbourTile1
+            Assert.AreEqual(_pigeonController.CurrentPosition, neighbourTile2.Position);
+        }
+
+        [Test]
+        public void TestStayStillIfNoHeat() {
+            ITileController tileController = Substitute.For<ITileController>();
+            tileController.Position.Returns(new Position(1, 1));
+            tileController.CanBeOccupied().Returns(true);
+            tileController.IsOnFire().Returns(false);
+            tileController.GetTileHeat().Returns(0);
+
+            ITileController neighbourTile0 = Substitute.For<ITileController>();
+            neighbourTile0.Position.Returns(new Position(0, 1));
+            neighbourTile0.CanBeOccupied().Returns(true);
+            neighbourTile0.IsOnFire().Returns(false);
+            neighbourTile0.GetTileHeat().Returns(0);
+
+            ITileController neighbourTile1 = Substitute.For<ITileController>();
+            neighbourTile1.Position.Returns(new Position(1, 0));
+            neighbourTile1.CanBeOccupied().Returns(true);
+            neighbourTile1.IsOnFire().Returns(false);
+            neighbourTile1.GetTileHeat().Returns(0);
+
+            ITileController neighbourTile2 = Substitute.For<ITileController>();
+            neighbourTile2.Position.Returns(new Position(1, 2));
+            neighbourTile2.CanBeOccupied().Returns(true);
+            neighbourTile2.IsOnFire().Returns(false);
+            neighbourTile2.GetTileHeat().Returns(0);
+
+            ITileController neighbourTile3 = Substitute.For<ITileController>();
+            neighbourTile3.Position.Returns(new Position(2, 1));
+            neighbourTile3.CanBeOccupied().Returns(true);
+            neighbourTile3.IsOnFire().Returns(false);
+            neighbourTile3.GetTileHeat().Returns(0);
+
+            tileController.GetNeighbours().Returns(new List<ITileController>() { neighbourTile0, neighbourTile1, neighbourTile2, neighbourTile3 });
+            _pigeonController = new PigeonController(tileController);
+
+            Assert.False(_pigeonController.HasMoved());
+            Assert.False(_pigeonController.Move());
+            Assert.False(_pigeonController.HasMoved());
+
+            // Should have moved to neighbourTile1
+            Assert.AreEqual(_pigeonController.CurrentPosition, tileController.Position);
         }
 
         [Test]
