@@ -25,7 +25,6 @@ namespace Assets.Scripts.Views {
 
         // Start here!
         public void Start() {
-            transform.localScale = new Vector3(1.4f, 1.4f, transform.localScale.z);
             UnitySystemConsoleRedirector.Redirect();
             if (TileSet.Count > 0) {
                 LoadTileDictionary();
