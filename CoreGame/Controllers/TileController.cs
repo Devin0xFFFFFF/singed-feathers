@@ -89,7 +89,7 @@ namespace CoreGame.Controllers {
         private Tile InitializeTile(TileType type) {
             switch (type) {
                 case TileType.Wood:
-                    return new Tile(type, 20, 3);
+                    return new Tile(type, 20, 6);
                 case TileType.Grass:
                     return new Tile(type, 10, 3);
                 case TileType.Stone:
