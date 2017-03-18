@@ -156,8 +156,9 @@ namespace CoreGame.Controllers {
         }
 
         private void InitializeFires() {
-            Position position = _map.InitialFirePosition;
-            ApplyHeat(position.X, position.Y);
+            foreach (Position position in _map.InitialFirePositions) {
+                ApplyHeat(position.X, position.Y);
+            }
             TurnResolveUtility.SpreadFires(_map);
         }
     }
