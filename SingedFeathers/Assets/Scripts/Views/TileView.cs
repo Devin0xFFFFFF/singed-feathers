@@ -18,6 +18,7 @@ namespace Assets.Scripts.Views {
         private int _maxSpriteIndex;
 
         public void Start() {
+            transform.localScale = new Vector3(1.6f, 1.6f, transform.localScale.z);
             _heatLevelSprites = new Sprite[] { SpriteHeatLevel0, SpriteHeatLevel1, SpriteHeatLevel2, SpriteHeatLevel3 };
             _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
             _maxSpriteIndex = _heatLevelSprites.Length - 1;

@@ -25,6 +25,7 @@ namespace Assets.Scripts.Views {
 
         // Start here!
         public void Start() {
+            transform.localScale = new Vector3(1.4f, 1.4f, transform.localScale.z);
             UnitySystemConsoleRedirector.Redirect();
             if (TileSet.Count > 0) {
                 LoadTileDictionary();
@@ -96,7 +97,7 @@ namespace Assets.Scripts.Views {
             IList<IPigeonController> controllers = _mapController.GetPigeonControllers();
             foreach (IPigeonController controller in controllers) {
                 Position pigeonPosition = controller.CurrentPosition;
-                PigeonView pigeon = Instantiate(Pigeon, new Vector3(_tileSizeX * pigeonPosition.X, _tileSizeY * pigeonPosition.Y, 1), Quaternion.identity);
+                PigeonView pigeon = Instantiate(Pigeon, new Vector3(_tileSizeX * pigeonPosition.X  - 1f, _tileSizeY * pigeonPosition.Y - 2.5f, 1) * 1.6f, Quaternion.identity);
                 pigeon.SetDimensions(_tileSizeX, _tileSizeY);
                 pigeon.SetController(controller);
                 _pigeons.Add(pigeon);
@@ -152,7 +153,7 @@ namespace Assets.Scripts.Views {
 
         private void InstantiateTile(TileType type, int x, int y) {
             TileView manager = _tileDictionary[type];
-            _map[x, y] = Instantiate(manager, new Vector3(_tileSizeX * x, _tileSizeY * y, 1), Quaternion.identity);
+            _map[x, y] = Instantiate(manager, new Vector3(_tileSizeX * x - 1f, _tileSizeY * y - 2.5f, 1) * 1.6f, Quaternion.identity);
             _map[x, y].SetController(_mapController.GetTileController(x, y));
         }
 
