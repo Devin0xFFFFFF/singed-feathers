@@ -32,7 +32,6 @@ namespace CoreGame.Controllers {
         public MoveType GetMoveType() { return _moveType; }
 
         public bool ProcessAction(ITileController tileController) {
-            _delta = null;
             if (_command.CanBeExecutedOnTile(tileController)) {
                 _delta = new Delta(tileController.Position, _command);
                 return true;

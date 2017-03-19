@@ -33,7 +33,7 @@ namespace Assets.Scripts.Views {
         private GameView _gameView;
 
         // Use this for initialization
-        public void Start() { 
+        public void Start() {
             _actionButtons = new Button[] { FireButton, WaterButton };
             _borders = new Dictionary<Vector3, GameObject>();
             _gameView = GetComponent<GameView>();
@@ -123,7 +123,7 @@ namespace Assets.Scripts.Views {
         public void HandleMapInput(TileView tileManager) { 
             Vector3 position = tileManager.gameObject.transform.position;
 
-            if (_turnController.ProcessAction(tileManager.GetTileController())) {
+            if (GameHUD.gameObject.activeInHierarchy && _turnController.ProcessAction(tileManager.GetTileController())) {
                 ClearSelected();
                 CreateBorder(position);
             }
@@ -146,6 +146,7 @@ namespace Assets.Scripts.Views {
                         break;
                 }
             }
+            border.transform.localScale = new Vector3(1.6f, 1.6f, transform.localScale.z);
             _borders.Add(pos, border);
         }
 

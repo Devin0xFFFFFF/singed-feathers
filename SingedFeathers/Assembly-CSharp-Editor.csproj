@@ -57,6 +57,7 @@
     <Compile Include="Assets\Editor\ControllerTests\PigeonControllerTest.cs" />
     <Compile Include="Assets\Editor\ControllerTests\TileControllerTest.cs" />
     <Compile Include="Assets\Editor\ControllerTests\TurnControllerTest.cs" />
+    <Compile Include="Assets\Editor\ModelTests\PositionTest.cs" />
     <Compile Include="Assets\Editor\ServiceTests\MapGeneratorServiceTest.cs" />
     <Compile Include="Assets\Editor\UtilityTests\CommandValidatorTest.cs" />
     <Compile Include="Assets\Editor\UtilityTests\MapLocationValidatorTest.cs" />
