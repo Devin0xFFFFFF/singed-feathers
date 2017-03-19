@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using NSubstitute;
-using System.Collections.Generic;
-using System;
+using System.Collections.Generic;   
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 using CoreGame.Models.Commands;
@@ -22,8 +21,6 @@ namespace Assets.Editor.UtilityTests {
             InitializeTileMap();
             InitializeCommand();
             ConfigurePositionValidator();
-
-            CommandValidator.InitializeValues(_map);
         }
 
         [Test]
@@ -105,8 +102,7 @@ namespace Assets.Editor.UtilityTests {
         private Map GenerateTestMap() {
             return new Map() {
                 Height = TEST_HEIGHT,
-                Width = TEST_WIDTH,
-                MaxMovesPerTurn = 2
+                Width = TEST_WIDTH
             };
         }
 

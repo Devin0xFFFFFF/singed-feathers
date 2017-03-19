@@ -17,29 +17,34 @@ namespace CoreGame.Controllers {
 
         public bool IsTurnResolved() { return _isTurnResolved; }
 
-        public void ResolveTurn(IDictionary<ITileController, ICommand> moves, ITileController[,] tileMap) {
+        public bool ShouldPoll() { return false; }
+
+        public void Poll(Map map) {}
+
+        public void ResolveTurn(Delta delta, Map map) {
             _isTurnResolved = false;
             List<Delta> deltaList = new List<Delta>();
-            foreach (KeyValuePair<ITileController, ICommand> move in moves) {
-                Delta delta = new Delta(move.Key.Position, move.Value);
+            if (delta != null) {
                 deltaList.Add(delta);
             }
-            if (CommandValidator.ValidateDeltas(deltaList, tileMap)) {
-                string json = JsonConvert.SerializeObject(deltaList, _settings);
-                ApplyDelta(json, tileMap);
-            }
+
+            string json = JsonConvert.SerializeObject(deltaList, _settings);
+
+            ApplyDelta(json, map);
         }
 
-        private void ApplyDelta(string json, ITileController[,] tileMap) {
-            IList<Delta> translatedDeltaList = JsonConvert.DeserializeObject<List<Delta>>(json, _settings);
+        private void ApplyDelta(string json, Map map) {
+            List<Delta> translatedDeltaList = JsonConvert.DeserializeObject<List<Delta>>(json, _settings);
             foreach (Delta delta in translatedDeltaList) {
                 Position position = delta.Position;
                 ICommand command = delta.Command;
                 if (MapLocationValidator.PositionIsValid(position)) {
-                    ITileController tileController = tileMap[position.X, position.Y];
+                    ITileController tileController = map.TileMap[position.X, position.Y];
                     command.ExecuteCommand(tileController);
                 }
             }
+            TurnResolveUtility.SpreadFires(map);
+            TurnResolveUtility.MovePigeons(map);
             _isTurnResolved = true;
         }
     }

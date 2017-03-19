@@ -1,7 +1,7 @@
 ﻿using CoreGame.Controllers.Interfaces;
+using System;
 
 namespace CoreGame.Models.Commands {
-using System;
 
     [Serializable]
     public class Command : ICommand {
@@ -9,7 +9,7 @@ using System;
         public int Heat { get; }
 
         public Command(MoveType moveType, int heat = 0) {
-            MoveType = moveType;
+            this.MoveType = moveType;
             Heat = Math.Max(0, heat);
         }
 

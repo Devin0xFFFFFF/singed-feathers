@@ -7,11 +7,11 @@ using CoreGame.Models;
 namespace Assets.Scripts.Views {
     public class InputView : MonoBehaviour {
         public const string TURN_COUNT_STRING = "Turns Left: ";
+        public const string SIDE_CHOSEN_STRING = "You have chosen to {0} the pigeons.";
         public Canvas GameHUD;
         public Canvas GameMenu;
         public Button FireButton;
         public Button WaterButton;
-        public Button BlankButton;
         public Button UndoButton;
         public Button EndTurnButton;
         public Button BackButton;
@@ -19,21 +19,24 @@ namespace Assets.Scripts.Views {
         public Image InputImage;
         public Sprite Fire;
         public Sprite Water;
-        public Sprite Blank;
         public GameObject ControlBorderRed;
         public GameObject ControlBorderBlue;
         public Text TurnCountText;
+        public Text SideChosenText;
         public Text OptionsText;
         public Text GameOverText;
+        public Text GameOverStatusText;
         private Button[] _actionButtons;
         private ITurnController _turnController;
         private ITurnResolver _turnResolver;
         private Dictionary<Vector3, GameObject> _borders;
+        private GameView _gameView;
 
         // Use this for initialization
-        public void Start() { 
+        public void Start() {
             _actionButtons = new Button[] { FireButton, WaterButton };
             _borders = new Dictionary<Vector3, GameObject>();
+            _gameView = GetComponent<GameView>();
         }
 
         public void ClearSelected() { 
@@ -45,7 +48,7 @@ namespace Assets.Scripts.Views {
 
         // Update is called once per frame
         public void Update() {
-            if (_turnController == null) {
+            if (_turnController == null || !_turnResolver.IsTurnResolved()) {
                 DisableAllButtons();
                 return;
             }
@@ -60,17 +63,21 @@ namespace Assets.Scripts.Views {
             }
 
             UndoButton.interactable = false;
-            BlankButton.interactable = false;
             EndTurnButton.interactable = false;
 
             // GameMenu UI elements
             BackButton.gameObject.SetActive(false);
             GameOverText.gameObject.SetActive(false);
+            GameOverStatusText.gameObject.SetActive(false);
             OptionsText.gameObject.SetActive(false);
         }
-            
+
+        public bool IsGameOver() { return !_turnController.HasTurnsLeft() || _gameView.IsGameOver(); }
+
         public void UpdateButtons() {
-            if (_turnController.CanTakeAction()) {
+            bool isGameOver = IsGameOver();
+
+            if (!isGameOver) {
                 foreach (Button button in _actionButtons) {
                     button.interactable = true;
                 }
@@ -81,27 +88,25 @@ namespace Assets.Scripts.Views {
             }
 
             // GameHUD UI elements
-            UndoButton.interactable = _turnController.HasQueuedActions();
-            BlankButton.interactable = _turnResolver.IsTurnResolved() && _turnController.HasTurnsLeft();
-            EndTurnButton.interactable = _turnResolver.IsTurnResolved() && _turnController.HasTurnsLeft();
+            UndoButton.interactable = _turnController.HasQueuedAction();
+            EndTurnButton.interactable = _turnResolver.IsTurnResolved() && !isGameOver;
 
             // GameMenu UI elements
-            BackButton.gameObject.SetActive(_turnController.HasTurnsLeft());
-            GameOverText.gameObject.SetActive(!_turnController.HasTurnsLeft());
-            OptionsText.gameObject.SetActive(_turnController.HasTurnsLeft());
-            HowToPlayButton.gameObject.SetActive(_turnController.HasTurnsLeft());
+            BackButton.gameObject.SetActive(!isGameOver);
+            GameOverText.gameObject.SetActive(isGameOver);
+            GameOverStatusText.gameObject.SetActive(isGameOver);
+            OptionsText.gameObject.SetActive(!isGameOver);
+            HowToPlayButton.gameObject.SetActive(!isGameOver);
 
-            if (!_turnController.HasTurnsLeft()) {
+            if (isGameOver) {
                 GameHUD.gameObject.SetActive(false);
                 GameMenu.gameObject.SetActive(true);
+                GameOverStatusText.text = _gameView.GetGameOverPlayerStatus();
             }
         }
 
         public void UpdateImage() {
             switch (_turnController.GetMoveType()) {
-                case MoveType.Remove:
-                    InputImage.sprite = Blank;
-                    break;
                 case MoveType.Fire:
                     InputImage.sprite = Fire;
                     break;
@@ -111,17 +116,16 @@ namespace Assets.Scripts.Views {
             }
         }
 
+        public void UpdateSideChosenText(string side) { SideChosenText.text = string.Format(SIDE_CHOSEN_STRING, side); }
+
         public void UpdateTurnCountText() { TurnCountText.text = TURN_COUNT_STRING + _turnController.GetTurnsLeft(); }
 
         public void HandleMapInput(TileView tileManager) { 
             Vector3 position = tileManager.gameObject.transform.position;
 
-            if (_turnController.ProcessAction(tileManager.GetTileController())) {
-                createBorder(position);
-            }
-
-            if (_turnController.GetMoveType() == MoveType.Remove) {
-                removeBorder(position);
+            if (GameHUD.gameObject.activeInHierarchy && _turnController.ProcessAction(tileManager.GetTileController())) {
+                ClearSelected();
+                CreateBorder(position);
             }
         }
 
@@ -129,7 +133,7 @@ namespace Assets.Scripts.Views {
 
         public void SetTurnResolver(ITurnResolver turnResolver) { _turnResolver = turnResolver; }
 
-        private void createBorder(Vector3 pos) {
+        private void CreateBorder(Vector3 pos) {
             GameObject border = null; 
             _borders.TryGetValue(pos, out border);
             if (border == null) {
@@ -142,10 +146,11 @@ namespace Assets.Scripts.Views {
                         break;
                 }
             }
+            border.transform.localScale = new Vector3(1.6f, 1.6f, transform.localScale.z);
             _borders.Add(pos, border);
         }
 
-        private void removeBorder(Vector3 pos){
+        private void RemoveBorder(Vector3 pos){
             GameObject border = null;
             _borders.TryGetValue(pos, out border);
             if (border != null) {

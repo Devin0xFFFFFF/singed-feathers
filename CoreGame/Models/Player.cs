@@ -7,6 +7,7 @@ namespace CoreGame.Models {
         public string PlayerName;
         public string Role;
         public bool IsReady;
+        public PlayerSideSelection PlayerSideSelection { get; set; }
 
         public Player(string playerName = "AnonPlayer", string role = null, bool isReady = false) {
             PlayerID = GeneratePlayerID();

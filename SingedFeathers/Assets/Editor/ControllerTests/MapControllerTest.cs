@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 using NSubstitute;
 using CoreGame.Controllers;
@@ -13,6 +12,7 @@ namespace Assets.Editor.ControllerTests {
     [TestFixture]
     public class MapControllerTest {
         private MapController _mapController;
+        private MapController _emptyMapController;
         private IPigeonController _pigeon0;
         private IPigeonController _pigeon1;
         private ITileController _tile0;
@@ -24,18 +24,64 @@ namespace Assets.Editor.ControllerTests {
         [SetUp]
         public void Init() {
             IMapGeneratorService mapGenerator = Substitute.For<IMapGeneratorService>();
+
+            // Initialize empty map with no pigeons
+            Map emptyMap = GenerateEmptyMap();
+            mapGenerator.GenerateMap("Empty").Returns(emptyMap);
+            _emptyMapController = new MapController(mapGenerator);
+            _emptyMapController.GenerateMap("Empty");
+
             Map testMap = GenerateTestMap();
-            mapGenerator.GenerateMap(Arg.Any<string>()).Returns(testMap);
+            mapGenerator.GenerateMap("TestMap").Returns(testMap);
             _mapController = new MapController(mapGenerator);
-            _mapController.GenerateMap(Arg.Any<string>());
+            _mapController.GenerateMap("TestMap");
+           
         }
 
         [Test]
         public void TestGenerateInitializesProperly() {
             Assert.AreEqual(3, _mapController.Height);
             Assert.AreEqual(1, _mapController.Width);
+            Assert.AreEqual(PlayerSideSelection.SavePigeons, _mapController.GetPlayerSideSelection());
+
+            Assert.AreEqual(0, _emptyMapController.Height);
+            Assert.AreEqual(0, _emptyMapController.Width);
         }
 
+        [Test]
+        public void TestSetAndGetPlayerSideSelection() {
+            _mapController.SetPlayerSideSelection(0);
+            Assert.AreEqual(PlayerSideSelection.SavePigeons, _mapController.GetPlayerSideSelection());
+
+            _mapController.SetPlayerSideSelection(PlayerSideSelection.SavePigeons);
+            Assert.AreEqual(PlayerSideSelection.SavePigeons, _mapController.GetPlayerSideSelection());
+
+            _mapController.SetPlayerSideSelection(PlayerSideSelection.BurnPigeons);
+            Assert.AreEqual(PlayerSideSelection.BurnPigeons, _mapController.GetPlayerSideSelection());
+        }
+
+        [Test]
+        public void TestGetGameOverPlayerStatus() {
+            // Test with all dead pigeons
+            _pigeon0.IsDead().Returns(true);
+            _pigeon1.IsDead().Returns(true);
+
+            _mapController.SetPlayerSideSelection(PlayerSideSelection.SavePigeons);
+            Assert.AreEqual("You lost! No pigeons survived!", _mapController.GetGameOverPlayerStatus());
+
+            _mapController.SetPlayerSideSelection(PlayerSideSelection.BurnPigeons);
+            Assert.AreEqual("You won! No pigeons survived!", _mapController.GetGameOverPlayerStatus());
+
+            // Test with at least one live pigeon
+            _pigeon1.IsDead().Returns(false);
+
+            _mapController.SetPlayerSideSelection(PlayerSideSelection.SavePigeons);
+            Assert.AreEqual("You won! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
+
+            _mapController.SetPlayerSideSelection(PlayerSideSelection.BurnPigeons);
+            Assert.AreEqual("You lost! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
+        }
+            
         [Test]
         public void TestApplyHeatAffectsExpectedTileAtValidLocation() {
             _mapController.ApplyHeat(0, 0);
@@ -178,37 +224,6 @@ namespace Assets.Editor.ControllerTests {
         }
 
         [Test]
-        public void TestModifiedTilePositionsReturnsEmptyDictionaryIfNoTilesHaveChanged() {
-            // Mark tiles as not having been changed
-            _tile0.StateHasChanged.Returns(false);
-            _tile1.StateHasChanged.Returns(false);
-            _tile2.StateHasChanged.Returns(false);
-
-            _mapController.SpreadFires();
-
-            IDictionary<NewStatus, IList<Position>> modifiedTiles = _mapController.ModifiedTilePositions;
-            
-            Assert.NotNull(modifiedTiles);
-            foreach (IList<Position> tilesOfNewStatus in modifiedTiles.Values) {
-                Assert.False(tilesOfNewStatus.Any());
-            }
-        }
-
-        [Test]
-        public void TestModifiedTilePositionsRetursExpectedDictionaryForChangedTiles() {
-            IDictionary<NewStatus, IList<Position>> modifiedTiles = _mapController.ModifiedTilePositions;
-            Assert.NotNull(modifiedTiles);
-
-            IList<Position> tilesNowOnFire = modifiedTiles[NewStatus.OnFire];
-            Assert.True(tilesNowOnFire.Any());
-            Assert.AreEqual(2, tilesNowOnFire.Count);
-
-            IList<Position> tilesNowBurntOut = modifiedTiles[NewStatus.BurntOut];
-            Assert.True(tilesNowBurntOut.Any());
-            Assert.AreEqual(1, tilesNowBurntOut.Count);
-        }
-
-        [Test]
         public void TestGetPigeonControllersReturnsExpectedPigeons() {
             IList<IPigeonController> pigeons = _mapController.GetPigeonControllers();
             Assert.AreEqual(pigeons[0], _pigeon0);
@@ -216,26 +231,10 @@ namespace Assets.Editor.ControllerTests {
         }
 
         [Test]
-        public void TestAllPigeonsCallReactEvenIfDead() {
-            _pigeon0.IsDead().Returns(true);
-            _pigeon0.Move().Returns(true); // If invoked, return true
-            _pigeon1.IsDead().Returns(false);
-            _pigeon1.Move().Returns(true); // If invoked, return true
-
-            _mapController.MovePigeons();
-
-            // Pigeon0 React() invoked
-            _pigeon0.Received().React();
-
-            // Pigeon1 React() invoked
-            _pigeon1.Received().React();
-        }
-
-        [Test]
         public void TestEndTurnMethod() {
             _mapController.EndTurn();
-            _turnController.Received().GetAndResetMoves();
-            _turnResolver.Received().ResolveTurn(Arg.Any<IDictionary<ITileController, ICommand>>(), Arg.Any<ITileController[,]>());
+            _turnController.Received().GetAndResetMove();
+            _turnResolver.Received().ResolveTurn(Arg.Any<Delta>(), Arg.Any<Map>());
         }
 
         [Test]
@@ -256,18 +255,48 @@ namespace Assets.Editor.ControllerTests {
             _mapController.Water();
             _turnController.Received().SetMoveType(MoveType.Water);
         }
-
-        [Test]
-        public void TestCancel() {
-            _mapController.Cancel();
-            _turnController.Received().SetMoveType(MoveType.Remove);
-        }
-
+        
         [Test]
         public void TestGenerateMap() {
             MapController mc = new MapController();
             Assert.IsFalse(mc.GenerateMap(null));
             Assert.IsFalse(mc.GenerateMap("{"));
+        }
+
+        [Test]
+        public void TestIsMapBurntOut() {
+            _tile0.IsFlammable().Returns(false);
+            _tile0.IsBurntOut().Returns(false);
+
+            _tile1.IsFlammable().Returns(true);
+            _tile1.IsBurntOut().Returns(true);
+
+            _tile2.IsFlammable().Returns(true);
+            _tile2.IsBurntOut().Returns(false);
+
+            Assert.IsFalse(_mapController.IsMapBurntOut());
+
+            _tile2.IsBurntOut().Returns(true);
+            Assert.IsTrue(_mapController.IsMapBurntOut());
+
+            // Test empty map
+            Assert.IsTrue(_emptyMapController.IsMapBurntOut());
+        }
+
+        [Test]
+        public void TestAreAllPigeonsDead() {
+            _pigeon0.IsDead().Returns(false);
+            _pigeon1.IsDead().Returns(false);
+            Assert.IsFalse(_mapController.AreAllPigeonsDead());
+
+            _pigeon0.IsDead().Returns(true);
+            Assert.IsFalse(_mapController.AreAllPigeonsDead());
+
+            _pigeon1.IsDead().Returns(true);
+            Assert.IsTrue(_mapController.AreAllPigeonsDead());
+
+            // Test empty map with no pigeons
+            Assert.IsTrue(_emptyMapController.AreAllPigeonsDead());
         }
 
         private Map GenerateTestMap() {
@@ -283,22 +312,35 @@ namespace Assets.Editor.ControllerTests {
             };
         }
 
+        private Map GenerateEmptyMap() {
+            ITileController[,] tiles = { {} };
+            ITurnController turnController = Substitute.For<ITurnController>();
+            ITurnResolver turnResolver = Substitute.For<ITurnResolver>();
+            return new Map() {
+                Height = 0,
+                Width = 0,
+                InitialFirePosition = new Position(0, 0),
+                InitialPigeonPositions = new List<Position>() {},
+                TileMap = tiles,
+                Pigeons = new List<IPigeonController>() {},
+                TurnController = turnController,
+                TurnResolver = turnResolver
+            };
+        }
+
         private ITileController[,] IntializeControllers() {
             _tile0 = Substitute.For<ITileController>();
             _tile0.GetTileType().Returns(TileType.Stone);
-            _tile0.StateHasChanged.Returns(true);
             _tile0.IsOnFire().Returns(true);
             _tile0.IsBurntOut().Returns(false);
 
             _tile1 = Substitute.For<ITileController>();
             _tile1.GetTileType().Returns(TileType.Grass);
-            _tile1.StateHasChanged.Returns(true);
             _tile1.IsOnFire().Returns(true);
             _tile1.IsBurntOut().Returns(false);
 
             _tile2 = Substitute.For<ITileController>();
             _tile2.GetTileType().Returns(TileType.Wood);
-            _tile2.StateHasChanged.Returns(true);
             _tile2.IsOnFire().Returns(false);
             _tile2.IsBurntOut().Returns(true);
 

@@ -44,7 +44,7 @@ namespace CoreGame.Service {
         }
 
         private void InitializeStateManagers(Map map) {
-            map.TurnController = new TurnController(map.TurnsLeft, map.MaxMovesPerTurn);
+            map.TurnController = new TurnController(map.TurnsLeft);
             map.TurnResolver = new LocalTurnResolver();
         }
     }

@@ -51,8 +51,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Controllers\WebTurnResolver.cs" />
     <Compile Include="Assets\Scripts\GameSelection.cs" />
     <Compile Include="Assets\Scripts\Input\MapInput.cs" />
+    <Compile Include="Assets\Scripts\Input\PlayerSideSelectionInput.cs" />
     <Compile Include="Assets\Scripts\Service\AWSAPIClientConfig.cs" />
     <Compile Include="Assets\Scripts\Service\AWSAPIRequestBuilder.cs" />
     <Compile Include="Assets\Scripts\Service\MapClientResult.cs" />

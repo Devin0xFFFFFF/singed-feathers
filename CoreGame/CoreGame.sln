@@ -5,6 +5,11 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreGame", "CoreGame.csproj", "{8BB2C643-4722-4023-A8F2-4B3E23DF6B6F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{92EA19FF-CAF1-4E74-9369-41AD193834C3}"
+	ProjectSection(SolutionItems) = preProject
+		CoreGame.sln = CoreGame.sln
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +20,8 @@ Global
 		{8BB2C643-4722-4023-A8F2-4B3E23DF6B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BB2C643-4722-4023-A8F2-4B3E23DF6B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BB2C643-4722-4023-A8F2-4B3E23DF6B6F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

@@ -7,13 +7,20 @@ using CoreGame.Utility;
 namespace CoreGame.Controllers {
     public class MapController : IMapController {
         public const int HEAT = 100;
+        public const string WIN = "You won!";
+        public const string LOSE = "You lost!";
+        public const string NO_PIGEONS_SURVIVED = "No pigeons survived!";
+        public const string A_PIGEON_SURVIVED = "A pigeon survived!";
         public int Width { get { return _map.Width; } }
         public int Height { get { return _map.Height; } }
-        public IDictionary<NewStatus, IList<Position>> ModifiedTilePositions { get; private set; }
         private readonly IMapGeneratorService _mapGenerator;
         private Map _map;
+        private Player _player;
 
-        public MapController(IMapGeneratorService mapGenerator = null) { _mapGenerator = mapGenerator ?? new MapGeneratorService(); }
+        public MapController(IMapGeneratorService mapGenerator = null) { 
+            _mapGenerator = mapGenerator ?? new MapGeneratorService();
+            _player = new Player();
+        }
 
         public bool GenerateMap(string serializedMap) {
             _map = _mapGenerator.GenerateMap(serializedMap);
@@ -21,11 +28,64 @@ namespace CoreGame.Controllers {
                 return false;
             }
             MapLocationValidator.InitializeValues(_map);
-            CommandValidator.InitializeValues(_map);
             LinkNeighbouringTiles();
             InitializeFires();
 
             return true;
+        }
+
+        public void SetPlayerSideSelection(PlayerSideSelection playerSideSelection){ _player.PlayerSideSelection = playerSideSelection; }
+
+        public PlayerSideSelection GetPlayerSideSelection() { return _player.PlayerSideSelection; }
+
+        public string GetGameOverPlayerStatus() {
+            PlayerSideSelection playerSideSelection = GetPlayerSideSelection();
+            string winOrLose = "";
+            string reason;
+
+            if (AreAllPigeonsDead()) {
+                reason = NO_PIGEONS_SURVIVED;
+                if (playerSideSelection == PlayerSideSelection.BurnPigeons) {
+                    winOrLose = WIN;
+                }
+                if (playerSideSelection == PlayerSideSelection.SavePigeons) {
+                    winOrLose = LOSE;
+                }
+            } else {
+                reason = A_PIGEON_SURVIVED;
+                if (playerSideSelection == PlayerSideSelection.BurnPigeons) {
+                    winOrLose = LOSE;
+                }
+                if (playerSideSelection == PlayerSideSelection.SavePigeons) {
+                    winOrLose = WIN;
+                }
+            }
+            return string.Format("{0} {1}", winOrLose, reason);
+        }
+
+        public bool IsMapBurntOut() {
+            bool isBurntOut = true;
+            for (int x = 0; x < Width; x++) {
+                for (int y = 0; y < Height; y++) {
+                    ITileController tile = _map.TileMap[x, y];
+                    if (tile.IsFlammable() && !tile.IsBurntOut()) {
+                        isBurntOut = false;
+                        break;
+                    }
+                }
+            }
+            return isBurntOut;
+        }
+
+        public bool AreAllPigeonsDead() {
+            bool areAllPigeonsDead = true;
+            foreach (IPigeonController pigeon in _map.Pigeons) {
+                if (!pigeon.IsDead()) {
+                    areAllPigeonsDead = false;
+                    break;
+                }
+            }
+            return areAllPigeonsDead;
         }
 
         public void ApplyHeat(int x, int y) {
@@ -34,12 +94,10 @@ namespace CoreGame.Controllers {
             }
         }
             
-        public void EndTurn() {
-            _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMoves(), _map.TileMap);
-            SpreadFires();
-            MovePigeons();
-        }
-		
+        public void EndTurn() { _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMove(), _map); }
+
+        public bool IsTurnResolved() { return _map.TurnResolver.IsTurnResolved(); }
+
         public TileType GetTileType(int x, int y) {
             if (MapLocationValidator.CoordinatesAreValid(x, y)) {
                 return _map.TileMap[x, y].GetTileType();
@@ -58,56 +116,21 @@ namespace CoreGame.Controllers {
 
         public ITurnResolver GetTurnResolver() { return _map.TurnResolver; }
 
+        public void SetTurnResolver(ITurnResolver turnResolver) { _map.TurnResolver = turnResolver; }
+
         public ITurnController GetTurnController() { return _map.TurnController; }
 
         public int GetTurnsLeft() { return _map.TurnController.GetTurnsLeft(); }
 
-        public void UndoAllActions() { _map.TurnController.UndoAllActions(); }
+        public void UndoAction() { _map.TurnController.UndoAction(); }
 
         public void Fire() { _map.TurnController.SetMoveType(MoveType.Fire); }
 
         public void Water() { _map.TurnController.SetMoveType(MoveType.Water); }
 
-        public void Cancel() { _map.TurnController.SetMoveType(MoveType.Remove); }
+        public bool ShouldPoll() { return _map.TurnResolver != null && _map.TurnResolver.ShouldPoll(); }
 
-        public void SpreadFires() {
-            IDictionary<NewStatus, IList<Position>> modifiedTiles = new Dictionary<NewStatus, IList<Position>>();
-
-            modifiedTiles.Add(NewStatus.BurntOut, new List<Position>());
-            modifiedTiles.Add(NewStatus.OnFire, new List<Position>());
-
-            // Update tiles
-            for (int x = 0; x < Width; x++) {
-                for (int y = 0; y < Height; y++) {
-                    ITileController tile = _map.TileMap[x, y];
-                    tile.SpreadFire();
-
-                    if (tile.StateHasChanged) {
-                        if (tile.IsBurntOut()) {
-                            modifiedTiles[NewStatus.BurntOut].Add(new Position(x, y));
-                        }
-                        if (tile.IsOnFire()) {
-                            modifiedTiles[NewStatus.OnFire].Add(new Position(x, y));
-                        }
-                    }
-                }
-            }
-
-            // Reset map
-            for (int x = 0; x < Width; x++) {
-                for (int y = 0; y < Height; y++) {
-                    _map.TileMap[x, y].StateHasChanged = false;
-                }
-            }
-
-            ModifiedTilePositions = modifiedTiles;
-        }
-
-        public void MovePigeons() {
-            foreach (IPigeonController pigeon in _map.Pigeons) {
-                pigeon.React();
-            }
-        }
+        public void Poll() { _map.TurnResolver.Poll(_map); }
 
         private void LinkNeighbouringTiles() {
             for (int x = 0; x < Width; x++) {
@@ -135,7 +158,7 @@ namespace CoreGame.Controllers {
         private void InitializeFires() {
             Position position = _map.InitialFirePosition;
             ApplyHeat(position.X, position.Y);
-            SpreadFires();
+            TurnResolveUtility.SpreadFires(_map);
         }
     }
 }

@@ -6,12 +6,14 @@ using CoreGame.Controllers;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 using Newtonsoft.Json.Utilities;
+using Assets.Scripts.Controllers;
 
 namespace Assets.Scripts.Views {
     public class GameView : MonoBehaviour {
         public List<TileView> TileSet;
         public PigeonView Pigeon;
         public InputView InputView;
+        public WebTurnResolver TurnResolver;
         private List<PigeonView> _pigeons;
         private Dictionary<TileType, TileView> _tileDictionary;
         private IMapController _mapController;
@@ -19,6 +21,7 @@ namespace Assets.Scripts.Views {
         private int _width, _height;
         private float _tileSizeX, _tileSizeY;
         private MapIO _mapIO;
+        private bool _pigeonsRequireUpdate;
 
         // Start here!
         public void Start() {
@@ -26,6 +29,21 @@ namespace Assets.Scripts.Views {
             if (TileSet.Count > 0) {
                 LoadTileDictionary();
                 LoadMap();
+            }
+        }
+
+        public void Update() {
+            if (_mapController != null) {
+                if(_mapController.ShouldPoll()) {
+                    _mapController.Poll();
+                }
+                
+                if (_pigeonsRequireUpdate && _mapController.IsTurnResolved()) {
+                    foreach (PigeonView pigeon in _pigeons) {
+                        pigeon.UpdatePigeon();
+                    }
+                    _pigeonsRequireUpdate = false;
+                }
             }
         }
 
@@ -48,6 +66,7 @@ namespace Assets.Scripts.Views {
                     Debug.LogError("Failed to generate map.");
                     return;
                 }
+                _mapController.SetTurnResolver(TurnResolver);
 
                 _width = _mapController.Width;
                 _height = _mapController.Height;
@@ -57,6 +76,9 @@ namespace Assets.Scripts.Views {
                 _tileSizeY = TileSet[0].GetComponent<Renderer>().bounds.size.y;
 
                 InstantiateTiles();
+                SetPlayerSideSelection();
+                SetPlayerSideSelectionText();
+                Debug.Log(_mapController.GetPlayerSideSelection());
 
                 LoadPigeons();
                 LoadInputView();
@@ -74,7 +96,7 @@ namespace Assets.Scripts.Views {
             IList<IPigeonController> controllers = _mapController.GetPigeonControllers();
             foreach (IPigeonController controller in controllers) {
                 Position pigeonPosition = controller.CurrentPosition;
-                PigeonView pigeon = Instantiate(Pigeon, new Vector3(_tileSizeX * pigeonPosition.X, _tileSizeY * pigeonPosition.Y, 1), Quaternion.identity);
+                PigeonView pigeon = Instantiate(Pigeon, new Vector3(_tileSizeX * pigeonPosition.X  - 1f, _tileSizeY * pigeonPosition.Y - 2.5f, 1) * 1.6f, Quaternion.identity);
                 pigeon.SetDimensions(_tileSizeX, _tileSizeY);
                 pigeon.SetController(controller);
                 _pigeons.Add(pigeon);
@@ -86,23 +108,15 @@ namespace Assets.Scripts.Views {
 
             _mapController.EndTurn();
             InputView.ClearSelected();
-
-            IDictionary<NewStatus, IList<Position>> modifiedTilePositions = _mapController.ModifiedTilePositions;
-            foreach (Position pos in modifiedTilePositions[NewStatus.BurntOut]) {
-                UpdateTileType(TileType.Ash, pos.X, pos.Y);
-            }
-
-            foreach (PigeonView pigeon in _pigeons) {
-                pigeon.UpdatePigeon();
-            }
+            _pigeonsRequireUpdate = true;
         }
         
         public ITurnController GetTurnController() { return _mapController.GetTurnController(); }
 
         public ITurnResolver GetTurnResolver() { return _mapController.GetTurnResolver(); }
 
-        public void UndoAll() { 
-            _mapController.UndoAllActions();
+        public void Undo() { 
+            _mapController.UndoAction();
             InputView.ClearSelected();
         }
 
@@ -110,7 +124,23 @@ namespace Assets.Scripts.Views {
 
         public void Water() { _mapController.Water(); }
 
-        public void Cancel() { _mapController.Cancel(); }
+        public void SetPlayerSideSelection() { _mapController.SetPlayerSideSelection((PlayerSideSelection)PlayerPrefs.GetInt("Side")); }
+
+        public void SetPlayerSideSelectionText() { 
+            PlayerSideSelection playerSideSelection = _mapController.GetPlayerSideSelection();
+            string side = "";
+            if (playerSideSelection == PlayerSideSelection.SavePigeons) {
+                side = "save";
+            }
+            if (playerSideSelection == PlayerSideSelection.BurnPigeons) {
+                side = "burn";
+            }
+            InputView.UpdateSideChosenText(side);
+        }
+
+        public string GetGameOverPlayerStatus() { return _mapController.GetGameOverPlayerStatus(); }
+
+        public bool IsGameOver() { return _mapController.IsMapBurntOut() || _mapController.AreAllPigeonsDead(); }
 
         private void InstantiateTiles() {
             for (int x = 0; x < _width; x++) {
@@ -122,7 +152,7 @@ namespace Assets.Scripts.Views {
 
         private void InstantiateTile(TileType type, int x, int y) {
             TileView manager = _tileDictionary[type];
-            _map[x, y] = Instantiate(manager, new Vector3(_tileSizeX * x, _tileSizeY * y, 1), Quaternion.identity);
+            _map[x, y] = Instantiate(manager, new Vector3(_tileSizeX * x - 1f, _tileSizeY * y - 2.5f, 1) * 1.6f, Quaternion.identity);
             _map[x, y].SetController(_mapController.GetTileController(x, y));
         }
 
