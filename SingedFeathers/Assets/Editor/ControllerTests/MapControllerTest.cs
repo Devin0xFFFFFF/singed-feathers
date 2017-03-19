@@ -320,7 +320,7 @@ namespace Assets.Editor.ControllerTests {
             return new Map() {
                 Height = 0,
                 Width = 0,
-                InitialFirePositions = new List<Position> () {},
+                InitialFirePositions = new List<Position>() {},
                 InitialPigeonPositions = new List<Position>() {},
                 TileMap = tiles,
                 Pigeons = new List<IPigeonController>() {},
