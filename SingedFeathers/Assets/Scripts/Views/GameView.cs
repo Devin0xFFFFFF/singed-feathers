@@ -18,7 +18,7 @@ namespace Assets.Scripts.Views {
         private TileView[,] _map;
         private int _width, _height;
         private float _tileSizeX, _tileSizeY;
-        private MapPersistenceClient _mapClient;
+        private MapIO _mapIO;
 
         // Start here!
         public void Start() {
@@ -37,16 +37,14 @@ namespace Assets.Scripts.Views {
         }
 
         public void LoadMap(string mapID = "Map1") {
-            _mapClient = new MapPersistenceClient();
-            StartCoroutine(_mapClient.GetMapData(mapID, delegate (MapClientResult result) {
-                if (result.IsError || result.ResponseCode != 200) {
-                    Debug.LogError("Failed to fetch map from server: " + result.ErrorMessage ?? result.ResponseCode + " " + result.ResponseBody);
+            _mapIO = new MapIO();
+            StartCoroutine(_mapIO.GetMapData(mapID, delegate (string serializedMapData) {
+                if(serializedMapData == null) {
+                    Debug.LogError("Failed to retrieve map.");
                     return;
                 }
-
-                Debug.Log("Map fetched from server: " + result.ResponseBody);
                 _mapController = new MapController();
-                if (!_mapController.GenerateMap(result.ResponseBody)) {
+                if (!_mapController.GenerateMap(serializedMapData)) {
                     Debug.LogError("Failed to generate map.");
                     return;
                 }
