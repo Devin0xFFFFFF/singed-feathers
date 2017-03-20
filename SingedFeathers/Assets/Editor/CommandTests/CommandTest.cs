@@ -127,7 +127,7 @@ namespace Assets.Editor.CommandTests {
 
             _tile.IsFlammable().Returns(true);
             _tile.IsHeatZero().Returns(true);
-            Assert.False(_waterCommand.CanBeExecutedOnTile(_tile));
+            Assert.True(_waterCommand.CanBeExecutedOnTile(_tile));
         }
 
     }
