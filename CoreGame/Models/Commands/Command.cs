@@ -31,7 +31,7 @@ namespace CoreGame.Models.Commands {
                 case MoveType.Fire:
                     return tileController.IsFlammable() && !tileController.IsOccupied && !tileController.IsOnFire();
                 case MoveType.Water:
-                    return tileController.IsFlammable() && !tileController.IsHeatZero();
+                    return tileController.IsFlammable();
             }
             return false;
         }
