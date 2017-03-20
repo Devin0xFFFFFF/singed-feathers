@@ -17,8 +17,6 @@ namespace Assets.Scripts.Views {
         public Button BackButton;
         public Button HowToPlayButton;
         public Image InputImage;
-        public Sprite Fire;
-        public Sprite Water;
         public GameObject ControlBorderRed;
         public GameObject ControlBorderBlue;
         public Text TurnCountText;
@@ -53,7 +51,6 @@ namespace Assets.Scripts.Views {
                 return;
             }
             UpdateButtons();
-            UpdateImage();
             UpdateTurnCountText();
         }
 
@@ -104,18 +101,7 @@ namespace Assets.Scripts.Views {
                 GameOverStatusText.text = _gameView.GetGameOverPlayerStatus();
             }
         }
-
-        public void UpdateImage() {
-            switch (_turnController.GetMoveType()) {
-                case MoveType.Fire:
-                    InputImage.sprite = Fire;
-                    break;
-                case MoveType.Water:
-                    InputImage.sprite = Water;
-                    break;
-            }
-        }
-
+        
         public void UpdateSideChosenText(string side) { SideChosenText.text = string.Format(SIDE_CHOSEN_STRING, side); }
 
         public void UpdateTurnCountText() { TurnCountText.text = TURN_COUNT_STRING + _turnController.GetTurnsLeft(); }
