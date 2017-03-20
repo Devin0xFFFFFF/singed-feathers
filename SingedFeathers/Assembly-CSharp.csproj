@@ -55,10 +55,15 @@
     <Compile Include="Assets\Scripts\GameSelection.cs" />
     <Compile Include="Assets\Scripts\Input\MapInput.cs" />
     <Compile Include="Assets\Scripts\Input\PlayerSideSelectionInput.cs" />
+    <Compile Include="Assets\Scripts\Service\APersistenceClient.cs" />
+    <Compile Include="Assets\Scripts\Service\APersistenceIO.cs" />
     <Compile Include="Assets\Scripts\Service\AWSAPIClientConfig.cs" />
     <Compile Include="Assets\Scripts\Service\AWSAPIRequestBuilder.cs" />
-    <Compile Include="Assets\Scripts\Service\MapClientResult.cs" />
-    <Compile Include="Assets\Scripts\Service\MapPersistenceClient.cs" />
+    <Compile Include="Assets\Scripts\Service\ClientResult.cs" />
+    <Compile Include="Assets\Scripts\Service\LobbyClient.cs" />
+    <Compile Include="Assets\Scripts\Service\LobbyIO.cs" />
+    <Compile Include="Assets\Scripts\Service\MapClient.cs" />
+    <Compile Include="Assets\Scripts\Service\MapIO.cs" />
     <Compile Include="Assets\Scripts\Utility\UnitySystemConsoleRedirector.cs" />
     <Compile Include="Assets\Scripts\Views\GameView.cs" />
     <Compile Include="Assets\Scripts\Views\InputView.cs" />
