@@ -6,7 +6,7 @@ namespace CoreGame.Models {
     [Serializable]
     public class Map {
         public int TurnsLeft;
-        public Position InitialFirePosition;
+        public IList<Position> InitialFirePositions;
         public IList<Position> InitialPigeonPositions;
         public ITileController[,] TileMap;
         public IList<IPigeonController> Pigeons;

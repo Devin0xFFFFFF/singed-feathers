@@ -5,7 +5,6 @@ using NSubstitute;
 using CoreGame.Controllers;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
-using CoreGame.Models.Commands;
 using CoreGame.Service;
 
 namespace Assets.Editor.ControllerTests {
@@ -35,14 +34,16 @@ namespace Assets.Editor.ControllerTests {
             mapGenerator.GenerateMap("TestMap").Returns(testMap);
             _mapController = new MapController(mapGenerator);
             _mapController.GenerateMap("TestMap");
-           
         }
 
         [Test]
         public void TestGenerateInitializesProperly() {
             Assert.AreEqual(3, _mapController.Height);
-            Assert.AreEqual(1, _mapController.Width);
+            Assert.AreEqual(2, _mapController.Width);
             Assert.AreEqual(PlayerSideSelection.SavePigeons, _mapController.GetPlayerSideSelection());
+            Assert.AreEqual(2, _mapController.GetPigeonControllers().Count);
+            Assert.True(_mapController.GetTileController(0, 0).IsOnFire());
+            Assert.True(_mapController.GetTileController(0, 1).IsOnFire());
 
             Assert.AreEqual(0, _emptyMapController.Height);
             Assert.AreEqual(0, _emptyMapController.Width);
@@ -130,7 +131,7 @@ namespace Assets.Editor.ControllerTests {
                 // X value valid
                 _mapController.ApplyHeat(-12, 0);
             } catch (Exception e) {
-                Assert.Fail(string.Format("Expected no exception, but got {0}", e.Message));
+                Assert.Fail("Expected no exception, but got {0}", e.Message);
             }
         }
 
@@ -175,7 +176,7 @@ namespace Assets.Editor.ControllerTests {
                 Assert.AreEqual(TileType.Error, type);
             }
             catch (Exception e) {
-                Assert.Fail(string.Format("Expected no exception, but got {0}", e.Message));
+                Assert.Fail("Expected no exception, but got {0}", e.Message);
             }
         }
 
@@ -219,7 +220,7 @@ namespace Assets.Editor.ControllerTests {
                 controller = _mapController.GetTileController(-12, 0);
                 Assert.Null(controller);
             } catch (Exception e) {
-                Assert.Fail(string.Format("Expected no exception, but got {0}", e.Message));
+                Assert.Fail("Expected no exception, but got {0}", e.Message);
             }
         }
 
@@ -302,10 +303,10 @@ namespace Assets.Editor.ControllerTests {
         private Map GenerateTestMap() {
             return new Map() {
                 Height = 3,
-                Width = 1,
-                InitialFirePosition = new Position(1, 0),
+                Width = 2,
+                InitialFirePositions = new List<Position>() { new Position(1, 0), new Position(1, 1) },
                 InitialPigeonPositions = new List<Position>() { new Position(0, 0), new Position(0, 1) },
-                TileMap = IntializeControllers(),
+                TileMap = IntializeTileControllers(),
                 Pigeons = InitializePigeons(),
                 TurnController = InitializeTurnController(),
                 TurnResolver = InitializeTurnResolver()
@@ -319,7 +320,7 @@ namespace Assets.Editor.ControllerTests {
             return new Map() {
                 Height = 0,
                 Width = 0,
-                InitialFirePosition = new Position(0, 0),
+                InitialFirePositions = new List<Position>() {},
                 InitialPigeonPositions = new List<Position>() {},
                 TileMap = tiles,
                 Pigeons = new List<IPigeonController>() {},
@@ -328,7 +329,7 @@ namespace Assets.Editor.ControllerTests {
             };
         }
 
-        private ITileController[,] IntializeControllers() {
+        private ITileController[,] IntializeTileControllers() {
             _tile0 = Substitute.For<ITileController>();
             _tile0.GetTileType().Returns(TileType.Stone);
             _tile0.IsOnFire().Returns(true);
@@ -344,7 +345,10 @@ namespace Assets.Editor.ControllerTests {
             _tile2.IsOnFire().Returns(false);
             _tile2.IsBurntOut().Returns(true);
 
-            ITileController[,] tiles = { { _tile0, _tile1, _tile2 } };
+            ITileController[,] tiles = {
+                { _tile0, _tile1, _tile2 },
+                { Substitute.For<ITileController>(), Substitute.For<ITileController>(), Substitute.For<ITileController>() }
+            };
             return tiles;
         }
 

@@ -55,7 +55,7 @@ namespace Assets.Editor.UtilityTests {
             return new Map() {
                 Height = 2,
                 Width = 2,
-                InitialFirePosition = null,
+                InitialFirePositions = null,
                 InitialPigeonPositions = null,
                 TileMap = IntializeControllers(),
                 Pigeons = InitializePigeons(),
