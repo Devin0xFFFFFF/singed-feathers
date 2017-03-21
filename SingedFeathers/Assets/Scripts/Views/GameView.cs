@@ -53,8 +53,8 @@ namespace Assets.Scripts.Views {
                 _tileDictionary.Add(tile.Type, tile);
             }
         }
-
-        public void LoadMap(string mapID = "Map1") {
+            
+        public void LoadMap(string mapID = "Map2") {
             _mapIO = new MapIO();
             StartCoroutine(_mapIO.GetMapData(mapID, delegate (string serializedMapData) {
                 if (serializedMapData == null) {
