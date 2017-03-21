@@ -20,7 +20,7 @@ namespace Assets.Scripts.Views {
         private TileView[,] _map;
         private int _width, _height;
         private float _tileSizeX, _tileSizeY;
-        private MapPersistenceClient _mapClient;
+        private MapIO _mapIO;
         private bool _pigeonsRequireUpdate;
 
         // Start here!
@@ -33,15 +33,17 @@ namespace Assets.Scripts.Views {
         }
 
         public void Update() {
-            if (_mapController != null && _mapController.ShouldPoll()) {
-                _mapController.Poll();
-            }
-
-            if (_pigeonsRequireUpdate && _mapController.IsTurnResolved()) {
-                foreach (PigeonView pigeon in _pigeons) {
-                    pigeon.UpdatePigeon();
+            if (_mapController != null) {
+                if (_mapController.ShouldPoll()) {
+                    _mapController.Poll();
                 }
-                _pigeonsRequireUpdate = false;
+                
+                if (_pigeonsRequireUpdate && _mapController.IsTurnResolved()) {
+                    foreach (PigeonView pigeon in _pigeons) {
+                        pigeon.UpdatePigeon();
+                    }
+                    _pigeonsRequireUpdate = false;
+                }
             }
         }
 
@@ -51,18 +53,16 @@ namespace Assets.Scripts.Views {
                 _tileDictionary.Add(tile.Type, tile);
             }
         }
-
+            
         public void LoadMap(string mapID = "Map2") {
-            _mapClient = new MapPersistenceClient();
-            StartCoroutine(_mapClient.GetMapData(mapID, delegate (MapClientResult result) {
-                if (result.IsError || result.ResponseCode != 200) {
-                    Debug.LogError("Failed to fetch map from server: " + result.ErrorMessage ?? result.ResponseCode + " " + result.ResponseBody);
+            _mapIO = new MapIO();
+            StartCoroutine(_mapIO.GetMapData(mapID, delegate (string serializedMapData) {
+                if (serializedMapData == null) {
+                    Debug.LogError("Failed to retrieve map.");
                     return;
                 }
-
-                Debug.Log("Map fetched from server: " + result.ResponseBody);
                 _mapController = new MapController();
-                if (!_mapController.GenerateMap(result.ResponseBody)) {
+                if (!_mapController.GenerateMap(serializedMapData)) {
                     Debug.LogError("Failed to generate map.");
                     return;
                 }

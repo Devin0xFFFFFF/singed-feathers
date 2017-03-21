@@ -8,12 +8,12 @@
         public readonly string SecretKey;
 
         public AWSAPIClientConfig() {
-            ApiEndpointHostname = "pb3g13anjh.execute-api.us-west-2.amazonaws.com";
+            ApiEndpointHostname = "qpmatnypjg.execute-api.us-west-2.amazonaws.com";
             ApiEndpointStage = "/prod";
             ApiEndpointRegion = "us-west-2";
 
-            AccessKey = "AKIAJZDMBMR5AD7HA3QQ";
-            SecretKey = "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";
+            AccessKey = "AKIAJ5PCN3FEJRCIDQJA";
+            SecretKey = "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";
         }
     }
 }
