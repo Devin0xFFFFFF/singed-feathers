@@ -4,16 +4,22 @@ using UnityEngine;
 
 namespace Assets.Scripts.Views {
     public class PigeonView : MonoBehaviour {
+        private Animator _animator;
         private IPigeonController _pigeonController;
         private float _width;
         private float _height;
 
-        public void Start() { transform.localScale = new Vector3(1.6f, 1.6f, transform.localScale.z); }
+        public void Start() {
+            _animator = transform.GetComponent<Animator>();
+            transform.localScale = new Vector3(1.6f, 1.6f, transform.localScale.z);
+        }
 	
         // Update is called once per frame
         public void Update() {
             if (_pigeonController.IsDead()) {
                 gameObject.SetActive(false);
+            } else {
+                _animator.SetFloat("Rand", Random.Range(0.0f, 1.0f));
             }
         }
 
