@@ -11,14 +11,16 @@ namespace Assets.Scripts.Service {
 
         public delegate void CreateLobbyCallback(string lobbyID);
         public delegate void GetLobbiesCallback(List<LobbyInfo> lobbies);
-        public delegate void ResultInfoCallback(ResultInfo result);
-        public delegate void PollLobbyCallback(PollLobbyResult pollResult);
+        public delegate void JoinLobbyCallback(JoinLobbyResult result);
+        public delegate void LeaveLobbyCallback(LeaveLobbyResult result);
+        public delegate void ReadyLobbyCallback(ReadyLobbyResult result);
+        public delegate void PollLobbyCallback(PollLobbyResult result);
 
         public LobbyIO() { _client = new LobbyClient(); }
 
         public IEnumerator CreateLobby(CreateLobbyInfo lobbyInfo, CreateLobbyCallback callback) {
             yield return _client.CreateLobby(lobbyInfo, delegate (ClientResult result) {
-                if(IsValidResult(result)) {
+                if (IsValidResult(result)) {
                     string lobbyID = result.ResponseBody;
                     Console.WriteLine("Lobby created: " + lobbyID);
                     callback(lobbyID);
@@ -42,10 +44,10 @@ namespace Assets.Scripts.Service {
             });
         }
 
-        public IEnumerator JoinLobby(JoinLobbyInfo lobbyInfo, ResultInfoCallback callback) {
+        public IEnumerator JoinLobby(JoinLobbyInfo lobbyInfo, JoinLobbyCallback callback) {
             yield return _client.JoinLobby(lobbyInfo, delegate(ClientResult result) {
                 if (IsValidResult(result)) {
-                    ResultInfo deserializedResult = JsonConvert.DeserializeObject<ResultInfo>(result.ResponseBody, _jsonSettings);
+                    JoinLobbyResult deserializedResult = JsonConvert.DeserializeObject<JoinLobbyResult>(result.ResponseBody, _jsonSettings);
                     Console.WriteLine("JoinLobby result from server: " + deserializedResult.ResultCode + " " + deserializedResult.ResultMessage);
                     callback(deserializedResult);
                 } else {
@@ -55,10 +57,10 @@ namespace Assets.Scripts.Service {
             });
         }
 
-        public IEnumerator LeaveLobby(LeaveLobbyInfo lobbyInfo, ResultInfoCallback callback) {
+        public IEnumerator LeaveLobby(LeaveLobbyInfo lobbyInfo, LeaveLobbyCallback callback) {
             yield return _client.LeaveLobby(lobbyInfo, delegate (ClientResult result) {
                 if (IsValidResult(result)) {
-                    ResultInfo deserializedResult = JsonConvert.DeserializeObject<ResultInfo>(result.ResponseBody, _jsonSettings);
+                    LeaveLobbyResult deserializedResult = JsonConvert.DeserializeObject<LeaveLobbyResult>(result.ResponseBody, _jsonSettings);
                     Console.WriteLine("LeaveLobby result from server: " + deserializedResult.ResultCode + " " + deserializedResult.ResultMessage);
                     callback(deserializedResult);
                 } else {
@@ -68,10 +70,10 @@ namespace Assets.Scripts.Service {
             });
         }
 
-        public IEnumerator ReadyLobby(ReadyLobbyInfo lobbyInfo, ResultInfoCallback callback) {
+        public IEnumerator ReadyLobby(ReadyLobbyInfo lobbyInfo, ReadyLobbyCallback callback) {
             yield return _client.ReadyLobby(lobbyInfo, delegate (ClientResult result) {
                 if (IsValidResult(result)) {
-                    ResultInfo deserializedResult = JsonConvert.DeserializeObject<ResultInfo>(result.ResponseBody, _jsonSettings);
+                    ReadyLobbyResult deserializedResult = JsonConvert.DeserializeObject<ReadyLobbyResult>(result.ResponseBody, _jsonSettings);
                     Console.WriteLine("ReadyLobby result from server: " + deserializedResult.ResultCode + " " + deserializedResult.ResultMessage);
                     callback(deserializedResult);
                 } else {

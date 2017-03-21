@@ -3,7 +3,7 @@ using System;
 
 namespace CoreGame.Models.API.LobbyClient {
     [Serializable]
-    public class PollLobbyResult : ResultInfo {
+    public class PollLobbyResult : AResult {
         private static int NOT_IN_LOBBY_CODE = 1;
         private static int GAME_STARTED_CODE = 2;
 
@@ -14,7 +14,7 @@ namespace CoreGame.Models.API.LobbyClient {
         public bool IsGameStarted() { return ResultCode == GAME_STARTED_CODE; }
 
         public LobbyInfo GetLobbyInfo() {
-            if(IsSuccess()) {
+            if (IsSuccess()) {
                 return JsonConvert.DeserializeObject<LobbyInfo>(ResultMessage, _jsonSettings);
             } else {
                 return null;

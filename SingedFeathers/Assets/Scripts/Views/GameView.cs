@@ -34,7 +34,7 @@ namespace Assets.Scripts.Views {
 
         public void Update() {
             if (_mapController != null) {
-                if(_mapController.ShouldPoll()) {
+                if (_mapController.ShouldPoll()) {
                     _mapController.Poll();
                 }
                 
@@ -57,7 +57,7 @@ namespace Assets.Scripts.Views {
         public void LoadMap(string mapID = "Map1") {
             _mapIO = new MapIO();
             StartCoroutine(_mapIO.GetMapData(mapID, delegate (string serializedMapData) {
-                if(serializedMapData == null) {
+                if (serializedMapData == null) {
                     Debug.LogError("Failed to retrieve map.");
                     return;
                 }

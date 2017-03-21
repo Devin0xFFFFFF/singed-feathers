@@ -5,14 +5,13 @@ namespace CoreGame.Models {
     public class Player {
         public readonly string PlayerID;
         public string PlayerName;
-        public string Role;
-        public bool IsReady;
         public PlayerSideSelection PlayerSideSelection { get; set; }
+        public bool IsReady;
 
-        public Player(string playerName = "AnonPlayer", string role = null, bool isReady = false) {
+        public Player(string playerName = "AnonPlayer", PlayerSideSelection playerSideSelection = PlayerSideSelection.SavePigeons, bool isReady = false) {
             PlayerID = GeneratePlayerID();
             PlayerName = playerName;
-            Role = role;
+            PlayerSideSelection = playerSideSelection;
             IsReady = isReady;
         }
 

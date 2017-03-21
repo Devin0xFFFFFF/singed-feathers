@@ -16,7 +16,7 @@ namespace Assets.Scripts.Service {
 
         public IEnumerator CreateMap(CreateMapInfo mapInfo, CreateMapCallback callback) {
             yield return _client.CreateMap(mapInfo, delegate (ClientResult result) {
-                if(IsValidResult(result)) {
+                if (IsValidResult(result)) {
                     string mapID = result.ResponseBody;
                     Console.WriteLine("Map created: " + mapID);
                     callback(mapID);

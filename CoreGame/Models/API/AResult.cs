@@ -2,7 +2,7 @@
 
 namespace CoreGame.Models.API {
     [Serializable]
-    public class ResultInfo {
+    public abstract class AResult {
         protected static int SUCCESS_CODE = 0;
 
         public int ResultCode;

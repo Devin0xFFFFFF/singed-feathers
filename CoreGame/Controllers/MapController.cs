@@ -128,7 +128,7 @@ namespace CoreGame.Controllers {
 
         public void Water() { _map.TurnController.SetMoveType(MoveType.Water); }
 
-        public bool ShouldPoll() { return _map.TurnResolver != null && _map.TurnResolver.ShouldPoll(); }
+        public bool ShouldPoll() { return _map.TurnResolver.ShouldPoll(); }
 
         public void Poll() { _map.TurnResolver.Poll(_map); }
 
