@@ -38,15 +38,19 @@ namespace Assets.Scripts.Controllers {
         }
 
         private void ApplyDelta(List<Delta> deltaList, Map map) {
+            IList<Delta> waterCommands = new List<Delta>();
             foreach (Delta delta in deltaList) {
-                Position position = delta.Position;
-                ICommand iCommand = delta.Command;
-                if (MapLocationValidator.PositionIsValid(position)) {
-                    ITileController tileController = map.TileMap[position.X, position.Y];
-                    iCommand.ExecuteCommand(tileController);
+                if (MapLocationValidator.PositionIsValid(delta.Position)) {
+                    ApplyDelta(delta, map);
+                    if (delta.Command.MoveType == MoveType.Water) { waterCommands.Add(delta); }
                 }
             }
             TurnResolveUtility.SpreadFires(map);
+
+            foreach (Delta delta in waterCommands) {
+                ApplyDelta(delta, map);
+            }
+
             TurnResolveUtility.MovePigeons(map);
             _isTurnResolved = true;
         }
@@ -71,6 +75,13 @@ namespace Assets.Scripts.Controllers {
         private void SendDelta(Delta delta) {
             JsonDelta = JsonConvert.SerializeObject(delta, _settings);
             _receivedResponse = false;
+        }
+
+        private void ApplyDelta(Delta delta, Map map) {
+            Position position = delta.Position;
+            ICommand iCommand = delta.Command;
+            ITileController tileController = map.TileMap[position.X, position.Y];
+            iCommand.ExecuteCommand(tileController);
         }
     }
 }

@@ -52,7 +52,7 @@ namespace Assets.Scripts.Views {
             }
         }
 
-        public void LoadMap(string mapID = "Map1") {
+        public void LoadMap(string mapID = "Map2") {
             _mapClient = new MapPersistenceClient();
             StartCoroutine(_mapClient.GetMapData(mapID, delegate (MapClientResult result) {
                 if (result.IsError || result.ResponseCode != 200) {

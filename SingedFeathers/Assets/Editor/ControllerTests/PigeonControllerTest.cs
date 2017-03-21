@@ -31,7 +31,7 @@ namespace Assets.Editor.ControllerTests {
         [Test]
         public void TestInitialization() {
             Assert.False(_pigeonController.IsDead());
-            Assert.AreEqual(100, _pigeonController.GetHealth());
+            Assert.AreEqual(50, _pigeonController.GetHealth());
         }
 
         [Test]
@@ -419,11 +419,11 @@ namespace Assets.Editor.ControllerTests {
 
         [Test]
         public void TestHealingPigeonWithPositiveValueAdjustsHealthAppropriately() {
-            _pigeonController.InflictDamage(60);
-            Assert.AreEqual(Pigeon.MAX_HEALTH - 60, _pigeonController.GetHealth());
+            _pigeonController.InflictDamage(40);
+            Assert.AreEqual(10, _pigeonController.GetHealth());
             
             _pigeonController.Heal(10);
-            Assert.AreEqual(Pigeon.MAX_HEALTH - 50, _pigeonController.GetHealth());    
+            Assert.AreEqual(20, _pigeonController.GetHealth());    
         }
 
         [Test]
