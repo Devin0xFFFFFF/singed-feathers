@@ -1,99 +1,113 @@
 fileFormatVersion: 2
-guid: 5d539d5f71d3547e4a2097159df53d31
-timeCreated: 1489379389
+guid: f2e6164b11caca94facb499fac3aca4d
+timeCreated: 1490131312
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Tileset_0
-    21300002: Tileset_1
-    21300004: Tileset_2
-    21300006: Tileset_3
-    21300008: Tileset_4
-    21300010: Tileset_5
-    21300012: Tileset_6
-    21300014: Tileset_7
-    21300016: Tileset_8
-    21300018: Tileset_9
-    21300020: Tileset_10
-    21300022: Tileset_11
-    21300024: Tileset_12
-    21300026: Tileset_13
-    21300028: Tileset_14
-    21300030: Tileset_15
-    21300032: Tileset_16
-    21300034: Tileset_17
-    21300036: Tileset_18
-    21300038: Tileset_19
-    21300040: Tileset_20
-    21300042: Tileset_21
-    21300044: Tileset_22
-    21300046: Tileset_23
-    21300048: Tileset_24
-    21300050: Tileset_25
-    21300052: Tileset_26
-    21300054: Tileset_27
-    21300056: Tileset_28
-    21300058: Tileset_29
-    21300060: Tileset_30
-    21300062: Tileset_31
-    21300064: Tileset_32
-    21300066: Tileset_33
-    21300068: Tileset_34
-    21300070: Tileset_35
-    21300072: Tileset_36
-    21300074: Tileset_37
-    21300076: Tileset_38
-    21300078: Tileset_39
-    21300080: Tileset_40
-    21300082: Tileset_41
-    21300084: Tileset_42
-    21300086: Tileset_43
-    21300088: Tileset_44
-    21300090: Tileset_45
-    21300092: Tileset_46
-    21300094: Tileset_47
-    21300096: Tileset_48
-    21300098: Tileset_49
-    21300100: Tileset_50
-    21300102: Tileset_51
-    21300104: Tileset_52
-    21300106: Tileset_53
-    21300108: Tileset_54
-    21300110: Tileset_55
-    21300112: Tileset_57
-    21300114: Tileset_60
-    21300116: Tileset_61
-    21300118: Tileset_62
-    21300120: Tileset_63
-    21300122: Tileset_64
-    21300124: Tileset_65
-    21300126: Tileset_66
-    21300128: Tileset_67
-    21300130: Tileset_74
-    21300132: Tileset_75
-    21300134: Tileset_76
-    21300136: Tileset_77
-    21300138: Tileset_78
-    21300140: Tileset_79
-    21300142: Tileset_80
-    21300144: Tileset_82
-    21300146: Tileset_84
-    21300148: Tileset_86
-    21300150: Tileset_87
-    21300152: Tileset_88
-    21300154: Tileset_89
-    21300156: Tileset_96
-    21300158: Tileset_97
-    21300160: Tileset_98
-    21300162: Tileset_99
-    21300164: Tileset_100
-    21300166: Tileset_101
-    21300168: Tileset_102
-    21300170: Tileset_103
-    21300172: Tileset_104
-    21300174: Tileset_105
-    21300176: Tileset_106
-    21300178: Tileset_107
+    21300000: Error Tile
+    21300002: Blank Tile
+    21300004: Pigeon Down
+    21300006: Pigeon Down Open Mouth
+    21300008: Pigeon Down Flap 1
+    21300010: Pigeon Down Flap 2
+    21300012: Pigeon Down Coo 1
+    21300014: Pigeon Down Coo 2
+    21300016: Pigeon Down Peck 1
+    21300018: Pigeon Down Peck 2
+    21300020: Dirt Heat 0
+    21300022: Dirt Heat 1
+    21300024: Dirt Heat 2
+    21300026: Dirt Heat 3
+    21300028: Pigeon Side
+    21300030: Pigeon Side Open Mouth
+    21300032: Pigeon Side Flap 1
+    21300034: Pigeon Side Flap 2
+    21300036: Pigeon Side Coo 1
+    21300038: Pigeon Side Coo 2
+    21300040: Pigeon Side Peck 1
+    21300042: Pigeon Side Peck 2
+    21300044: Grass Burn 0 Heat 0
+    21300046: Grass Burn 0 Heat 1
+    21300048: Grass Burn 0 Heat 2
+    21300050: Grass Burn 0 Heat 3
+    21300052: Grass Burn 1 Heat 0
+    21300054: Grass Burn 1 Heat 1
+    21300056: Grass Burn 1 Heat 2
+    21300058: Grass Burn 1 Heat 3
+    21300060: Fire Small 0
+    21300062: Fire Small 1
+    21300064: Fire Small 2
+    21300066: Fire Icon 0
+    21300068: Fire Icon 1
+    21300070: Fire Icon 2
+    21300072: Fire Icon 3
+    21300074: Grass Burn 2 Heat 0
+    21300076: Grass Burn 2 Haet 1
+    21300078: Grass Burn 2 Heat 2
+    21300080: Grass Burn 2 Heat 3
+    21300082: Fire Medium 0
+    21300084: Fire Medium 1
+    21300086: Fire Medium 2
+    21300088: Water Icon 0
+    21300090: Water Icon 1
+    21300092: Water Icon 2
+    21300094: Water Icon 3
+    21300096: Grass Burn 3 Haet 0
+    21300098: Grass Burn 3 Heat 1
+    21300100: Grass Burn 3 Heat 2
+    21300102: Grass Burn 3 Heat 3
+    21300104: Fire Large 0
+    21300106: Fire Large 1
+    21300108: Fire Large 2
+    21300110: Fire Selector 0
+    21300112: Fire Selector 1
+    21300114: Fire Selector 2
+    21300116: Grass Ash Heat 0
+    21300118: Grass Ash Heat 1
+    21300120: Grass Ash Heat 2
+    21300122: Grass Ash Heat 3
+    21300124: Bird Seed 0
+    21300126: Bird Seed 1
+    21300128: Bird Seed 2
+    21300130: Logs Burn 0 Heat 0
+    21300132: Logs Burn 0 Heat 1
+    21300134: Logs Burn 0 Heat 2
+    21300136: Logs Burn 0 Heat 3
+    21300138: Block
+    21300140: Tombstone
+    21300142: Water Selector 0
+    21300144: Water Selector 1
+    21300146: Water Selector 2
+    21300148: Logs Burn 1 Heat 0
+    21300150: Logs Burn 1 Heat 1
+    21300152: Logs Burn 1 Heat 2
+    21300154: Logs Burn 1 Heat 3
+    21300156: Logs Burn 2 Heat 0
+    21300158: Logs Burn 2 Heat 1
+    21300160: Logs Burn 2 Heat 2
+    21300162: Logs Burn 2 Heat 3
+    21300164: Explosion 0
+    21300166: Explosion 1
+    21300168: Explosion 2
+    21300170: Explosion 3
+    21300172: Explosion 4
+    21300174: Explosion 5
+    21300176: Logs Burn 3 Heat 0
+    21300178: Logs Burn 3 Heat 1
+    21300180: Logs Burn 3 Heat 2
+    21300182: Logs Burn 3 Heat 3
+    21300184: Logs Ash Heat 0
+    21300186: Logs Ash Heat 1
+    21300188: Logs Ash Heat 2
+    21300190: Logs Ash Heat 3
+    21300192: Wood Heat 0
+    21300194: Wood Heat 1
+    21300196: Wood Heat 2
+    21300198: Wood Heat 3
+    21300200: Stone Heat 0
+    21300202: Stone Heat 1
+    21300204: Stone Heat 2
+    21300206: Stone Heat 3
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -126,7 +140,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 0
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
@@ -184,7 +198,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Tileset_0
+      name: Error Tile
       rect:
         serializedVersion: 2
         x: 1
@@ -197,7 +211,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_1
+      name: Blank Tile
       rect:
         serializedVersion: 2
         x: 19
@@ -210,7 +224,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_2
+      name: Pigeon Down
       rect:
         serializedVersion: 2
         x: 73
@@ -223,7 +237,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_3
+      name: Pigeon Down Open Mouth
       rect:
         serializedVersion: 2
         x: 91
@@ -236,7 +250,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_4
+      name: Pigeon Down Flap 1
       rect:
         serializedVersion: 2
         x: 109
@@ -249,7 +263,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_5
+      name: Pigeon Down Flap 2
       rect:
         serializedVersion: 2
         x: 127
@@ -262,7 +276,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_6
+      name: Pigeon Down Coo 1
       rect:
         serializedVersion: 2
         x: 145
@@ -275,7 +289,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_7
+      name: Pigeon Down Coo 2
       rect:
         serializedVersion: 2
         x: 163
@@ -288,7 +302,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_8
+      name: Pigeon Down Peck 1
       rect:
         serializedVersion: 2
         x: 181
@@ -301,7 +315,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_9
+      name: Pigeon Down Peck 2
       rect:
         serializedVersion: 2
         x: 199
@@ -314,7 +328,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_10
+      name: Dirt Heat 0
       rect:
         serializedVersion: 2
         x: 1
@@ -327,7 +341,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_11
+      name: Dirt Heat 1
       rect:
         serializedVersion: 2
         x: 19
@@ -340,7 +354,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_12
+      name: Dirt Heat 2
       rect:
         serializedVersion: 2
         x: 37
@@ -353,7 +367,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_13
+      name: Dirt Heat 3
       rect:
         serializedVersion: 2
         x: 55
@@ -366,7 +380,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_14
+      name: Pigeon Side
       rect:
         serializedVersion: 2
         x: 73
@@ -379,7 +393,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_15
+      name: Pigeon Side Open Mouth
       rect:
         serializedVersion: 2
         x: 91
@@ -392,7 +406,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_16
+      name: Pigeon Side Flap 1
       rect:
         serializedVersion: 2
         x: 109
@@ -405,7 +419,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_17
+      name: Pigeon Side Flap 2
       rect:
         serializedVersion: 2
         x: 127
@@ -418,7 +432,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_18
+      name: Pigeon Side Coo 1
       rect:
         serializedVersion: 2
         x: 145
@@ -431,7 +445,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_19
+      name: Pigeon Side Coo 2
       rect:
         serializedVersion: 2
         x: 163
@@ -444,7 +458,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_20
+      name: Pigeon Side Peck 1
       rect:
         serializedVersion: 2
         x: 181
@@ -457,7 +471,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_21
+      name: Pigeon Side Peck 2
       rect:
         serializedVersion: 2
         x: 199
@@ -470,7 +484,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_22
+      name: Grass Burn 0 Heat 0
       rect:
         serializedVersion: 2
         x: 1
@@ -483,7 +497,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_23
+      name: Grass Burn 0 Heat 1
       rect:
         serializedVersion: 2
         x: 19
@@ -496,7 +510,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_24
+      name: Grass Burn 0 Heat 2
       rect:
         serializedVersion: 2
         x: 37
@@ -509,7 +523,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_25
+      name: Grass Burn 0 Heat 3
       rect:
         serializedVersion: 2
         x: 55
@@ -522,7 +536,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_26
+      name: Grass Burn 1 Heat 0
       rect:
         serializedVersion: 2
         x: 1
@@ -535,7 +549,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_27
+      name: Grass Burn 1 Heat 1
       rect:
         serializedVersion: 2
         x: 19
@@ -548,7 +562,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_28
+      name: Grass Burn 1 Heat 2
       rect:
         serializedVersion: 2
         x: 37
@@ -561,7 +575,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_29
+      name: Grass Burn 1 Heat 3
       rect:
         serializedVersion: 2
         x: 55
@@ -574,7 +588,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_30
+      name: Fire Small 0
       rect:
         serializedVersion: 2
         x: 73
@@ -587,7 +601,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_31
+      name: Fire Small 1
       rect:
         serializedVersion: 2
         x: 91
@@ -600,7 +614,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_32
+      name: Fire Small 2
       rect:
         serializedVersion: 2
         x: 109
@@ -613,7 +627,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_33
+      name: Fire Icon 0
       rect:
         serializedVersion: 2
         x: 127
@@ -626,7 +640,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_34
+      name: Fire Icon 1
       rect:
         serializedVersion: 2
         x: 145
@@ -639,7 +653,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_35
+      name: Fire Icon 2
       rect:
         serializedVersion: 2
         x: 163
@@ -652,7 +666,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_36
+      name: Fire Icon 3
       rect:
         serializedVersion: 2
         x: 181
@@ -665,7 +679,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_37
+      name: Grass Burn 2 Heat 0
       rect:
         serializedVersion: 2
         x: 1
@@ -678,7 +692,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_38
+      name: Grass Burn 2 Haet 1
       rect:
         serializedVersion: 2
         x: 19
@@ -691,7 +705,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_39
+      name: Grass Burn 2 Heat 2
       rect:
         serializedVersion: 2
         x: 37
@@ -704,7 +718,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_40
+      name: Grass Burn 2 Heat 3
       rect:
         serializedVersion: 2
         x: 55
@@ -717,7 +731,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_41
+      name: Fire Medium 0
       rect:
         serializedVersion: 2
         x: 73
@@ -730,7 +744,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_42
+      name: Fire Medium 1
       rect:
         serializedVersion: 2
         x: 91
@@ -743,7 +757,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_43
+      name: Fire Medium 2
       rect:
         serializedVersion: 2
         x: 109
@@ -756,7 +770,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_44
+      name: Water Icon 0
       rect:
         serializedVersion: 2
         x: 127
@@ -769,7 +783,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_45
+      name: Water Icon 1
       rect:
         serializedVersion: 2
         x: 145
@@ -782,7 +796,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_46
+      name: Water Icon 2
       rect:
         serializedVersion: 2
         x: 163
@@ -795,7 +809,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_47
+      name: Water Icon 3
       rect:
         serializedVersion: 2
         x: 181
@@ -808,7 +822,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_48
+      name: Grass Burn 3 Haet 0
       rect:
         serializedVersion: 2
         x: 1
@@ -821,7 +835,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_49
+      name: Grass Burn 3 Heat 1
       rect:
         serializedVersion: 2
         x: 19
@@ -834,7 +848,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_50
+      name: Grass Burn 3 Heat 2
       rect:
         serializedVersion: 2
         x: 37
@@ -847,7 +861,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_51
+      name: Grass Burn 3 Heat 3
       rect:
         serializedVersion: 2
         x: 55
@@ -860,7 +874,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_52
+      name: Fire Large 0
       rect:
         serializedVersion: 2
         x: 73
@@ -873,7 +887,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_53
+      name: Fire Large 1
       rect:
         serializedVersion: 2
         x: 91
@@ -886,7 +900,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_54
+      name: Fire Large 2
       rect:
         serializedVersion: 2
         x: 109
@@ -899,7 +913,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_55
+      name: Fire Selector 0
       rect:
         serializedVersion: 2
         x: 127
@@ -912,7 +926,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_57
+      name: Fire Selector 1
       rect:
         serializedVersion: 2
         x: 163
@@ -925,7 +939,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_60
+      name: Fire Selector 2
       rect:
         serializedVersion: 2
         x: 199
@@ -938,7 +952,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_61
+      name: Grass Ash Heat 0
       rect:
         serializedVersion: 2
         x: 1
@@ -951,7 +965,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_62
+      name: Grass Ash Heat 1
       rect:
         serializedVersion: 2
         x: 19
@@ -964,7 +978,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_63
+      name: Grass Ash Heat 2
       rect:
         serializedVersion: 2
         x: 37
@@ -977,7 +991,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_64
+      name: Grass Ash Heat 3
       rect:
         serializedVersion: 2
         x: 55
@@ -990,7 +1004,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_65
+      name: Bird Seed 0
       rect:
         serializedVersion: 2
         x: 73
@@ -1003,7 +1017,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_66
+      name: Bird Seed 1
       rect:
         serializedVersion: 2
         x: 91
@@ -1016,7 +1030,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_67
+      name: Bird Seed 2
       rect:
         serializedVersion: 2
         x: 109
@@ -1029,7 +1043,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_74
+      name: Logs Burn 0 Heat 0
       rect:
         serializedVersion: 2
         x: 1
@@ -1042,7 +1056,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_75
+      name: Logs Burn 0 Heat 1
       rect:
         serializedVersion: 2
         x: 19
@@ -1055,7 +1069,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_76
+      name: Logs Burn 0 Heat 2
       rect:
         serializedVersion: 2
         x: 37
@@ -1068,7 +1082,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_77
+      name: Logs Burn 0 Heat 3
       rect:
         serializedVersion: 2
         x: 55
@@ -1081,7 +1095,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_78
+      name: Block
       rect:
         serializedVersion: 2
         x: 73
@@ -1094,7 +1108,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_79
+      name: Tombstone
       rect:
         serializedVersion: 2
         x: 91
@@ -1107,7 +1121,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_80
+      name: Water Selector 0
       rect:
         serializedVersion: 2
         x: 127
@@ -1120,7 +1134,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_82
+      name: Water Selector 1
       rect:
         serializedVersion: 2
         x: 163
@@ -1133,7 +1147,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_84
+      name: Water Selector 2
       rect:
         serializedVersion: 2
         x: 199
@@ -1146,7 +1160,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_86
+      name: Logs Burn 1 Heat 0
       rect:
         serializedVersion: 2
         x: 1
@@ -1159,7 +1173,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_87
+      name: Logs Burn 1 Heat 1
       rect:
         serializedVersion: 2
         x: 19
@@ -1172,7 +1186,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_88
+      name: Logs Burn 1 Heat 2
       rect:
         serializedVersion: 2
         x: 37
@@ -1185,7 +1199,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_89
+      name: Logs Burn 1 Heat 3
       rect:
         serializedVersion: 2
         x: 55
@@ -1198,7 +1212,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_96
+      name: Logs Burn 2 Heat 0
       rect:
         serializedVersion: 2
         x: 1
@@ -1211,7 +1225,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_97
+      name: Logs Burn 2 Heat 1
       rect:
         serializedVersion: 2
         x: 19
@@ -1224,7 +1238,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_98
+      name: Logs Burn 2 Heat 2
       rect:
         serializedVersion: 2
         x: 37
@@ -1237,7 +1251,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_99
+      name: Logs Burn 2 Heat 3
       rect:
         serializedVersion: 2
         x: 55
@@ -1250,7 +1264,85 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_100
+      name: Explosion 0
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 77
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Explosion 1
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 77
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Explosion 2
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 77
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Explosion 3
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 77
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Explosion 4
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 77
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Explosion 5
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 77
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Logs Burn 3 Heat 0
       rect:
         serializedVersion: 2
         x: 1
@@ -1263,7 +1355,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_101
+      name: Logs Burn 3 Heat 1
       rect:
         serializedVersion: 2
         x: 19
@@ -1276,7 +1368,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_102
+      name: Logs Burn 3 Heat 2
       rect:
         serializedVersion: 2
         x: 37
@@ -1289,7 +1381,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_103
+      name: Logs Burn 3 Heat 3
       rect:
         serializedVersion: 2
         x: 55
@@ -1302,7 +1394,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_104
+      name: Logs Ash Heat 0
       rect:
         serializedVersion: 2
         x: 1
@@ -1315,7 +1407,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_105
+      name: Logs Ash Heat 1
       rect:
         serializedVersion: 2
         x: 19
@@ -1328,7 +1420,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_106
+      name: Logs Ash Heat 2
       rect:
         serializedVersion: 2
         x: 37
@@ -1341,11 +1433,115 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Tileset_107
+      name: Logs Ash Heat 3
       rect:
         serializedVersion: 2
         x: 55
         y: 41
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Wood Heat 0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 23
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Wood Heat 1
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 23
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Wood Heat 2
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 23
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Wood Heat 3
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 23
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Stone Heat 0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 5
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Stone Heat 1
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 5
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Stone Heat 2
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 5
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Stone Heat 3
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 5
         width: 16
         height: 16
       alignment: 0
