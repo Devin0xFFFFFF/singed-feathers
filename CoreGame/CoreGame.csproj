@@ -61,7 +61,6 @@
     <Compile Include="Models\API\LobbyClient\LeaveLobbyInfo.cs" />
     <Compile Include="Models\API\LobbyClient\JoinLobbyInfo.cs" />
     <Compile Include="Models\API\LobbyClient\CreateLobbyInfo.cs" />
-    <Compile Include="Models\API\ResultInfo.cs" />
     <Compile Include="Models\API\MapClient\MapInfo.cs" />
     <Compile Include="Models\Commands\Command.cs" />
     <Compile Include="Models\Commands\ICommand.cs" />
@@ -84,6 +83,7 @@
     <Compile Include="Utility\MapLocationValidator.cs" />
     <Compile Include="Utility\TurnResolveUtility.cs" />
     <Compile Include="Utility\TurnMergeUtility.cs" />
+    <Compile Include="Models\API\AResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Singed.ico" />
