@@ -54,7 +54,7 @@ namespace Assets.Scripts.Views {
             }
         }
             
-        public void LoadMap(string mapID = "Map2") {
+        public void LoadMap(string mapID = "Map3") {
             _mapIO = new MapIO();
             StartCoroutine(_mapIO.GetMapData(mapID, delegate (string serializedMapData) {
                 if (serializedMapData == null) {
