@@ -55,13 +55,15 @@
     <Compile Include="Controllers\PigeonController.cs" />
     <Compile Include="Controllers\TileController.cs" />
     <Compile Include="Controllers\TurnController.cs" />
+    <Compile Include="Models\API\LobbyClient\JoinLobbyResult.cs" />
+    <Compile Include="Models\API\LobbyClient\LeaveLobbyResult.cs" />
     <Compile Include="Models\API\LobbyClient\PollLobbyResult.cs" />
     <Compile Include="Models\API\LobbyClient\LobbyInfo.cs" />
     <Compile Include="Models\API\LobbyClient\ReadyLobbyInfo.cs" />
     <Compile Include="Models\API\LobbyClient\LeaveLobbyInfo.cs" />
     <Compile Include="Models\API\LobbyClient\JoinLobbyInfo.cs" />
     <Compile Include="Models\API\LobbyClient\CreateLobbyInfo.cs" />
-    <Compile Include="Models\API\ResultInfo.cs" />
+    <Compile Include="Models\API\LobbyClient\ReadyLobbyResult.cs" />
     <Compile Include="Models\API\MapClient\MapInfo.cs" />
     <Compile Include="Models\Commands\Command.cs" />
     <Compile Include="Models\Commands\ICommand.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="Utility\MapLocationValidator.cs" />
     <Compile Include="Utility\TurnResolveUtility.cs" />
     <Compile Include="Utility\TurnMergeUtility.cs" />
+    <Compile Include="Models\API\AResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Singed.ico" />

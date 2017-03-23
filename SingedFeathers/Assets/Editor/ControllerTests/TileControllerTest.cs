@@ -26,12 +26,6 @@ namespace Assets.Editor.ControllerTests {
             Assert.False(_tileController.IsBurntOut());
             Assert.False(_tileController.IsOnFire());
 
-            _tileController = new TileController(TileType.Ash, 0, 0);
-            Assert.AreEqual(TileType.Ash, _tileController.GetTileType());
-            Assert.False(_tileController.IsFlammable());
-            Assert.False(_tileController.IsBurntOut());
-            Assert.False(_tileController.IsOnFire());
-
             _tileController = new TileController(TileType.Wood, 0, 0);
             Assert.AreEqual(TileType.Wood, _tileController.GetTileType());
             Assert.True(_tileController.IsFlammable());

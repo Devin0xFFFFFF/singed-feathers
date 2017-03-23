@@ -93,7 +93,6 @@ namespace CoreGame.Controllers {
                 case TileType.Grass:
                     return new Tile(type, 10, 3);
                 case TileType.Stone:
-                case TileType.Ash:
                 case TileType.Error:
                 default:
                     return new Tile(type, int.MaxValue, 0);
