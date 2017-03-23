@@ -24,6 +24,7 @@ namespace Assets.Scripts.Views {
         public Text OptionsText;
         public Text GameOverText;
         public Text GameOverStatusText;
+        public GameObject WaitingPanel;
         private Button[] _actionButtons;
         private ITurnController _turnController;
         private ITurnResolver _turnResolver;
@@ -48,8 +49,10 @@ namespace Assets.Scripts.Views {
         public void Update() {
             if (_turnController == null || !_turnResolver.IsTurnResolved()) {
                 DisableAllButtons();
+                SetWaitingPanel(true);
                 return;
             }
+            SetWaitingPanel(false);
             UpdateButtons();
             UpdateTurnCountText();
         }
@@ -109,7 +112,9 @@ namespace Assets.Scripts.Views {
         public void HandleMapInput(TileView tileManager) { 
             Vector3 position = tileManager.gameObject.transform.position;
 
-            if (GameHUD.gameObject.activeInHierarchy && _turnController.ProcessAction(tileManager.GetTileController())) {
+            if (GameHUD.gameObject.activeInHierarchy && 
+                _turnController.ProcessAction(tileManager.GetTileController()) &&
+                _turnResolver.IsTurnResolved()) {
                 ClearSelected();
                 CreateBorder(position);
             }
@@ -136,7 +141,7 @@ namespace Assets.Scripts.Views {
             _borders.Add(pos, border);
         }
 
-        private void RemoveBorder(Vector3 pos){
+        private void RemoveBorder(Vector3 pos) {
             GameObject border = null;
             _borders.TryGetValue(pos, out border);
             if (border != null) {
@@ -144,5 +149,7 @@ namespace Assets.Scripts.Views {
             }
             _borders.Remove(pos);
         }
+
+        private void SetWaitingPanel(bool isActive) { WaitingPanel.SetActive(isActive); }
     }
 }
