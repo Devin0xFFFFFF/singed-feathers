@@ -7,8 +7,8 @@
 * https://github.com/Devin0xFFFFFF/comp4350-project/projects
 
 ### Make sure to follow our coding standards:
-* Coding standards: https://github.com/Devin0xFFFFFF/comp4350-project/wiki/Coding-Standards
-* Committing standards: https://github.com/Devin0xFFFFFF/comp4350-project/wiki/Committing-Standards
+* Coding standards: https://github.com/Devin0xFFFFFF/comp4350-project/wiki/Code-Standards
+* Committing standards: https://github.com/Devin0xFFFFFF/comp4350-project/wiki/Committ-and-PR-standards
 
 ### Still feeling lost? Start here:
 * https://github.com/Devin0xFFFFFF/comp4350-project/wiki
