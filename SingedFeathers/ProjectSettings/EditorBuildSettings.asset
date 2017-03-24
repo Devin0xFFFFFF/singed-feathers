@@ -13,3 +13,5 @@ EditorBuildSettings:
     path: Assets/Scenes/MapMakerScene.unity
   - enabled: 1
     path: Assets/Scenes/SideSelectScene.unity
+  - enabled: 1
+    path: Assets/Scenes/MapSelectScene.unity
