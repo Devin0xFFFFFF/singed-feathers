@@ -24,21 +24,21 @@ namespace Assets.Scripts.Views {
         public Text OptionsText;
         public Text GameOverText;
         public Text GameOverStatusText;
-		public Text ActionNotAllowedText;
+        public Text ActionNotAllowedText;
         public GameObject WaitingPanel;
         private Button[] _actionButtons;
         private ITurnController _turnController;
         private ITurnResolver _turnResolver;
         private Dictionary<Vector3, GameObject> _borders;
         private GameView _gameView;
-		private int ActionNotAllowedWasUpdated;
+        private int ActionNotAllowedWasUpdated;
 
         // Use this for initialization
         public void Start() {
             _actionButtons = new Button[] { FireButton, WaterButton };
             _borders = new Dictionary<Vector3, GameObject>();
             _gameView = GetComponent<GameView>();
-			ActionNotAllowedWasUpdated = 0;
+            ActionNotAllowedWasUpdated = 0;
         }
 
         public void ClearSelected() { 
@@ -53,15 +53,15 @@ namespace Assets.Scripts.Views {
             if (_turnController == null || !_turnResolver.IsTurnResolved()) {
                 DisableAllButtons();
                 SetWaitingPanel(true);
-				ActionNotAllowedText.gameObject.SetActive(false);
+                ActionNotAllowedText.gameObject.SetActive(false);
                 return;
             }
-			if (ActionNotAllowedWasUpdated > 0) {
-				ActionNotAllowedText.gameObject.SetActive(true);
-				ActionNotAllowedWasUpdated--;
-			} else {
-				ActionNotAllowedText.gameObject.SetActive(false);
-			}
+            if (ActionNotAllowedWasUpdated > 0) {
+                ActionNotAllowedText.gameObject.SetActive(true);
+                ActionNotAllowedWasUpdated--;
+            } else {
+                ActionNotAllowedText.gameObject.SetActive(false);
+            }
             SetWaitingPanel(false);
             UpdateButtons();
             UpdateTurnCountText();
@@ -114,7 +114,7 @@ namespace Assets.Scripts.Views {
                 GameOverStatusText.text = _gameView.GetGameOverPlayerStatus();
             }
         }
-        
+
         public void UpdateSideChosenText(string side) { SideChosenText.text = string.Format(SIDE_CHOSEN_STRING, side); }
 
         public void UpdateTurnCountText() { TurnCountText.text = TURN_COUNT_STRING + _turnController.GetTurnsLeft(); }
@@ -123,20 +123,21 @@ namespace Assets.Scripts.Views {
             Vector3 position = tileManager.gameObject.transform.position;
 
             if (GameHUD.gameObject.activeInHierarchy && _turnResolver.IsTurnResolved()) {
-				if (_turnController.ProcessAction(tileManager.GetTileController())) {
-					ClearSelected();
-					CreateBorder(position);
-				} else {
-					switch (_turnController.GetMoveType()) {
-						case MoveType.Water:
-							ActionNotAllowedText.text = _turnController.GetExecutionFailureReason(tileManager.GetTileController());
-							break;
-						case MoveType.Fire:
-							ActionNotAllowedText.text = _turnController.GetExecutionFailureReason(tileManager.GetTileController());
-							break;
-					}
-					ActionNotAllowedWasUpdated = 100;
-				}
+                if (_turnController.ProcessAction(tileManager.GetTileController())) {
+                    ClearSelected();
+                    CreateBorder(position);
+                    ActionNotAllowedWasUpdated = 0;
+                } else {
+                    switch (_turnController.GetMoveType()) {
+                        case MoveType.Water:
+                            ActionNotAllowedText.text = _turnController.GetExecutionFailureReason(tileManager.GetTileController());
+                            break;
+                        case MoveType.Fire:
+                            ActionNotAllowedText.text = _turnController.GetExecutionFailureReason(tileManager.GetTileController());
+                            break;
+                    }
+                    ActionNotAllowedWasUpdated = 100;
+                }
             }
         }
 
@@ -155,7 +156,7 @@ namespace Assets.Scripts.Views {
                     case MoveType.Fire:
                         border = Instantiate(ControlBorderRed, new Vector3(pos.x, pos.y, pos.z), Quaternion.identity);
                         break;
-                }
+                    }
             }
             border.transform.localScale = new Vector3(1.6f, 1.6f, transform.localScale.z);
             _borders.Add(pos, border);
