@@ -18,7 +18,7 @@ namespace Assets.Editor.Build {
 		[MenuItem("File/AutoBuilder/Android")]
 		public static void PerformAndroidBuild() {
 			EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.Android);
-			BuildPipeline.BuildPlayer(GetScenePaths(), "Builds/Android", BuildTarget.Android, BuildOptions.Development);
+			BuildPipeline.BuildPlayer(GetScenePaths(), "Builds/Android/SingedFeathers.apk", BuildTarget.Android, BuildOptions.Development);
 		}
 
 		[MenuItem("File/AutoBuilder/iOS")]
@@ -33,6 +33,10 @@ namespace Assets.Editor.Build {
 			BuildPipeline.BuildPlayer(GetScenePaths(), "Builds/Web", BuildTarget.WebGL, BuildOptions.None);
 		}
 
+		[MenuItem("File/AutoBuilder/GenerateProjects")]
+		public static void GenerateProjects() {
+			EditorApplication.ExecuteMenuItem("Assets/Open C# Project");
+		}
 	}
 }
 

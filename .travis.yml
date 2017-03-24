@@ -6,11 +6,13 @@ group: edge
 before_install:
 - chmod a+x ./Travis/Scripts/install.sh
 - chmod a+x ./Travis/Scripts/build.sh
+- chmod a+x ./Travis/Scripts/generate.sh
 
 install:
 - ./Travis/Scripts/install.sh
 
 script:
+- ./Travis/Scripts/generate.sh
 - if [ $TRAVIS_BRANCH = "master" ]; then travis_wait ./Travis/Scripts/build.sh; fi
 - xbuild /p:TargetFrameworkProfile="" /p:Configuration=Release ./SingedFeathers/SingedFeathers.sln
 - nunit-console ./SingedFeathers/Temp/bin/Release/Assembly-CSharp-Editor.dll
