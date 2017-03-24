@@ -70,17 +70,17 @@
     <Compile Include="Assets\Scripts\Views\PigeonView.cs" />
     <Compile Include="Assets\Scripts\Views\TileView.cs" />
     <None Include="Assets\link.xml" />
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\UnityAnalytics\UnityEngine.Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.PlaymodeTestsRunner">
-      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\PlaymodeTestsRunner\UnityEngine.PlaymodeTestsRunner.dll</HintPath>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\GUISystem\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\Networking\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\GUISystem\UnityEngine.UI.dll</HintPath>
+    <Reference Include="UnityEngine.PlaymodeTestsRunner">
+      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\PlaymodeTestsRunner\UnityEngine.PlaymodeTestsRunner.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\UnityAnalytics\UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.HoloLens">
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\UnityHoloLens\RuntimeEditor\UnityEngine.HoloLens.dll</HintPath>

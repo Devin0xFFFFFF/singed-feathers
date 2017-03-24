@@ -4,14 +4,14 @@ mono: latest
 group: edge
 
 before_install:
-- chmod a+x ./Scripts/install.sh
-- chmod a+x ./Scripts/build.sh
+- chmod a+x ./Travis/Scripts/install.sh
+- chmod a+x ./Travis/Scripts/build.sh
 
 install:
-- ./Scripts/install.sh
+- ./Travis/Scripts/install.sh
 
 script:
-- if [ $TRAVIS_BRANCH = "master" ]; then travis_wait ./Scripts/build.sh; fi
+- if [ $TRAVIS_BRANCH = "master" ]; then travis_wait ./Travis/Scripts/build.sh; fi
 - xbuild /p:TargetFrameworkProfile="" /p:Configuration=Release ./SingedFeathers/SingedFeathers.sln
 - nunit-console ./SingedFeathers/Temp/bin/Release/Assembly-CSharp-Editor.dll
 

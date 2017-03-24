@@ -8,7 +8,7 @@ echo "Attempting to build $project for Webgl"
 /Applications/Unity/Unity.app/Contents/MacOS/Unity \
   -batchmode \
   -nographics \
-  -logFile $(pwd)/Unity.log \
+  -logFile $(pwd)/../Travis/Unity.log \
   -projectPath=$(pwd)/SingedFeathers \
   -executeMethod Assets.Editor.Build.AutoBuilder.PerformWebBuild \
   -quit
@@ -16,6 +16,6 @@ echo "Attempting to build $project for Webgl"
 cd ..
 
 echo 'Logs from build'
-cat $(pwd)/SingedFeathers/Unity.log
+cat $(pwd)/Travis/Unity.log
 
 
