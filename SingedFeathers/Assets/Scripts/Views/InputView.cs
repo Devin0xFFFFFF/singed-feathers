@@ -128,14 +128,7 @@ namespace Assets.Scripts.Views {
                     CreateBorder(position);
                     ActionNotAllowedWasUpdated = 0;
                 } else {
-                    switch (_turnController.GetMoveType()) {
-                        case MoveType.Water:
-                            ActionNotAllowedText.text = _turnController.GetExecutionFailureReason(tileManager.GetTileController());
-                            break;
-                        case MoveType.Fire:
-                            ActionNotAllowedText.text = _turnController.GetExecutionFailureReason(tileManager.GetTileController());
-                            break;
-                    }
+                    ActionNotAllowedText.text = _turnController.GetExecutionFailureReason(tileManager.GetTileController());
                     ActionNotAllowedWasUpdated = 100;
                 }
             }
