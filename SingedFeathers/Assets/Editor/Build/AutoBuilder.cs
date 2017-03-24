@@ -32,11 +32,6 @@ namespace Assets.Editor.Build {
 			EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.WebGL);
 			BuildPipeline.BuildPlayer(GetScenePaths(), "Builds/Web", BuildTarget.WebGL, BuildOptions.None);
 		}
-
-		[MenuItem("File/AutoBuilder/GenerateProjects")]
-		public static void GenerateProjects() {
-			EditorApplication.ExecuteMenuItem("Assets/Open C# Project");
-		}
 	}
 }
 
