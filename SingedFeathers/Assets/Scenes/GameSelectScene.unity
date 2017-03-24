@@ -625,7 +625,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1321511706}
         m_MethodName: LoadScene
         m_Mode: 5
         m_Arguments:
@@ -845,6 +845,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3ad1f6c7589754ed9b237fb466102517, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1321511706 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114005599765379954, guid: 3ad1f6c7589754ed9b237fb466102517,
+    type: 2}
+  m_PrefabInternal: {fileID: 1195514457}
+  m_Script: {fileID: 11500000, guid: 173d4fb26dc714e7b824218ab2b6b7d0, type: 3}
 --- !u!1 &1438551335
 GameObject:
   m_ObjectHideFlags: 0
@@ -1164,7 +1170,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1321511706}
         m_MethodName: LoadScene
         m_Mode: 5
         m_Arguments:
