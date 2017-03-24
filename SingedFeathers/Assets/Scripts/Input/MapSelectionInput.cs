@@ -1,4 +1,4 @@
-﻿using CoreGame.Models;
+﻿using CoreGame.Models.API.MapClient;
 using UnityEngine;
 using Assets.Scripts.Service;
 using System.Collections;
@@ -8,28 +8,26 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.Input {
     public class MapSelectionInput : MonoBehaviour {
-        private MapPersistenceClient _mapClient;
+        private MapIO _mapIO;
         public GameObject MapSelectButton;
 
         public void Start() {
-            _mapClient = new MapPersistenceClient ();
+            _mapIO = new MapIO ();
 
-            StartCoroutine(_mapClient.GetMaps(delegate (MapClientResult result) {
-                if (result.IsError || result.ResponseCode != 200) {
-                    Debug.LogError("Failed to fetch maps from server: " + result.ErrorMessage ?? result.ResponseCode + " " + result.ResponseBody);
-                    //return;
+            StartCoroutine(_mapIO.GetMaps(delegate (List<MapInfo> maps) {
+                if (maps == null) {
+                    Debug.LogError("Failed to retrieve maps.");
+                    return;
                 }
                
-                Debug.Log("Maps fetched from server: " + result.ResponseBody);
-                Dictionary<string, MapInfo[]> dict = JsonConvert.DeserializeObject<Dictionary<string,MapInfo[]>>(result.ResponseBody);
-                MapInfo[] maps; 
-                dict.TryGetValue("Maps", out maps);
+                Debug.Log("Maps fetched from server");
+
                 foreach(MapInfo map in maps){
                     GameObject mapButton = Instantiate(MapSelectButton);
                     Button tempButton = mapButton.GetComponent<Button>();
                     tempButton.GetComponentInChildren<Text>().text = "Map Name: "+map.MapName+"\t Creator: "
                         +map.CreatorName+"\n Play Type: " + map.MapType;
-                    tempButton.onClick.AddListener(delegate {SelectMap(map.MapName);});
+                    tempButton.onClick.AddListener(delegate {SelectMap(map.MapID);});
 
                     mapButton.transform.SetParent( this.GetComponent<RectTransform>());
                 }
