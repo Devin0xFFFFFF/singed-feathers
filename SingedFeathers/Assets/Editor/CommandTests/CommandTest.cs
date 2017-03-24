@@ -130,70 +130,70 @@ namespace Assets.Editor.CommandTests {
             Assert.True(_waterCommand.CanBeExecutedOnTile(_tile));
         }
 
-		[Test]
-		public void TestGetExecutionFailureReasonIfMoveTypeIsFire() {
-			_fireCommand = new Command(MoveType.Fire, 0);
+        [Test]
+        public void TestGetExecutionFailureReasonIfMoveTypeIsFire() {
+            _fireCommand = new Command(MoveType.Fire, 0);
 
-			_tile.IsFlammable().Returns(true);
-			_tile.IsOccupied.Returns(true);
-			_tile.IsOnFire().Returns(true);
-			Assert.AreEqual("Move not allowed! This tile is occupied.", _fireCommand.GetExecutionFailureReason(_tile));
+            _tile.IsFlammable().Returns(true);
+            _tile.IsOccupied.Returns(true);
+            _tile.IsOnFire().Returns(true);
+            Assert.AreEqual("Move not allowed! This tile is occupied.", _fireCommand.GetExecutionFailureReason(_tile));
 
-			_tile.IsFlammable().Returns(false);
-			_tile.IsOccupied.Returns(true);
-			_tile.IsOnFire().Returns(true);
-			Assert.AreEqual("Move not allowed! This tile is not flammable.", _fireCommand.GetExecutionFailureReason(_tile));
+            _tile.IsFlammable().Returns(false);
+            _tile.IsOccupied.Returns(true);
+            _tile.IsOnFire().Returns(true);
+            Assert.AreEqual("Move not allowed! This tile is not flammable.", _fireCommand.GetExecutionFailureReason(_tile));
 
-			_tile.IsFlammable().Returns(false);
-			_tile.IsOccupied.Returns(false);
-			_tile.IsOnFire().Returns(true);
-			Assert.AreEqual("Move not allowed! This tile is not flammable.", _fireCommand.GetExecutionFailureReason(_tile));
+            _tile.IsFlammable().Returns(false);
+            _tile.IsOccupied.Returns(false);
+            _tile.IsOnFire().Returns(true);
+            Assert.AreEqual("Move not allowed! This tile is not flammable.", _fireCommand.GetExecutionFailureReason(_tile));
 
-			_tile.IsFlammable().Returns(true);
-			_tile.IsOccupied.Returns(false);
-			_tile.IsOnFire().Returns(true);
-			Assert.AreEqual("Move not allowed! This tile is already on fire.", _fireCommand.GetExecutionFailureReason(_tile));
+            _tile.IsFlammable().Returns(true);
+            _tile.IsOccupied.Returns(false);
+            _tile.IsOnFire().Returns(true);
+            Assert.AreEqual("Move not allowed! This tile is already on fire.", _fireCommand.GetExecutionFailureReason(_tile));
 
-			_tile.IsFlammable().Returns(true);
-			_tile.IsOccupied.Returns(true);
-			_tile.IsOnFire().Returns(false);
-			Assert.AreEqual("Move not allowed! This tile is occupied.", _fireCommand.GetExecutionFailureReason(_tile));
+            _tile.IsFlammable().Returns(true);
+            _tile.IsOccupied.Returns(true);
+            _tile.IsOnFire().Returns(false);
+            Assert.AreEqual("Move not allowed! This tile is occupied.", _fireCommand.GetExecutionFailureReason(_tile));
 
-			_tile.IsFlammable().Returns(false);
-			_tile.IsOccupied.Returns(true);
-			_tile.IsOnFire().Returns(false);
-			Assert.AreEqual("Move not allowed! This tile is not flammable.", _fireCommand.GetExecutionFailureReason(_tile));
+            _tile.IsFlammable().Returns(false);
+            _tile.IsOccupied.Returns(true);
+            _tile.IsOnFire().Returns(false);
+            Assert.AreEqual("Move not allowed! This tile is not flammable.", _fireCommand.GetExecutionFailureReason(_tile));
 
-			_tile.IsFlammable().Returns(false);
-			_tile.IsOccupied.Returns(false);
-			_tile.IsOnFire().Returns(false);
-			Assert.AreEqual("Move not allowed! This tile is not flammable.", _fireCommand.GetExecutionFailureReason(_tile));
+            _tile.IsFlammable().Returns(false);
+            _tile.IsOccupied.Returns(false);
+            _tile.IsOnFire().Returns(false);
+            Assert.AreEqual("Move not allowed! This tile is not flammable.", _fireCommand.GetExecutionFailureReason(_tile));
 
-			_tile.IsFlammable().Returns(true);
-			_tile.IsOccupied.Returns(false);
-			_tile.IsOnFire().Returns(false);
-			Assert.AreEqual("", _fireCommand.GetExecutionFailureReason(_tile));
-		}
+            _tile.IsFlammable().Returns(true);
+            _tile.IsOccupied.Returns(false);
+            _tile.IsOnFire().Returns(false);
+            Assert.AreEqual("", _fireCommand.GetExecutionFailureReason(_tile));
+        }
 
-		[Test]
-		public void TestGetExecutionFailureReasonIfMoveTypeIsWater() {
-			_waterCommand = new Command(MoveType.Water, 0);
+        [Test]
+        public void TestGetExecutionFailureReasonIfMoveTypeIsWater() {
+            _waterCommand = new Command(MoveType.Water, 0);
 
-			_tile.IsFlammable().Returns(true);
-			_tile.IsHeatZero().Returns(false);
-			Assert.AreEqual("", _waterCommand.GetExecutionFailureReason(_tile));
+            _tile.IsFlammable().Returns(true);
+            _tile.IsHeatZero().Returns(false);
+            Assert.AreEqual("", _waterCommand.GetExecutionFailureReason(_tile));
 
-			_tile.IsFlammable().Returns(false);
-			_tile.IsHeatZero().Returns(false);
-			Assert.AreEqual("Move not allowed! This tile cannot be on fire.", _waterCommand.GetExecutionFailureReason(_tile));
+            _tile.IsFlammable().Returns(false);
+            _tile.IsHeatZero().Returns(false);
+            Assert.AreEqual("Move not allowed! This tile cannot be on fire.", _waterCommand.GetExecutionFailureReason(_tile));
 
-			_tile.IsFlammable().Returns(false);
-			_tile.IsHeatZero().Returns(true);
-			Assert.AreEqual("Move not allowed! This tile cannot be on fire.", _waterCommand.GetExecutionFailureReason(_tile));
+            _tile.IsFlammable().Returns(false);
+            _tile.IsHeatZero().Returns(true);
+            Assert.AreEqual("Move not allowed! This tile cannot be on fire.", _waterCommand.GetExecutionFailureReason(_tile));
 
-			_tile.IsFlammable().Returns(true);
-			_tile.IsHeatZero().Returns(true);
-			Assert.AreEqual("", _waterCommand.GetExecutionFailureReason(_tile));
-		}
+            _tile.IsFlammable().Returns(true);
+            _tile.IsHeatZero().Returns(true);
+            Assert.AreEqual("", _waterCommand.GetExecutionFailureReason(_tile));
+        }
     }
 }
