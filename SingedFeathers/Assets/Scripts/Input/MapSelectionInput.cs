@@ -20,7 +20,7 @@ namespace Assets.Scripts.Input {
                
                 Debug.Log("Maps fetched from server");
 
-                foreach(MapInfo map in maps){
+                foreach (MapInfo map in maps) {
                     GameObject mapButton = Instantiate(MapSelectButton);
                     Button tempButton = mapButton.GetComponent<Button>();
                     tempButton.GetComponentInChildren<Text>().text = "Map Name: "+ map.MapName +"\t Creator: "
