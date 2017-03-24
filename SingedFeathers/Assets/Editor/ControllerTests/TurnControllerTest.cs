@@ -142,7 +142,7 @@ namespace Assets.Editor.ControllerTests {
             _tile1.IsFlammable().Returns(false);
             _tile1.IsHeatZero().Returns(false);
             _tile1.IsOccupied.Returns(false);
-			_tile1.IsBurntOut().Returns(true);
+            _tile1.IsBurntOut().Returns(true);
 
             _tile2 = Substitute.For<ITileController>();
             _tile2.IsFlammable().Returns(true);
