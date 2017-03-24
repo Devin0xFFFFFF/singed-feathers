@@ -54,13 +54,16 @@ namespace Assets.Scripts.Views {
                 DisableAllButtons();
                 SetWaitingPanel(true);
                 ActionNotAllowedText.gameObject.SetActive(false);
+                SideChosenText.gameObject.SetActive(true);
                 return;
             }
             if (ActionNotAllowedWasUpdated > 0) {
                 ActionNotAllowedText.gameObject.SetActive(true);
+                SideChosenText.gameObject.SetActive(false);
                 ActionNotAllowedWasUpdated--;
             } else {
                 ActionNotAllowedText.gameObject.SetActive(false);
+                SideChosenText.gameObject.SetActive(true);
             }
             SetWaitingPanel(false);
             UpdateButtons();
