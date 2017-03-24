@@ -149,7 +149,7 @@ namespace Assets.Scripts.Views {
                     case MoveType.Fire:
                         border = Instantiate(ControlBorderRed, new Vector3(pos.x, pos.y, pos.z), Quaternion.identity);
                         break;
-                    }
+                }
             }
             border.transform.localScale = new Vector3(1.6f, 1.6f, transform.localScale.z);
             _borders.Add(pos, border);
