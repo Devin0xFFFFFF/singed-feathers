@@ -28,7 +28,7 @@ namespace Assets.Scripts.Views {
             UnitySystemConsoleRedirector.Redirect();
             if (TileSet.Count > 0) {
                 LoadTileDictionary();
-                LoadMap();
+                LoadMap(PlayerPrefs.GetString("MapID","Map2"));
             }
         }
 
