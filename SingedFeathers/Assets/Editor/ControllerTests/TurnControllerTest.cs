@@ -154,12 +154,12 @@ namespace Assets.Editor.ControllerTests {
             _tile3.IsFlammable().Returns(true);
             _tile3.IsHeatZero().Returns(false);
             _tile3.IsOccupied.Returns(false);
-			_tile3.IsOnFire().Returns(true);
+            _tile3.IsOnFire().Returns(true);
 
-			_tile4 = Substitute.For<ITileController>();
-			_tile4.IsFlammable().Returns(false);
-			_tile4.IsHeatZero().Returns(true);
-			_tile4.IsOccupied.Returns(false);
+            _tile4 = Substitute.For<ITileController>();
+            _tile4.IsFlammable().Returns(false);
+            _tile4.IsHeatZero().Returns(true);
+            _tile4.IsOccupied.Returns(false);
         }
     }
 }
