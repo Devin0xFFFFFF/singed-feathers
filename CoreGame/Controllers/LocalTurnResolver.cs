@@ -21,31 +21,14 @@ namespace CoreGame.Controllers {
 
         public void Poll(Map map) {}
 
-        public void ResolveTurn(Delta delta, Map map) {
+        public void ResolveTurn(Delta delta, Map map, Player player) {
             _isTurnResolved = false;
             List<Delta> deltaList = new List<Delta>();
             if (delta != null) {
                 deltaList.Add(delta);
             }
 
-            string json = JsonConvert.SerializeObject(deltaList, _settings);
-
-            ApplyDelta(json, map);
-        }
-
-        private void ApplyDelta(string json, Map map) {
-            List<Delta> translatedDeltaList = JsonConvert.DeserializeObject<List<Delta>>(json, _settings);
-            foreach (Delta delta in translatedDeltaList) {
-                Position position = delta.Position;
-                ICommand command = delta.Command;
-                if (MapLocationValidator.PositionIsValid(position)) {
-                    ITileController tileController = map.TileMap[position.X, position.Y];
-                    command.ExecuteCommand(tileController);
-                }
-            }
-            TurnResolveUtility.SpreadFires(map);
-            TurnResolveUtility.MovePigeons(map);
-            _isTurnResolved = true;
+            TurnResolveUtility.ApplyDelta(deltaList, map);
         }
     }
 }

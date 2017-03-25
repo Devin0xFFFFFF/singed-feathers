@@ -94,7 +94,13 @@ namespace CoreGame.Controllers {
             }
         }
             
-        public void EndTurn() { _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMove(), _map); }
+        public void EndTurn() { _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMove(), _map, _player); }
+
+        public void ApplyDelta(IList<Delta> deltaList) {
+            TurnResolveUtility.ApplyDelta(deltaList, _map);
+        }
+
+        public void ApplyTurn(IList<Delta> deltaList) { }
 
         public bool IsTurnResolved() { return _map.TurnResolver.IsTurnResolved(); }
 
@@ -129,6 +135,8 @@ namespace CoreGame.Controllers {
         public void Water() { _map.TurnController.SetMoveType(MoveType.Water); }
 
         public bool ShouldPoll() { return _map.TurnResolver.ShouldPoll(); }
+
+        public bool ValidateDelta(Delta delta) { return CommandValidator.ValidateDelta(delta, _map.TileMap); }
 
         public void Poll() { _map.TurnResolver.Poll(_map); }
 
