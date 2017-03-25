@@ -28,7 +28,7 @@ namespace Assets.Scripts.Views {
             UnitySystemConsoleRedirector.Redirect();
             if (TileSet.Count > 0) {
                 LoadTileDictionary();
-                LoadMap();
+                LoadMap(GetMapSelection());
             }
         }
 
@@ -137,6 +137,8 @@ namespace Assets.Scripts.Views {
             }
             InputView.UpdateSideChosenText(side);
         }
+
+        public string GetMapSelection() { return PlayerPrefs.GetString("MapID", "Map3"); }
 
         public string GetGameOverPlayerStatus() { return _mapController.GetGameOverPlayerStatus(); }
 
