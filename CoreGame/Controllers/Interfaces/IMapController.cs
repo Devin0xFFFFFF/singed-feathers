@@ -6,6 +6,7 @@ namespace CoreGame.Controllers.Interfaces {
         int Width { get; }
         int Height { get; }
         bool GenerateMap(string serializedMap);
+        bool GenerateDefaultMap();
         void SetPlayerSideSelection(PlayerSideSelection playerSideSelection);
         PlayerSideSelection GetPlayerSideSelection();
         string GetGameOverPlayerStatus();

@@ -7,6 +7,8 @@ using CoreGame.Utility;
 namespace CoreGame.Controllers {
     public class MapController : IMapController {
         public const int HEAT = 100;
+        public const int DEFAULT_WIDTH = 8;
+        public const int DEFAULT_HEIGHT = 8;
         public const string WIN = "You won!";
         public const string LOSE = "You lost!";
         public const string NO_PIGEONS_SURVIVED = "No pigeons survived!";
@@ -25,6 +27,18 @@ namespace CoreGame.Controllers {
         public bool GenerateMap(string serializedMap) {
             _map = _mapGenerator.GenerateMap(serializedMap);
             if (_map == null) {
+                return false;
+            }
+            MapLocationValidator.InitializeValues(_map);
+            LinkNeighbouringTiles();
+            InitializeFires();
+
+            return true;
+        }
+
+        public bool GenerateDefaultMap() {
+            _map = _mapGenerator.GenerateDefaultMap(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+            if(_map == null) {
                 return false;
             }
             MapLocationValidator.InitializeValues(_map);

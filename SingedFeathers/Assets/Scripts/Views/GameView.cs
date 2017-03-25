@@ -12,7 +12,7 @@ namespace Assets.Scripts.Views {
     public class GameView : MonoBehaviour {
         public List<TileView> TileSet;
         public PigeonView Pigeon;
-        public InputView InputView;
+        public GameInputView InputView;
         public WebTurnResolver TurnResolver;
         private List<PigeonView> _pigeons;
         private Dictionary<TileType, TileView> _tileDictionary;
@@ -54,7 +54,7 @@ namespace Assets.Scripts.Views {
             }
         }
             
-        public void LoadMap(string mapID = "Map3") {
+        public void LoadMap(string mapID = "Pigeon") {
             _mapIO = new MapIO();
             StartCoroutine(_mapIO.GetMapData(mapID, delegate (string serializedMapData) {
                 if (serializedMapData == null) {
