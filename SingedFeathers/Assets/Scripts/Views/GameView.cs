@@ -5,6 +5,7 @@ using Assets.Scripts.Utility;
 using CoreGame.Controllers;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
+using UnityEngine.UI;
 using Newtonsoft.Json.Utilities;
 using Assets.Scripts.Controllers;
 
@@ -14,6 +15,7 @@ namespace Assets.Scripts.Views {
         public PigeonView Pigeon;
         public InputView InputView;
         public WebTurnResolver TurnResolver;
+        public Text PigeonCountText;
         private List<PigeonView> _pigeons;
         private Dictionary<TileType, TileView> _tileDictionary;
         private IMapController _mapController;
@@ -37,12 +39,13 @@ namespace Assets.Scripts.Views {
                 if (_mapController.ShouldPoll()) {
                     _mapController.Poll();
                 }
-                
+
                 if (_pigeonsRequireUpdate && _mapController.IsTurnResolved()) {
                     foreach (PigeonView pigeon in _pigeons) {
                         pigeon.UpdatePigeon();
                     }
                     _pigeonsRequireUpdate = false;
+                    UpdatePigeonCount();
                 }
             }
         }
@@ -82,6 +85,7 @@ namespace Assets.Scripts.Views {
 
                 LoadPigeons();
                 LoadInputView();
+                UpdatePigeonCount();
             }));
         }
 
@@ -162,5 +166,7 @@ namespace Assets.Scripts.Views {
             Destroy(_map[x, y].gameObject);
             InstantiateTile(type, x, y);
         }
+
+        private void UpdatePigeonCount() { PigeonCountText.text = "Pigeons: " + _mapController.GetLivePigeonCount() + "/" + _pigeons.Count; }
     }
 }
