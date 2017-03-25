@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 222738807634643160}
   - component: {fileID: 114379030740024942}
   - component: {fileID: 114212538843322534}
+  - component: {fileID: 114272802682511594}
   m_Layer: 5
   m_Name: TileButton
   m_TagString: Untagged
@@ -70,6 +71,24 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114272802682511594
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1070621160795338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: 75
+  m_FlexibleWidth: 1
+  m_FlexibleHeight: -1
 --- !u!114 &114379030740024942
 MonoBehaviour:
   m_ObjectHideFlags: 1
