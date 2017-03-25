@@ -167,8 +167,6 @@ namespace Assets.Scripts.Views {
             InstantiateTile(type, x, y);
         }
 
-        private void UpdatePigeonCount(){
-            PigeonCountText.text = "Pigeons: " + _mapController.GetLivePigeonCount() + "/" + _pigeons.Count;
-        }
+        private void UpdatePigeonCount() { PigeonCountText.text = "Pigeons: " + _mapController.GetLivePigeonCount() + "/" + _pigeons.Count; }
     }
 }
