@@ -300,6 +300,22 @@ namespace Assets.Editor.ControllerTests {
             Assert.IsTrue(_emptyMapController.AreAllPigeonsDead());
         }
 
+        [Test]
+        public void TestGetLivePigeonCount() {
+            _pigeon0.IsDead().Returns(false);
+            _pigeon1.IsDead().Returns(false);
+            Assert.AreEqual(2, _mapController.GetLivePigeonCount());
+
+            _pigeon0.IsDead().Returns(true);
+            Assert.AreEqual(1, _mapController.GetLivePigeonCount());
+
+            _pigeon1.IsDead().Returns(true);
+            Assert.AreEqual(0, _mapController.GetLivePigeonCount());
+
+            // Test empty map with no pigeons
+            Assert.AreEqual(0, _emptyMapController.GetLivePigeonCount());
+        }
+
         private Map GenerateTestMap() {
             return new Map() {
                 Height = 3,
