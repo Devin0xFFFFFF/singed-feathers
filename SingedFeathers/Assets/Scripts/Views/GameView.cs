@@ -160,6 +160,7 @@ namespace Assets.Scripts.Views {
             TileView manager = _tileDictionary[type];
             _map[x, y] = Instantiate(manager, new Vector3(_tileSizeX * x - 1f, _tileSizeY * y - 2.5f, 1) * 1.6f, Quaternion.identity);
             _map[x, y].SetController(_mapController.GetTileController(x, y));
+            _map[x, y].Position = new Position(x, y);
         }
 
         private void UpdateTileType(TileType type, int x, int y) {

@@ -11,6 +11,7 @@ namespace Assets.Scripts.Views {
         public Sprite SpriteHeatLevel2;
         public Sprite SpriteHeatLevel3;
         public Sprite BurntOutSprite;
+        public Position Position;
         private Sprite[] _heatLevelSprites;
         private ITileController _tileController;
         private SpriteRenderer _spriteRenderer;

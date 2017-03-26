@@ -37,6 +37,8 @@ namespace CoreGame.Service {
             }
             newMap.RawMap = rawMap;
             newMap.InitialFirePositions = new List<Position>();
+            newMap.InitialPigeonPositions = new List<Position>();
+            newMap.Pigeons = new List<IPigeonController>();
             InitializeTileMapFromRaw(newMap);
             return newMap;
         }

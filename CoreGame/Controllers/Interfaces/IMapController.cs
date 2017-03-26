@@ -14,8 +14,11 @@ namespace CoreGame.Controllers.Interfaces {
         bool AreAllPigeonsDead();
         int GetLivePigeonCount();
         void ApplyHeat(int x, int y);
+        void ReduceHeat(int x, int y);
         TileType GetTileType(int x, int y);
         ITileController GetTileController(int x, int y);
+        void UpdateTileController(TileType type, int x, int y);
+        PigeonController AddPigeonToMap(Position position);
         IList<IPigeonController> GetPigeonControllers();
         ITurnResolver GetTurnResolver();
         ITurnController GetTurnController();

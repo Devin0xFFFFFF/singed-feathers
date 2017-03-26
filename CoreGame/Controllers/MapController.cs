@@ -42,8 +42,6 @@ namespace CoreGame.Controllers {
                 return false;
             }
             MapLocationValidator.InitializeValues(_map);
-            LinkNeighbouringTiles();
-            InitializeFires();
 
             return true;
         }
@@ -108,6 +106,12 @@ namespace CoreGame.Controllers {
                 _map.TileMap[x, y].ApplyHeat(HEAT);
             }
         }
+
+        public void ReduceHeat(int x, int y) {
+            if (MapLocationValidator.CoordinatesAreValid(x, y)) {
+                _map.TileMap[x, y].ReduceHeat(HEAT);
+            }
+        }
             
         public void EndTurn() { _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMove(), _map); }
 
@@ -125,6 +129,21 @@ namespace CoreGame.Controllers {
                 return _map.TileMap[x, y];
             }
             return null;
+        }
+
+        public void UpdateTileController(TileType type, int x, int y) {
+            if (MapLocationValidator.CoordinatesAreValid(x, y)) {
+                _map.TileMap[x, y] = new TileController(type, x, y);
+                _map.RawMap[x, y] = type;
+            }
+        }
+
+        public PigeonController AddPigeonToMap(Position position) {
+            ITileController tile = _map.TileMap [position.X, position.Y];
+            PigeonController pigeonController = new PigeonController(tile);
+            _map.Pigeons.Add(pigeonController);
+            tile.MarkOccupied();
+            return pigeonController;
         }
         
         public IList<IPigeonController> GetPigeonControllers() { return _map.Pigeons; }
