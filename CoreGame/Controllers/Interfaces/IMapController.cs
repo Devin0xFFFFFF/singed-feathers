@@ -12,6 +12,7 @@ namespace CoreGame.Controllers.Interfaces {
         string GetGameOverPlayerStatus();
         bool IsMapBurntOut();
         bool AreAllPigeonsDead();
+        int GetLivePigeonCount();
         void ApplyHeat(int x, int y);
         TileType GetTileType(int x, int y);
         ITileController GetTileController(int x, int y);

@@ -91,15 +91,16 @@ namespace CoreGame.Controllers {
             return isBurntOut;
         }
 
-        public bool AreAllPigeonsDead() {
-            bool areAllPigeonsDead = true;
+        public bool AreAllPigeonsDead() { return GetLivePigeonCount() == 0; }
+
+        public int GetLivePigeonCount() {
+            int livePigeons = 0;
             foreach (IPigeonController pigeon in _map.Pigeons) {
                 if (!pigeon.IsDead()) {
-                    areAllPigeonsDead = false;
-                    break;
+                    livePigeons++;
                 }
             }
-            return areAllPigeonsDead;
+            return livePigeons;
         }
 
         public void ApplyHeat(int x, int y) {
