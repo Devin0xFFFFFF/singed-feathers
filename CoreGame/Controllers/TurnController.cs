@@ -39,6 +39,8 @@ namespace CoreGame.Controllers {
             return false;
         }
 
+        public string GetExecutionFailureReason(ITileController tileController) { return _command.GetExecutionFailureReason(tileController); }
+
         public void UndoAction() { _delta = null; }
         
         public Delta GetAndResetMove() {

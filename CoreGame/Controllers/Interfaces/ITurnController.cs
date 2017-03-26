@@ -10,5 +10,6 @@ namespace CoreGame.Controllers.Interfaces {
         bool HasTurnsLeft();
         Delta GetAndResetMove();
         MoveType GetMoveType();
+        string GetExecutionFailureReason(ITileController tileController);
     }
 }
