@@ -11,6 +11,8 @@ namespace Assets.Scripts.Views {
         public Button AddPigeonButton;
         public Button TileButtonBase;
         public GameObject TileButtonContainer;
+        public Slider NumberOfTurnsSlider;
+        public Text NumberOfTurnsText;
         private List<TileView> _tileSet;
         private MapMakerView _mapMakerView;
         private Button _selectedButton;
@@ -23,16 +25,17 @@ namespace Assets.Scripts.Views {
             _mapMakerView = GetComponent<MapMakerView>();
             _tileSet = _mapMakerView.TileSet;
             InitializeTileButtons();
+            UpdateNumberOfTurns();
         }
 
         public override void HandleMapInput(TileView tileManager) { 
-            if(_selectedTileType != TileType.Error) {
+            if (_selectedTileType != TileType.Error) {
                 _mapMakerView.UpdateTileType(_selectedTileType, tileManager);
             }
-            else if(_setFire) {
+            else if (_setFire) {
                 _mapMakerView.SetFire(tileManager);
             }
-            else if(_setPigeon) {
+            else if (_setPigeon) {
                 _mapMakerView.SetPigeon(tileManager);
             }
             else if (_removePlacedObject) {
@@ -61,6 +64,8 @@ namespace Assets.Scripts.Views {
         public void SetPigeon() { _setPigeon = true; }
 
         public void SetRemove() { _removePlacedObject = true; }
+
+        public void UpdateNumberOfTurns() { NumberOfTurnsText.text = NumberOfTurnsSlider.value.ToString(); }
 
         private void InitializeTileButtons() {
             foreach(TileView tile in _tileSet) {

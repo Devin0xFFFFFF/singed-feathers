@@ -90,6 +90,11 @@ namespace Assets.Scripts.Views {
             UpdateTileType(TileType.Grass, tile);
         }
 
+        public void SaveMap() {
+            Debug.Log("Saving map...");
+            // TODO: add FirePositions, PigeonPositions, NumTurns, MapMatrix to the _map object...
+        }
+
         private void InstantiateTiles() {
             for (int x = 0; x < _width; x++) {
                 for (int y = 0; y < _height; y++) {
