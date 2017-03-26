@@ -77,6 +77,10 @@ namespace Assets.Scripts.Views {
         }
 
         public void SetPigeon(TileView tile) {
+            if(tile.GetTileController().IsOccupied) {
+                return;
+            }
+
             Position pigeonPosition = tile.Position;
             PigeonView pigeon = Instantiate(Pigeon, new Vector3(_tileSizeX * pigeonPosition.X  - 1f, _tileSizeY * pigeonPosition.Y - 2.5f, 1) * 1.6f, Quaternion.identity);
             pigeon.SetDimensions(_tileSizeX, _tileSizeY);
@@ -128,6 +132,7 @@ namespace Assets.Scripts.Views {
             foreach (PigeonView pigeon in _pigeons) {
                 if (pigeon.GetPosition().X == tilePos.X && pigeon.GetPosition().Y == tilePos.Y) {
                     pigeonToDelete = pigeon;
+                    break;
                 }
             }
             if(pigeonToDelete != null) {
