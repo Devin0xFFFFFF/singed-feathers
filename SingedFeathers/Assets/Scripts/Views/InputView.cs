@@ -24,18 +24,21 @@ namespace Assets.Scripts.Views {
         public Text OptionsText;
         public Text GameOverText;
         public Text GameOverStatusText;
+        public Text ActionNotAllowedText;
         public GameObject WaitingPanel;
         private Button[] _actionButtons;
         private ITurnController _turnController;
         private ITurnResolver _turnResolver;
         private Dictionary<Vector3, GameObject> _borders;
         private GameView _gameView;
+        private int ActionNotAllowedWasUpdated;
 
         // Use this for initialization
         public void Start() {
             _actionButtons = new Button[] { FireButton, WaterButton };
             _borders = new Dictionary<Vector3, GameObject>();
             _gameView = GetComponent<GameView>();
+            ActionNotAllowedWasUpdated = 0;
         }
 
         public void ClearSelected() { 
@@ -50,7 +53,17 @@ namespace Assets.Scripts.Views {
             if (_turnController == null || !_turnResolver.IsTurnResolved()) {
                 DisableAllButtons();
                 SetWaitingPanel(true);
+                ActionNotAllowedText.gameObject.SetActive(false);
+                SideChosenText.gameObject.SetActive(true);
                 return;
+            }
+            if (ActionNotAllowedWasUpdated > 0) {
+                ActionNotAllowedText.gameObject.SetActive(true);
+                SideChosenText.gameObject.SetActive(false);
+                ActionNotAllowedWasUpdated--;
+            } else {
+                ActionNotAllowedText.gameObject.SetActive(false);
+                SideChosenText.gameObject.SetActive(true);
             }
             SetWaitingPanel(false);
             UpdateButtons();
@@ -104,7 +117,7 @@ namespace Assets.Scripts.Views {
                 GameOverStatusText.text = _gameView.GetGameOverPlayerStatus();
             }
         }
-        
+
         public void UpdateSideChosenText(string side) { SideChosenText.text = string.Format(SIDE_CHOSEN_STRING, side); }
 
         public void UpdateTurnCountText() { TurnCountText.text = TURN_COUNT_STRING + _turnController.GetTurnsLeft(); }
@@ -112,11 +125,15 @@ namespace Assets.Scripts.Views {
         public void HandleMapInput(TileView tileManager) { 
             Vector3 position = tileManager.gameObject.transform.position;
 
-            if (GameHUD.gameObject.activeInHierarchy && 
-                _turnController.ProcessAction(tileManager.GetTileController()) &&
-                _turnResolver.IsTurnResolved()) {
-                ClearSelected();
-                CreateBorder(position);
+            if (GameHUD.gameObject.activeInHierarchy && _turnResolver.IsTurnResolved()) {
+                if (_turnController.ProcessAction(tileManager.GetTileController())) {
+                    ClearSelected();
+                    CreateBorder(position);
+                    ActionNotAllowedWasUpdated = 0;
+                } else {
+                    ActionNotAllowedText.text = _turnController.GetExecutionFailureReason(tileManager.GetTileController());
+                    ActionNotAllowedWasUpdated = 100;
+                }
             }
         }
 
