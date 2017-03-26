@@ -26,6 +26,10 @@ namespace CoreGame.Service {
         }
 
         public Map GenerateDefaultMap(int width, int height) {
+            if (width <= 0 || height <= 0) {
+                return null;
+            }
+
             Map newMap = new Map ();
             newMap.Height = width;
             newMap.Width = height;

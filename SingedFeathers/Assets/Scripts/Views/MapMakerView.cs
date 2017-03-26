@@ -96,7 +96,6 @@ namespace Assets.Scripts.Views {
 
         public void SaveMap() {
             Debug.Log("Saving map...");
-            // TODO: add FirePositions, PigeonPositions, NumTurns, MapMatrix to the _map object...
         }
 
         private void InstantiateTiles() {

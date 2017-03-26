@@ -21,5 +21,23 @@ namespace Assets.Editor.ServiceTests {
             Map map = _mapGeneratorService.GenerateMap("{");
             Assert.Null(map);
         }
+
+        [Test]
+        public void TestIfDefaultMapIsNotNull() {
+            Map map = _mapGeneratorService.GenerateDefaultMap(0, 0);
+            Assert.Null(map);
+
+            map = _mapGeneratorService.GenerateDefaultMap(0, 10);
+            Assert.Null(map);
+
+            map = _mapGeneratorService.GenerateDefaultMap(10, 0);
+            Assert.Null(map);
+
+            map = _mapGeneratorService.GenerateDefaultMap(10, 10);
+            Assert.NotNull(map);
+            Assert.NotNull(map.InitialFirePositions);
+            Assert.NotNull(map.InitialPigeonPositions);
+            Assert.NotNull(map.Pigeons);
+        }
     }
 }
