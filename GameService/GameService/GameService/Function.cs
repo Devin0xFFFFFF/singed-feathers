@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 using Amazon.DynamoDBv2.DocumentModel;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
+using CoreGame.Controllers.Interfaces;
+using CoreGame.Utility;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializerAttribute(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
@@ -25,54 +28,80 @@ namespace GameService
         private const string JSON_SUFFIX = ".json";
 
         private const string MAP_ID = "MapID";
+        private const string GAME_ID = "GameID";
         private const string COMMITTED_TURNS = "CommittedTurns";
+        private const string STAGED_TURNS = "StagedTurns";
         private const string PLAYERS = "Players";
+
+        private Player _player;
+        private IList<Player> _players;
+        private IEnumerable<Player> _otherPlayers;
+
+        private static JsonSerializerSettings _settings;
 
         public bool CommitTurn(CommitTurnRequest commitTurnRequest)
         {
-            Document row = GetDynamoTable(commitTurnRequest.GameId);
-            Dictionary<string, AttributeValue> dynamoTable = row.ToAttributeMap();
+            _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+            Dictionary<string, AttributeValue> dynamoTable = GetDynamoTable(commitTurnRequest.GameId);
 
-            AttributeValue playerList;
-            dynamoTable.TryGetValue(PLAYERS, out playerList);
-            IList<Player> players = Player.Deserialize(playerList.S);
-            Player player = players.Where(p => p.PlayerID == commitTurnRequest.PlayerId).Single();
-            IEnumerable<Player> otherPlayers = players.Where(p => p.PlayerID != commitTurnRequest.PlayerId);
-            if (player.IsReady) {
+            SetPlayers(dynamoTable, commitTurnRequest.PlayerId);
+
+            if (_player.PlayerState == PlayerState.NotSubmitted) {
                 //don't do anything if the player can't submit a turn
 
-                AttributeValue mapId;
-                dynamoTable.TryGetValue(MAP_ID, out mapId);
-                string serializedMap = GetMap(mapId.S + JSON_SUFFIX);
-                MapController mapController = new MapController();
-                bool success = mapController.GenerateMap(serializedMap);
-
-                AttributeValue turnList;
-                dynamoTable.TryGetValue(COMMITTED_TURNS, out turnList);
-                List<AttributeValue> deltaLists = turnList.L;
-                foreach (AttributeValue deltaList in deltaLists) {
-                    string serializedDeltaList = deltaList.S;
-                    IList<Delta> deltas = Delta.Deserialize(serializedDeltaList);
-                    mapController.ApplyDelta(deltas);
-                }
+                IMapController mapController = ReplayGameFromTable(dynamoTable);
 
                 Delta committedDelta = commitTurnRequest.Delta;
                 if (!mapController.ValidateDelta(committedDelta)) {
                     return false;
                 }
+                _player.Delta = committedDelta;
+                _player.PlayerState = PlayerState.Submitted;
+                int playerIndex = _players.IndexOf(_player);
 
-                int numPlayersWaitingOn = otherPlayers.Where(p => p.IsReady == false).Count();
-                if (numPlayersWaitingOn > 0) {
-
+                dynamoTable = UpdateDynamoPlayers(_player, playerIndex, commitTurnRequest.GameId);
+                if (dynamoTable != null) {
+                    SetPlayers(dynamoTable, commitTurnRequest.PlayerId);
+                    int numPlayersWaitingOn = _otherPlayers.Where(p => p.PlayerState == PlayerState.NotSubmitted).Count();
+                    if (numPlayersWaitingOn == 0) {
+                        List<Delta> currentTurn = new List<Delta>();
+                        foreach (Player p in _players) {
+                            if (p.Delta != null) {
+                                currentTurn.Add(p.Delta);
+                            }
+                        }
+                        string commitedTurn = JsonConvert.SerializeObject(currentTurn, _settings);
+                        foreach (Player p in _players) {
+                            p.Delta = null;
+                            p.PlayerState = PlayerState.Polling;
+                        }
+                        currentTurn = TurnMergeUtility.SortDeltas(currentTurn);
+                        UpdateStagedTurn(currentTurn, commitTurnRequest.GameId);
+                    }
                 } else {
-                    players.for
+                    return false;
                 }
-
                 return true;
             } else {
                 return false;
             }
+        }
 
+        public PollResponse Poll(PollRequest request) {
+            _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+            Dictionary<string, AttributeValue> dynamoTable = GetDynamoTable(request.GameId);
+
+            SetPlayers(dynamoTable, request.PlayerId);
+            bool canPoll = _player.PlayerState == PlayerState.Polling;
+
+            List<Delta> deltaList = new List<Delta>();
+            if (canPoll) {
+                _player.PlayerState = PlayerState.NotSubmitted;
+                int playerIndex = _players.IndexOf(_player);
+                deltaList = GetStagedTurn(dynamoTable);
+                UpdateDynamoPlayers(_player, playerIndex, request.GameId);
+            }
+            return new PollResponse(canPoll, deltaList);
         }
 
         private string GetMap(string mapId) {
@@ -89,13 +118,106 @@ namespace GameService
             return responseBody;
         }
 
-        private Document GetDynamoTable(string gameId) {
+        private IMapController ReplayGameFromTable(Dictionary<string, AttributeValue> dynamoTable) {
+            AttributeValue mapId;
+            dynamoTable.TryGetValue(MAP_ID, out mapId);
+            string serializedMap = GetMap(mapId.S + JSON_SUFFIX);
+            MapController mapController = new MapController();
+            bool success = mapController.GenerateMap(serializedMap);
+
+            AttributeValue turnList;
+            dynamoTable.TryGetValue(COMMITTED_TURNS, out turnList);
+            List<AttributeValue> deltaLists = turnList.L;
+            foreach (AttributeValue deltaList in deltaLists) {
+                string serializedDeltaList = deltaList.S;
+                IList<Delta> deltas = JsonConvert.DeserializeObject<List<Delta>>(serializedDeltaList, _settings);
+                mapController.ApplyDelta(deltas);
+            }
+            return mapController;
+        }
+
+        private void SetPlayers(Dictionary<string, AttributeValue> dynamoTable, string playerId) {
+            AttributeValue playerList;
+            dynamoTable.TryGetValue(PLAYERS, out playerList);
+            _players = new List<Player>();
+            foreach (AttributeValue p in playerList.L) {
+                _players.Add(JsonConvert.DeserializeObject<Player>(p.S, _settings));
+            }
+            _player = _players.Where(p => p.PlayerID.CompareTo(playerId) == 0).Single();
+            _otherPlayers = _players.Where(p => p.PlayerID != playerId);
+        }
+
+        private Dictionary<string, AttributeValue> GetDynamoTable(string gameId) {
             using (IAmazonDynamoDB client = new AmazonDynamoDBClient(Amazon.RegionEndpoint.USWest2)) {
                 Table table = Table.LoadTable(client, TABLE_NAME);
                 Task<Document> task = table.GetItemAsync(gameId);
                 task.Wait();
-                return task.Result;
+                return task.Result.ToAttributeMap();
             }
+        }
+
+        private Dictionary<string, AttributeValue> UpdateDynamoPlayers(Player player, int index, string gameId) {
+            using (IAmazonDynamoDB client = new AmazonDynamoDBClient(Amazon.RegionEndpoint.USWest2)) {
+                UpdateItemRequest update = new UpdateItemRequest {
+                    TableName = TABLE_NAME,
+                    Key = new Dictionary<string, AttributeValue>() { { GAME_ID, new AttributeValue { S = gameId } } },
+                    ExpressionAttributeNames = new Dictionary<string, string>() {
+                            {"#p", PLAYERS}
+                        },
+                    ExpressionAttributeValues = new Dictionary<string, AttributeValue>() {
+                            {":v", new AttributeValue {S = JsonConvert.SerializeObject(player, _settings) } }
+                        },
+                    UpdateExpression = "SET #p[" + index + "] = :v",
+                    ReturnValues = "ALL_NEW"
+                };
+                Task<UpdateItemResponse> task = client.UpdateItemAsync(update);
+                task.Wait();
+                UpdateItemResponse response = task.Result;
+                if (response.HttpStatusCode == System.Net.HttpStatusCode.OK) {
+                    return response.Attributes;
+                } else {
+                    return null;
+                }
+            }
+        }
+
+        private bool UpdateStagedTurn(List<Delta> deltas, string gameId) {
+            using (IAmazonDynamoDB client = new AmazonDynamoDBClient(Amazon.RegionEndpoint.USWest2)) {
+                AttributeValue deltaList = new AttributeValue { S = JsonConvert.SerializeObject(deltas) };
+                Dictionary<string, AttributeValue> values = new Dictionary<string, AttributeValue>() {
+                    {":d", deltaList },
+                    {":c", new AttributeValue {L = new List<AttributeValue> { deltaList } } }
+                };
+                string updateExpression = "SET";
+                for (int index = 0; index < _players.Count; index++) {
+                    values.Add(":v" + index, new AttributeValue { S = JsonConvert.SerializeObject(_players[index], _settings) });
+                    updateExpression += " #p[" + index + "] = :v" + index + ",";
+                }
+                updateExpression += " #s = :d, #c = list_append(#c, :c)";
+
+                UpdateItemRequest update = new UpdateItemRequest {
+                    TableName = TABLE_NAME,
+                    Key = new Dictionary<string, AttributeValue>() { { GAME_ID, new AttributeValue { S = gameId } } },
+                    ExpressionAttributeNames = new Dictionary<string, string>() {
+                            {"#p", PLAYERS},
+                            {"#s", STAGED_TURNS},
+                            {"#c", COMMITTED_TURNS}
+                        },
+                    ExpressionAttributeValues = values,
+                    UpdateExpression = updateExpression
+                };
+                Task<UpdateItemResponse> task = client.UpdateItemAsync(update);
+                task.Wait();
+                UpdateItemResponse response = task.Result;
+                return response.HttpStatusCode == System.Net.HttpStatusCode.OK;
+            }
+        }
+
+        private List<Delta> GetStagedTurn(Dictionary<string, AttributeValue> dynamoTable) {
+            AttributeValue stagedTurns;
+            dynamoTable.TryGetValue(STAGED_TURNS, out stagedTurns);
+
+            return JsonConvert.DeserializeObject<List<Delta>>(stagedTurns.S, _settings);
         }
     }
 }

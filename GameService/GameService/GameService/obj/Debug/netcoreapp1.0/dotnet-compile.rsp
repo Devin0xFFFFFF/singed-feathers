@@ -114,6 +114,6 @@
 --reference:C:\Users\Garrett\.nuget\packages\System.Threading.Timer\4.0.1\ref\netstandard1.2\System.Threading.Timer.dll
 --reference:C:\Users\Garrett\.nuget\packages\System.Xml.ReaderWriter\4.0.11\ref\netstandard1.3\System.Xml.ReaderWriter.dll
 --reference:C:\Users\Garrett\.nuget\packages\System.Xml.XDocument\4.0.11\ref\netstandard1.3\System.Xml.XDocument.dll
---reference:C:\Users\Garrett\.nuget\packages\WhyNot.SingedFeathers.CoreGame\1.0.0.4\lib\net35\CoreGame.dll
+--reference:C:\Users\Garrett\.nuget\packages\WhyNot.SingedFeathers.CoreGame\1.0.0.15\lib\net35\CoreGame.dll
 D:\University\Soft Eng 2\comp4350-project\GameService\GameService\GameService\Function.cs
 D:\University\Soft Eng 2\comp4350-project\GameService\GameService\GameService\Properties\AssemblyInfo.cs

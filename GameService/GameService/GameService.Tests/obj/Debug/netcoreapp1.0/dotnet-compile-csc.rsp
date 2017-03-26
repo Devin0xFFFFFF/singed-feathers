@@ -121,7 +121,7 @@
 -r:"C:\Users\Garrett\.nuget\packages\System.Threading.Timer\4.0.1\ref\netstandard1.2\System.Threading.Timer.dll"
 -r:"C:\Users\Garrett\.nuget\packages\System.Xml.ReaderWriter\4.0.11\ref\netstandard1.3\System.Xml.ReaderWriter.dll"
 -r:"C:\Users\Garrett\.nuget\packages\System.Xml.XDocument\4.0.11\ref\netstandard1.3\System.Xml.XDocument.dll"
--r:"C:\Users\Garrett\.nuget\packages\WhyNot.SingedFeathers.CoreGame\1.0.0.4\lib\net35\CoreGame.dll"
+-r:"C:\Users\Garrett\.nuget\packages\WhyNot.SingedFeathers.CoreGame\1.0.0.15\lib\net35\CoreGame.dll"
 -r:"C:\Users\Garrett\.nuget\packages\xunit.abstractions\2.0.1-rc2\lib\netstandard1.0\xunit.abstractions.dll"
 -r:"C:\Users\Garrett\.nuget\packages\xunit.assert\2.1.0\lib\dotnet\xunit.assert.dll"
 -r:"C:\Users\Garrett\.nuget\packages\xunit.extensibility.core\2.1.0\lib\dotnet\xunit.core.dll"

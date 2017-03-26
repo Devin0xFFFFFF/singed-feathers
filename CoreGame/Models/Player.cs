@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
 namespace CoreGame.Models {
     [Serializable]
@@ -9,18 +7,16 @@ namespace CoreGame.Models {
         public string PlayerName;
         public PlayerSideSelection PlayerSideSelection { get; set; }
         public PlayerState PlayerState;
-        private static JsonSerializerSettings _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+        public Delta Delta;
 
-        public Player(string playerName = "AnonPlayer", PlayerSideSelection playerSideSelection = PlayerSideSelection.SavePigeons, PlayerState playerState = PlayerState.LobbyUnready) {
-            PlayerID = GeneratePlayerID();
+        public Player(string playerId, string playerName = "AnonPlayer", PlayerSideSelection playerSideSelection = PlayerSideSelection.SavePigeons, PlayerState playerState = PlayerState.LobbyUnready, Delta delta = null) {
+            PlayerID = playerId;
             PlayerName = playerName;
             PlayerSideSelection = playerSideSelection;
             PlayerState = playerState;
+            Delta = delta;
         }
 
-        public static IList<Player> Deserialize(string serializedPlayers) {
-            return JsonConvert.DeserializeObject<List<Player>>(serializedPlayers, _settings);
-        }
 
         private static string GeneratePlayerID() { return "Player" + Guid.NewGuid().ToString(); }
     }

@@ -2562,7 +2562,7 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "WhyNot.SingedFeathers.CoreGame/1.0.0.8": {
+      "WhyNot.SingedFeathers.CoreGame/1.0.0.15": {
         "type": "package",
         "compile": {
           "lib/net35/CoreGame.dll": {}
@@ -2707,7 +2707,7 @@
           "Amazon.Lambda.Serialization.Json": "1.0.1",
           "Microsoft.NETCore.App": "1.1.1",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1-rc2-24027",
-          "WhyNot.SingedFeathers.CoreGame": "1.0.0.8"
+          "WhyNot.SingedFeathers.CoreGame": "1.0.0.15"
         },
         "compile": {
           "netcoreapp1.0/GameService.dll": {}
@@ -7903,12 +7903,12 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "WhyNot.SingedFeathers.CoreGame/1.0.0.8": {
-      "sha512": "OkGXaVWyFZaOzt1v3r2GHzKOPAuppWLektOjNMYpRR4VDITmBuoE1fS9g8bR8IZtvCLjTtakHD7B6+KfFzxqcw==",
+    "WhyNot.SingedFeathers.CoreGame/1.0.0.15": {
+      "sha512": "LUDaEKDDMmufng2mTFYH0YF7r31nUayDKQeIcrSGvjKVU2HRW7eiH+DXI6yDcYJsgCwd5qOmX6wq8fFVK/zGnQ==",
       "type": "package",
-      "path": "WhyNot.SingedFeathers.CoreGame/1.0.0.8",
+      "path": "WhyNot.SingedFeathers.CoreGame/1.0.0.15",
       "files": [
-        "WhyNot.SingedFeathers.CoreGame.1.0.0.8.nupkg.sha512",
+        "WhyNot.SingedFeathers.CoreGame.1.0.0.15.nupkg.sha512",
         "WhyNot.SingedFeathers.CoreGame.nuspec",
         "content/Singed.ico",
         "lib/net35/CoreGame.dll"

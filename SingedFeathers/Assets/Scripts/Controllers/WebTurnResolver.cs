@@ -36,8 +36,9 @@ namespace Assets.Scripts.Controllers {
             SendCommitTurnRequest(commitTurnRequest);
         }
 
-        public void Poll(Map map) {
+        public void Poll(Map map, Player player) {
             _receivedResponse = true;
+            PollRequest request = new PollRequest("Test", player.PlayerID);
             StartCoroutine(ExecuteAfterTime(0.1f, map));
         }
 
@@ -51,7 +52,7 @@ namespace Assets.Scripts.Controllers {
                 deltaList.Add(translatedDelta);
             }
             bool success = Random.Range(0, 2) == 0;
-            ServerResponse response = new ServerResponse(success, deltaList);
+            PollResponse response = new PollResponse(success, deltaList);
             _receivedResponse = response.IsValid;
             if (response.IsValid) {
                 TurnResolveUtility.ApplyDelta(response.Turn, map);
@@ -60,9 +61,37 @@ namespace Assets.Scripts.Controllers {
         }
 
         private void SendCommitTurnRequest(CommitTurnRequest request) {
-            JsonDelta = JsonConvert.SerializeObject(request.Delta, _settings);
-            string requestJson = JsonConvert.SerializeObject(request);
-            File.WriteAllText("Commit.json", requestJson);
+            _receivedResponse = false;
+            StartCoroutine(_mapIO.GetMapData(mapID, delegate (string serializedMapData) {
+                if (serializedMapData == null) {
+                    Debug.LogError("Failed to retrieve map.");
+                    return;
+                }
+                _mapController = new MapController();
+                if (!_mapController.GenerateMap(serializedMapData)) {
+                    Debug.LogError("Failed to generate map.");
+                    return;
+                }
+                _mapController.SetTurnResolver(TurnResolver);
+
+                _width = _mapController.Width;
+                _height = _mapController.Height;
+                _map = new TileView[_width, _height];
+
+                _tileSizeX = TileSet[0].GetComponent<Renderer>().bounds.size.x;
+                _tileSizeY = TileSet[0].GetComponent<Renderer>().bounds.size.y;
+
+                InstantiateTiles();
+                SetPlayerSideSelection();
+                SetPlayerSideSelectionText();
+                Debug.Log(_mapController.GetPlayerSideSelection());
+
+                LoadPigeons();
+                LoadInputView();
+            }));
+        }
+
+        private void SendPollRequest(PollRequest request) {
             _receivedResponse = false;
         }
     }

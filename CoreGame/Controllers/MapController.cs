@@ -19,7 +19,7 @@ namespace CoreGame.Controllers {
 
         public MapController(IMapGeneratorService mapGenerator = null) { 
             _mapGenerator = mapGenerator ?? new MapGeneratorService();
-            _player = new Player();
+            _player = new Player("Player1");
         }
 
         public bool GenerateMap(string serializedMap) {
@@ -138,7 +138,7 @@ namespace CoreGame.Controllers {
 
         public bool ValidateDelta(Delta delta) { return CommandValidator.ValidateDelta(delta, _map.TileMap); }
 
-        public void Poll() { _map.TurnResolver.Poll(_map); }
+        public void Poll() { _map.TurnResolver.Poll(_map, _player); }
 
         private void LinkNeighbouringTiles() {
             for (int x = 0; x < Width; x++) {

@@ -5,6 +5,6 @@ namespace CoreGame.Controllers.Interfaces {
         void ResolveTurn(Delta delta, Map map, Player player);
         bool IsTurnResolved();
         bool ShouldPoll();
-        void Poll(Map map);
+        void Poll(Map map, Player player);
     }
 }

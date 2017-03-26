@@ -8,7 +8,6 @@ namespace Assets.Editor.UtilityTests {
     [TestFixture]
     public class TurnMergeUtilityTest {
         private List<Delta> _deltas0;
-        private List<Delta> _deltas1;
 
         [SetUp]
         public void Init() {
@@ -20,19 +19,18 @@ namespace Assets.Editor.UtilityTests {
             Delta delta1 = new Delta(position0, commandWater);
             Delta delta2 = new Delta(position1, commandWater);
             Delta delta3 = new Delta(position1, commandFire);
-            _deltas0 = new List<Delta> { delta0, delta1 };
-            _deltas1 = new List<Delta> { delta2, delta3 };
+            _deltas0 = new List<Delta> { delta0, delta1, delta2, delta3 };
         }
 
         [Test]
         public void TestCorrectMergeSize() {
-            IList<Delta> mergedList = TurnMergeUtility.MergeDeltas(_deltas0, _deltas1);
+            IList<Delta> mergedList = TurnMergeUtility.SortDeltas(_deltas0);
             Assert.True(mergedList.Count == 4);
         }
 
         [Test]
         public void TestCorrectMergeSizeOrder() {
-            IList<Delta> mergedList = TurnMergeUtility.MergeDeltas(_deltas0, _deltas1);
+            IList<Delta> mergedList = TurnMergeUtility.SortDeltas(_deltas0);
             Assert.True(mergedList[0].Command.MoveType == MoveType.Fire);
             Assert.True(mergedList[1].Command.MoveType == MoveType.Fire);
             Assert.True(mergedList[2].Command.MoveType == MoveType.Water);

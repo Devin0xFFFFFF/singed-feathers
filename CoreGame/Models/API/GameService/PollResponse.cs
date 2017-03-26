@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CoreGame.Models {
+namespace CoreGame.Models.API.GameService {
     [Serializable]
-    public class ServerResponse {
+    public class PollResponse {
         public bool IsValid;
         public List<Delta> Turn;
 
-        public ServerResponse(bool isValid, List<Delta> turn) {
+        public PollResponse(bool isValid, List<Delta> turn) {
             IsValid = isValid;
             Turn = turn;
         }
