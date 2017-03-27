@@ -1,8 +1,10 @@
 ﻿using CoreGame.Controllers;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Assets.Scripts.Service;
+using CoreGame.Models.API.MapClient;
 using UnityEngine;
 
 namespace Assets.Scripts.Views {
@@ -16,14 +18,16 @@ namespace Assets.Scripts.Views {
         private TileView[,] _map;
         private List<PigeonView> _pigeons;
         private List<Position> _firePositions;
+        private MapIO _mapIO;
         private int _width, _height;
         private float _tileSizeX, _tileSizeY;
 
     	// Use this for initialization
     	void Start () {
-            if (TileSet.Count > 0) {
+            if (TileSet.Any()) {
                 LoadTileDictionary();
                 LoadMap();
+                _mapIO = new MapIO();
             }
     	}
 
@@ -53,11 +57,11 @@ namespace Assets.Scripts.Views {
         }
 
         public void UpdateTileType(TileType type, TileView tile) {
-            bool isOnFire = tile.GetTileController().IsOnFire();
+            bool isOnFire = tile.IsOnFire();
             Position tilePos = tile.Position;
             Destroy(_map[tilePos.X, tilePos.Y].gameObject);
             InstantiateTile(type, tilePos.X, tilePos.Y);
-            bool isFlammable = _map[tilePos.X, tilePos.Y].GetTileController().IsFlammable();
+            bool isFlammable = _map[tilePos.X, tilePos.Y].IsFlammable();
 
             if (isFlammable && isOnFire) {
                 SetFire(_map[tilePos.X, tilePos.Y]);
@@ -69,15 +73,15 @@ namespace Assets.Scripts.Views {
 
         public void SetFire(TileView tile) {
             Position tilePos = tile.Position;
-            if(tile.GetTileController().IsFlammable()) {
+            if(tile.IsFlammable()) {
                 _mapController.ApplyHeat(tilePos.X, tilePos.Y);
-                tile.GetTileController().UpKeep();
+                tile.UpKeep();
                 _firePositions.Add(tilePos);
             }
         }
 
         public void SetPigeon(TileView tile) {
-            if(tile.GetTileController().IsOccupied) {
+            if(tile.IsOccupied()) {
                 return;
             }
 
@@ -96,6 +100,32 @@ namespace Assets.Scripts.Views {
 
         public void SaveMap() {
             Debug.Log("Saving map...");
+            TileType[,] tileTypeMap = RecordTileTypes();
+
+            CreateMapInfo mapInfo = new CreateMapInfo {
+                CreatorName = _mapController.GetPlayerName(),
+                SerializedMapData = _mapController.SerializeMap(_width, _height, _pigeons.Select(p => p.Position).ToList(), _firePositions, tileTypeMap, InputView.GetNumTurns())
+            };
+            
+            StartCoroutine(_mapIO.CreateMap(mapInfo, delegate (string mapId) {
+                if (mapId == null) {
+                    Debug.LogError("Failed to save map.");
+                    //TODO: probably need to show failure
+                } else {
+                    //TODO: should indicate success, somehow
+                    Debug.Log("YOU SUCCESSFULLY SAVED A MAP!");
+                }
+            }));
+        }
+
+        private TileType[,] RecordTileTypes() {
+            TileType[,] map = new TileType[_width, _height];
+            for (int x = 0; x < _width; x++) {
+                for (int y = 0; y < _height; y++) {
+                    map[x, y] = _map[x, y].Type;
+                }
+            }
+            return map;
         }
 
         private void InstantiateTiles() {
@@ -114,26 +144,9 @@ namespace Assets.Scripts.Views {
             _map[x, y].Position = new Position(x, y);
         }
 
-        private void LoadPigeon() {
-            IList<IPigeonController> controllers = _mapController.GetPigeonControllers();
-            foreach (IPigeonController controller in controllers) {
-                Position pigeonPosition = controller.CurrentPosition;
-                PigeonView pigeon = Instantiate(Pigeon, new Vector3(_tileSizeX * pigeonPosition.X  - 1f, _tileSizeY * pigeonPosition.Y - 2.5f, 1) * 1.6f, Quaternion.identity);
-                pigeon.SetDimensions(_tileSizeX, _tileSizeY);
-                pigeon.SetController(controller);
-                _pigeons.Add(pigeon);
-            }
-        }
-
         private void RemovePigeon(TileView tile) {
             Position tilePos = tile.Position;
-            PigeonView pigeonToDelete = null;
-            foreach (PigeonView pigeon in _pigeons) {
-                if (pigeon.GetPosition().X == tilePos.X && pigeon.GetPosition().Y == tilePos.Y) {
-                    pigeonToDelete = pigeon;
-                    break;
-                }
-            }
+            PigeonView pigeonToDelete = _pigeons.FirstOrDefault(p => p.Position.Equals(tilePos));
             if(pigeonToDelete != null) {
                 _pigeons.Remove(pigeonToDelete);
                 Destroy(pigeonToDelete.gameObject);
@@ -142,15 +155,10 @@ namespace Assets.Scripts.Views {
 
         private void RemoveFire(TileView tile) {
             Position tilePos = tile.Position;
-            _mapController.ReduceHeat(tilePos.X, tilePos.Y);
-            Position firePosToDelete = null;
-            foreach (Position firePos in _firePositions) {
-                if (firePos.X == tilePos.X && firePos.Y == tilePos.Y) {
-                    firePosToDelete = firePos;
-                }
-            }
+            Position firePosToDelete = _firePositions.FirstOrDefault(f => f.X == tilePos.X && f.Y == tilePos.Y);
             if(firePosToDelete != null) {
                 _firePositions.Remove(firePosToDelete);
+                _mapController.ReduceHeat(tilePos.X, tilePos.Y);
             }
         }
     }

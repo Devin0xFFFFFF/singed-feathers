@@ -158,15 +158,6 @@ namespace Assets.Scripts.Views {
             _borders.Add(pos, border);
         }
 
-        private void RemoveBorder(Vector3 pos) {
-            GameObject border = null;
-            _borders.TryGetValue(pos, out border);
-            if (border != null) {
-                Destroy(border.gameObject);
-            }
-            _borders.Remove(pos);
-        }
-
         private void SetWaitingPanel(bool isActive) { WaitingPanel.SetActive(isActive); }
     }
 }

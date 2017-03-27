@@ -7,8 +7,10 @@ namespace CoreGame.Controllers.Interfaces {
         int Height { get; }
         bool GenerateMap(string serializedMap);
         bool GenerateDefaultMap();
+        string SerializeMap(int width, int height, IList<Position> pigeonPositions, IList<Position> firePositions, TileType[,] tileMap, int numTurns);
         void SetPlayerSideSelection(PlayerSideSelection playerSideSelection);
         PlayerSideSelection GetPlayerSideSelection();
+        string GetPlayerName();
         string GetGameOverPlayerStatus();
         bool IsMapBurntOut();
         bool AreAllPigeonsDead();

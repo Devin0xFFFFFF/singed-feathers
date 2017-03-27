@@ -13,11 +13,11 @@ namespace CoreGame.Controllers {
         public const string LOSE = "You lost!";
         public const string NO_PIGEONS_SURVIVED = "No pigeons survived!";
         public const string A_PIGEON_SURVIVED = "A pigeon survived!";
+        private readonly Player _player;
+        private readonly IMapGeneratorService _mapGenerator;
         public int Width { get { return _map.Width; } }
         public int Height { get { return _map.Height; } }
-        private readonly IMapGeneratorService _mapGenerator;
         private Map _map;
-        private Player _player;
 
         public MapController(IMapGeneratorService mapGenerator = null) { 
             _mapGenerator = mapGenerator ?? new MapGeneratorService();
@@ -45,6 +45,12 @@ namespace CoreGame.Controllers {
 
             return true;
         }
+
+        public string SerializeMap(int width, int height, IList<Position> pigeonPositions, IList<Position> firePositions, TileType[,] tileMap, int numTurns) {
+            return _mapGenerator.SerializeMap(width, height, tileMap, firePositions, pigeonPositions, numTurns);
+        }
+
+        public string GetPlayerName() { return _player.PlayerName; }
 
         public void SetPlayerSideSelection(PlayerSideSelection playerSideSelection){ _player.PlayerSideSelection = playerSideSelection; }
 

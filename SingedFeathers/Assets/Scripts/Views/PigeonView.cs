@@ -50,7 +50,7 @@ namespace Assets.Scripts.Views {
             }
         }
 
-        public Position GetPosition() { return _pigeonController.CurrentPosition; }
+        public Position Position { get { return _pigeonController.CurrentPosition; } }
 
         private IEnumerator PigeonExplode() {
             _animator.Play("Explode");
