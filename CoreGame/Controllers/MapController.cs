@@ -78,7 +78,7 @@ namespace CoreGame.Controllers {
                     winOrLose = WIN;
                 }
             }
-            return string.Format("{0} {1}", winOrLose, reason);
+            return $"{winOrLose} {reason}";
         }
 
         public bool IsMapBurntOut() {

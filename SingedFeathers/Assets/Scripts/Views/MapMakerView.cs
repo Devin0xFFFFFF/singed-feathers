@@ -146,7 +146,7 @@ namespace Assets.Scripts.Views {
 
         private void RemovePigeon(TileView tile) {
             Position tilePos = tile.Position;
-            PigeonView pigeonToDelete = _pigeons.FirstOrDefault(p => p.Position.Equals(tilePos));
+            PigeonView pigeonToDelete = _pigeons.FirstOrDefault(p => p.Position.X == tilePos.X && p.Position.Y == tilePos.Y);
             if(pigeonToDelete != null) {
                 _pigeons.Remove(pigeonToDelete);
                 Destroy(pigeonToDelete.gameObject);
