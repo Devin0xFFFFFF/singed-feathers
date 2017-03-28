@@ -9,14 +9,14 @@ namespace CoreGame.Controllers {
         public const int HEAT = 100;
         public const int DEFAULT_WIDTH = 8;
         public const int DEFAULT_HEIGHT = 8;
-        public const string WIN = "You won!";
-        public const string LOSE = "You lost!";
+        public const string WIN = "You win!";
+        public const string LOSE = "You lose!";
         public const string NO_PIGEONS_SURVIVED = "No pigeons survived!";
         public const string A_PIGEON_SURVIVED = "A pigeon survived!";
-        private readonly Player _player;
-        private readonly IMapGeneratorService _mapGenerator;
         public int Width { get { return _map.Width; } }
         public int Height { get { return _map.Height; } }
+        private readonly Player _player;
+        private readonly IMapGeneratorService _mapGenerator;
         private Map _map;
 
         public MapController(IMapGeneratorService mapGenerator = null) { 
@@ -38,7 +38,7 @@ namespace CoreGame.Controllers {
 
         public bool GenerateDefaultMap() {
             _map = _mapGenerator.GenerateDefaultMap(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-            if(_map == null) {
+            if (_map == null) {
                 return false;
             }
             MapLocationValidator.InitializeValues(_map);

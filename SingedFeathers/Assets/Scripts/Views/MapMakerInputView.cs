@@ -77,7 +77,7 @@ namespace Assets.Scripts.Views {
         public int GetNumTurns() { return (int)NumberOfTurnsSlider.value; }
 
         private void InitializeTileButtons() {
-            foreach(TileView tile in _tileSet) {
+            foreach (TileView tile in _tileSet) {
                 Button newButton = Instantiate(TileButtonBase);
                 newButton.GetComponent<Image>().sprite = tile.GetComponent<SpriteRenderer>().sprite;
                 newButton.transform.SetParent(TileButtonContainer.GetComponent<RectTransform>());

@@ -4,15 +4,23 @@ using CoreGame.Models;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Service;
+using Castle.Core.Internal;
 using CoreGame.Models.API.MapClient;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.Views {
     public class MapMakerView : MonoBehaviour {
-        public const string WAIT_TEXT = "Uploading...";
+        public enum ValidationResult {
+            Valid, InvalidNoPigeons, InvalidNoFlammableTiles, InvalidInput 
+        }
+
+        public const string WAIT_TEXT = "Processing...";
         public const string SUCCESS_TEXT = "Success! Map uploaded!";
-        public const string FAILURE_TEXT = "Fill out both fields!";
+        public const string FAILURE_TEXT = "Our server has failed us... Try again!";
+        public const string INVALID_INPUT_TEXT = "Both fields are required!";
+        public const string NO_PIGEONS_TEXT = "You need at least one pigeon in your map!";
+        public const string NO_FLAMMABLE_TILES_TEXT = "You have no flammable tiles!";
         public Canvas Modal;
         public List<TileView> TileSet;
         public MapMakerInputView InputView;
@@ -30,7 +38,7 @@ namespace Assets.Scripts.Views {
         private float _tileSizeX, _tileSizeY;
 
     	// Use this for initialization
-    	void Start () {
+    	void Start() {
             if (TileSet.Any()) {
                 LoadTileDictionary();
                 LoadMap();
@@ -72,15 +80,14 @@ namespace Assets.Scripts.Views {
 
             if (isFlammable && isOnFire) {
                 SetFire(_map[tilePos.X, tilePos.Y]);
-            }
-            else if (isOnFire) {
+            } else if (isOnFire) {
                 RemoveFire(_map[tilePos.X, tilePos.Y]);
             }
         }
 
         public void SetFire(TileView tile) {
             Position tilePos = tile.Position;
-            if(tile.IsFlammable()) {
+            if (tile.IsFlammable()) {
                 _mapController.ApplyHeat(tilePos.X, tilePos.Y);
                 tile.UpKeep();
                 _firePositions.Add(tilePos);
@@ -88,7 +95,7 @@ namespace Assets.Scripts.Views {
         }
 
         public void SetPigeon(TileView tile) {
-            if(tile.IsOccupied()) {
+            if (tile.IsOccupied()) {
                 return;
             }
 
@@ -109,28 +116,71 @@ namespace Assets.Scripts.Views {
             Debug.Log("Saving map...");
             ResultText.gameObject.SetActive(true);
 
+            if (ValidateUploadRequest() != ValidationResult.Valid) {
+                return;
+            }
+
             TileType[,] tileTypeMap = RecordTileTypes();
             CreateMapInfo mapInfo = new CreateMapInfo {
                 CreatorName = AuthorsName.text,
                 MapName = MapTitle.text,
-                MapType = "versus",
-                SerializedMapData = _mapController.SerializeMap(_width, _height, _pigeons.Select(p => p.Position).ToList(), _firePositions, tileTypeMap, InputView.GetNumTurns())
+                MapType = "Versus",
+                SerializedMapData =
+                    _mapController.SerializeMap(_width, _height, _pigeons.Select(p => p.Position).ToList(),
+                        _firePositions, tileTypeMap, InputView.GetNumTurns())
             };
-            
-            StartCoroutine(_mapIO.CreateMap(mapInfo, delegate (string mapId) {
+
+            StartCoroutine(_mapIO.CreateMap(mapInfo, delegate(string mapId) {
                 if (mapId == null) {
                     Debug.LogError("Failed to save map.");
                     ShowFailureText();
                 } else {
-                    Debug.Log("YOU SUCCESSFULLY SAVED A MAP!");
+                    Debug.Log("Map saved!");
                     ShowSuccessText();
                 }
             }));
         }
 
+        private ValidationResult ValidateUploadRequest() {
+            if (!HasFlammableTile()) {
+                ShowNoFlammableTileText();
+                return ValidationResult.InvalidNoFlammableTiles;
+            } else if (!_pigeons.Any()) {
+                ShowNoPigeonText();
+                return ValidationResult.InvalidNoPigeons;
+            } else if (!ValidInputReceived()) {
+                ShowInvalidInputText();
+                return ValidationResult.InvalidInput;
+            }
+            return ValidationResult.Valid;
+        }
+
+        private void ShowNoFlammableTileText() {
+            ResultText.text = NO_FLAMMABLE_TILES_TEXT;
+            ResultText.color = Color.red;
+        }
+
+        private void ShowNoPigeonText() {
+            ResultText.text = NO_PIGEONS_TEXT;
+            ResultText.color = Color.red;
+        }
+
         public void CloseModal() {
             Modal.gameObject.SetActive(false);
             ResetResultText();
+        }
+
+        private bool ValidInputReceived() { return !AuthorsName.text.IsNullOrEmpty() && !MapTitle.text.IsNullOrEmpty(); }
+
+        private bool HasFlammableTile() {
+            for (int x = 0; x < _width; x++) {
+                for (int y = 0; y < _height; y++) {
+                    if (_map[x, y].IsFlammable()) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private void ResetResultText() {
@@ -144,9 +194,22 @@ namespace Assets.Scripts.Views {
             ResultText.color = Color.green;
         }
 
+        private void ShowInvalidInputText() {
+            ResultText.text = INVALID_INPUT_TEXT;
+            ResultText.color = Color.red;
+        }
+
         private void ShowFailureText() {
             ResultText.text = FAILURE_TEXT;
             ResultText.color = Color.red;
+        }
+
+        private void InstantiateTiles() {
+            for (int x = 0; x < _width; x++) {
+                for (int y = 0; y < _height; y++) {
+                    InstantiateTile(_mapController.GetTileType(x, y), x, y);
+                }
+            }
         }
 
         private TileType[,] RecordTileTypes() {
@@ -157,14 +220,6 @@ namespace Assets.Scripts.Views {
                 }
             }
             return map;
-        }
-
-        private void InstantiateTiles() {
-            for (int x = 0; x < _width; x++) {
-                for (int y = 0; y < _height; y++) {
-                    InstantiateTile(_mapController.GetTileType(x, y), x, y);
-                }
-            }
         }
 
         private void InstantiateTile(TileType type, int x, int y) {
@@ -178,7 +233,7 @@ namespace Assets.Scripts.Views {
         private void RemovePigeon(TileView tile) {
             Position tilePos = tile.Position;
             PigeonView pigeonToDelete = _pigeons.FirstOrDefault(p => p.Position.X == tilePos.X && p.Position.Y == tilePos.Y);
-            if(pigeonToDelete != null) {
+            if (pigeonToDelete != null) {
                 _pigeons.Remove(pigeonToDelete);
                 Destroy(pigeonToDelete.gameObject);
             }
@@ -187,7 +242,7 @@ namespace Assets.Scripts.Views {
         private void RemoveFire(TileView tile) {
             Position tilePos = tile.Position;
             Position firePosToDelete = _firePositions.FirstOrDefault(f => f.X == tilePos.X && f.Y == tilePos.Y);
-            if(firePosToDelete != null) {
+            if (firePosToDelete != null) {
                 _firePositions.Remove(firePosToDelete);
                 _mapController.ReduceHeat(tilePos.X, tilePos.Y);
             }
