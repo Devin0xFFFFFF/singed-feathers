@@ -5,7 +5,7 @@ using CoreGame.Models;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Utility;
 
-namespace Assets.Editor.UtilityTests {
+namespace Assets.Editor.UnitTests.UtilityTests {
     [TestFixture]
     public class TurnResolveUtilityTest {
         private Map _map;

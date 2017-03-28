@@ -2,7 +2,7 @@
 using CoreGame.Service;
 using NUnit.Framework;
 
-namespace Assets.Editor.ServiceTests {
+namespace Assets.Editor.UnitTests.ServiceTests {
     [TestFixture]
     public class MapGeneratorServiceTest {
         private MapGeneratorService _mapGeneratorService;
