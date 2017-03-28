@@ -21,10 +21,8 @@ using Amazon.Lambda.APIGatewayEvents;
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializerAttribute(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
 
-namespace GameService
-{
-    public class Function
-    {
+namespace GameService {
+    public class Function {
         private const string BUCKET_NAME = "singed-feathers-maps";
         private const string TABLE_NAME = "SingedFeathersGames";
         private const string JSON_SUFFIX = ".json";
@@ -58,7 +56,7 @@ namespace GameService
                 SetPlayers(dynamoTable, commitTurnRequest.PlayerId);
 
                 if (_player.PlayerState == PlayerState.NotSubmitted) {
-                    //don't do anything if the player can't submit a turn
+                    // Don't do anything if the player can't submit a turn
 
                     IMapController mapController = ReplayGameFromTable(dynamoTable);
 

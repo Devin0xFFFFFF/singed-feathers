@@ -7,19 +7,17 @@ using Xunit;
 using Amazon.Lambda.TestUtilities;
 
 using CoreGame.Models.API.GameService;
+using Amazon.Lambda.APIGatewayEvents;
 
 namespace GameService.Tests
 {
-    public class FunctionTest
-    {
+    public class FunctionTest {
         [Fact]
-        public void TestToUpperFunction()
-        {
-
-            // Invoke the lambda function and confirm the string was upper cased.
-            var function = new Function();
-            var context = new TestLambdaContext();
-            //var output = function.CommitTurn("Test");
+        public void TestCommitTurnFunction() {
+            Function function = new Function();
+            APIGatewayProxyRequest request = new APIGatewayProxyRequest();
+            request.Body = "";
+            APIGatewayProxyResponse reponse = function.CommitTurn(request);
 
             Assert.Equal(true, true);
         }
