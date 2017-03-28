@@ -6,7 +6,7 @@ using CoreGame.Models;
 using CoreGame.Models.Commands;
 using CoreGame.Utility;
 
-namespace Assets.Editor.UtilityTests {
+namespace Assets.Editor.UnitTests.UtilityTests {
     [TestFixture]
     public class CommandValidatorTest {
         private Map _map;

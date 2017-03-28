@@ -5,6 +5,7 @@ namespace CoreGame.Models.Commands {
 
     [Serializable]
     public class Command : ICommand {
+        public const string ACTION_NOT_ALLOWED = "Move not allowed! This tile {0}";
         public MoveType MoveType { get; }
         public int Heat { get; }
 
@@ -34,6 +35,32 @@ namespace CoreGame.Models.Commands {
                     return tileController.IsFlammable();
             }
             return false;
+        }
+
+        public string GetExecutionFailureReason(ITileController tileController) {
+            if (!CanBeExecutedOnTile(tileController)) {
+                switch (MoveType) {
+                    case MoveType.Fire:
+                        if (tileController.IsBurntOut()) {
+                            return string.Format(ACTION_NOT_ALLOWED, "is already burnt out.");
+                        } else if (!tileController.IsFlammable()) {
+                            return string.Format(ACTION_NOT_ALLOWED, "is not flammable.");
+                        } else if (tileController.IsOccupied) {
+                            return string.Format(ACTION_NOT_ALLOWED, "is occupied.");
+                        } else if (tileController.IsOnFire()) {
+                            return string.Format(ACTION_NOT_ALLOWED, "is already on fire.");
+                        }
+                        break;
+                    case MoveType.Water:
+                        if (tileController.IsBurntOut()) {
+                            return string.Format(ACTION_NOT_ALLOWED, "is already burnt out.");
+                        } else if (!tileController.IsFlammable()) {
+                            return string.Format(ACTION_NOT_ALLOWED, "cannot be on fire.");
+                        }
+                        break;
+                }
+            }
+            return "";
         }
     }
 }

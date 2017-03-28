@@ -52,17 +52,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\Build\AutoBuilder.cs" />
-    <Compile Include="Assets\Editor\CommandTests\CommandTest.cs" />
-    <Compile Include="Assets\Editor\ControllerTests\MapControllerTest.cs" />
-    <Compile Include="Assets\Editor\ControllerTests\PigeonControllerTest.cs" />
-    <Compile Include="Assets\Editor\ControllerTests\TileControllerTest.cs" />
-    <Compile Include="Assets\Editor\ControllerTests\TurnControllerTest.cs" />
-    <Compile Include="Assets\Editor\ModelTests\PositionTest.cs" />
-    <Compile Include="Assets\Editor\ServiceTests\MapGeneratorServiceTest.cs" />
-    <Compile Include="Assets\Editor\UtilityTests\CommandValidatorTest.cs" />
-    <Compile Include="Assets\Editor\UtilityTests\MapLocationValidatorTest.cs" />
-    <Compile Include="Assets\Editor\UtilityTests\TurnMergeUtilityTest.cs" />
-    <Compile Include="Assets\Editor\UtilityTests\TurnResolveUtilityTest.cs" />
+    <Compile Include="Assets\Editor\UnitTests\CommandTests\CommandTest.cs" />
+    <Compile Include="Assets\Editor\UnitTests\ControllerTests\MapControllerTest.cs" />
+    <Compile Include="Assets\Editor\UnitTests\ControllerTests\PigeonControllerTest.cs" />
+    <Compile Include="Assets\Editor\UnitTests\ControllerTests\TileControllerTest.cs" />
+    <Compile Include="Assets\Editor\UnitTests\ControllerTests\TurnControllerTest.cs" />
+    <Compile Include="Assets\Editor\UnitTests\ModelTests\PositionTest.cs" />
+    <Compile Include="Assets\Editor\UnitTests\ServiceTests\MapGeneratorServiceTest.cs" />
+    <Compile Include="Assets\Editor\UnitTests\UtilityTests\CommandValidatorTest.cs" />
+    <Compile Include="Assets\Editor\UnitTests\UtilityTests\MapLocationValidatorTest.cs" />
+    <Compile Include="Assets\Editor\UnitTests\UtilityTests\TurnMergeUtilityTest.cs" />
+    <Compile Include="Assets\Editor\UnitTests\UtilityTests\TurnResolveUtilityTest.cs" />
     <None Include="Assets\link.xml" />
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\Advertisements\Editor\UnityEditor.Advertisements.dll</HintPath>
@@ -151,4 +151,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Folder Include="Assets\Editor\IntegrationTests\" />
+  </ItemGroup>
 </Project>
