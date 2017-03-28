@@ -141,6 +141,11 @@ namespace Assets.Scripts.Views {
             }));
         }
 
+        public void CloseModal() {
+            Modal.gameObject.SetActive(false);
+            ResetResultText();
+        }
+
         private ValidationResult ValidateUploadRequest() {
             if (!HasFlammableTile()) {
                 ShowNoFlammableTileText();
@@ -163,11 +168,6 @@ namespace Assets.Scripts.Views {
         private void ShowNoPigeonText() {
             ResultText.text = NO_PIGEONS_TEXT;
             ResultText.color = Color.red;
-        }
-
-        public void CloseModal() {
-            Modal.gameObject.SetActive(false);
-            ResetResultText();
         }
 
         private bool ValidInputReceived() { return !AuthorsName.text.IsNullOrEmpty() && !MapTitle.text.IsNullOrEmpty(); }
