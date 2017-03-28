@@ -4,7 +4,7 @@ using CoreGame.Controllers;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 
-namespace Assets.Editor.ControllerTests {
+namespace Assets.Editor.UnitTests.ControllerTests {
     [TestFixture]
     public class TurnControllerTest {
         private TurnController _turnController;

@@ -4,7 +4,7 @@ using CoreGame.Models.Commands;
 using NUnit.Framework;
 using NSubstitute;
 
-namespace Assets.Editor.CommandTests {
+namespace Assets.Editor.UnitTests.CommandTests {
     [TestFixture]
     public class CommandTest {
         private Command _fireCommand;
