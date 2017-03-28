@@ -4,7 +4,7 @@ using CoreGame.Models;
 using CoreGame.Models.Commands;
 using CoreGame.Utility;
 
-namespace Assets.Editor.UtilityTests {
+namespace Assets.Editor.UnitTests.UtilityTests {
     [TestFixture]
     public class TurnMergeUtilityTest {
         private List<Delta> _deltas0;

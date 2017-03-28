@@ -7,7 +7,7 @@ using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 using CoreGame.Service;
 
-namespace Assets.Editor.ControllerTests {
+namespace Assets.Editor.UnitTests.ControllerTests {
     [TestFixture]
     public class MapControllerTest {
         private MapController _mapController;
