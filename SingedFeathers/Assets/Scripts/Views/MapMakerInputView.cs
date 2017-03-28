@@ -9,6 +9,9 @@ namespace Assets.Scripts.Views {
             None, SetFire, SetPigeon, RemoveObject
         }
 
+        public Canvas UploadMapCanvas;
+        public Canvas HelpCanvas;
+        public Canvas MenuCanvas;
         public Button AddFireButton;
         public Button AddPigeonButton;
         public Button TileButtonBase;
@@ -29,22 +32,24 @@ namespace Assets.Scripts.Views {
         }
 
         public override void HandleMapInput(TileView tileManager) {
-            if (_selectedTileType != TileType.Error) {
-                _mapMakerView.UpdateTileType(_selectedTileType, tileManager);
-            } else {
-                switch (_action) {
-                    case Action.SetFire:
-                        _mapMakerView.SetFire(tileManager);
-                        break;
-                    case Action.SetPigeon:
-                        _mapMakerView.SetPigeon(tileManager);
-                        break;
-                    case Action.RemoveObject:
-                        _mapMakerView.ResetTile(tileManager);
-                        break;
-                    case Action.None:
-                    default:
-                        break;
+            if (!UploadMapCanvas.gameObject.activeInHierarchy && !HelpCanvas.gameObject.activeInHierarchy && !MenuCanvas.gameObject.activeInHierarchy) {
+                if (_selectedTileType != TileType.Error) {
+                    _mapMakerView.UpdateTileType(_selectedTileType, tileManager);
+                } else {
+                    switch (_action) {
+                        case Action.SetFire:
+                            _mapMakerView.SetFire(tileManager);
+                            break;
+                        case Action.SetPigeon:
+                            _mapMakerView.SetPigeon(tileManager);
+                            break;
+                        case Action.RemoveObject:
+                            _mapMakerView.ResetTile(tileManager);
+                            break;
+                        case Action.None:
+                        default:
+                            break;
+                    }
                 }
             }
         }

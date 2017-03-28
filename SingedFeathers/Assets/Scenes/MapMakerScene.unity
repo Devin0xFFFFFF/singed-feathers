@@ -2740,6 +2740,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &906749772
@@ -3094,6 +3105,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8e44aee84e724fa8a471378f611623c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UploadMapCanvas: {fileID: 768674762}
+  HelpCanvas: {fileID: 235319686}
+  MenuCanvas: {fileID: 52064499}
   AddFireButton: {fileID: 791155112}
   AddPigeonButton: {fileID: 826800056}
   TileButtonBase: {fileID: 114212538843322534, guid: 79ddbb7034ea041a984e08f600a77255,
