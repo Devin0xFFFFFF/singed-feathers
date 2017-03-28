@@ -6,13 +6,20 @@ using System.Linq;
 using Assets.Scripts.Service;
 using CoreGame.Models.API.MapClient;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.Views {
     public class MapMakerView : MonoBehaviour {
-
+        public const string WAIT_TEXT = "Uploading...";
+        public const string SUCCESS_TEXT = "Success! Map uploaded!";
+        public const string FAILURE_TEXT = "Fill out both fields!";
+        public Canvas Modal;
         public List<TileView> TileSet;
         public MapMakerInputView InputView;
         public PigeonView Pigeon;
+        public InputField MapTitle;
+        public InputField AuthorsName;
+        public Text ResultText;
         private Dictionary<TileType, TileView> _tileDictionary;
         private IMapController _mapController;
         private TileView[,] _map;
@@ -100,22 +107,46 @@ namespace Assets.Scripts.Views {
 
         public void SaveMap() {
             Debug.Log("Saving map...");
-            TileType[,] tileTypeMap = RecordTileTypes();
+            ResultText.gameObject.SetActive(true);
 
+            TileType[,] tileTypeMap = RecordTileTypes();
             CreateMapInfo mapInfo = new CreateMapInfo {
-                CreatorName = _mapController.GetPlayerName(),
+                CreatorName = AuthorsName.text,
+                MapName = MapTitle.text,
+                MapType = "versus",
                 SerializedMapData = _mapController.SerializeMap(_width, _height, _pigeons.Select(p => p.Position).ToList(), _firePositions, tileTypeMap, InputView.GetNumTurns())
             };
             
             StartCoroutine(_mapIO.CreateMap(mapInfo, delegate (string mapId) {
                 if (mapId == null) {
                     Debug.LogError("Failed to save map.");
-                    //TODO: probably need to show failure
+                    ShowFailureText();
                 } else {
-                    //TODO: should indicate success, somehow
                     Debug.Log("YOU SUCCESSFULLY SAVED A MAP!");
+                    ShowSuccessText();
                 }
             }));
+        }
+
+        public void CloseModal() {
+            Modal.gameObject.SetActive(false);
+            ResetResultText();
+        }
+
+        private void ResetResultText() {
+            ResultText.gameObject.SetActive(false);
+            ResultText.text = WAIT_TEXT;
+            ResultText.color = Color.black;
+        }
+
+        private void ShowSuccessText() {
+            ResultText.text = SUCCESS_TEXT;
+            ResultText.color = Color.green;
+        }
+
+        private void ShowFailureText() {
+            ResultText.text = FAILURE_TEXT;
+            ResultText.color = Color.red;
         }
 
         private TileType[,] RecordTileTypes() {
