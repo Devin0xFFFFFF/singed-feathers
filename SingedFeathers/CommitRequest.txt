@@ -1,0 +1,1 @@
+{"$type":"CoreGame.Models.API.GameService.CommitTurnRequest, CoreGame","GameId":"Test","PlayerId":"Player1","Delta":{"$type":"CoreGame.Models.Delta, CoreGame","Position":{"$type":"CoreGame.Models.Position, CoreGame","X":1,"Y":6},"Command":{"$type":"CoreGame.Models.Commands.Command, CoreGame","MoveType":0,"Heat":100}}}

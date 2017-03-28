@@ -1,0 +1,1 @@
+{"$type":"CoreGame.Models.API.GameService.PollRequest, CoreGame","GameId":"Test","PlayerId":"Player1"}
