@@ -12,6 +12,7 @@
 --version:1.0.0.0
 --informational-version:1.0.0
 --target-framework:.NETCoreApp,Version=v1.0
+--reference:C:\Users\Garrett\.nuget\packages\Amazon.Lambda.APIGatewayEvents\1.0.2\lib\netstandard1.3\Amazon.Lambda.APIGatewayEvents.dll
 --reference:C:\Users\Garrett\.nuget\packages\Amazon.Lambda.Core\1.0.0\lib\netstandard1.3\Amazon.Lambda.Core.dll
 --reference:C:\Users\Garrett\.nuget\packages\Amazon.Lambda.DynamoDBEvents\1.0.1\lib\netstandard1.3\Amazon.Lambda.DynamoDBEvents.dll
 --reference:C:\Users\Garrett\.nuget\packages\Amazon.Lambda.Serialization.Json\1.0.1\lib\netstandard1.3\Amazon.Lambda.Serialization.Json.dll
@@ -123,7 +124,7 @@
 --reference:C:\Users\Garrett\.nuget\packages\System.Threading.Timer\4.0.1\ref\netstandard1.2\System.Threading.Timer.dll
 --reference:C:\Users\Garrett\.nuget\packages\System.Xml.ReaderWriter\4.0.11\ref\netstandard1.3\System.Xml.ReaderWriter.dll
 --reference:C:\Users\Garrett\.nuget\packages\System.Xml.XDocument\4.0.11\ref\netstandard1.3\System.Xml.XDocument.dll
---reference:C:\Users\Garrett\.nuget\packages\WhyNot.SingedFeathers.CoreGame\1.0.0.15\lib\net35\CoreGame.dll
+--reference:C:\Users\Garrett\.nuget\packages\WhyNot.SingedFeathers.CoreGame\1.0.0.16\lib\net35\CoreGame.dll
 --reference:C:\Users\Garrett\.nuget\packages\xunit.abstractions\2.0.1-rc2\lib\netstandard1.0\xunit.abstractions.dll
 --reference:C:\Users\Garrett\.nuget\packages\xunit.assert\2.1.0\lib\dotnet\xunit.assert.dll
 --reference:C:\Users\Garrett\.nuget\packages\xunit.extensibility.core\2.1.0\lib\dotnet\xunit.core.dll
