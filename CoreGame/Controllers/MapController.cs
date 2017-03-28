@@ -9,15 +9,15 @@ namespace CoreGame.Controllers {
         public const int HEAT = 100;
         public const int DEFAULT_WIDTH = 8;
         public const int DEFAULT_HEIGHT = 8;
-        public const string WIN = "You won!";
-        public const string LOSE = "You lost!";
+        public const string WIN = "You win!";
+        public const string LOSE = "You lose!";
         public const string NO_PIGEONS_SURVIVED = "No pigeons survived!";
         public const string A_PIGEON_SURVIVED = "A pigeon survived!";
         public int Width { get { return _map.Width; } }
         public int Height { get { return _map.Height; } }
+        private readonly Player _player;
         private readonly IMapGeneratorService _mapGenerator;
         private Map _map;
-        private Player _player;
 
         public MapController(IMapGeneratorService mapGenerator = null) { 
             _mapGenerator = mapGenerator ?? new MapGeneratorService();
@@ -38,13 +38,19 @@ namespace CoreGame.Controllers {
 
         public bool GenerateDefaultMap() {
             _map = _mapGenerator.GenerateDefaultMap(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-            if(_map == null) {
+            if (_map == null) {
                 return false;
             }
             MapLocationValidator.InitializeValues(_map);
 
             return true;
         }
+
+        public string SerializeMap(int width, int height, IList<Position> pigeonPositions, IList<Position> firePositions, TileType[,] tileMap, int numTurns) {
+            return _mapGenerator.SerializeMap(width, height, tileMap, firePositions, pigeonPositions, numTurns);
+        }
+
+        public string GetPlayerName() { return _player.PlayerName; }
 
         public void SetPlayerSideSelection(PlayerSideSelection playerSideSelection){ _player.PlayerSideSelection = playerSideSelection; }
 
@@ -72,7 +78,7 @@ namespace CoreGame.Controllers {
                     winOrLose = WIN;
                 }
             }
-            return string.Format("{0} {1}", winOrLose, reason);
+            return $"{winOrLose} {reason}";
         }
 
         public bool IsMapBurntOut() {

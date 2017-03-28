@@ -39,7 +39,13 @@ namespace Assets.Scripts.Views {
         public bool IsOnFire() { return _tileController.IsOnFire(); }
 
         public bool IsBurntOut() { return _tileController.IsBurntOut(); }
+
+        public bool IsFlammable() { return _tileController.IsFlammable(); }
         
+        public bool IsOccupied() { return _tileController.IsOccupied; }
+
+        public void UpKeep() { _tileController.UpKeep(); }
+
         public void SetController(ITileController controller) { _tileController = controller; }
 
         public ITileController GetTileController() { return _tileController; }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Assets.Scripts.Service;
 using Assets.Scripts.Utility;
@@ -20,15 +21,15 @@ namespace Assets.Scripts.Views {
         private Dictionary<TileType, TileView> _tileDictionary;
         private IMapController _mapController;
         private TileView[,] _map;
+        private MapIO _mapIO;
         private int _width, _height;
         private float _tileSizeX, _tileSizeY;
-        private MapIO _mapIO;
         private bool _pigeonsRequireUpdate;
 
         // Start here!
         public void Start() {
             UnitySystemConsoleRedirector.Redirect();
-            if (TileSet.Count > 0) {
+            if (TileSet.Any()) {
                 LoadTileDictionary();
                 LoadMap(GetMapSelection());
             }
@@ -162,12 +163,7 @@ namespace Assets.Scripts.Views {
             _map[x, y].SetController(_mapController.GetTileController(x, y));
             _map[x, y].Position = new Position(x, y);
         }
-
-        private void UpdateTileType(TileType type, int x, int y) {
-            Destroy(_map[x, y].gameObject);
-            InstantiateTile(type, x, y);
-        }
-
+        
         private void UpdatePigeonCount() { PigeonCountText.text = "Pigeons: " + _mapController.GetLivePigeonCount() + "/" + _pigeons.Count; }
     }
 }
