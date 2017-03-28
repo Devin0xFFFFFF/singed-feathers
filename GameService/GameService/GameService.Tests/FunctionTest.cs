@@ -9,8 +9,7 @@ using Amazon.Lambda.TestUtilities;
 using CoreGame.Models.API.GameService;
 using Amazon.Lambda.APIGatewayEvents;
 
-namespace GameService.Tests
-{
+namespace GameService.Tests {
     public class FunctionTest {
         [Fact]
         public void TestCommitTurnFunction() {
