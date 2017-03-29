@@ -24,14 +24,19 @@ using Amazon.Lambda.APIGatewayEvents;
 namespace GameService {
     public class Function {
         private const string BUCKET_NAME = "singed-feathers-maps";
-        private const string TABLE_NAME = "SingedFeathersGames";
+        private const string GAME_TABLE_NAME = "SingedFeathersGames";
+        private const string LOBBY_TABLE_NAME = "SingedFeathersLobbies";
         private const string JSON_SUFFIX = ".json";
 
         private const string MAP_ID = "MapID";
         private const string GAME_ID = "GameID";
+        private const string LOBBY_ID = "LobbyID";
         private const string COMMITTED_TURNS = "CommittedTurns";
         private const string STAGED_TURNS = "StagedTurns";
         private const string PLAYERS = "Players";
+        private const string PLAYER_NAME = "PlayerName";
+        private const string PLAYER_ID = "PlayerID";
+        private const string PLAYER_SIDE_SELECTION = "PlayerSideSelection";
 
         private Player _player;
         private IList<Player> _players;
@@ -47,7 +52,7 @@ namespace GameService {
                 string input = apigProxyEvent.Body;
                 _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
                 CommitTurnRequest commitTurnRequest = JsonConvert.DeserializeObject<CommitTurnRequest>(input, _settings);
-                Dictionary<string, AttributeValue> dynamoTable = GetDynamoTable(commitTurnRequest.GameId);
+                Dictionary<string, AttributeValue> dynamoTable = GetDynamoTable(commitTurnRequest.GameId, GAME_TABLE_NAME);
                 if (dynamoTable == null) {
                     response.Body = ("false");
                     return response;
@@ -114,7 +119,7 @@ namespace GameService {
                 string input = apigProxyEvent.Body;
                 _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
                 PollRequest request = JsonConvert.DeserializeObject<PollRequest>(input, _settings);
-                Dictionary<string, AttributeValue> dynamoTable = GetDynamoTable(request.GameId);
+                Dictionary<string, AttributeValue> dynamoTable = GetDynamoTable(request.GameId, GAME_TABLE_NAME);
 
                 SetPlayers(dynamoTable, request.PlayerId);
                 bool canPoll = _player.PlayerState == PlayerState.Polling;
@@ -139,12 +144,63 @@ namespace GameService {
             string input = apigProxyEvent.Body;
             _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
             PollRequest request = JsonConvert.DeserializeObject<PollRequest>(input, _settings);
-            Dictionary<string, AttributeValue> dynamoTable = GetDynamoTable(request.GameId);
+            Dictionary<string, AttributeValue> dynamoTable = GetDynamoTable(request.GameId, GAME_TABLE_NAME);
 
             SetPlayers(dynamoTable, request.PlayerId);
             _player.PlayerState = PlayerState.Quit;
             int playerIndex = _players.IndexOf(_player);
             UpdateDynamoPlayers(_player, playerIndex, request.GameId);
+        }
+
+        public void CreateGame(string lobbyId) {
+            AttributeValue playerList;
+            Dictionary<string, AttributeValue> playerMap;
+            AttributeValue mapId;
+            string playerName, playerId;
+            PlayerSideSelection side;
+            Player p;
+
+            _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+            Dictionary<string, AttributeValue> dynamoLobbyTable = GetDynamoTable(lobbyId, LOBBY_TABLE_NAME);
+
+            dynamoLobbyTable.TryGetValue(PLAYERS, out playerList);
+            dynamoLobbyTable.TryGetValue(MAP_ID, out mapId);
+
+            DynamoDBList players = new DynamoDBList();
+            foreach (AttributeValue map in playerList.L) {
+                playerMap = map.M;
+                playerName = playerMap[PLAYER_NAME].S;
+                playerId = playerMap[PLAYER_ID].S;
+                if (playerMap[PLAYER_SIDE_SELECTION].N.CompareTo("0") == 0) {
+                    side = PlayerSideSelection.SavePigeons;
+                } else {
+                    side = PlayerSideSelection.BurnPigeons;
+                }
+                p = new Player(playerId, playerName, side, PlayerState.NotSubmitted);
+                players.Add(JsonConvert.SerializeObject(p, _settings));
+            }
+
+            string gameId = Guid.NewGuid().ToString();
+            using (IAmazonDynamoDB client = new AmazonDynamoDBClient(Amazon.RegionEndpoint.USWest2)) {
+                Table table = Table.LoadTable(client, GAME_TABLE_NAME);
+
+                Task<Document> task = table.GetItemAsync(gameId);
+                task.Wait();
+                while (task.Result != null) {
+                    task = table.GetItemAsync(gameId);
+                    task.Wait();
+                }
+
+                Document row = new Document();
+                row[GAME_ID] = gameId;
+                row[COMMITTED_TURNS] = new DynamoDBList();
+                row[MAP_ID] = mapId.S;
+                row[PLAYERS] = players;
+                row[STAGED_TURNS] = "[ ]";
+
+                table.PutItemAsync(row).Wait();
+                UpdateGameId(lobbyId, gameId);
+            }
         }
 
         private string GetPollResponse(bool canPoll, List<Delta> deltaList) {
@@ -195,10 +251,10 @@ namespace GameService {
             _otherPlayers = _players.Where(p => p.PlayerID != playerId);
         }
 
-        private Dictionary<string, AttributeValue> GetDynamoTable(string gameId) {
+        private Dictionary<string, AttributeValue> GetDynamoTable(string primaryKey, string tableName) {
             using (IAmazonDynamoDB client = new AmazonDynamoDBClient(Amazon.RegionEndpoint.USWest2)) {
-                Table table = Table.LoadTable(client, TABLE_NAME);
-                Task<Document> task = table.GetItemAsync(gameId);
+                Table table = Table.LoadTable(client, tableName);
+                Task<Document> task = table.GetItemAsync(primaryKey);
                 task.Wait();
                 if (task.Result != null) {
                     return task.Result.ToAttributeMap();
@@ -210,7 +266,7 @@ namespace GameService {
         private Dictionary<string, AttributeValue> UpdateDynamoPlayers(Player player, int index, string gameId) {
             using (IAmazonDynamoDB client = new AmazonDynamoDBClient(Amazon.RegionEndpoint.USWest2)) {
                 UpdateItemRequest update = new UpdateItemRequest {
-                    TableName = TABLE_NAME,
+                    TableName = GAME_TABLE_NAME,
                     Key = new Dictionary<string, AttributeValue>() { { GAME_ID, new AttributeValue { S = gameId } } },
                     ExpressionAttributeNames = new Dictionary<string, string>() {
                             {"#p", PLAYERS}
@@ -232,6 +288,26 @@ namespace GameService {
             }
         }
 
+        private bool UpdateGameId(string lobbyId, string gameId) {
+            using (IAmazonDynamoDB client = new AmazonDynamoDBClient(Amazon.RegionEndpoint.USWest2)) {
+                UpdateItemRequest update = new UpdateItemRequest {
+                    TableName = LOBBY_TABLE_NAME,
+                    Key = new Dictionary<string, AttributeValue>() { { LOBBY_ID, new AttributeValue { S = lobbyId } } },
+                    ExpressionAttributeNames = new Dictionary<string, string>() {
+                            {"#g", GAME_ID}
+                        },
+                    ExpressionAttributeValues = new Dictionary<string, AttributeValue>() {
+                            {":v", new AttributeValue {S = gameId } }
+                        },
+                    UpdateExpression = "SET #g = :v",
+                };
+                Task<UpdateItemResponse> task = client.UpdateItemAsync(update);
+                task.Wait();
+                UpdateItemResponse response = task.Result;
+                return response.HttpStatusCode == System.Net.HttpStatusCode.OK;
+            }
+        }
+
         private bool UpdateStagedTurn(List<Delta> deltas, string gameId) {
             using (IAmazonDynamoDB client = new AmazonDynamoDBClient(Amazon.RegionEndpoint.USWest2)) {
                 AttributeValue deltaList = new AttributeValue { S = JsonConvert.SerializeObject(deltas) };
@@ -247,7 +323,7 @@ namespace GameService {
                 updateExpression += " #s = :d, #c = list_append(#c, :c)";
 
                 UpdateItemRequest update = new UpdateItemRequest {
-                    TableName = TABLE_NAME,
+                    TableName = GAME_TABLE_NAME,
                     Key = new Dictionary<string, AttributeValue>() { { GAME_ID, new AttributeValue { S = gameId } } },
                     ExpressionAttributeNames = new Dictionary<string, string>() {
                             {"#p", PLAYERS},
