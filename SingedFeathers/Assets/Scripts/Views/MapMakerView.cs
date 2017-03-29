@@ -86,7 +86,7 @@ namespace Assets.Scripts.Views {
 
         public void SetFire(TileView tile) {
             Position tilePos = tile.Position;
-            if (tile.IsFlammable()) {
+            if (tile.IsFlammable() && !tile.IsOnFire()) {
                 _mapController.ApplyHeat(tilePos.X, tilePos.Y);
                 tile.UpKeep();
                 _firePositions.Add(tilePos);
