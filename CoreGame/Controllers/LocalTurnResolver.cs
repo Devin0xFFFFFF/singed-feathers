@@ -9,9 +9,7 @@ namespace CoreGame.Controllers {
     public class LocalTurnResolver : ITurnResolver {
         private readonly JsonSerializerSettings _settings;
 
-        public LocalTurnResolver() {
-            _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-        }
+        public LocalTurnResolver() { _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All }; }
 
         private bool _isTurnResolved = true;
 
