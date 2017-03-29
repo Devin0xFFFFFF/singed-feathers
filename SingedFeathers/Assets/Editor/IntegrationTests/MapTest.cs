@@ -98,7 +98,7 @@ namespace Assets.Editor.IntegrationTests {
         }
 
         [Test]
-        public void PlayThroughKillingOnePigeonWhilTryingToSavePigeons() {
+        public void PlayThroughKillingOnePigeonWhileTryingToSavePigeons() {
             GenerateMap();
             _mapController.SetPlayerSideSelection(PlayerSideSelection.SavePigeons);
             Assert.AreEqual(PlayerSideSelection.SavePigeons, _mapController.GetPlayerSideSelection());
@@ -134,7 +134,7 @@ namespace Assets.Editor.IntegrationTests {
         }
 
         [Test]
-        public void PlayThroughKillingOnePigeonWhilTryingToBurnPigeons() {
+        public void PlayThroughKillingOnePigeonWhileTryingToBurnPigeons() {
             GenerateMap();
             _mapController.SetPlayerSideSelection(PlayerSideSelection.BurnPigeons);
             Assert.AreEqual(PlayerSideSelection.BurnPigeons, _mapController.GetPlayerSideSelection());
@@ -170,7 +170,7 @@ namespace Assets.Editor.IntegrationTests {
         }
 
         [Test]
-        public void PlayThroughKillingAllPigeons() {
+        public void PlayThroughKillingAllPigeonsWhileTryingToSavePigeons() {
             GenerateMap();
             _mapController.SetPlayerSideSelection(PlayerSideSelection.SavePigeons);
             Assert.AreEqual(PlayerSideSelection.SavePigeons, _mapController.GetPlayerSideSelection());
@@ -194,7 +194,7 @@ namespace Assets.Editor.IntegrationTests {
             _mapController.EndTurn();
             Assert.AreEqual(5, _mapController.GetTurnsLeft());
             _mapController.EndTurn();
-            //Second Pigeon Dies and Game Ends
+            // Second Pigeon Dies and Game Ends
             Assert.False(_mapController.IsMapBurntOut());
             Assert.True(_mapController.AreAllPigeonsDead());
             Assert.AreEqual(0, _mapController.GetLivePigeonCount());
@@ -226,7 +226,7 @@ namespace Assets.Editor.IntegrationTests {
             _mapController.EndTurn();
             Assert.AreEqual(5, _mapController.GetTurnsLeft());
             _mapController.EndTurn();
-            //Second Pigeon Dies and Game Ends
+            // Second Pigeon Dies and Game Ends
             Assert.False(_mapController.IsMapBurntOut());
             Assert.True(_mapController.AreAllPigeonsDead());
             Assert.AreEqual(0, _mapController.GetLivePigeonCount());
