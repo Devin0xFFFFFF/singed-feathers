@@ -27,6 +27,7 @@ namespace GameService {
         private const string GAME_TABLE_NAME = "SingedFeathersGames";
         private const string LOBBY_TABLE_NAME = "SingedFeathersLobbies";
         private const string JSON_SUFFIX = ".json";
+        private const string GAME_PREFIX = "Game";
 
         private const string MAP_ID = "MapID";
         private const string GAME_ID = "GameID";
@@ -180,13 +181,14 @@ namespace GameService {
                 players.Add(JsonConvert.SerializeObject(p, _settings));
             }
 
-            string gameId = Guid.NewGuid().ToString();
+            string gameId = GAME_PREFIX + Guid.NewGuid().ToString();
             using (IAmazonDynamoDB client = new AmazonDynamoDBClient(Amazon.RegionEndpoint.USWest2)) {
                 Table table = Table.LoadTable(client, GAME_TABLE_NAME);
 
                 Task<Document> task = table.GetItemAsync(gameId);
                 task.Wait();
                 while (task.Result != null) {
+                    gameId = GAME_PREFIX + Guid.NewGuid().ToString();
                     task = table.GetItemAsync(gameId);
                     task.Wait();
                 }
