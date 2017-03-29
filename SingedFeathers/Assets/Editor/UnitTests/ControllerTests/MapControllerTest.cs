@@ -68,19 +68,19 @@ namespace Assets.Editor.UnitTests.ControllerTests {
             _pigeon1.IsDead().Returns(true);
 
             _mapController.SetPlayerSideSelection(PlayerSideSelection.SavePigeons);
-            Assert.AreEqual("You lost! No pigeons survived!", _mapController.GetGameOverPlayerStatus());
+            Assert.AreEqual("You lose! No pigeons survived!", _mapController.GetGameOverPlayerStatus());
 
             _mapController.SetPlayerSideSelection(PlayerSideSelection.BurnPigeons);
-            Assert.AreEqual("You won! No pigeons survived!", _mapController.GetGameOverPlayerStatus());
+            Assert.AreEqual("You win! No pigeons survived!", _mapController.GetGameOverPlayerStatus());
 
             // Test with at least one live pigeon
             _pigeon1.IsDead().Returns(false);
 
             _mapController.SetPlayerSideSelection(PlayerSideSelection.SavePigeons);
-            Assert.AreEqual("You won! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
+            Assert.AreEqual("You win! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
 
             _mapController.SetPlayerSideSelection(PlayerSideSelection.BurnPigeons);
-            Assert.AreEqual("You lost! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
+            Assert.AreEqual("You lose! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
         }
             
         [Test]
