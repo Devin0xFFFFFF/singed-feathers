@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using NUnit.Framework;
-using NSubstitute;
-using Assets.Scripts.Views;
+﻿using NUnit.Framework;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Controllers;
 using CoreGame.Models;
-using Assets.Scripts.Utility;
 
 namespace Assets.Editor.IntegrationTests {
     [TestFixture]
@@ -37,7 +32,7 @@ namespace Assets.Editor.IntegrationTests {
         }
 
         [Test]
-        public void PlayThroughSavingPigeonsJustHitiingEndTurn() {
+        public void PlayThroughSavingPigeonsJustHittingEndTurn() {
             GenerateMap();
             _mapController.SetPlayerSideSelection(PlayerSideSelection.SavePigeons);
             Assert.AreEqual(PlayerSideSelection.SavePigeons, _mapController.GetPlayerSideSelection());
@@ -70,7 +65,7 @@ namespace Assets.Editor.IntegrationTests {
         }
             
         [Test]
-        public void PlayThroughBurningPigeonsJustHitiingEndTurn() {
+        public void PlayThroughBurningPigeonsJustHittingEndTurn() {
             GenerateMap();
             _mapController.SetPlayerSideSelection(PlayerSideSelection.BurnPigeons);
             Assert.AreEqual(PlayerSideSelection.BurnPigeons, _mapController.GetPlayerSideSelection());
@@ -103,7 +98,7 @@ namespace Assets.Editor.IntegrationTests {
         }
 
         [Test]
-        public void PlayThroughKillingOnePigeon() {
+        public void PlayThroughKillingOnePigeonWhilTryingToSavePigeons() {
             GenerateMap();
             _mapController.SetPlayerSideSelection(PlayerSideSelection.SavePigeons);
             Assert.AreEqual(PlayerSideSelection.SavePigeons, _mapController.GetPlayerSideSelection());
@@ -139,6 +134,42 @@ namespace Assets.Editor.IntegrationTests {
         }
 
         [Test]
+        public void PlayThroughKillingOnePigeonWhilTryingToBurnPigeons() {
+            GenerateMap();
+            _mapController.SetPlayerSideSelection(PlayerSideSelection.BurnPigeons);
+            Assert.AreEqual(PlayerSideSelection.BurnPigeons, _mapController.GetPlayerSideSelection());
+
+            Assert.AreEqual(10, _mapController.GetTurnsLeft());
+            _mapController.ApplyHeat(4, 1);
+            _mapController.EndTurn();
+            Assert.AreEqual(9, _mapController.GetTurnsLeft());
+            _mapController.EndTurn();
+            Assert.AreEqual(8, _mapController.GetTurnsLeft());
+            _mapController.EndTurn();
+            Assert.AreEqual(7, _mapController.GetTurnsLeft());
+            _mapController.EndTurn();
+            Assert.AreEqual(6, _mapController.GetTurnsLeft());
+            _mapController.EndTurn();
+            // First Pigeon Dies
+            Assert.AreEqual(1, _mapController.GetLivePigeonCount());
+            Assert.AreEqual(5, _mapController.GetTurnsLeft());
+            _mapController.EndTurn();
+            Assert.AreEqual(4, _mapController.GetTurnsLeft());
+            _mapController.EndTurn();
+            Assert.AreEqual(3, _mapController.GetTurnsLeft());
+            _mapController.EndTurn();
+            Assert.AreEqual(2, _mapController.GetTurnsLeft());
+            _mapController.EndTurn();
+            Assert.AreEqual(1, _mapController.GetTurnsLeft());
+            _mapController.EndTurn();
+            Assert.AreEqual(0, _mapController.GetTurnsLeft());
+            Assert.False(_mapController.IsMapBurntOut());
+            Assert.False(_mapController.AreAllPigeonsDead());
+            Assert.AreEqual(1, _mapController.GetLivePigeonCount());
+            Assert.AreEqual("You lost! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
+        }
+
+        [Test]
         public void PlayThroughKillingAllPigeons() {
             GenerateMap();
             _mapController.SetPlayerSideSelection(PlayerSideSelection.SavePigeons);
@@ -168,6 +199,38 @@ namespace Assets.Editor.IntegrationTests {
             Assert.True(_mapController.AreAllPigeonsDead());
             Assert.AreEqual(0, _mapController.GetLivePigeonCount());
             Assert.AreEqual("You lost! No pigeons survived!", _mapController.GetGameOverPlayerStatus());
+        }
+
+        [Test]
+        public void PlayThroughKillingAllPigeonsWhileTryingToBurnPigeons() {
+            GenerateMap();
+            _mapController.SetPlayerSideSelection(PlayerSideSelection.BurnPigeons);
+            Assert.AreEqual(PlayerSideSelection.BurnPigeons, _mapController.GetPlayerSideSelection());
+
+            Assert.AreEqual(10, _mapController.GetTurnsLeft());
+            _mapController.ApplyHeat(4, 1);
+            _mapController.EndTurn();
+            Assert.AreEqual(9, _mapController.GetTurnsLeft());
+            _mapController.ApplyHeat(6, 7);
+            _mapController.EndTurn();
+            Assert.AreEqual(8, _mapController.GetTurnsLeft());
+            _mapController.ApplyHeat(6, 6);
+            _mapController.EndTurn();
+            Assert.AreEqual(7, _mapController.GetTurnsLeft());
+            _mapController.ApplyHeat(6, 3);
+            _mapController.EndTurn();
+            Assert.AreEqual(6, _mapController.GetTurnsLeft());
+            // First Pigeon Dies
+            Assert.AreEqual(1, _mapController.GetLivePigeonCount());
+            _mapController.ApplyHeat(6, 4);
+            _mapController.EndTurn();
+            Assert.AreEqual(5, _mapController.GetTurnsLeft());
+            _mapController.EndTurn();
+            //Second Pigeon Dies and Game Ends
+            Assert.False(_mapController.IsMapBurntOut());
+            Assert.True(_mapController.AreAllPigeonsDead());
+            Assert.AreEqual(0, _mapController.GetLivePigeonCount());
+            Assert.AreEqual("You won! No pigeons survived!", _mapController.GetGameOverPlayerStatus());
         }
 
         private void GenerateMap() {
