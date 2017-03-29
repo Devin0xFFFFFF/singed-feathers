@@ -4,7 +4,6 @@ using CoreGame.Models;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Service;
-using Castle.Core.Internal;
 using CoreGame.Models.API.MapClient;
 using UnityEngine;
 using UnityEngine.UI;
@@ -170,7 +169,7 @@ namespace Assets.Scripts.Views {
             ResultText.color = Color.red;
         }
 
-        private bool ValidInputReceived() { return !AuthorsName.text.IsNullOrEmpty() && !MapTitle.text.IsNullOrEmpty(); }
+        private bool ValidInputReceived() { return AuthorsName.text.Count() > 0 && MapTitle.text.Count() > 0; }
 
         private bool HasFlammableTile() {
             for (int x = 0; x < _width; x++) {
