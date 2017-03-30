@@ -25,7 +25,7 @@ namespace Assets.Editor.IntegrationTests {
             Assert.AreEqual(8, _mapController.Height);
             Assert.AreEqual(10, _mapController.GetTurnsLeft());
             Assert.AreEqual(PlayerSideSelection.SavePigeons, _mapController.GetPlayerSideSelection());
-            Assert.AreEqual("You won! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
+            Assert.AreEqual("You win! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
             Assert.False(_mapController.IsMapBurntOut());
             Assert.False(_mapController.AreAllPigeonsDead());
             Assert.AreEqual(2, _mapController.GetLivePigeonCount());
@@ -61,7 +61,7 @@ namespace Assets.Editor.IntegrationTests {
             Assert.False(_mapController.IsMapBurntOut());
             Assert.False(_mapController.AreAllPigeonsDead());
             Assert.AreEqual(2, _mapController.GetLivePigeonCount());
-            Assert.AreEqual("You won! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
+            Assert.AreEqual("You win! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
         }
             
         [Test]
@@ -94,7 +94,7 @@ namespace Assets.Editor.IntegrationTests {
             Assert.False(_mapController.IsMapBurntOut());
             Assert.False(_mapController.AreAllPigeonsDead());
             Assert.AreEqual(2, _mapController.GetLivePigeonCount());
-            Assert.AreEqual("You lost! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
+            Assert.AreEqual("You lose! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
         }
 
         [Test]
@@ -130,7 +130,7 @@ namespace Assets.Editor.IntegrationTests {
             Assert.False(_mapController.IsMapBurntOut());
             Assert.False(_mapController.AreAllPigeonsDead());
             Assert.AreEqual(1, _mapController.GetLivePigeonCount());
-            Assert.AreEqual("You won! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
+            Assert.AreEqual("You win! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
         }
 
         [Test]
@@ -166,7 +166,7 @@ namespace Assets.Editor.IntegrationTests {
             Assert.False(_mapController.IsMapBurntOut());
             Assert.False(_mapController.AreAllPigeonsDead());
             Assert.AreEqual(1, _mapController.GetLivePigeonCount());
-            Assert.AreEqual("You lost! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
+            Assert.AreEqual("You lose! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
         }
 
         [Test]
@@ -198,7 +198,7 @@ namespace Assets.Editor.IntegrationTests {
             Assert.False(_mapController.IsMapBurntOut());
             Assert.True(_mapController.AreAllPigeonsDead());
             Assert.AreEqual(0, _mapController.GetLivePigeonCount());
-            Assert.AreEqual("You lost! No pigeons survived!", _mapController.GetGameOverPlayerStatus());
+            Assert.AreEqual("You lose! No pigeons survived!", _mapController.GetGameOverPlayerStatus());
         }
 
         [Test]
@@ -230,7 +230,7 @@ namespace Assets.Editor.IntegrationTests {
             Assert.False(_mapController.IsMapBurntOut());
             Assert.True(_mapController.AreAllPigeonsDead());
             Assert.AreEqual(0, _mapController.GetLivePigeonCount());
-            Assert.AreEqual("You won! No pigeons survived!", _mapController.GetGameOverPlayerStatus());
+            Assert.AreEqual("You win! No pigeons survived!", _mapController.GetGameOverPlayerStatus());
         }
 
         private void GenerateMap() {
