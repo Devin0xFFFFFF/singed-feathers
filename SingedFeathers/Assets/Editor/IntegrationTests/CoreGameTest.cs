@@ -38,11 +38,16 @@ namespace Assets.Editor.IntegrationTests {
         [Test]
         public void PlayThroughSavingPigeonsJustHittingEndTurn() {
             GenerateMap(SERIALIZED_MAP);
+            ITurnController turnController = _mapController.GetTurnController();
             _mapController.SetPlayerSideSelection(PlayerSideSelection.SavePigeons);
             Assert.AreEqual(PlayerSideSelection.SavePigeons, _mapController.GetPlayerSideSelection());
 
+            // User sets water and then changes their mind
             Assert.AreEqual(10, _mapController.GetTurnsLeft());
             Assert.AreEqual(2, _mapController.GetLivePigeonCount());
+            turnController.SetMoveType(MoveType.Water);
+            Assert.True(turnController.ProcessAction(_mapController.GetTileController(2, 3)));
+            turnController.UndoAction();
             _mapController.EndTurn();
 
             Assert.AreEqual(9, _mapController.GetTurnsLeft());
@@ -94,11 +99,16 @@ namespace Assets.Editor.IntegrationTests {
         [Test]
         public void PlayThroughBurningPigeonsJustHittingEndTurn() {
             GenerateMap(SERIALIZED_MAP);
+            ITurnController turnController = _mapController.GetTurnController();
             _mapController.SetPlayerSideSelection(PlayerSideSelection.BurnPigeons);
             Assert.AreEqual(PlayerSideSelection.BurnPigeons, _mapController.GetPlayerSideSelection());
 
+            // User sets fire and then changes their mind
             Assert.AreEqual(10, _mapController.GetTurnsLeft());
             Assert.AreEqual(2, _mapController.GetLivePigeonCount());
+            turnController.SetMoveType(MoveType.Fire);
+            Assert.True(turnController.ProcessAction(_mapController.GetTileController(4, 1)));
+            turnController.UndoAction();
             _mapController.EndTurn();
 
             Assert.AreEqual(9, _mapController.GetTurnsLeft());
