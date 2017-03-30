@@ -15,7 +15,7 @@ script:
 - if [ $TRAVIS_BRANCH = "master" ]; then travis_wait ./Travis/Scripts/build.sh; fi
 - xbuild /p:TargetFrameworkProfile="" /p:Configuration=Release ./SingedFeathers/SingedFeathers.sln
 - nunit-console ./SingedFeathers/Temp/bin/Release/Assembly-CSharp-Editor.dll
-- PYTHONPATH=service ./LobbyService/py.test -v
+- PYTHONPATH=service py.test -v
 
 after_success:
 - '[ "${TRAVIS_TEST_RESULT}" = "0" ] && [ "${TRAVIS_BRANCH}" = "develop" ] && [ "${TRAVIS_PULL_REQUEST}" = "false" ] && git push https://${GITHUB_TOKEN}:x-oauth-basic@github.com/${TRAVIS_REPO_SLUG}.git HEAD:master'
