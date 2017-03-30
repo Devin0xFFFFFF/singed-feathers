@@ -1,7 +1,7 @@
 language: csharp
 
 mono: latest
-group: edge
+# group: edge
 
 before_install:
 - chmod a+x ./Travis/Scripts/install.sh
