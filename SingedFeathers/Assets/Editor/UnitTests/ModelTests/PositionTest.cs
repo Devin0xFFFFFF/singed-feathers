@@ -2,7 +2,7 @@
 using CoreGame.Models;
 using System.Collections.Generic;
 
-namespace Assets.Editor.ControllerTests {
+namespace Assets.Editor.UnitTests.ControllerTests {
     [TestFixture]
     public class PositionTest {
 

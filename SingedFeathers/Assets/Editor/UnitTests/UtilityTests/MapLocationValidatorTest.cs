@@ -2,7 +2,7 @@
 using CoreGame.Utility;
 using NUnit.Framework;
 
-namespace Assets.Editor.UtilityTests {
+namespace Assets.Editor.UnitTests.UtilityTests {
     [TestFixture]
     public class MapLocationValidatorTest {
         Map _map;

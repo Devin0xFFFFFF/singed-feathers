@@ -7,7 +7,7 @@ using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 using CoreGame.Service;
 
-namespace Assets.Editor.ControllerTests {
+namespace Assets.Editor.UnitTests.ControllerTests {
     [TestFixture]
     public class MapControllerTest {
         private MapController _mapController;
@@ -68,19 +68,19 @@ namespace Assets.Editor.ControllerTests {
             _pigeon1.IsDead().Returns(true);
 
             _mapController.SetPlayerSideSelection(PlayerSideSelection.SavePigeons);
-            Assert.AreEqual("You lost! No pigeons survived!", _mapController.GetGameOverPlayerStatus());
+            Assert.AreEqual("You lose! No pigeons survived!", _mapController.GetGameOverPlayerStatus());
 
             _mapController.SetPlayerSideSelection(PlayerSideSelection.BurnPigeons);
-            Assert.AreEqual("You won! No pigeons survived!", _mapController.GetGameOverPlayerStatus());
+            Assert.AreEqual("You win! No pigeons survived!", _mapController.GetGameOverPlayerStatus());
 
             // Test with at least one live pigeon
             _pigeon1.IsDead().Returns(false);
 
             _mapController.SetPlayerSideSelection(PlayerSideSelection.SavePigeons);
-            Assert.AreEqual("You won! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
+            Assert.AreEqual("You win! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
 
             _mapController.SetPlayerSideSelection(PlayerSideSelection.BurnPigeons);
-            Assert.AreEqual("You lost! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
+            Assert.AreEqual("You lose! A pigeon survived!", _mapController.GetGameOverPlayerStatus());
         }
             
         [Test]
@@ -130,6 +130,58 @@ namespace Assets.Editor.ControllerTests {
 
                 // X value valid
                 _mapController.ApplyHeat(-12, 0);
+            } catch (Exception e) {
+                Assert.Fail("Expected no exception, but got {0}", e.Message);
+            }
+        }
+            
+        [Test]
+        public void TestReduceHeatAffectsExpectedTileAtValidLocation() {
+            _mapController.ReduceHeat(0, 0);
+            _tile0.Received().ReduceHeat(Arg.Any<int>());
+
+            _mapController.ReduceHeat(0, 1);
+            _tile1.Received().ReduceHeat(Arg.Any<int>());
+
+            _mapController.ReduceHeat(0, 2);
+            _tile2.Received().ReduceHeat(Arg.Any<int>());
+        }
+
+        [Test]
+        public void TestReduceHeatThrowsNoExceptionAtInvalidLocation() {
+            try {
+                // Both values too large
+                _mapController.ReduceHeat(10, 10);
+                _tile0.DidNotReceive().ReduceHeat(Arg.Any<int>());
+                _tile1.DidNotReceive().ReduceHeat(Arg.Any<int>());
+                _tile2.DidNotReceive().ReduceHeat(Arg.Any<int>());
+
+                // Both values negative
+                _mapController.ReduceHeat(-2, -4);
+                _tile0.DidNotReceive().ReduceHeat(Arg.Any<int>());
+                _tile1.DidNotReceive().ReduceHeat(Arg.Any<int>());
+                _tile2.DidNotReceive().ReduceHeat(Arg.Any<int>());
+
+                // X value negative
+                _mapController.ReduceHeat(-10, 20);
+                _tile0.DidNotReceive().ReduceHeat(Arg.Any<int>());
+                _tile1.DidNotReceive().ReduceHeat(Arg.Any<int>());
+                _tile2.DidNotReceive().ReduceHeat(Arg.Any<int>());
+
+                // Y value negative
+                _mapController.ReduceHeat(20, -15);
+                _tile0.DidNotReceive().ReduceHeat(Arg.Any<int>());
+                _tile1.DidNotReceive().ReduceHeat(Arg.Any<int>());
+                _tile2.DidNotReceive().ReduceHeat(Arg.Any<int>());
+
+                // X value valid
+                _mapController.ReduceHeat(0, 11);
+                _tile0.DidNotReceive().ReduceHeat(Arg.Any<int>());
+                _tile1.DidNotReceive().ReduceHeat(Arg.Any<int>());
+                _tile2.DidNotReceive().ReduceHeat(Arg.Any<int>());
+
+                // X value valid
+                _mapController.ReduceHeat(-12, 0);
             } catch (Exception e) {
                 Assert.Fail("Expected no exception, but got {0}", e.Message);
             }
@@ -314,6 +366,12 @@ namespace Assets.Editor.ControllerTests {
 
             // Test empty map with no pigeons
             Assert.AreEqual(0, _emptyMapController.GetLivePigeonCount());
+        }
+
+        [Test]
+        public void TestGenerateDefaultMap() {
+            MapController mc = new MapController();
+            Assert.IsTrue(mc.GenerateDefaultMap());
         }
 
         private Map GenerateTestMap() {

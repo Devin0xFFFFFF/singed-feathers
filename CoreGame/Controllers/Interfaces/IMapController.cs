@@ -6,15 +6,21 @@ namespace CoreGame.Controllers.Interfaces {
         int Width { get; }
         int Height { get; }
         bool GenerateMap(string serializedMap);
+        bool GenerateDefaultMap();
+        string SerializeMap(int width, int height, IList<Position> pigeonPositions, IList<Position> firePositions, TileType[,] tileMap, int numTurns);
         void SetPlayerSideSelection(PlayerSideSelection playerSideSelection);
         PlayerSideSelection GetPlayerSideSelection();
+        string GetPlayerName();
         string GetGameOverPlayerStatus();
         bool IsMapBurntOut();
         bool AreAllPigeonsDead();
         int GetLivePigeonCount();
         void ApplyHeat(int x, int y);
+        void ReduceHeat(int x, int y);
         TileType GetTileType(int x, int y);
         ITileController GetTileController(int x, int y);
+        void UpdateTileController(TileType type, int x, int y);
+        PigeonController AddPigeonToMap(Position position);
         IList<IPigeonController> GetPigeonControllers();
         ITurnResolver GetTurnResolver();
         ITurnController GetTurnController();

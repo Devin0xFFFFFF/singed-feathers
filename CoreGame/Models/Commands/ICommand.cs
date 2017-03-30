@@ -7,5 +7,6 @@ namespace CoreGame.Models.Commands {
         int Heat { get; }
         void ExecuteCommand(ITileController tileController);
         bool CanBeExecutedOnTile(ITileController tileController);
+        string GetExecutionFailureReason(ITileController tileController);
     }
 }

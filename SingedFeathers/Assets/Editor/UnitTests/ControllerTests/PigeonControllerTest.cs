@@ -5,7 +5,7 @@ using CoreGame.Models;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Assets.Editor.ControllerTests {
+namespace Assets.Editor.UnitTests.ControllerTests {
     [TestFixture]
     public class PigeonControllerTest {
         private PigeonController _pigeonController;
