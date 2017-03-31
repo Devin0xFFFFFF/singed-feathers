@@ -1095,6 +1095,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LobbySelectButton: {fileID: 1921055989952550, guid: 47e9670ebfc4c42c9819cdcbc3ba2806,
     type: 2}
+  SceneSelector: {fileID: 1773403416}
 --- !u!1 &2012024940
 GameObject:
   m_ObjectHideFlags: 0
