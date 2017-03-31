@@ -6,10 +6,12 @@ using NUnit.Framework;
 using NSubstitute;
 
 namespace Assets.Editor.UnitTests.UtilityTests {
-    [TestFixture] public class MapMakerInputValidatorTest {
+    [TestFixture]
+    public class MapMakerInputValidatorTest {
         private ITileController _tileController;
 
-        [SetUp] public void Init() {
+        [SetUp]
+        public void Init() {
             _tileController = Substitute.For<ITileController>();
             _tileController.IsFlammable().Returns(true);
         }
