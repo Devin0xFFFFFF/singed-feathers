@@ -56,6 +56,7 @@ namespace Assets.Scripts.Input {
         }
         public void SelectLobby(string mapID, string lobbyID, PlayerSideSelection side) { 
             PlayerPrefs.SetString("MapID", mapID);
+            PlayerPrefs.SetInt("Side", (int)side);
 
             JoinLobbyInfo joinlobby = new JoinLobbyInfo();
             joinlobby.JoinPlayer = new Player(PlayerPrefs.GetString("PlayerID"), PlayerPrefs.GetString("PlayerName", "AnonPlayer"), side);
