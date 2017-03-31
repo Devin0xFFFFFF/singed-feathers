@@ -33,9 +33,8 @@ full_get_lobby_info = {
 
 @patch('lobby_service_common.get_lobby_info')
 @patch('lobby_service_common.add_players_to_lobby')
-def test_join_lobby(get_lobby_info_mock, add_players_to_lobby_mock):
+def test_join_lobby(add_players_to_lobby_mock, get_lobby_info_mock):
     get_lobby_info_mock.return_value = valid_get_lobby_info
-    add_players_to_lobby_mock.return_value = valid_get_lobby_info
 
     response = join_lobby.lambda_handler(valid_event_body, None)
 
@@ -46,27 +45,23 @@ def test_join_lobby(get_lobby_info_mock, add_players_to_lobby_mock):
 
 
 @patch('lobby_service_common.get_lobby_info')
-@patch('lobby_service_common.add_players_to_lobby')
-def test_join_lobby_already_in(get_lobby_info_mock, add_players_to_lobby_mock):
+def test_join_lobby_already_in(get_lobby_info_mock):
     get_lobby_info_mock.return_value = already_in_get_lobby_info
-    add_players_to_lobby_mock.return_value = already_in_get_lobby_info
 
     response = join_lobby.lambda_handler(valid_event_body, None)
 
-    # get_lobby_info_mock.assert_called()
+    get_lobby_info_mock.assert_called()
 
     assert response['statusCode'] == 200 and "\"ResultCode\": 2" in response['body']
 
 
 @patch('lobby_service_common.get_lobby_info')
-@patch('lobby_service_common.add_players_to_lobby')
-def test_join_lobby_full(get_lobby_info_mock, add_players_to_lobby_mock):
+def test_join_lobby_full(get_lobby_info_mock):
     get_lobby_info_mock.return_value = full_get_lobby_info
-    add_players_to_lobby_mock.return_value = full_get_lobby_info
 
     response = join_lobby.lambda_handler(valid_event_body, None)
 
-    # get_lobby_info_mock.assert_called()
+    get_lobby_info_mock.assert_called()
 
     assert response['statusCode'] == 200 and "\"ResultCode\": 1" in response['body']
 
@@ -81,7 +76,7 @@ def test_join_lobby_dynamo_lobby_info_failure(get_lobby_info_mock):
 
 @patch('lobby_service_common.get_lobby_info')
 @patch('lobby_service_common.add_players_to_lobby')
-def test_join_lobby_dynamo_add_players_failure(get_lobby_info_mock, add_players_to_lobby_mock):
+def test_join_lobby_dynamo_add_players_failure(add_players_to_lobby_mock, get_lobby_info_mock):
     with pytest.raises(IOError):
         get_lobby_info_mock.return_value = valid_get_lobby_info
         add_players_to_lobby_mock.side_effect = Mock(side_effect=IOError('Dynamo Exception'))

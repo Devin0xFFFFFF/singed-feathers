@@ -45,9 +45,8 @@ all_ready_get_lobby_info = {
 
 @patch('lobby_service_common.get_lobby_info')
 @patch('lobby_service_common.set_player_ready_in_lobby')
-def test_ready_lobby(get_lobby_info_mock, set_player_ready_in_lobby_mock):
+def test_ready_lobby(set_player_ready_in_lobby_mock, get_lobby_info_mock):
     get_lobby_info_mock.return_value = valid_get_lobby_info
-    set_player_ready_in_lobby_mock.return_value = valid_get_lobby_info
 
     response = ready_lobby.lambda_handler(valid_event_body, None)
 
@@ -83,11 +82,11 @@ def test_ready_lobby_game_started(get_lobby_info_mock):
 @patch('lobby_service_common.set_player_ready_in_lobby')
 @patch('lobby_service_common.hide_lobby')
 @patch('lobby_service_common.invoke_create_game')
-def test_ready_lobby_all_ready(get_lobby_info_mock, set_player_ready_in_lobby_mock, hide_lobby_mock, invoke_create_game_mock):
+def test_ready_lobby_all_ready(invoke_create_game_mock,
+                               hide_lobby_mock,
+                               set_player_ready_in_lobby_mock,
+                               get_lobby_info_mock):
     get_lobby_info_mock.return_value = all_ready_get_lobby_info
-    set_player_ready_in_lobby_mock.return_value = all_ready_get_lobby_info
-    hide_lobby_mock.return_value = all_ready_get_lobby_info
-    invoke_create_game_mock.return_value = all_ready_get_lobby_info
 
     response = ready_lobby.lambda_handler(valid_event_body, None)
 
@@ -109,7 +108,7 @@ def test_ready_lobby_dynamo_lobby_info_failure(get_lobby_info_mock):
 
 @patch('lobby_service_common.get_lobby_info')
 @patch('lobby_service_common.set_player_ready_in_lobby')
-def test_ready_lobby_dynamo_remove_player_failure(get_lobby_info_mock, set_player_ready_in_lobby_mock):
+def test_ready_lobby_dynamo_remove_player_failure(set_player_ready_in_lobby_mock, get_lobby_info_mock):
     with pytest.raises(IOError):
         get_lobby_info_mock.return_value = valid_get_lobby_info
         set_player_ready_in_lobby_mock.side_effect = Mock(side_effect=IOError('Dynamo Exception'))
