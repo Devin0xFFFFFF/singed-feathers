@@ -14,6 +14,13 @@ namespace Assets.Editor.UnitTests.UtilityTests {
             _tileController.IsFlammable().Returns(true);
         }
 
+        [Test]
+        public void TestSuccessIfValidInput() {
+            MapMakerValidationResult result = MapMakerInputValidator.ValidateInput("some map", "some person",
+                new List<Position>() { new Position(0, 0) },
+                new List<ITileController>() { _tileController });
+            Assert.AreEqual(MapMakerValidationResult.Valid, result);
+        }
 
         [Test]
         public void TestFailureIfNullPigeons() {
