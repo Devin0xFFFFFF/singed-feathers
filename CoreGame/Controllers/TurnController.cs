@@ -14,7 +14,7 @@ namespace CoreGame.Controllers {
         public TurnController(int turnsLeft) {
             _delta = null;
             _turnsLeft = turnsLeft;
-            _moveType = MoveType.Fire;
+            _moveType = MoveType.None;
             UpdateCommand();
         }
 

@@ -1,5 +1,5 @@
 ﻿namespace CoreGame.Models {
     public enum MoveType {
-        Fire, Water
+        Fire, Water, None
     }
 }

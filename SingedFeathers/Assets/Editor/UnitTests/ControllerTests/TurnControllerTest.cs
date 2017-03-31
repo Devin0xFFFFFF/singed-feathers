@@ -23,7 +23,7 @@ namespace Assets.Editor.UnitTests.ControllerTests {
             Assert.True(_turnController.HasTurnsLeft());
             Assert.False(_turnController.HasQueuedAction());
             Assert.AreEqual(1, _turnController.GetTurnsLeft());
-            Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
+            Assert.AreEqual(MoveType.None, _turnController.GetMoveType());
         }
 
         [Test]
@@ -121,8 +121,9 @@ namespace Assets.Editor.UnitTests.ControllerTests {
             Assert.True(_turnController.HasTurnsLeft());
             Assert.False(_turnController.HasQueuedAction());
             Assert.AreEqual(1, _turnController.GetTurnsLeft());
-            Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
-
+            Assert.AreEqual(MoveType.None, _turnController.GetMoveType());
+            
+            _turnController.SetMoveType(MoveType.Fire);
             Delta move = _turnController.GetAndResetMove();
             Assert.False(_turnController.HasTurnsLeft());
             Assert.False(_turnController.HasQueuedAction());
