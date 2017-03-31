@@ -1,6 +1,6 @@
 language: csharp
 mono:
-  - 3.12.0
+  - 3.10.0
 
 before_install:
 - chmod a+x ./Travis/Scripts/install.sh
