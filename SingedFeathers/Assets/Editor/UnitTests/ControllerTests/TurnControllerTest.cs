@@ -60,6 +60,16 @@ namespace Assets.Editor.UnitTests.ControllerTests {
         }
 
         [Test]
+        public void TestsNoneCommandReturnsFalseInAllCases() {
+            _turnController = new TurnController(10);
+            Assert.AreEqual(MoveType.None, _turnController.GetMoveType());
+            Assert.AreEqual("", _turnController.GetExecutionFailureReason(_tile0));
+            Assert.AreEqual("", _turnController.GetExecutionFailureReason(_tile2));
+            Assert.AreEqual("", _turnController.GetExecutionFailureReason(_tile3));
+            Assert.AreEqual("", _turnController.GetExecutionFailureReason(_tile4));
+        }
+
+        [Test]
         public void TestFireCommandReturnsFalseOnNonFlammable() {
             _turnController = new TurnController(10);
             _turnController.SetMoveType(MoveType.Fire);
