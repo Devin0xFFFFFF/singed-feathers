@@ -58,6 +58,9 @@ namespace CoreGame.Controllers {
                 case MoveType.Water:
                     _command = new Command(MoveType.Water, _INTENSITY);
                     break;
+                case MoveType.None:
+                    _command = new Command(MoveType.None);
+                    break;
             }
         }
     }
