@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using CoreGame.Models;
 using Assets.Scripts;
+using Assets.Scripts.Utility;
 
 namespace Assets.Scripts.Input {
     public class LobbySelectionInput : MonoBehaviour {
@@ -14,6 +15,7 @@ namespace Assets.Scripts.Input {
         private List<GameObject> _buttons;
 
         public void Start() {
+            UnitySystemConsoleRedirector.Redirect();
             _lobbyIO = new LobbyIO();
             _buttons = new List<GameObject>();
             StartCoroutine(_lobbyIO.GetLobbies(delegate(List<LobbyInfo> lobbies) {
@@ -61,12 +63,13 @@ namespace Assets.Scripts.Input {
             JoinLobbyInfo joinlobby = new JoinLobbyInfo();
             joinlobby.JoinPlayer = new Player(PlayerPrefs.GetString("PlayerID"), PlayerPrefs.GetString("PlayerName", "AnonPlayer"), side);
             joinlobby.LobbyID = lobbyID;
-
-            _lobbyIO.JoinLobby(joinlobby, delegate(JoinLobbyResult result) {
+            Debug.Log("Attempting to join " + lobbyID);
+            StartCoroutine(_lobbyIO.JoinLobby(joinlobby, delegate(JoinLobbyResult result) {
+                Debug.Log(result.ResultMessage);
                 if (result.IsSuccess()){
                     SceneSelector.LoadScene("GameScene");
                 }
-            });
+            }));
 
         }
     }

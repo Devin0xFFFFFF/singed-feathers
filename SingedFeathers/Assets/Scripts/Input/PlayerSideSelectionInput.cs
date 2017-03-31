@@ -18,14 +18,17 @@ namespace Assets.Scripts.Input {
         private void CreateLobby(){
             LobbyIO lobbyIO = new LobbyIO();
             CreateLobbyInfo lobbyInfo = new CreateLobbyInfo();
-            lobbyInfo.HostPlayer = new Player(PlayerPrefs.GetString("PlayerID"), PlayerPrefs.GetString("PlayerID", "AnonPlayer"), (PlayerSideSelection)PlayerPrefs.GetInt("Side"));
+            lobbyInfo.HostPlayer = new Player(PlayerPrefs.GetString("PlayerID"), PlayerPrefs.GetString("PlayerName", "AnonPlayer"), (PlayerSideSelection)PlayerPrefs.GetInt("Side"));
             lobbyInfo.IsPublic = (PlayerPrefs.GetInt("IsPublic") == 1)? true : false;
             lobbyInfo.LobbyName = PlayerPrefs.GetString("LobbyName", "AnonLobby");
             lobbyInfo.MapID = PlayerPrefs.GetString("MapID");
             lobbyInfo.NumPlayers = PlayerPrefs.GetInt("NumPlayers");
-            lobbyIO.CreateLobby(lobbyInfo, delegate(string lobbyID) {
+            Debug.Log("Creating Lobby\n" + "Public:"+lobbyInfo.IsPublic + ", "+ lobbyInfo.NumPlayers + "\n"+ lobbyInfo.LobbyName + "\n" + PlayerPrefs.GetString("PlayerID") + "\n" +lobbyInfo.MapID );
+            StartCoroutine(lobbyIO.CreateLobby(lobbyInfo, delegate(string lobbyID) {
                 PlayerPrefs.SetString("LobbyID", lobbyID);
-            });
+                Debug.Log(lobbyID == null);
+                Debug.Log(lobbyID);
+            }));
         }
     }
 

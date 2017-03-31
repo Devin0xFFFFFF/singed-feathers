@@ -18,17 +18,20 @@ namespace Assets.Scripts.Input {
 	        
 	    public void SetPlayerID() { 
 	        string id = Player.GeneratePlayerID();
-	        PlayerPrefs.SetString("PlayerID", id); 
+	        PlayerPrefs.SetString("PlayerID", id);
+            Debug.Log("Player id set to: " + id);
 	    }
 
 	    public void SetSinglePlayer() {
 	        PlayerPrefs.SetInt("IsPublic", 0);
 	        PlayerPrefs.SetInt("NumPlayers", 1);
+            Debug.Log("Set single player");
 	    }
 
 	    public void SetMultiPlayer() {
 	        PlayerPrefs.SetInt("IsPublic", 1);
 	        PlayerPrefs.SetInt("NumPlayers", 2);
+            Debug.Log("Set multiplayer");
 	    }
 	}
 }

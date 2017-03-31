@@ -15,8 +15,10 @@ namespace Assets.Scripts.Controllers {
         private bool _receivedResponse = true;
         private readonly JsonSerializerSettings _settings;
         private GameServiceIO _gameServiceIO;
+        private string _gameID;
 
-        public WebTurnResolver() {
+        public WebTurnResolver(string gameID = "Test") {
+            _gameID = gameID;
             _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
         }
 
@@ -30,13 +32,13 @@ namespace Assets.Scripts.Controllers {
 
         public void ResolveTurn(Delta delta, Map map, Player player) {
             _isTurnResolved = false;
-            CommitTurnRequest commitTurnRequest = new CommitTurnRequest("Test", player.PlayerID, delta);
+            CommitTurnRequest commitTurnRequest = new CommitTurnRequest(_gameID, player.PlayerID, delta);
             SendCommitTurnRequest(commitTurnRequest);
         }
 
         public void Poll(Map map, Player player) {
             _receivedResponse = true;
-            PollRequest request = new PollRequest("Test", player.PlayerID);
+            PollRequest request = new PollRequest(_gameID, player.PlayerID);
             SendPollRequest(request, map);
         }
 

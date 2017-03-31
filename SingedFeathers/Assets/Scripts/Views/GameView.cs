@@ -5,6 +5,7 @@ using Assets.Scripts.Utility;
 using CoreGame.Controllers;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
+using CoreGame.Models.API.LobbyClient;
 using Newtonsoft.Json.Utilities;
 using Assets.Scripts.Controllers;
 
@@ -22,10 +23,30 @@ namespace Assets.Scripts.Views {
         private float _tileSizeX, _tileSizeY;
         private MapIO _mapIO;
         private bool _pigeonsRequireUpdate;
+        private LobbyIO _lobbyIO;
 
         // Start here!
         public void Start() {
             UnitySystemConsoleRedirector.Redirect();
+            _lobbyIO = new LobbyIO();
+            ReadyLobbyInfo readyLobby = new ReadyLobbyInfo();
+            string gameID;
+            readyLobby.IsReady = true;
+            readyLobby.ReadyPlayerID = PlayerPrefs.GetString("PlayerID");
+            readyLobby.LobbyID = PlayerPrefs.GetString("LobbyID");
+            /*StartCoroutine(_lobbyIO.ReadyLobby(readyLobby, delegate(ReadyLobbyResult result) {
+                if (!result.IsGameStarted() && result.IsSuccess()) {
+                    bool isStarted = false;
+                    do {
+                    StartCoroutine(_lobbyIO.PollLobby(PlayerPrefs.GetString("LobbyID"), PlayerPrefs.GetString("PlayerID"), delegate(PollLobbyResult pollResult) {
+                        isStarted = pollResult.IsGameStarted();
+                    }));
+                    } while (!isStarted);
+                    //getGameid
+                    //add error checks
+                }
+            }));
+*/
             if (TileSet.Count > 0) {
                 LoadTileDictionary();
                 LoadMap(GetMapSelection());
