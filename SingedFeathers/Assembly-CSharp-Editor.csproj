@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\Build\AutoBuilder.cs" />
+    <Compile Include="Assets\Editor\IntegrationTests\CoreGameTest.cs" />
     <Compile Include="Assets\Editor\UnitTests\CommandTests\CommandTest.cs" />
     <Compile Include="Assets\Editor\UnitTests\ControllerTests\MapControllerTest.cs" />
     <Compile Include="Assets\Editor\UnitTests\ControllerTests\PigeonControllerTest.cs" />
@@ -151,7 +152,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <Folder Include="Assets\Editor\IntegrationTests\" />
-  </ItemGroup>
 </Project>
