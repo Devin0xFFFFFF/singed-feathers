@@ -1,7 +1,4 @@
-language: csharp
-
-mono: latest
-group: edge
+language: objectivec
 
 before_install:
 - chmod a+x ./Travis/Scripts/install.sh
