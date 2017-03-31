@@ -1,19 +1,17 @@
-﻿using CoreGame.Controllers;
+﻿using System.Collections;
+using CoreGame.Controllers;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Service;
 using CoreGame.Models.API.MapClient;
+using CoreGame.Utility;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.Views {
     public class MapMakerView : MonoBehaviour {
-        public enum ValidationResult {
-            Valid, InvalidNoPigeons, InvalidNoFlammableTiles, InvalidInput 
-        }
-
         public const string WAIT_TEXT = "Processing...";
         public const string SUCCESS_TEXT = "Success! Map uploaded!";
         public const string FAILURE_TEXT = "Our server has failed us... Try again!";
@@ -115,11 +113,16 @@ namespace Assets.Scripts.Views {
             Debug.Log("Saving map...");
             ResultText.gameObject.SetActive(true);
 
-            if (ValidateUploadRequest() != ValidationResult.Valid) {
+            IEnumerable<ITileController> tileControllers = from TileView tile in _map select tile.GetTileController();
+            MapMakerValidationResult result = MapMakerInputValidator.ValidateInput(MapTitle.text, AuthorsName.text, _pigeons.Select(p => p.Position), tileControllers);
+
+            if (result != MapMakerValidationResult.Valid) {
+                UpdateResultText(result);
                 return;
             }
 
             TileType[,] tileTypeMap = RecordTileTypes();
+
             CreateMapInfo mapInfo = new CreateMapInfo {
                 CreatorName = AuthorsName.text,
                 MapName = MapTitle.text,
@@ -145,20 +148,6 @@ namespace Assets.Scripts.Views {
             ResetResultText();
         }
 
-        private ValidationResult ValidateUploadRequest() {
-            if (!HasFlammableTile()) {
-                ShowNoFlammableTileText();
-                return ValidationResult.InvalidNoFlammableTiles;
-            } else if (!_pigeons.Any()) {
-                ShowNoPigeonText();
-                return ValidationResult.InvalidNoPigeons;
-            } else if (!ValidInputReceived()) {
-                ShowInvalidInputText();
-                return ValidationResult.InvalidInput;
-            }
-            return ValidationResult.Valid;
-        }
-
         private void ShowNoFlammableTileText() {
             ResultText.text = NO_FLAMMABLE_TILES_TEXT;
             ResultText.color = Color.red;
@@ -167,19 +156,6 @@ namespace Assets.Scripts.Views {
         private void ShowNoPigeonText() {
             ResultText.text = NO_PIGEONS_TEXT;
             ResultText.color = Color.red;
-        }
-
-        private bool ValidInputReceived() { return AuthorsName.text.Count() > 0 && MapTitle.text.Count() > 0; }
-
-        private bool HasFlammableTile() {
-            for (int x = 0; x < _width; x++) {
-                for (int y = 0; y < _height; y++) {
-                    if (_map[x, y].IsFlammable()) {
-                        return true;
-                    }
-                }
-            }
-            return false;
         }
 
         private void ResetResultText() {
@@ -244,6 +220,20 @@ namespace Assets.Scripts.Views {
             if (firePosToDelete != null) {
                 _firePositions.Remove(firePosToDelete);
                 _mapController.ReduceHeat(tilePos.X, tilePos.Y);
+            }
+        }
+
+        private void UpdateResultText(MapMakerValidationResult result) {
+            switch (result) {
+                case MapMakerValidationResult.InvalidNoPigeons:
+                    ShowNoPigeonText();
+                    break;
+                case MapMakerValidationResult.InvalidNoFlammableTiles:
+                    ShowNoFlammableTileText();
+                    break;
+                case MapMakerValidationResult.InvalidInput:
+                    ShowInvalidInputText();
+                    break;
             }
         }
     }
