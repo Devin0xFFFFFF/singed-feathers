@@ -18,6 +18,7 @@ namespace Assets.Scripts.Input {
             UnitySystemConsoleRedirector.Redirect();
             _lobbyIO = new LobbyIO();
             _buttons = new List<GameObject>();
+
             StartCoroutine(_lobbyIO.GetLobbies(delegate(List<LobbyInfo> lobbies) {
                 if (lobbies == null) {
                     Debug.LogError("Failed to retrieve lobbies.");
@@ -31,6 +32,7 @@ namespace Assets.Scripts.Input {
                     Button tempButton = lobbyButton.GetComponent<Button>();
                     string text = "Lobby Name: " + lobby.LobbyName + "\t Map ID: " + lobby.MapID;
                     PlayerSideSelection side = PlayerSideSelection.SavePigeons;
+
                     if (lobby.Players.Count>0) {
                         text = text + "\n Host: " + lobby.Players[0].PlayerName;
                         if (lobby.Players[0].PlayerSideSelection == PlayerSideSelection.SavePigeons){
@@ -40,6 +42,7 @@ namespace Assets.Scripts.Input {
                     if (lobby.NumPlayers == lobby.Players.Count) {
                         text = text + "\t LOBBY IS FULL";
                     }
+
                     tempButton.GetComponentInChildren<Text>().text = text;
                     
                     tempButton.onClick.AddListener(delegate { SelectLobby(lobby.MapID, lobby.LobbyID, side); });
@@ -56,6 +59,7 @@ namespace Assets.Scripts.Input {
             }
             Start();
         }
+
         public void SelectLobby(string mapID, string lobbyID, PlayerSideSelection side) { 
             PlayerPrefs.SetString("MapID", mapID);
             PlayerPrefs.SetInt("Side", (int)side);
@@ -64,13 +68,13 @@ namespace Assets.Scripts.Input {
             joinlobby.JoinPlayer = new Player(PlayerPrefs.GetString("PlayerID"), PlayerPrefs.GetString("PlayerName", "AnonPlayer"), side);
             joinlobby.LobbyID = lobbyID;
             Debug.Log("Attempting to join " + lobbyID);
+
             StartCoroutine(_lobbyIO.JoinLobby(joinlobby, delegate(JoinLobbyResult result) {
                 Debug.Log(result.ResultMessage);
-                if (result.IsSuccess()){
+                if (result.IsSuccess()) {
                     SceneSelector.LoadScene("GameScene");
                 }
             }));
-
         }
     }
 }
