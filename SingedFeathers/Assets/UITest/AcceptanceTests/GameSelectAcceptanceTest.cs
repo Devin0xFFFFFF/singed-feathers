@@ -85,6 +85,5 @@ namespace Assets.UITest.AcceptanceTests {
             // GameScene should be loaded
             yield return WaitFor(new SceneLoaded("MapSelectScene"));
         }
-       
     }
 }
