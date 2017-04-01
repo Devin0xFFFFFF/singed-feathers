@@ -38,6 +38,7 @@ namespace Assets.Scripts.Controllers {
         }
 
         public void Poll(Map map, Player player) {
+            Debug.Log("sending PollRequest: " + _gameID + " " + player.PlayerID);
             _receivedResponse = true;
             PollRequest request = new PollRequest(_gameID, player.PlayerID);
             SendPollRequest(request, map);
