@@ -10,7 +10,7 @@ public class GameSelectAcceptanceTests : UITest {
         #if UNITY_EDITOR
             // The tests are being run through the editor
             yield return LoadSceneByPath("Assets/Scenes/GameSelectScene.unity");
-        #elif
+        #elif !UNITY_EDITOR
             // The tests are being run on a device
             yield return LoadScene("GameSelectScene");
         #endif
