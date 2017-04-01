@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.0",
-    "signature": "68f930e467034f78b5bd1b561389a3fc1dce7990"
+    "signature": "06be1f4953ae1a01c93989fed9957650922f9084"
   },
   "compilationOptions": {},
   "targets": {
@@ -254,7 +254,7 @@
           "lib/netstandard1.3/System.Runtime.Serialization.Primitives.dll": {}
         }
       },
-      "WhyNot.SingedFeathers.CoreGame/1.0.0.16": {
+      "WhyNot.SingedFeathers.CoreGame/1.0.0.17": {
         "runtime": {
           "lib/net35/CoreGame.dll": {}
         }
@@ -323,7 +323,7 @@
           "AWSSDK.S3": "3.3.5.10",
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1-rc2-24027",
           "Amazon.Lambda.DynamoDBEvents": "1.0.1",
-          "WhyNot.SingedFeathers.CoreGame": "1.0.0.16",
+          "WhyNot.SingedFeathers.CoreGame": "1.0.0.17",
           "Amazon.Lambda.APIGatewayEvents": "1.0.2"
         },
         "runtime": {
@@ -478,10 +478,10 @@
       "serviceable": true,
       "sha512": "sha512-HZ6Du5QrTG8MNJbf4e4qMO3JRAkIboGT5Fk804uZtg3Gq516S7hAqTm2UZKUHa7/6HUGdVy3AqMQKbns06G/cg=="
     },
-    "WhyNot.SingedFeathers.CoreGame/1.0.0.16": {
+    "WhyNot.SingedFeathers.CoreGame/1.0.0.17": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-+9dQvZ5/6/oZHQfU+TK5mTBx7vKEAv+9u47CBr60vS8ZLK9V49wZFaZjrFh+PWhd49KAkiAzzMpxD/RpkB3Yrw=="
+      "sha512": "sha512-09CXg12WCoOFefOmKjfR7w2ZQKLOuvhMdduDC+OMv63KJ8/5AgbtrkkibHEC7ymbOyNzxNMQ8zROstc1Dgt3Yg=="
     },
     "xunit/2.1.0": {
       "type": "package",

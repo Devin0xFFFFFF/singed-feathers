@@ -29,7 +29,7 @@ namespace Assets.Scripts.Service {
             yield return _client.PollGame(pollRequest, delegate (ClientResult result) {
                 if (IsValidResult(result)) {
                     PollResponse response = JsonConvert.DeserializeObject<PollResponse>(result.ResponseBody);
-                    Console.WriteLine("Response Recived " + response);
+                    Console.WriteLine("Poll Response Recived " + result.ResponseBody);
                     callback(response);
                 } else {
                     Console.WriteLine("Failed to poll game: " + result.ErrorMessage ?? result.ResponseCode + " " + result.ResponseBody);

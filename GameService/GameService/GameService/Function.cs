@@ -127,10 +127,17 @@ namespace GameService {
 
                 List<Delta> deltaList = new List<Delta>();
                 if (canPoll) {
-                    _player.PlayerState = PlayerState.NotSubmitted;
                     int playerIndex = _players.IndexOf(_player);
                     deltaList = GetStagedTurn(dynamoTable);
-                    UpdateDynamoPlayers(_player, playerIndex, request.GameId);
+                    IMapController mapController = ReplayGameFromTable(dynamoTable);
+                    if (mapController.GetTurnsLeft() >= dynamoTable[COMMITTED_TURNS].L.Count || mapController.IsGameOver()) {
+                        _player.PlayerState = PlayerState.Quit;
+                        UpdateDynamoPlayers(_player, playerIndex, request.GameId);
+                        ConditionalCleanUpTable(request.GameId);
+                    } else {
+                        _player.PlayerState = PlayerState.NotSubmitted;
+                        UpdateDynamoPlayers(_player, playerIndex, request.GameId);
+                    }
                 }
                 response.Body = GetPollResponse(canPoll, deltaList);
                 return response;
@@ -141,7 +148,9 @@ namespace GameService {
             }
         }
 
-        public void Surrender(APIGatewayProxyRequest apigProxyEvent) {
+        public APIGatewayProxyResponse Surrender(APIGatewayProxyRequest apigProxyEvent) {
+            APIGatewayProxyResponse response = new APIGatewayProxyResponse();
+            response.StatusCode = 200;
             string input = apigProxyEvent.Body;
             _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
             PollRequest request = JsonConvert.DeserializeObject<PollRequest>(input, _settings);
@@ -151,6 +160,8 @@ namespace GameService {
             _player.PlayerState = PlayerState.Quit;
             int playerIndex = _players.IndexOf(_player);
             UpdateDynamoPlayers(_player, playerIndex, request.GameId);
+            ConditionalCleanUpTable(request.GameId);
+            return response;
         }
 
         public void CreateGame(string lobbyId) {
@@ -347,6 +358,15 @@ namespace GameService {
             dynamoTable.TryGetValue(STAGED_TURNS, out stagedTurns);
 
             return JsonConvert.DeserializeObject<List<Delta>>(stagedTurns.S, _settings);
+        }
+
+        private void ConditionalCleanUpTable(string gameId) {
+            using (IAmazonDynamoDB client = new AmazonDynamoDBClient(Amazon.RegionEndpoint.USWest2)) {
+                Table table = Table.LoadTable(client, GAME_TABLE_NAME);
+                if (_players.All(p => p.PlayerState == PlayerState.Quit)) {
+                    table.DeleteItemAsync(gameId).Wait();
+                }
+            }
         }
     }
 }
