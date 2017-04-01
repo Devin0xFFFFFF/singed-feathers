@@ -10,7 +10,7 @@ valid_event_body = {
     }
 
 
-@patch('lobby_service_common.create_lobby')
+@patch('service.lobby_service_common.create_lobby')
 def test_create_map(create_lobby_mock):
     response = create_lobby.lambda_handler(valid_event_body, None)
 
@@ -19,7 +19,7 @@ def test_create_map(create_lobby_mock):
     assert response['statusCode'] == 200 and "LobbyID" in response['body']
 
 
-@patch('lobby_service_common.create_lobby')
+@patch('service.lobby_service_common.create_lobby')
 def test_get_maps_dynamo_failure(create_lobby_mock):
     with pytest.raises(IOError):
         create_lobby_mock.side_effect = Mock(side_effect=IOError('Dynamo Exception'))

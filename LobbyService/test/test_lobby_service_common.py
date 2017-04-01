@@ -1,5 +1,4 @@
 import pytest
-import json
 from service import lobby_service_common
 from mock import Mock, patch
 
@@ -8,12 +7,6 @@ def test_get_event_body():
     event = {"body": "{}"}
     body = lobby_service_common.get_event_body(event)
     assert body == {}
-
-
-def test_get_event_body_unparseable():
-    with pytest.raises(json.decoder.JSONDecodeError):
-        event = {"body": "{"}
-        lobby_service_common.get_event_body(event)
 
 
 def test_get_event_query_param():

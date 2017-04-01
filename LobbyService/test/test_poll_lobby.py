@@ -34,7 +34,7 @@ game_started_get_lobby = {
 }
 
 
-@patch('lobby_service_common.get_lobby')
+@patch('service.lobby_service_common.get_lobby')
 def test_poll_lobby(get_lobby_mock):
     get_lobby_mock.return_value = valid_get_lobby
 
@@ -45,7 +45,7 @@ def test_poll_lobby(get_lobby_mock):
     assert response['statusCode'] == 200 and "\"ResultCode\": 0" in response['body']
 
 
-@patch('lobby_service_common.get_lobby')
+@patch('service.lobby_service_common.get_lobby')
 def test_poll_lobby_not_in(get_lobby_mock):
     get_lobby_mock.return_value = not_in_get_lobby
 
@@ -56,7 +56,7 @@ def test_poll_lobby_not_in(get_lobby_mock):
     assert response['statusCode'] == 200 and "\"ResultCode\": 1" in response['body']
 
 
-@patch('lobby_service_common.get_lobby')
+@patch('service.lobby_service_common.get_lobby')
 def test_poll_lobby_game_started(get_lobby_mock):
     get_lobby_mock.return_value = game_started_get_lobby
 
@@ -67,7 +67,7 @@ def test_poll_lobby_game_started(get_lobby_mock):
     assert response['statusCode'] == 200 and "\"ResultCode\": 2" in response['body']
 
 
-@patch('lobby_service_common.get_lobby')
+@patch('service.lobby_service_common.get_lobby')
 def test_poll_lobby_dynamo_lobby_info_failure(get_lobby_mock):
     with pytest.raises(IOError):
         get_lobby_mock.side_effect = Mock(side_effect=IOError('Dynamo Exception'))

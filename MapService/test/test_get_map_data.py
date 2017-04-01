@@ -6,7 +6,7 @@ from service import get_map_data
 valid_query_string_params = {"queryStringParameters": {"MapID": "Map1"}}
 
 
-@patch('map_service_common.get_map_data')
+@patch('service.map_service_common.get_map_data')
 def test_get_map_data(get_map_data_mock):
     get_map_data_mock.return_value = {}
 
@@ -19,7 +19,7 @@ def test_get_map_data(get_map_data_mock):
     assert response == valid_response
 
 
-@patch('map_service_common.get_map_data')
+@patch('service.map_service_common.get_map_data')
 def test_get_map_data_s3_failure(get_map_data_mock):
     with pytest.raises(IOError):
         get_map_data_mock.side_effect = Mock(side_effect=IOError('S3 Exception'))

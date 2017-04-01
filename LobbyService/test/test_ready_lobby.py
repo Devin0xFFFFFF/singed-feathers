@@ -43,8 +43,8 @@ all_ready_get_lobby_info = {
 }
 
 
-@patch('lobby_service_common.get_lobby_info')
-@patch('lobby_service_common.set_player_ready_in_lobby')
+@patch('service.lobby_service_common.get_lobby_info')
+@patch('service.lobby_service_common.set_player_ready_in_lobby')
 def test_ready_lobby(set_player_ready_in_lobby_mock, get_lobby_info_mock):
     get_lobby_info_mock.return_value = valid_get_lobby_info
 
@@ -56,7 +56,7 @@ def test_ready_lobby(set_player_ready_in_lobby_mock, get_lobby_info_mock):
     assert response['statusCode'] == 200 and "\"ResultCode\": 0" in response['body']
 
 
-@patch('lobby_service_common.get_lobby_info')
+@patch('service.lobby_service_common.get_lobby_info')
 def test_leave_lobby_not_in(get_lobby_info_mock):
     get_lobby_info_mock.return_value = not_in_get_lobby_info
 
@@ -67,7 +67,7 @@ def test_leave_lobby_not_in(get_lobby_info_mock):
     assert response['statusCode'] == 200 and "\"ResultCode\": 1" in response['body']
 
 
-@patch('lobby_service_common.get_lobby_info')
+@patch('service.lobby_service_common.get_lobby_info')
 def test_ready_lobby_game_started(get_lobby_info_mock):
     get_lobby_info_mock.return_value = game_started_get_lobby_info
 
@@ -78,10 +78,10 @@ def test_ready_lobby_game_started(get_lobby_info_mock):
     assert response['statusCode'] == 200 and "\"ResultCode\": 2" in response['body']
 
 
-@patch('lobby_service_common.get_lobby_info')
-@patch('lobby_service_common.set_player_ready_in_lobby')
-@patch('lobby_service_common.hide_lobby')
-@patch('lobby_service_common.invoke_create_game')
+@patch('service.lobby_service_common.get_lobby_info')
+@patch('service.lobby_service_common.set_player_ready_in_lobby')
+@patch('service.lobby_service_common.hide_lobby')
+@patch('service.lobby_service_common.invoke_create_game')
 def test_ready_lobby_all_ready(invoke_create_game_mock,
                                hide_lobby_mock,
                                set_player_ready_in_lobby_mock,
@@ -98,7 +98,7 @@ def test_ready_lobby_all_ready(invoke_create_game_mock,
     assert response['statusCode'] == 200 and "\"ResultCode\": 0" in response['body']
 
 
-@patch('lobby_service_common.get_lobby_info')
+@patch('service.lobby_service_common.get_lobby_info')
 def test_ready_lobby_dynamo_lobby_info_failure(get_lobby_info_mock):
     with pytest.raises(IOError):
         get_lobby_info_mock.side_effect = Mock(side_effect=IOError('Dynamo Exception'))
@@ -106,8 +106,8 @@ def test_ready_lobby_dynamo_lobby_info_failure(get_lobby_info_mock):
         ready_lobby.lambda_handler(valid_event_body, None)
 
 
-@patch('lobby_service_common.get_lobby_info')
-@patch('lobby_service_common.set_player_ready_in_lobby')
+@patch('service.lobby_service_common.get_lobby_info')
+@patch('service.lobby_service_common.set_player_ready_in_lobby')
 def test_ready_lobby_dynamo_remove_player_failure(set_player_ready_in_lobby_mock, get_lobby_info_mock):
     with pytest.raises(IOError):
         get_lobby_info_mock.return_value = valid_get_lobby_info
