@@ -70,9 +70,10 @@
      <Compile Include="Assets\Scripts\Views\PigeonView.cs" />
      <Compile Include="Assets\Scripts\Views\TileView.cs" />
      <Compile Include="Assets\TestRunner.cs" />
-     <Compile Include="Assets\UITest\Acceptance Tests\GameSelectAcceptanceTests.cs" />
-     <Compile Include="Assets\UITest\Acceptance Tests\MapMakerAcceptanceTests.cs" />
-     <Compile Include="Assets\UITest\Acceptance Tests\MapMakerOptionsAcceptanceTests.cs" />
+     <Compile Include="Assets\UITest\AcceptanceTests\GameSelectAcceptanceTest.cs" />
+     <Compile Include="Assets\UITest\AcceptanceTests\MapMakerAcceptanceTest.cs" />
+     <Compile Include="Assets\UITest\AcceptanceTests\MapMakerOptionsAcceptanceTest.cs" />
+     <Compile Include="Assets\UITest\AcceptanceTests\SideSelectAcceptanceTest.cs" />
      <Compile Include="Assets\UITest\Test Runner Scripts\DependencyInjector.cs" />
      <Compile Include="Assets\UITest\Test Runner Scripts\ReportingTestsRunner.cs" />
      <Compile Include="Assets\UITest\Test Runner Scripts\TestRunner.cs" />
