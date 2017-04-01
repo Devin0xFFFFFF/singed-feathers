@@ -130,7 +130,7 @@ namespace GameService {
                     int playerIndex = _players.IndexOf(_player);
                     deltaList = GetStagedTurn(dynamoTable);
                     IMapController mapController = ReplayGameFromTable(dynamoTable);
-                    if (mapController.GetTurnsLeft() >= dynamoTable[COMMITTED_TURNS].L.Count) {
+                    if (mapController.GetTurnsLeft() >= dynamoTable[COMMITTED_TURNS].L.Count || mapController.IsGameOver()) {
                         _player.PlayerState = PlayerState.Quit;
                         UpdateDynamoPlayers(_player, playerIndex, request.GameId);
                         ConditionalCleanUpTable(request.GameId);
