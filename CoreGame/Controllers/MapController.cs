@@ -121,9 +121,7 @@ namespace CoreGame.Controllers {
             
         public void EndTurn() { _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMove(), _map, _player); }
 
-        public void ApplyDelta(IList<Delta> deltaList) {
-            TurnResolveUtility.ApplyDelta(deltaList, _map);
-        }
+        public void ApplyDelta(IList<Delta> deltaList) { TurnResolveUtility.ApplyDelta(deltaList, _map); }
 
         public void ApplyTurn(IList<Delta> deltaList) { }
 
