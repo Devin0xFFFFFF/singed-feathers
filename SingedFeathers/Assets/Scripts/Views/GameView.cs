@@ -15,6 +15,7 @@ namespace Assets.Scripts.Views {
         public PigeonView Pigeon;
         public InputView InputView;
         public WebTurnResolver TurnResolver;
+        public GameSelection gameSelect;
         private List<PigeonView> _pigeons;
         private Dictionary<TileType, TileView> _tileDictionary;
         private IMapController _mapController;
@@ -188,6 +189,21 @@ namespace Assets.Scripts.Views {
 
         public bool IsGameOver() { return _mapController.IsMapBurntOut() || _mapController.AreAllPigeonsDead(); }
 
+        public void FinishGame() {
+            LeaveLobbyInfo leaveLobby = new LeaveLobbyInfo();
+            leaveLobby.LeavePlayerID = PlayerPrefs.GetString("PlayerID");
+            leaveLobby.LobbyID = PlayerPrefs.GetString("LobbyID");
+            StartCoroutine(_lobbyIO.LeaveLobby(leaveLobby, delegate(LeaveLobbyResult result) {
+                if(result == null || !result.IsSuccess()){
+                //TODO: errorhandling
+                }else{
+                    Debug.Log(result.ResultMessage);
+                }
+                gameSelect.LoadScene("GameSelectScene");
+
+            }));
+
+        }
         private void InstantiateTiles() {
             for (int x = 0; x < _width; x++) {
                 for (int y = 0; y < _height; y++) {
