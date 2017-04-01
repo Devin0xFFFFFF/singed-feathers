@@ -25,6 +25,7 @@ namespace Assets.Scripts.Controllers {
         public void Awake() {
             _gameServiceIO = new GameServiceIO();
         }
+        public void SetGameID(string gameID) { _gameID = gameID; }
 
         public bool IsTurnResolved() { return _isTurnResolved; }
 

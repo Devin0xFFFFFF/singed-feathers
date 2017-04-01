@@ -24,46 +24,59 @@ namespace Assets.Scripts.Views {
         private MapIO _mapIO;
         private bool _pigeonsRequireUpdate;
         private LobbyIO _lobbyIO;
+        private bool _inLobby;
 
         // Start here!
         public void Start() {
             UnitySystemConsoleRedirector.Redirect();
             _lobbyIO = new LobbyIO();
             ReadyLobbyInfo readyLobby = new ReadyLobbyInfo();
-            string gameID;
+
             readyLobby.IsReady = true;
             readyLobby.ReadyPlayerID = PlayerPrefs.GetString("PlayerID");
             readyLobby.LobbyID = PlayerPrefs.GetString("LobbyID");
-            /*StartCoroutine(_lobbyIO.ReadyLobby(readyLobby, delegate(ReadyLobbyResult result) {
-                if (!result.IsGameStarted() && result.IsSuccess()) {
-                    bool isStarted = false;
-                    do {
-                    StartCoroutine(_lobbyIO.PollLobby(PlayerPrefs.GetString("LobbyID"), PlayerPrefs.GetString("PlayerID"), delegate(PollLobbyResult pollResult) {
-                        isStarted = pollResult.IsGameStarted();
-                    }));
-                    } while (!isStarted);
-                    //getGameid
-                    //add error checks
+            StartCoroutine(_lobbyIO.ReadyLobby(readyLobby, delegate(ReadyLobbyResult result) {
+                if (result.IsSuccess()) {
+                    Debug.Log("Readied in lobby______________________________________________");
+                    _inLobby = false;
+                }
+                if (TileSet.Count > 0) {
+                    LoadTileDictionary();
+                    LoadMap(GetMapSelection());
                 }
             }));
-*/
-            if (TileSet.Count > 0) {
+
+            /*if (TileSet.Count > 0) {
                 LoadTileDictionary();
                 LoadMap(GetMapSelection());
-            }
+            }*/
         }
 
         public void Update() {
-            if (_mapController != null) {
-                if (_mapController.ShouldPoll()) {
-                    _mapController.Poll();
-                }
-                
-                if (_pigeonsRequireUpdate && _mapController.IsTurnResolved()) {
-                    foreach (PigeonView pigeon in _pigeons) {
-                        pigeon.UpdatePigeon();
+            if (!_inLobby) {
+                Debug.Log("Getting GameID");
+                StartCoroutine(_lobbyIO.PollLobby(PlayerPrefs.GetString("LobbyID"), PlayerPrefs.GetString("PlayerID"), delegate(PollLobbyResult pollResult) {
+                    if (pollResult.IsGameStarted()) {
+                        Debug.Log("got gameid " + pollResult.GetLobbyInfo().GameID);
+                        TurnResolver.SetGameID(pollResult.GetLobbyInfo().GameID);
+                        _inLobby = true;
                     }
-                    _pigeonsRequireUpdate = false;
+                }));
+                
+            } else {
+
+                if (_mapController != null) {
+                    Debug.Log("polling");
+                    if (_mapController.ShouldPoll()) {
+                        _mapController.Poll();
+                    }
+                
+                    if (_pigeonsRequireUpdate && _mapController.IsTurnResolved()) {
+                        foreach (PigeonView pigeon in _pigeons) {
+                            pigeon.UpdatePigeon();
+                        }
+                        _pigeonsRequireUpdate = false;
+                    }
                 }
             }
         }
