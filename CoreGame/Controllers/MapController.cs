@@ -56,6 +56,8 @@ namespace CoreGame.Controllers {
 
         public PlayerSideSelection GetPlayerSideSelection() { return _player.PlayerSideSelection; }
 
+        public bool IsGameOver() { return !_map.TurnController.HasTurnsLeft() || IsMapBurntOut() || AreAllPigeonsDead(); }
+
         public string GetGameOverPlayerStatus() {
             PlayerSideSelection playerSideSelection = GetPlayerSideSelection();
             string winOrLose = "";

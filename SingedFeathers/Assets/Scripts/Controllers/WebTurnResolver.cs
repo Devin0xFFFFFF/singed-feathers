@@ -16,9 +16,7 @@ namespace Assets.Scripts.Controllers {
         private readonly JsonSerializerSettings _settings;
         private GameServiceIO _gameServiceIO;
 
-        public WebTurnResolver() {
-            _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-        }
+        public WebTurnResolver() { _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All }; }
 
         public void Awake() {
             _gameServiceIO = new GameServiceIO();

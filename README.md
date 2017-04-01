@@ -1,5 +1,8 @@
 # comp4350-project
 
+### tl;dr
+* https://github.com/Devin0xFFFFFF/comp4350-project/wiki/tl;dr
+
 ### Our project documentation is here:
 * https://github.com/Devin0xFFFFFF/comp4350-project/wiki/Documentation
 
