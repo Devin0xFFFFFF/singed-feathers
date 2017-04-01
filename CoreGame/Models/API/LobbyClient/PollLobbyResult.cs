@@ -13,9 +13,9 @@ namespace CoreGame.Models.API.LobbyClient {
 
         public bool IsGameStarted() { return ResultCode == GAME_STARTED_CODE; }
 
-        public LobbyInfo GetLobbyInfo() {
-            if (IsSuccess()) {
-                return JsonConvert.DeserializeObject<LobbyInfo>(ResultMessage, _jsonSettings);
+        public string GetGameID() {
+			if (IsGameStarted ()) {
+                return JsonConvert.DeserializeObject<string>(ResultMessage);
             } else {
                 return null;
             }

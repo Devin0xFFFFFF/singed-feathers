@@ -15,6 +15,7 @@ namespace Assets.Scripts.Views {
         public PigeonView Pigeon;
         public InputView InputView;
         public WebTurnResolver TurnResolver;
+        public GameSelection gameSelect;
         private List<PigeonView> _pigeons;
         private Dictionary<TileType, TileView> _tileDictionary;
         private IMapController _mapController;
@@ -25,6 +26,7 @@ namespace Assets.Scripts.Views {
         private bool _pigeonsRequireUpdate;
         private LobbyIO _lobbyIO;
         private bool _inLobby;
+        private bool _shouldPoll;
 
         // Start here!
         public void Start() {
@@ -35,10 +37,14 @@ namespace Assets.Scripts.Views {
             readyLobby.IsReady = true;
             readyLobby.ReadyPlayerID = PlayerPrefs.GetString("PlayerID");
             readyLobby.LobbyID = PlayerPrefs.GetString("LobbyID");
+            _shouldPoll = false;
             StartCoroutine(_lobbyIO.ReadyLobby(readyLobby, delegate(ReadyLobbyResult result) {
-                if (result.IsSuccess()) {
-                    Debug.Log("Readied in lobby______________________________________________");
+                if (result !=null && result.IsSuccess()) {
+                    Debug.Log("Readied in lobby");
                     _inLobby = false;
+                    _shouldPoll = true;
+                }else {
+                    //TODO:error handling/retry
                 }
                 if (TileSet.Count > 0) {
                     LoadTileDictionary();
@@ -54,19 +60,23 @@ namespace Assets.Scripts.Views {
 
         public void Update() {
             if (!_inLobby) {
-                Debug.Log("Getting GameID");
-                StartCoroutine(_lobbyIO.PollLobby(PlayerPrefs.GetString("LobbyID"), PlayerPrefs.GetString("PlayerID"), delegate(PollLobbyResult pollResult) {
-                    if (pollResult.IsGameStarted()) {
-                        Debug.Log("got gameid " + pollResult.GetLobbyInfo().GameID);
-                        TurnResolver.SetGameID(pollResult.GetLobbyInfo().GameID);
-                        _inLobby = true;
-                    }
-                }));
+                if (_shouldPoll) {
+                    _shouldPoll = false;
+                    Debug.Log("Getting GameID");
+                    StartCoroutine(_lobbyIO.PollLobby(PlayerPrefs.GetString("LobbyID"), PlayerPrefs.GetString("PlayerID"), delegate(PollLobbyResult pollResult) {
+                        if (pollResult != null && pollResult.IsGameStarted()){
+                            Debug.Log("got gameid " + pollResult.GetGameID());
+                            TurnResolver.SetGameID(pollResult.GetGameID());
+                            _inLobby = true;
+                        }else{
+                            _shouldPoll = true;
+                        }
+                    }));
+                }
                 
             } else {
 
                 if (_mapController != null) {
-                    Debug.Log("polling");
                     if (_mapController.ShouldPoll()) {
                         _mapController.Poll();
                     }
@@ -95,7 +105,8 @@ namespace Assets.Scripts.Views {
                     Debug.LogError("Failed to retrieve map.");
                     return;
                 }
-                _mapController = new MapController();
+                Player player = new Player(PlayerPrefs.GetString("PlayerID"));
+                _mapController = new MapController(null, player);
                 if (!_mapController.GenerateMap(serializedMapData)) {
                     Debug.LogError("Failed to generate map.");
                     return;
@@ -178,6 +189,21 @@ namespace Assets.Scripts.Views {
 
         public bool IsGameOver() { return _mapController.IsMapBurntOut() || _mapController.AreAllPigeonsDead(); }
 
+        public void FinishGame() {
+            LeaveLobbyInfo leaveLobby = new LeaveLobbyInfo();
+            leaveLobby.LeavePlayerID = PlayerPrefs.GetString("PlayerID");
+            leaveLobby.LobbyID = PlayerPrefs.GetString("LobbyID");
+            StartCoroutine(_lobbyIO.LeaveLobby(leaveLobby, delegate(LeaveLobbyResult result) {
+                if(result == null || !result.IsSuccess()){
+                //TODO: errorhandling
+                }else{
+                    Debug.Log(result.ResultMessage);
+                }
+                gameSelect.LoadScene("GameSelectScene");
+
+            }));
+
+        }
         private void InstantiateTiles() {
             for (int x = 0; x < _width; x++) {
                 for (int y = 0; y < _height; y++) {

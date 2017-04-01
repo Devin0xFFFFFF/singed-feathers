@@ -17,9 +17,9 @@ namespace CoreGame.Controllers {
         private Map _map;
         private Player _player;
 
-        public MapController(IMapGeneratorService mapGenerator = null) { 
+		public MapController (IMapGeneratorService mapGenerator = null, Player player = null) { 
             _mapGenerator = mapGenerator ?? new MapGeneratorService();
-            _player = new Player("Player1");
+			_player = player ?? new Player ("Player1");
         }
 
         public bool GenerateMap(string serializedMap) {
