@@ -3,8 +3,7 @@
 namespace Assets.UITest.AcceptanceTests {
     public class MapMakerOptionsAcceptanceTest : global::UITest {
         [UISetUp]
-        public IEnumerable SetUp()
-        {
+        public IEnumerable SetUp() {
             // Load the scene we want.
         #if UNITY_EDITOR
             // The tests are being run through the editor

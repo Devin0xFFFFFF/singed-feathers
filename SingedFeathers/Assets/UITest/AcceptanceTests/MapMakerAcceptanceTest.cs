@@ -1,10 +1,10 @@
 ﻿using System.Collections;
+using Assets.Scripts.Views;
 
 namespace Assets.UITest.AcceptanceTests {
     public class MapMakerAcceptanceTest : global::UITest {
         [UISetUp]
-        public IEnumerable SetUp()
-        {
+        public IEnumerable SetUp() {
             // Load the scene we want.
         #if UNITY_EDITOR
             // The tests are being run through the editor
@@ -80,5 +80,45 @@ namespace Assets.UITest.AcceptanceTests {
             yield return WaitFor(new ObjectDisappeared("UploadMapCanvas"));
         }
 
+        [UITest]
+        public IEnumerable TestUploadWithNoPigeons() {
+            // Test only for active elements
+            // Press UploadButton
+            yield return Press("UploadButton");
+
+            yield return WaitFor(new ObjectAppeared("UploadMapCanvas"));
+
+            yield return Press("UploadToServerButton");
+            yield return WaitFor(new ObjectAppeared("ResultText"));
+            yield return AssertLabel("ResultText", "You need at least one pigeon in your map!");
+            
+            // Press Cancel
+            yield return Press("CancelButton");
+
+            // UploadCanvas should be inactive
+            yield return WaitFor(new ObjectDisappeared("UploadMapCanvas"));
+        }
+
+        [UITest]
+        public IEnumerable TestAddFireButton() {
+            yield return Press("AddFireButton");
+
+            TileView fireTile = FindObjectOfType<TileView>();
+            MapMakerInputView inputView = FindObjectOfType<MapMakerInputView>();
+            inputView.HandleMapInput(fireTile);
+
+            yield return WaitFor(new ObjectAppeared("FireSprite"));
+        }
+
+        [UITest]
+        public IEnumerable TestAddPigeonButton() {
+            yield return Press("AddPigeonButton");
+
+            TileView grassTile = FindObjectOfType<TileView>();
+            MapMakerInputView inputView = FindObjectOfType<MapMakerInputView>();
+            inputView.HandleMapInput(grassTile);
+
+            yield return WaitFor(new ObjectAppeared("Pigeon(Clone)"));
+        }
     }
 }
