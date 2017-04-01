@@ -31,4 +31,4 @@ def lambda_handler(event, context):
 
     service.create_lobby(lobby_item)
 
-    return service.get_response({"LobbyID": lobby_id})
+    return service.get_response(lobby_id)

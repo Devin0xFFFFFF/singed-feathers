@@ -86,7 +86,7 @@ def set_player_ready_in_lobby(lobby_id, players, player_index):
         Key={LOBBY_ID: lobby_id},
         UpdateExpression="SET #p[" + str(player_index) + "] = :v",
         ExpressionAttributeNames={'#p': PLAYERS},
-        ExpressionAttributeValues={':v': players[ready_player_index]},
+        ExpressionAttributeValues={':v': players[player_index]},
         ReturnValues='UPDATED_NEW'
     )
 
