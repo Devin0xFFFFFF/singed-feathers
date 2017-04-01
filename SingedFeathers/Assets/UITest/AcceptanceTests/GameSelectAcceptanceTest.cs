@@ -9,7 +9,7 @@ namespace Assets.UITest.AcceptanceTests {
             // The tests are being run through the editor
             yield return LoadSceneByPath("Assets/Scenes/GameSelectScene.unity");
         #elif !UNITY_EDITOR
-        // The tests are being run on a device
+            // The tests are being run on a device
             yield return LoadScene("GameSelectScene");
         #endif
         }
@@ -85,6 +85,5 @@ namespace Assets.UITest.AcceptanceTests {
             // GameScene should be loaded
             yield return WaitFor(new SceneLoaded("MapSelectScene"));
         }
-       
     }
 }

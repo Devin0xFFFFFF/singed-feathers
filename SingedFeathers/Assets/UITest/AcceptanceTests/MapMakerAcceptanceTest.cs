@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using System.Linq;
 using Assets.Scripts.Views;
+using UnityEngine.UI;
 
 namespace Assets.UITest.AcceptanceTests {
     public class MapMakerAcceptanceTest : global::UITest {
@@ -10,7 +12,7 @@ namespace Assets.UITest.AcceptanceTests {
             // The tests are being run through the editor
             yield return LoadSceneByPath("Assets/Scenes/MapMakerScene.unity");
         #elif !UNITY_EDITOR
-        // The tests are being run on a device
+            // The tests are being run on a device
             yield return LoadScene("MapMakerScene");
         #endif
         }
@@ -119,6 +121,57 @@ namespace Assets.UITest.AcceptanceTests {
             inputView.HandleMapInput(grassTile);
 
             yield return WaitFor(new ObjectAppeared("Pigeon(Clone)"));
+        }
+
+        [UITest]
+        public IEnumerable TestChangingtileType() {
+            Button[] buttons = FindObjectsOfType<Button>();
+            Button stoneButton = buttons.FirstOrDefault(x => x.name.Equals("TileButton(Clone)"));
+
+            yield return Press(stoneButton.gameObject);
+
+            TileView tile = FindObjectOfType<TileView>();
+            MapMakerInputView inputView = FindObjectOfType<MapMakerInputView>();
+            inputView.HandleMapInput(tile);
+
+            yield return WaitFor(new ObjectAppeared("NonFlammableStoneTIle(Clone)"));
+        }
+
+        [UITest]
+        public IEnumerable TestRemoveButton() {
+            // Add fire to the map
+            yield return Press("AddFireButton");
+            TileView tile = FindObjectOfType<TileView>();
+            MapMakerInputView inputView = FindObjectOfType<MapMakerInputView>();
+            inputView.HandleMapInput(tile);
+            yield return WaitFor(new ObjectAppeared("FireSprite"));
+
+            // Remove the fire
+            yield return Press("RemoveButton");
+            inputView.HandleMapInput(tile);
+            yield return WaitFor(new ObjectDisappeared("FireSprite"));
+
+            // Add pigeon to the map
+            yield return Press("AddPigeonButton");
+            inputView.HandleMapInput(tile);
+            yield return WaitFor(new ObjectAppeared("Pigeon(Clone)"));
+
+            // Remove the pigeon
+            yield return Press("RemoveButton");
+            inputView.HandleMapInput(tile);
+            yield return WaitFor(new ObjectDisappeared("Pigeon(Clone)"));
+
+            // Change tile type
+            Button[] buttons = FindObjectsOfType<Button>();
+            Button stoneButton = buttons.FirstOrDefault(x => x.name.Equals("TileButton(Clone)"));
+            yield return Press(stoneButton.gameObject);
+            inputView.HandleMapInput(tile);
+            yield return WaitFor(new ObjectAppeared("NonFlammableStoneTIle(Clone)"));
+
+            // Reset the tile
+            yield return Press("RemoveButton");
+            inputView.HandleMapInput(tile);
+            yield return WaitFor(new ObjectDisappeared("NonFlammableStoneTIle(Clone)"));
         }
     }
 }
