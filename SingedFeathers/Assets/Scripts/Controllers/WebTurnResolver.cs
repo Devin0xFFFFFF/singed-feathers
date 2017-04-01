@@ -28,23 +28,18 @@ namespace Assets.Scripts.Controllers {
 
         public void ResolveTurn(Delta delta, Map map, Player player) {
             _isTurnResolved = false;
-            CommitTurnRequest commitTurnRequest = new CommitTurnRequest("Test", player.PlayerID, delta);
+            CommitTurnRequest commitTurnRequest = new CommitTurnRequest("Test2", player.PlayerID, delta);
             SendCommitTurnRequest(commitTurnRequest);
         }
 
         public void Poll(Map map, Player player) {
             _receivedResponse = true;
-            PollRequest request = new PollRequest("Test", player.PlayerID);
+            PollRequest request = new PollRequest("Test2", player.PlayerID);
             SendPollRequest(request, map);
-        }
-
-        private IEnumerator ExecuteAfterTime(float time, Map map) {
-            yield return new WaitForSeconds(time);
         }
 
         private void SendCommitTurnRequest(CommitTurnRequest request) {
             _receivedResponse = false;
-
             StartCoroutine(_gameServiceIO.CommitTurn(request, delegate (bool success) {
             }));
         }
