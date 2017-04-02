@@ -29,6 +29,7 @@ namespace Assets.Scripts.Input {
             lobbyInfo.LobbyName = PlayerPrefs.GetString("LobbyName", "AnonLobby");
             lobbyInfo.MapID = PlayerPrefs.GetString("MapID");
             lobbyInfo.NumPlayers = PlayerPrefs.GetInt("NumPlayers");
+
             Debug.Log("Creating Lobby\n" + "Public:"+lobbyInfo.IsPublic + ", "+ lobbyInfo.NumPlayers + "\n"+ lobbyInfo.LobbyName + "\n" + PlayerPrefs.GetString("PlayerID") + "\n" +lobbyInfo.MapID );
             StartCoroutine(_lobbyIO.CreateLobby(lobbyInfo, delegate(string lobbyID) {
                 PlayerPrefs.SetString("LobbyID", lobbyID);

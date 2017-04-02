@@ -29,7 +29,7 @@ namespace Assets.Scripts.Input {
                 foreach (LobbyInfo lobby in lobbies) {
                     GameObject lobbyButton = Instantiate(LobbySelectButton);
                     Button tempButton = lobbyButton.GetComponent<Button>();
-                    string text = "Lobby Name: " + lobby.LobbyName + "\t Map ID: " + lobby.MapID;
+                    string text = "Lobby Name: " + lobby.LobbyName + "\t Map Name: " + lobby.MapName;
                     PlayerSideSelection side = PlayerSideSelection.SavePigeons;
                     if (lobby.Players.Count>0) {
                         text = text + "\n Host: " + lobby.Players[0].PlayerName;
