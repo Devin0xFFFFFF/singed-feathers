@@ -55,6 +55,8 @@
     <Compile Include="Controllers\PigeonController.cs" />
     <Compile Include="Controllers\TileController.cs" />
     <Compile Include="Controllers\TurnController.cs" />
+    <Compile Include="Models\API\GameService\CommitTurnRequest.cs" />
+    <Compile Include="Models\API\GameService\PollRequest.cs" />
     <Compile Include="Models\API\LobbyClient\JoinLobbyResult.cs" />
     <Compile Include="Models\API\LobbyClient\LeaveLobbyResult.cs" />
     <Compile Include="Models\API\LobbyClient\PollLobbyResult.cs" />
@@ -73,8 +75,9 @@
     <Compile Include="Models\MoveType.cs" />
     <Compile Include="Models\NewStatus.cs" />
     <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\PlayerState.cs" />
     <Compile Include="Models\Position.cs" />
-    <Compile Include="Models\ServerResponse.cs" />
+    <Compile Include="Models\API\GameService\PollResponse.cs" />
     <Compile Include="Models\Tile.cs" />
     <Compile Include="Models\TIleType.cs" />
     <Compile Include="Models\PlayerSideSelection.cs" />
@@ -97,6 +100,7 @@
   <PropertyGroup>
     <PostBuildEvent Condition=" '$(OS)' != 'Unix' ">
       copy /Y "CoreGame.dll" "../../SingedFeathers/Assets/Plugins"
+      nuget pack ../CoreGame.csproj -OutputDirectory ../
     </PostBuildEvent>
     <PostBuildEvent Condition=" '$(OS)' == 'Unix' ">
       cp CoreGame.dll ../../SingedFeathers/Assets/Plugins

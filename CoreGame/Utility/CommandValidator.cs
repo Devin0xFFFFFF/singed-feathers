@@ -6,24 +6,20 @@ namespace CoreGame.Utility {
     public class CommandValidator {
         private CommandValidator() { }
 
-        public static bool ValidateDeltas(IList<Delta> deltas, ITileController[,] tileMap) {
-            if (deltas == null || tileMap == null) {
+        public static bool ValidateDelta(Delta delta, ITileController[,] tileMap) {
+            if (tileMap == null) {
+                return false;
+            } else if (delta == null) {
+                return true;
+            }
+
+            Position position = delta.Position;
+            if (MapLocationValidator.PositionIsValid(position)) {
+                ITileController tileController = tileMap[position.X, position.Y];
+                return delta.Command.CanBeExecutedOnTile(tileController);
+            } else {
                 return false;
             }
-
-            foreach (Delta delta in deltas) {
-                Position position = delta.Position;
-                if (MapLocationValidator.PositionIsValid(position)) {
-                    ITileController tileController = tileMap[position.X, position.Y];
-                    if (!delta.Command.CanBeExecutedOnTile(tileController)) {
-                        return false;
-                    }
-                } else {
-                    return false;
-                }
-            }
-
-            return true;
         }
     }
 }

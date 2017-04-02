@@ -21,7 +21,7 @@ namespace CoreGame.Controllers {
 
         public MapController(IMapGeneratorService mapGenerator = null) { 
             _mapGenerator = mapGenerator ?? new MapGeneratorService();
-            _player = new Player();
+            _player = new Player("Player1");
         }
 
         public bool GenerateMap(string serializedMap) {
@@ -121,7 +121,11 @@ namespace CoreGame.Controllers {
             }
         }
             
-        public void EndTurn() { _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMove(), _map); }
+        public void EndTurn() { _map.TurnResolver.ResolveTurn(_map.TurnController.GetAndResetMove(), _map, _player); }
+
+        public void ApplyDelta(IList<Delta> deltaList) { TurnResolveUtility.ApplyDelta(deltaList, _map); }
+
+        public void ApplyTurn(IList<Delta> deltaList) { }
 
         public bool IsTurnResolved() { return _map.TurnResolver.IsTurnResolved(); }
 
@@ -172,7 +176,9 @@ namespace CoreGame.Controllers {
 
         public bool ShouldPoll() { return _map.TurnResolver.ShouldPoll(); }
 
-        public void Poll() { _map.TurnResolver.Poll(_map); }
+        public bool ValidateDelta(Delta delta) { return CommandValidator.ValidateDelta(delta, _map.TileMap); }
+
+        public void Poll() { _map.TurnResolver.Poll(_map, _player); }
 
         private void LinkNeighbouringTiles() {
             for (int x = 0; x < Width; x++) {

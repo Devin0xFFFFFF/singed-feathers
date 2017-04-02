@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>WhyNot.SingedFeathers.CoreGame</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>WhyNot</authors>
+    <owners>WhyNot</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Core Game Logic for SingedFeathers</description>
+    <copyright>Copyright 2017</copyright>
+  </metadata>
+</package>
