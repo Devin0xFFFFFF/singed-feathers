@@ -1,9 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 <<<<<<< HEAD:SingedFeathers/Assets/Editor/CommandTests.meta
 guid: 1390793006fc84705992c589fc489b8d
 =======
 guid: 8dba3a3c09fc54d6a984ed64879f29c0
 >>>>>>> 223-Make-GameService-Lambda-Functions:SingedFeathers/Assets/Editor/UnitTests/CommandTests.meta
+=======
+guid: 8dba3a3c09fc54d6a984ed64879f29c0
+>>>>>>> 041af962381e8849bc05a2cdfca8f3bab029ea59
 folderAsset: yes
 timeCreated: 1490727154
 licenseType: Free

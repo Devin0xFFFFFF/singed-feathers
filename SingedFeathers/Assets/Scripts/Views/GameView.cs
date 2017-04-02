@@ -49,12 +49,11 @@ namespace Assets.Scripts.Views {
                 }else {
                     //TODO:error handling/retry
                 }
-                if (TileSet.Count > 0) {
+                if (TileSet.Any()) {
                     LoadTileDictionary();
                     LoadMap(GetMapSelection());
                 }
             }));
-
         }
 
         public void Update() {

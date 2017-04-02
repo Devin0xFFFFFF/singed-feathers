@@ -19,10 +19,10 @@
 # Repository Structure
 ### CoreGame
 * Where our core game logic is located
-### LobbyServer
-* Multiplayer Server Lobby code
-### MapServer
-* Map Server code for serving and storing game maps
+### LobbyService
+* Multiplayer Lobby code
+### MapService
+* Code for serving and storing game maps
 ### RawResources
 * Raw resource files used to create unity graphics
 ### SingedFeathers
