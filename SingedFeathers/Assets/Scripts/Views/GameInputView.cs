@@ -32,13 +32,19 @@ namespace Assets.Scripts.Views {
         private Dictionary<Vector3, GameObject> _borders;
         private GameView _gameView;
         private int ActionNotAllowedWasUpdated;
+        private bool _inLobby;
 
         // Use this for initialization
         public void Start() {
             _actionButtons = new Button[] { FireButton, WaterButton };
             _borders = new Dictionary<Vector3, GameObject>();
             _gameView = GetComponent<GameView>();
+            _inLobby = true;
             ActionNotAllowedWasUpdated = 0;
+        }
+
+        public void ExitLobby() {
+            _inLobby = false;
         }
 
         public void ClearSelected() { 
@@ -50,7 +56,7 @@ namespace Assets.Scripts.Views {
 
         // Update is called once per frame
         public void Update() {
-            if (_turnController == null || !_turnResolver.IsTurnResolved()) {
+            if (_inLobby || _turnController == null || !_turnResolver.IsTurnResolved()) {
                 DisableAllButtons();
                 SetWaitingPanel(true);
                 ActionNotAllowedText.gameObject.SetActive(false);

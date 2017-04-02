@@ -44,7 +44,7 @@ namespace Assets.Scripts.Views {
             StartCoroutine(_lobbyIO.ReadyLobby(readyLobby, delegate(ReadyLobbyResult result) {
                 if (result !=null && result.IsSuccess()) {
                     Debug.Log("Readied in lobby");
-                    _inLobby = false;
+                    _inLobby = true;
                     _shouldPoll = true;
                 }else {
                     //TODO:error handling/retry
@@ -57,7 +57,7 @@ namespace Assets.Scripts.Views {
         }
 
         public void Update() {
-            if (!_inLobby) {
+            if (_inLobby) {
                 if (_shouldPoll) {
                     _shouldPoll = false;
                     Debug.Log("Getting GameID");
@@ -65,7 +65,8 @@ namespace Assets.Scripts.Views {
                         if (pollResult != null && pollResult.IsGameStarted()) {
                             Debug.Log("got gameid " + pollResult.GetGameID());
                             TurnResolver.SetGameID(pollResult.GetGameID());
-                            _inLobby = true;
+                            _inLobby = false;
+                            InputView.ExitLobby();
                         } else {
                             _shouldPoll = true;
                         }
