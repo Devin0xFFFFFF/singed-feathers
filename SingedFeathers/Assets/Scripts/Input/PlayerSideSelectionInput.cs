@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Input {
     public class PlayerSideSelectionInput : MonoBehaviour {
-		private string _lobbyName = "AnonLobby";
-		private LobbyIO _lobbyIO;
-		private GameSelection _gameselect;
+		private static string _lobbyName = "AnonLobby";
+		LobbyIO _lobbyIO;
+		public GameSelection _gameselect;
 
 		public void Awake() {
 			_lobbyIO = new LobbyIO();
