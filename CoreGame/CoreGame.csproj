@@ -82,11 +82,13 @@
     <Compile Include="Models\TIleType.cs" />
     <Compile Include="Models\PlayerSideSelection.cs" />
     <Compile Include="Models\Pigeon.cs" />
+    <Compile Include="Models\MapMakerValidationResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\IMapGeneratorService.cs" />
     <Compile Include="Service\MapGeneratorService.cs" />
     <Compile Include="Utility\CommandValidator.cs" />
     <Compile Include="Utility\MapLocationValidator.cs" />
+    <Compile Include="Utility\MapMakerInputValidator.cs" />
     <Compile Include="Utility\TurnResolveUtility.cs" />
     <Compile Include="Utility\TurnMergeUtility.cs" />
     <Compile Include="Models\API\AResult.cs" />

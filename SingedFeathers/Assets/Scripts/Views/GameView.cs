@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Assets.Scripts.Service;
 using Assets.Scripts.Utility;
@@ -6,6 +7,7 @@ using CoreGame.Controllers;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 using CoreGame.Models.API.LobbyClient;
+using UnityEngine.UI;
 using Newtonsoft.Json.Utilities;
 using Assets.Scripts.Controllers;
 
@@ -13,16 +15,17 @@ namespace Assets.Scripts.Views {
     public class GameView : MonoBehaviour {
         public List<TileView> TileSet;
         public PigeonView Pigeon;
-        public InputView InputView;
+        public GameInputView InputView;
         public WebTurnResolver TurnResolver;
         public GameSelection gameSelect;
+        public Text PigeonCountText;
         private List<PigeonView> _pigeons;
         private Dictionary<TileType, TileView> _tileDictionary;
         private IMapController _mapController;
         private TileView[,] _map;
+        private MapIO _mapIO;
         private int _width, _height;
         private float _tileSizeX, _tileSizeY;
-        private MapIO _mapIO;
         private bool _pigeonsRequireUpdate;
         private LobbyIO _lobbyIO;
         private bool _inLobby;
@@ -52,10 +55,6 @@ namespace Assets.Scripts.Views {
                 }
             }));
 
-            /*if (TileSet.Count > 0) {
-                LoadTileDictionary();
-                LoadMap(GetMapSelection());
-            }*/
         }
 
         public void Update() {
@@ -63,29 +62,37 @@ namespace Assets.Scripts.Views {
                 if (_shouldPoll) {
                     _shouldPoll = false;
                     Debug.Log("Getting GameID");
-                    StartCoroutine(_lobbyIO.PollLobby(PlayerPrefs.GetString("LobbyID"), PlayerPrefs.GetString("PlayerID"), delegate(PollLobbyResult pollResult) {
-                        if (pollResult != null && pollResult.IsGameStarted()){
+                    StartCoroutine(_lobbyIO.PollLobby(PlayerPrefs.GetString("LobbyID"), PlayerPrefs.GetString("PlayerID"), delegate (PollLobbyResult pollResult) {
+                        if (pollResult != null && pollResult.IsGameStarted()) {
                             Debug.Log("got gameid " + pollResult.GetGameID());
                             TurnResolver.SetGameID(pollResult.GetGameID());
                             _inLobby = true;
-                        }else{
+                        } else {
                             _shouldPoll = true;
                         }
                     }));
                 }
-                
+
             } else {
 
                 if (_mapController != null) {
                     if (_mapController.ShouldPoll()) {
                         _mapController.Poll();
                     }
-                
+
                     if (_pigeonsRequireUpdate && _mapController.IsTurnResolved()) {
                         foreach (PigeonView pigeon in _pigeons) {
                             pigeon.UpdatePigeon();
                         }
                         _pigeonsRequireUpdate = false;
+                    }
+
+                    if (_pigeonsRequireUpdate && _mapController.IsTurnResolved()) {
+                        foreach (PigeonView pigeon in _pigeons) {
+                            pigeon.UpdatePigeon();
+                        }
+                        _pigeonsRequireUpdate = false;
+                        UpdatePigeonCount();
                     }
                 }
             }
@@ -127,6 +134,7 @@ namespace Assets.Scripts.Views {
 
                 LoadPigeons();
                 LoadInputView();
+                UpdatePigeonCount();
             }));
         }
 
@@ -187,7 +195,7 @@ namespace Assets.Scripts.Views {
 
         public string GetGameOverPlayerStatus() { return _mapController.GetGameOverPlayerStatus(); }
 
-        public bool IsGameOver() { return _mapController.IsMapBurntOut() || _mapController.AreAllPigeonsDead(); }
+        public bool IsGameOver() { return _mapController.IsGameOver(); }
 
         public void FinishGame() {
             LeaveLobbyInfo leaveLobby = new LeaveLobbyInfo();
@@ -216,11 +224,9 @@ namespace Assets.Scripts.Views {
             TileView manager = _tileDictionary[type];
             _map[x, y] = Instantiate(manager, new Vector3(_tileSizeX * x - 1f, _tileSizeY * y - 2.5f, 1) * 1.6f, Quaternion.identity);
             _map[x, y].SetController(_mapController.GetTileController(x, y));
+            _map[x, y].Position = new Position(x, y);
         }
-
-        private void UpdateTileType(TileType type, int x, int y) {
-            Destroy(_map[x, y].gameObject);
-            InstantiateTile(type, x, y);
-        }
+        
+        private void UpdatePigeonCount() { PigeonCountText.text = "Pigeons: " + _mapController.GetLivePigeonCount() + "/" + _pigeons.Count; }
     }
 }

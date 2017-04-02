@@ -54,6 +54,7 @@
     <Compile Include="Assets\Scripts\Controllers\WebTurnResolver.cs" />
     <Compile Include="Assets\Scripts\GameSelection.cs" />
     <Compile Include="Assets\Scripts\Input\MapInput.cs" />
+    <Compile Include="Assets\Scripts\Input\MapSelectionInput.cs" />
     <Compile Include="Assets\Scripts\Input\PlayerSideSelectionInput.cs" />
     <Compile Include="Assets\Scripts\Service\APersistenceClient.cs" />
     <Compile Include="Assets\Scripts\Service\APersistenceIO.cs" />
@@ -65,8 +66,11 @@
     <Compile Include="Assets\Scripts\Service\MapClient.cs" />
     <Compile Include="Assets\Scripts\Service\MapIO.cs" />
     <Compile Include="Assets\Scripts\Utility\UnitySystemConsoleRedirector.cs" />
+    <Compile Include="Assets\Scripts\Views\GameInputView.cs" />
     <Compile Include="Assets\Scripts\Views\GameView.cs" />
     <Compile Include="Assets\Scripts\Views\InputView.cs" />
+    <Compile Include="Assets\Scripts\Views\MapMakerInputView.cs" />
+    <Compile Include="Assets\Scripts\Views\MapMakerView.cs" />
     <Compile Include="Assets\Scripts\Views\PigeonView.cs" />
     <Compile Include="Assets\Scripts\Views\TileView.cs" />
     <None Include="Assets\link.xml" />

@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using UnityEngine;
-using System.Collections;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 using CoreGame.Utility;
@@ -24,7 +22,10 @@ namespace Assets.Scripts.Controllers {
 
         public void Awake() {
             _gameServiceIO = new GameServiceIO();
+            _isTurnResolved = true;
+            _receivedResponse = true;
         }
+
         public void SetGameID(string gameID) { _gameID = gameID; }
 
         public bool IsTurnResolved() { return _isTurnResolved; }
@@ -44,13 +45,8 @@ namespace Assets.Scripts.Controllers {
             SendPollRequest(request, map);
         }
 
-        private IEnumerator ExecuteAfterTime(float time, Map map) {
-            yield return new WaitForSeconds(time);
-        }
-
         private void SendCommitTurnRequest(CommitTurnRequest request) {
             _receivedResponse = false;
-
             StartCoroutine(_gameServiceIO.CommitTurn(request, delegate (bool success) {
             }));
         }

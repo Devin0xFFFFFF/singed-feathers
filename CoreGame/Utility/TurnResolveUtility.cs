@@ -32,7 +32,9 @@ namespace CoreGame.Utility {
             foreach (Delta delta in deltaList) {
                 if (MapLocationValidator.PositionIsValid(delta.Position)) {
                     ApplyDelta(delta, map);
-                    if (delta.Command.MoveType == MoveType.Water) { waterCommands.Add(delta); }
+                    if (delta.Command.MoveType == MoveType.Water) {
+                        waterCommands.Add(delta);
+                    }
                 }
             }
             SpreadFires(map);

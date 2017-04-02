@@ -1,8 +1,5 @@
 language: csharp
 
-mono: latest
-group: edge
-
 before_install:
 - chmod a+x ./Travis/Scripts/install.sh
 - chmod a+x ./Travis/Scripts/build.sh
