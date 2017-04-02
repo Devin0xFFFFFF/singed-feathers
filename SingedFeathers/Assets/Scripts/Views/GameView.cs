@@ -88,12 +88,13 @@ namespace Assets.Scripts.Views {
                         _mapController.Poll();
                     }
 
-                if (_pigeonsRequireUpdate && _mapController.IsTurnResolved()) {
-                    foreach (PigeonView pigeon in _pigeons) {
-                        pigeon.UpdatePigeon();
+                    if (_pigeonsRequireUpdate && _mapController.IsTurnResolved()) {
+                        foreach (PigeonView pigeon in _pigeons) {
+                            pigeon.UpdatePigeon();
+                        }
+                        _pigeonsRequireUpdate = false;
+                        UpdatePigeonCount();
                     }
-                    _pigeonsRequireUpdate = false;
-                    UpdatePigeonCount();
                 }
             }
         }
