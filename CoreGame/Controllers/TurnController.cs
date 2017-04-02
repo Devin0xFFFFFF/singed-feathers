@@ -14,7 +14,7 @@ namespace CoreGame.Controllers {
         public TurnController(int turnsLeft) {
             _delta = null;
             _turnsLeft = turnsLeft;
-            _moveType = MoveType.Fire;
+            _moveType = MoveType.None;
             UpdateCommand();
         }
 
@@ -39,6 +39,8 @@ namespace CoreGame.Controllers {
             return false;
         }
 
+        public string GetExecutionFailureReason(ITileController tileController) { return _command.GetExecutionFailureReason(tileController); }
+
         public void UndoAction() { _delta = null; }
         
         public Delta GetAndResetMove() {
@@ -55,6 +57,9 @@ namespace CoreGame.Controllers {
                     break;
                 case MoveType.Water:
                     _command = new Command(MoveType.Water, _INTENSITY);
+                    break;
+                case MoveType.None:
+                    _command = new Command(MoveType.None);
                     break;
             }
         }

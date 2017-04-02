@@ -1,24 +1,10 @@
 fileFormatVersion: 2
-guid: c60fefc114c1b3d42a7b5314609ae88b
-timeCreated: 1489048560
+guid: 5d6544cf155eb4e649c5e146b56610d7
+timeCreated: 1490375989
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences:
-  - FireButton: {instanceID: 0}
-  - WaterButton: {instanceID: 0}
-  - BlankButton: {instanceID: 0}
-  - UndoButton: {instanceID: 0}
-  - EndTurnButton: {instanceID: 0}
-  - InputImage: {instanceID: 0}
-  - Fire: {instanceID: 0}
-  - Water: {instanceID: 0}
-  - Blank: {instanceID: 0}
-  - ControlBorderRed: {fileID: 1294431644631978, guid: 037260865293049ccbc582583dbb8a92,
-      type: 2}
-  - ControlBorderBlue: {fileID: 1127140030661592, guid: f40be33d6d52e4a1cb03c0e792229a3a,
-      type: 2}
-  - TurnCountText: {instanceID: 0}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
