@@ -19,9 +19,9 @@ namespace CoreGame.Controllers {
         private readonly IMapGeneratorService _mapGenerator;
         private Map _map;
 
-		public MapController (IMapGeneratorService mapGenerator = null, Player player = null) { 
-            _mapGenerator = mapGenerator ?? new MapGeneratorService();
-			_player = player ?? new Player ("Player1");
+        public MapController (IMapGeneratorService mapGenerator = null, Player player = null) {
+			_mapGenerator = mapGenerator ?? new MapGeneratorService();
+            _player = player ?? new Player ("Player1");
         }
 
         public bool GenerateMap(string serializedMap) {
@@ -29,6 +29,7 @@ namespace CoreGame.Controllers {
             if (_map == null) {
                 return false;
             }
+
             MapLocationValidator.InitializeValues(_map);
             LinkNeighbouringTiles();
             InitializeFires();
@@ -125,7 +126,7 @@ namespace CoreGame.Controllers {
 
         public void ApplyDelta(IList<Delta> deltaList) { TurnResolveUtility.ApplyDelta(deltaList, _map); }
 
-        public void ApplyTurn(IList<Delta> deltaList) { }
+        public void ApplyTurn(IList<Delta> deltaList) {}
 
         public bool IsTurnResolved() { return _map.TurnResolver.IsTurnResolved(); }
 

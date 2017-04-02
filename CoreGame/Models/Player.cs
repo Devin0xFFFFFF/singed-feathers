@@ -9,8 +9,7 @@ namespace CoreGame.Models {
         public PlayerState PlayerState;
         public Delta Delta;
 
-        public Player (string playerId, string playerName = "AnonPlayer", PlayerSideSelection playerSideSelection = PlayerSideSelection.SavePigeons, PlayerState playerState = PlayerState.LobbyUnready, Delta delta = null)
-        {
+        public Player(string playerId, string playerName = "AnonPlayer", PlayerSideSelection playerSideSelection = PlayerSideSelection.SavePigeons, PlayerState playerState = PlayerState.LobbyUnready, Delta delta = null) {
             PlayerID = playerId;
             PlayerName = playerName;
             PlayerSideSelection = playerSideSelection;

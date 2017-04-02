@@ -46,8 +46,6 @@ namespace Assets.Scripts.Views {
                     Debug.Log("Readied in lobby");
                     _inLobby = true;
                     _shouldPoll = true;
-                }else {
-                    //TODO:error handling/retry
                 }
                 if (TileSet.Any()) {
                     LoadTileDictionary();
@@ -202,13 +200,11 @@ namespace Assets.Scripts.Views {
             leaveLobby.LeavePlayerID = PlayerPrefs.GetString("PlayerID");
             leaveLobby.LobbyID = PlayerPrefs.GetString("LobbyID");
             StartCoroutine(_lobbyIO.LeaveLobby(leaveLobby, delegate(LeaveLobbyResult result) {
-                if(result == null || !result.IsSuccess()){
-                //TODO: errorhandling
-                }else{
+				if (result != null && result.IsSuccess()) {
                     Debug.Log(result.ResultMessage);
                 }
-                gameSelect.LoadScene("GameSelectScene");
 
+                gameSelect.LoadScene("GameSelectScene");
             }));
 
         }

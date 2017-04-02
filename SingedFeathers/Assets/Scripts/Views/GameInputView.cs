@@ -43,9 +43,7 @@ namespace Assets.Scripts.Views {
             ActionNotAllowedWasUpdated = 0;
         }
 
-        public void ExitLobby() {
-            _inLobby = false;
-        }
+        public void ExitLobby() { _inLobby = false; }
 
         public void ClearSelected() { 
             foreach (GameObject border in _borders.Values) {
