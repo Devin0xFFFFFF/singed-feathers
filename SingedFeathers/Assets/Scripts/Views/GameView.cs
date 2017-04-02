@@ -34,26 +34,31 @@ namespace Assets.Scripts.Views {
         // Start here!
         public void Start() {
             UnitySystemConsoleRedirector.Redirect();
-            _lobbyIO = new LobbyIO();
-            ReadyLobbyInfo readyLobby = new ReadyLobbyInfo();
+            if (!SinglePlayer.IsSinglePlayer()) {
+                _lobbyIO = new LobbyIO();
+                ReadyLobbyInfo readyLobby = new ReadyLobbyInfo();
 
-            readyLobby.IsReady = true;
-            readyLobby.ReadyPlayerID = PlayerPrefs.GetString("PlayerID");
-            readyLobby.LobbyID = PlayerPrefs.GetString("LobbyID");
-            _shouldPoll = false;
-            StartCoroutine(_lobbyIO.ReadyLobby(readyLobby, delegate(ReadyLobbyResult result) {
-                if (result !=null && result.IsSuccess()) {
-                    Debug.Log("Readied in lobby");
-                    _inLobby = true;
-                    _shouldPoll = true;
-                }else {
-                    //TODO:error handling/retry
-                }
+                readyLobby.IsReady = true;
+                readyLobby.ReadyPlayerID = PlayerPrefs.GetString("PlayerID");
+                readyLobby.LobbyID = PlayerPrefs.GetString("LobbyID");
+                _shouldPoll = false;
+                StartCoroutine(_lobbyIO.ReadyLobby(readyLobby, delegate (ReadyLobbyResult result) {
+                    if (result != null && result.IsSuccess()) {
+                        Debug.Log("Readied in lobby");
+                        _inLobby = true;
+                        _shouldPoll = true;
+                    }
+                    if (TileSet.Any()) {
+                        LoadTileDictionary();
+                        LoadMap(GetMapSelection());
+                    }
+                }));
+            } else {
                 if (TileSet.Any()) {
                     LoadTileDictionary();
                     LoadMap(GetMapSelection());
                 }
-            }));
+            }
         }
 
         public void Update() {
@@ -72,9 +77,7 @@ namespace Assets.Scripts.Views {
                         }
                     }));
                 }
-
             } else {
-
                 if (_mapController != null) {
                     if (_mapController.ShouldPoll()) {
                         _mapController.Poll();
@@ -118,7 +121,11 @@ namespace Assets.Scripts.Views {
                     Debug.LogError("Failed to generate map.");
                     return;
                 }
-                _mapController.SetTurnResolver(TurnResolver);
+                if (!SinglePlayer.IsSinglePlayer()) {
+                    _mapController.SetTurnResolver(TurnResolver);
+                } else {
+                    _mapController.SetTurnResolver(new LocalTurnResolver());
+                }
 
                 _width = _mapController.Width;
                 _height = _mapController.Height;
@@ -201,17 +208,19 @@ namespace Assets.Scripts.Views {
             LeaveLobbyInfo leaveLobby = new LeaveLobbyInfo();
             leaveLobby.LeavePlayerID = PlayerPrefs.GetString("PlayerID");
             leaveLobby.LobbyID = PlayerPrefs.GetString("LobbyID");
-            StartCoroutine(_lobbyIO.LeaveLobby(leaveLobby, delegate(LeaveLobbyResult result) {
-                if(result == null || !result.IsSuccess()){
-                //TODO: errorhandling
-                }else{
-                    Debug.Log(result.ResultMessage);
-                }
+            if (!SinglePlayer.IsSinglePlayer()) {
+                StartCoroutine(_lobbyIO.LeaveLobby(leaveLobby, delegate (LeaveLobbyResult result) {
+                    if (result != null && result.IsSuccess()) {
+                        Debug.Log(result.ResultMessage);
+                    }
+                    gameSelect.LoadScene("GameSelectScene");
+
+                }));
+            } else {
                 gameSelect.LoadScene("GameSelectScene");
-
-            }));
-
+            }
         }
+
         private void InstantiateTiles() {
             for (int x = 0; x < _width; x++) {
                 for (int y = 0; y < _height; y++) {
