@@ -317,6 +317,50 @@ namespace Assets.Editor.Tests.UnitTests.ControllerTests {
         }
 
         [Test]
+        public void TestIsGameOver() {
+            _pigeon0.IsDead().Returns(false);
+            _pigeon1.IsDead().Returns(false);
+
+            _tile0.IsFlammable().Returns(false);
+            _tile0.IsBurntOut().Returns(false);
+
+            _tile1.IsFlammable().Returns(true);
+            _tile1.IsBurntOut().Returns(true);
+
+            _tile2.IsFlammable().Returns(true);
+            _tile2.IsBurntOut().Returns(false);
+
+            _turnController.HasTurnsLeft().Returns(true);
+
+            Assert.False(_mapController.IsGameOver());
+
+            _pigeon1.IsDead().Returns(true);
+            Assert.False(_mapController.IsGameOver());
+
+            _pigeon0.IsDead().Returns(true);
+            Assert.True(_mapController.IsGameOver());
+
+            _tile2.IsBurntOut().Returns(true);
+            Assert.True(_mapController.IsGameOver());
+
+            _turnController.HasTurnsLeft().Returns(false);
+            Assert.True(_mapController.IsGameOver());
+
+            _turnController.HasTurnsLeft().Returns(true);
+            Assert.True(_mapController.IsGameOver());
+
+            _pigeon0.IsDead().Returns(false);
+            _pigeon1.IsDead().Returns(false);
+            Assert.True(_mapController.IsGameOver());
+
+            _tile2.IsBurntOut().Returns(false);
+            Assert.False(_mapController.IsGameOver());
+
+            _turnController.HasTurnsLeft().Returns(false);
+            Assert.True(_mapController.IsGameOver());
+        }
+
+        [Test]
         public void TestIsMapBurntOut() {
             _tile0.IsFlammable().Returns(false);
             _tile0.IsBurntOut().Returns(false);

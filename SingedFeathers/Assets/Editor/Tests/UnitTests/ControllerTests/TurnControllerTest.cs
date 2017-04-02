@@ -23,7 +23,7 @@ namespace Assets.Editor.Tests.UnitTests.ControllerTests {
             Assert.True(_turnController.HasTurnsLeft());
             Assert.False(_turnController.HasQueuedAction());
             Assert.AreEqual(1, _turnController.GetTurnsLeft());
-            Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
+            Assert.AreEqual(MoveType.None, _turnController.GetMoveType());
         }
 
         [Test]
@@ -57,6 +57,16 @@ namespace Assets.Editor.Tests.UnitTests.ControllerTests {
             Assert.AreEqual("", _turnController.GetExecutionFailureReason(_tile0));
             Assert.AreEqual("", _turnController.GetExecutionFailureReason(_tile2));
             Assert.AreEqual("", _turnController.GetExecutionFailureReason(_tile3));
+        }
+
+        [Test]
+        public void TestsNoneCommandReturnsFalseInAllCases() {
+            _turnController = new TurnController(10);
+            Assert.AreEqual(MoveType.None, _turnController.GetMoveType());
+            Assert.AreEqual("", _turnController.GetExecutionFailureReason(_tile0));
+            Assert.AreEqual("", _turnController.GetExecutionFailureReason(_tile2));
+            Assert.AreEqual("", _turnController.GetExecutionFailureReason(_tile3));
+            Assert.AreEqual("", _turnController.GetExecutionFailureReason(_tile4));
         }
 
         [Test]
@@ -121,8 +131,9 @@ namespace Assets.Editor.Tests.UnitTests.ControllerTests {
             Assert.True(_turnController.HasTurnsLeft());
             Assert.False(_turnController.HasQueuedAction());
             Assert.AreEqual(1, _turnController.GetTurnsLeft());
-            Assert.AreEqual(MoveType.Fire, _turnController.GetMoveType());
-
+            Assert.AreEqual(MoveType.None, _turnController.GetMoveType());
+            
+            _turnController.SetMoveType(MoveType.Fire);
             Delta move = _turnController.GetAndResetMove();
             Assert.False(_turnController.HasTurnsLeft());
             Assert.False(_turnController.HasQueuedAction());

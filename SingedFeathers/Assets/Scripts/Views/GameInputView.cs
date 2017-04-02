@@ -85,10 +85,8 @@ namespace Assets.Scripts.Views {
             OptionsText.gameObject.SetActive(false);
         }
 
-        public bool IsGameOver() { return !_turnController.HasTurnsLeft() || _gameView.IsGameOver(); }
-
         public void UpdateButtons() {
-            bool isGameOver = IsGameOver();
+            bool isGameOver = _gameView.IsGameOver();
 
             if (!isGameOver) {
                 foreach (Button button in _actionButtons) {

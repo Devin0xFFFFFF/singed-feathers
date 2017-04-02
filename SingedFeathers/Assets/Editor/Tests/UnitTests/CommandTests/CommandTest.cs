@@ -131,6 +131,51 @@ namespace Assets.Editor.Tests.UnitTests.CommandTests {
         }
 
         [Test]
+        public void TestCanBeExecutedOnTileIfMoveTypeIsNone() {
+            Command command = new Command(MoveType.None);
+
+            _tile.IsFlammable().Returns(true);
+            _tile.IsOccupied.Returns(true);
+            _tile.IsOnFire().Returns(true);
+            Assert.False(command.CanBeExecutedOnTile(_tile));
+
+            _tile.IsFlammable().Returns(false);
+            _tile.IsOccupied.Returns(true);
+            _tile.IsOnFire().Returns(true);
+            Assert.False(command.CanBeExecutedOnTile(_tile));
+
+            _tile.IsFlammable().Returns(false);
+            _tile.IsOccupied.Returns(false);
+            _tile.IsOnFire().Returns(true);
+            Assert.False(command.CanBeExecutedOnTile(_tile));
+
+            _tile.IsFlammable().Returns(true);
+            _tile.IsOccupied.Returns(false);
+            _tile.IsOnFire().Returns(true);
+            Assert.False(command.CanBeExecutedOnTile(_tile));
+
+            _tile.IsFlammable().Returns(true);
+            _tile.IsOccupied.Returns(true);
+            _tile.IsOnFire().Returns(false);
+            Assert.False(command.CanBeExecutedOnTile(_tile));
+
+            _tile.IsFlammable().Returns(false);
+            _tile.IsOccupied.Returns(true);
+            _tile.IsOnFire().Returns(false);
+            Assert.False(command.CanBeExecutedOnTile(_tile));
+
+            _tile.IsFlammable().Returns(false);
+            _tile.IsOccupied.Returns(false);
+            _tile.IsOnFire().Returns(false);
+            Assert.False(command.CanBeExecutedOnTile(_tile));
+
+            _tile.IsFlammable().Returns(true);
+            _tile.IsOccupied.Returns(false);
+            _tile.IsOnFire().Returns(false);
+            Assert.False(command.CanBeExecutedOnTile(_tile));
+        }
+
+        [Test]
         public void TestGetExecutionFailureReasonIfMoveTypeIsFire() {
             _fireCommand = new Command(MoveType.Fire, 0);
 
@@ -194,6 +239,51 @@ namespace Assets.Editor.Tests.UnitTests.CommandTests {
             _tile.IsFlammable().Returns(true);
             _tile.IsHeatZero().Returns(true);
             Assert.AreEqual("", _waterCommand.GetExecutionFailureReason(_tile));
+        }
+
+        [Test]
+        public void TestGetExecutionFailureReasonIfMoveTypeIsNone() {
+            Command command = new Command(MoveType.None, 0);
+
+            _tile.IsFlammable().Returns(true);
+            _tile.IsOccupied.Returns(true);
+            _tile.IsOnFire().Returns(true);
+            Assert.AreEqual("", command.GetExecutionFailureReason(_tile));
+
+            _tile.IsFlammable().Returns(false);
+            _tile.IsOccupied.Returns(true);
+            _tile.IsOnFire().Returns(true);
+            Assert.AreEqual("", command.GetExecutionFailureReason(_tile));
+
+            _tile.IsFlammable().Returns(false);
+            _tile.IsOccupied.Returns(false);
+            _tile.IsOnFire().Returns(true);
+            Assert.AreEqual("", command.GetExecutionFailureReason(_tile));
+
+            _tile.IsFlammable().Returns(true);
+            _tile.IsOccupied.Returns(false);
+            _tile.IsOnFire().Returns(true);
+            Assert.AreEqual("", command.GetExecutionFailureReason(_tile));
+
+            _tile.IsFlammable().Returns(true);
+            _tile.IsOccupied.Returns(true);
+            _tile.IsOnFire().Returns(false);
+            Assert.AreEqual("", command.GetExecutionFailureReason(_tile));
+
+            _tile.IsFlammable().Returns(false);
+            _tile.IsOccupied.Returns(true);
+            _tile.IsOnFire().Returns(false);
+            Assert.AreEqual("", command.GetExecutionFailureReason(_tile));
+
+            _tile.IsFlammable().Returns(false);
+            _tile.IsOccupied.Returns(false);
+            _tile.IsOnFire().Returns(false);
+            Assert.AreEqual("", command.GetExecutionFailureReason(_tile));
+
+            _tile.IsFlammable().Returns(true);
+            _tile.IsOccupied.Returns(false);
+            _tile.IsOnFire().Returns(false);
+            Assert.AreEqual("", command.GetExecutionFailureReason(_tile));
         }
     }
 }
