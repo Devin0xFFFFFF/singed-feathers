@@ -1,9 +1,9 @@
-﻿using NUnit.Framework;
+﻿using CoreGame.Controllers;
 using CoreGame.Controllers.Interfaces;
-using CoreGame.Controllers;
 using CoreGame.Models;
+using NUnit.Framework;
 
-namespace Assets.Editor.IntegrationTests {
+namespace Assets.Editor.Tests.IntegrationTests {
     [TestFixture]
     public class CoreGameTest {
         private const string SERIALIZED_MAP = "{'TurnsLeft': 10, 'MaxMovesPerTurn': 1, 'Width': 8, 'Height': 8, 'InitialFirePositions': [{'X': 2,'Y': 3}, {'X': 6,'Y': 1}], 'InitialPigeonPositions': [{'X': 3, 'Y': 1}, {'X': 6, 'Y': 6}], 'RawMap': [[3, 2, 2, 2, 2, 1, 3, 1], [3, 2, 1, 2, 2, 3, 3, 2], [2, 2, 2, 2, 2, 2, 2, 1], [1, 2, 2, 1, 2, 1, 3, 2], [1, 2, 2, 2, 1, 1, 3, 2], [1, 2, 2, 2, 2, 1, 3, 1], [3, 2, 1, 2, 2, 3, 3, 2], [3, 2, 1, 2, 1, 2, 2, 1]]}";

@@ -2,10 +2,10 @@
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 using CoreGame.Utility;
-using NUnit.Framework;
 using NSubstitute;
+using NUnit.Framework;
 
-namespace Assets.Editor.UnitTests.UtilityTests {
+namespace Assets.Editor.Tests.UnitTests.UtilityTests {
     [TestFixture]
     public class MapMakerInputValidatorTest {
         private ITileController _tileController;
