@@ -1,17 +1,16 @@
 ﻿using System.Collections;
+using System.Linq;
 using Assets.Scripts.Views;
 using CoreGame.Controllers.Interfaces;
+using CoreGame.Models;
 
 namespace Assets.UITest.AcceptanceTests {
     public class GameAcceptanceTest : global::UITest {
-        private IMapController _mapController;
-
         [UISetUp] public IEnumerable SetUp() {
             // Load the scene we want.
             #if UNITY_EDITOR
                 // The tests are being run through the editor
                 yield return LoadSceneByPath("Assets/Scenes/GameScene.unity");
-                GameView gameView = FindObjectOfType<GameView>();
 
             #elif !UNITY_EDITOR
                 // The tests are being run on a device
@@ -46,24 +45,62 @@ namespace Assets.UITest.AcceptanceTests {
 
         [UITest]
         public IEnumerable TestFireButton() {
-            yield return Press("FireButton");
-
-            TileView fireTile = FindObjectOfType<TileView>();
+            yield return WaitFor(new ObjectAppeared("FlammableGrassTile(Clone)"));
+            TileView[] tiles = FindObjectsOfType<TileView>();
+            TileView tile = tiles.FirstOrDefault(x => x.Type.Equals(TileType.Grass));
             GameInputView inputView = FindObjectOfType<GameInputView>();
-            inputView.HandleMapInput(fireTile);
-            
+
+            yield return Press("FireButton");
+            inputView.HandleMapInput(tile);
+
             yield return WaitFor(new ObjectAppeared("RedTileSelectBorder(Clone)"));
         }
 
         [UITest]
         public IEnumerable TestWaterButton() {
-            yield return Press("WaterButton");
-
-            TileView fireTile = FindObjectOfType<TileView>();
+            yield return WaitFor(new ObjectAppeared("FlammableGrassTile(Clone)"));
+            TileView[] tiles = FindObjectsOfType<TileView>();
+            TileView tile = tiles.FirstOrDefault(x => x.Type.Equals(TileType.Grass));
             GameInputView inputView = FindObjectOfType<GameInputView>();
-            inputView.HandleMapInput(fireTile);
-            
+
+            yield return Press("WaterButton");
+            inputView.HandleMapInput(tile);
+
             yield return WaitFor(new ObjectAppeared("BlueTileSelectBorder(Clone)"));
+        }
+
+        [UITest]
+        public IEnumerable TestAddToOccupiedTile() {
+            yield return WaitFor(new ObjectAppeared("FlammableGrassTile(Clone)"));
+            TileView[] tiles = FindObjectsOfType<TileView>();
+
+            // Get occupied tile
+            TileView tile = tiles.FirstOrDefault(x => x.IsOccupied());
+            GameInputView inputView = FindObjectOfType<GameInputView>();
+
+            // Try add fire to occupied tile -- not allowed, warning text should appear
+            yield return Press("FireButton");
+            inputView.HandleMapInput(tile);
+
+            yield return WaitFor(new ObjectAppeared("ActionNotAllowedText"));
+            yield return AssertLabel("ActionNotAllowedText", "Move not allowed! This tile is occupied.");
+            yield return WaitFor(new ObjectDisappeared("ActionNotAllowedText"));
+
+            // Try add water to occupied tile -- allowed; no warning text should appear
+            yield return Press("WaterButton");
+            inputView.HandleMapInput(tile);
+            yield return WaitFor(new ObjectDisappeared("ActionNotAllowedText"));
+            yield return WaitFor(new ObjectAppeared("BlueTileSelectBorder(Clone)"));
+        }
+
+        [UITest]
+        public IEnumerable TestEndTurn() {
+            yield return WaitFor(new ObjectAppeared("FlammableGrassTile(Clone)"));
+            yield return AssertLabel("TurnCountLabel", "Turns Left: 10");
+
+            // Just hit End Turn
+            yield return Press("EndTurnButton");
+            yield return AssertLabel("TurnCountLabel", "Turns Left: 9");
         }
     }
 }
