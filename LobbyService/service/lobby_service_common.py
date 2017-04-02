@@ -9,6 +9,7 @@ LOBBY_NAME = 'LobbyName'
 HOST_PLAYER = 'HostPlayer'
 JOIN_PLAYER = 'JoinPlayer'
 MAP_ID = 'MapID'
+MAP_NAME = 'MapName'
 NUM_PLAYERS = 'NumPlayers'
 IS_PUBLIC = 'IsPublic'
 LOBBY_ID = 'LobbyID'
@@ -33,9 +34,11 @@ GAME_STARTED_CODE = 2
 GAME_ID_DEFAULT = '0'
 
 LOBBY_TABLE_NAME = 'SingedFeathersLobbies'
+MAP_TABLE_NAME = 'SingedFeathersMaps'
 
 dynamo = boto3.resource('dynamodb', region_name='us-west-2')
 table = dynamo.Table(LOBBY_TABLE_NAME)
+map_table = dynamo.Table(MAP_TABLE_NAME)
 
 lambda_client = boto3.client('lambda', region_name='us-west-2')
 
@@ -63,6 +66,13 @@ def get_lobby_info(lobby_id, fields):
     return query_result['Items'][0]
 
 
+def get_map_name(map_id):
+    query_result = map_table.query(
+        KeyConditionExpression=Key(MAP_ID).eq(map_id),
+        ProjectionExpression=MAP_NAME)
+    return query_result['Items'][0][MAP_NAME]
+
+	
 def add_players_to_lobby(lobby_id, new_players):
     update_response = table.update_item(
         Key={LOBBY_ID: lobby_id},
@@ -103,7 +113,7 @@ def invoke_create_game(lobby_id):
     lambda_client.invoke(
         FunctionName='CreateGame',
         InvocationType='Event',
-        Payload=json.dumps({LOBBY_ID: lobby_id})
+        Payload=json.dumps(lobby_id)
     )
 
 
