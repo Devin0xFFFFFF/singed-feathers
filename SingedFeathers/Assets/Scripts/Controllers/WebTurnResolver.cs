@@ -14,9 +14,7 @@ namespace Assets.Scripts.Controllers {
         private readonly JsonSerializerSettings _settings;
         private string JsonDelta;
 
-        public WebTurnResolver() {
-            _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-        }
+        public WebTurnResolver() { _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All }; }
 
         public void Awake() {
             Random.InitState(3);

@@ -1,51 +1,52 @@
 ﻿using System.Collections.Generic;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
+using System.Collections;
 using CoreGame.Models.Commands;
 using CoreGame.Utility;
 using Newtonsoft.Json;
 
 namespace CoreGame.Controllers {
     public class LocalTurnResolver : ITurnResolver {
-        private readonly JsonSerializerSettings _settings;
 
-        public LocalTurnResolver() {
-            _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-        }
+        public LocalTurnResolver() { }
 
-        private bool _isTurnResolved = true;
-
-        public bool IsTurnResolved() { return _isTurnResolved; }
+        public bool IsTurnResolved() { return true; }
 
         public bool ShouldPoll() { return false; }
 
-        public void Poll(Map map) {}
-
         public void ResolveTurn(Delta delta, Map map) {
-            _isTurnResolved = false;
             List<Delta> deltaList = new List<Delta>();
             if (delta != null) {
                 deltaList.Add(delta);
             }
-
-            string json = JsonConvert.SerializeObject(deltaList, _settings);
-
-            ApplyDelta(json, map);
+            ApplyDelta(deltaList, map);
         }
 
-        private void ApplyDelta(string json, Map map) {
-            List<Delta> translatedDeltaList = JsonConvert.DeserializeObject<List<Delta>>(json, _settings);
-            foreach (Delta delta in translatedDeltaList) {
-                Position position = delta.Position;
-                ICommand command = delta.Command;
-                if (MapLocationValidator.PositionIsValid(position)) {
-                    ITileController tileController = map.TileMap[position.X, position.Y];
-                    command.ExecuteCommand(tileController);
+        public void Poll(Map map) { }
+
+        private void ApplyDelta(List<Delta> deltaList, Map map) {
+            IList<Delta> waterCommands = new List<Delta>();
+            foreach (Delta delta in deltaList) {
+                if (MapLocationValidator.PositionIsValid(delta.Position)) {
+                    ApplyDelta(delta, map);
+                    if (delta.Command.MoveType == MoveType.Water) { waterCommands.Add(delta); }
                 }
             }
             TurnResolveUtility.SpreadFires(map);
+
+            foreach (Delta delta in waterCommands) {
+                ApplyDelta(delta, map);
+            }
+
             TurnResolveUtility.MovePigeons(map);
-            _isTurnResolved = true;
+        }
+
+        private void ApplyDelta(Delta delta, Map map) {
+            Position position = delta.Position;
+            ICommand iCommand = delta.Command;
+            ITileController tileController = map.TileMap[position.X, position.Y];
+            iCommand.ExecuteCommand(tileController);
         }
     }
 }

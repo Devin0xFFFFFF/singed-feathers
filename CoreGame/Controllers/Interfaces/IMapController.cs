@@ -11,6 +11,7 @@ namespace CoreGame.Controllers.Interfaces {
         void SetPlayerSideSelection(PlayerSideSelection playerSideSelection);
         PlayerSideSelection GetPlayerSideSelection();
         string GetPlayerName();
+        bool IsGameOver();
         string GetGameOverPlayerStatus();
         bool IsMapBurntOut();
         bool AreAllPigeonsDead();
