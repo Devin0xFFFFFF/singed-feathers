@@ -19,8 +19,8 @@ namespace CoreGame.Controllers {
         private readonly IMapGeneratorService _mapGenerator;
         private Map _map;
 
-        public MapController (IMapGeneratorService mapGenerator = null, Player player = null) {
-			_mapGenerator = mapGenerator ?? new MapGeneratorService();
+        public MapController(IMapGeneratorService mapGenerator = null, Player player = null) {
+            _mapGenerator = mapGenerator ?? new MapGeneratorService();
             _player = player ?? new Player ("Player1");
         }
 

@@ -12,7 +12,7 @@ namespace Assets.Scripts.Input {
 
         public void Awake() {
             _lobbyIO = new LobbyIO();
-		}
+        }
 
         public void ChooseToSavePigeons() { 
             PlayerPrefs.SetInt("Side", (int)PlayerSideSelection.SavePigeons);
@@ -34,7 +34,7 @@ namespace Assets.Scripts.Input {
 
         public void SetLobbyName(string lobbyName) {
             _lobbyName = lobbyName;
-		}
+        }
 
         private void CreateLobby(string lobbyName) {
             CreateLobbyInfo lobbyInfo = new CreateLobbyInfo();
