@@ -7,11 +7,11 @@ using Assets.Scripts.Utility;
 namespace Assets.Scripts.Input {
     public class PlayerSideSelectionInput : MonoBehaviour {
 		private static string _lobbyName = "AnonLobby";
-		LobbyIO _lobbyIO;
+		public LobbyIO _lobbyIO;
 		public GameSelection _gameselect;
 
-		public void Awake() {
-			_lobbyIO = new LobbyIO();
+        public void Awake() {
+            _lobbyIO = new LobbyIO();
 		}
 
         public void ChooseToSavePigeons() { 
@@ -32,26 +32,26 @@ namespace Assets.Scripts.Input {
             }
         }
 
-		public void SetLobbyName(string lobbyName) {
-			_lobbyName = lobbyName;
+        public void SetLobbyName(string lobbyName) {
+            _lobbyName = lobbyName;
 		}
 
-		private void CreateLobby(string lobbyName) {
+        private void CreateLobby(string lobbyName) {
             CreateLobbyInfo lobbyInfo = new CreateLobbyInfo();
             lobbyInfo.HostPlayer = new Player(PlayerPrefs.GetString("PlayerID"), PlayerPrefs.GetString("PlayerName", "AnonPlayer"), (PlayerSideSelection)PlayerPrefs.GetInt("Side"));
             lobbyInfo.IsPublic = (PlayerPrefs.GetInt("IsPublic") == 1)? true : false;
             lobbyInfo.LobbyName = PlayerPrefs.GetString("LobbyName", lobbyName);
-			Debug.Log("Setting Lobby name to: " + lobbyName);
+            Debug.Log("Setting Lobby name to: " + lobbyName);
             lobbyInfo.MapID = PlayerPrefs.GetString("MapID");
             lobbyInfo.NumPlayers = PlayerPrefs.GetInt("NumPlayers");
 
             Debug.Log("Creating Lobby\n" + "Public:"+lobbyInfo.IsPublic + ", "+ lobbyInfo.NumPlayers + "\n"+ lobbyInfo.LobbyName + "\n" + PlayerPrefs.GetString("PlayerID") + "\n" +lobbyInfo.MapID );
             
-			StartCoroutine(_lobbyIO.CreateLobby(lobbyInfo, delegate(string lobbyID) {
+            StartCoroutine(_lobbyIO.CreateLobby(lobbyInfo, delegate(string lobbyID) {
                 PlayerPrefs.SetString("LobbyID", lobbyID);
                 Debug.Log(lobbyID == null);
                 Debug.Log(lobbyID);
-				_gameselect.LoadScene("GameScene");
+                _gameselect.LoadScene("GameScene");
             }));
         }
     }

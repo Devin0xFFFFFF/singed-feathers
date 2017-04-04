@@ -214,7 +214,6 @@ namespace Assets.Scripts.Views {
                         Debug.Log(result.ResultMessage);
                     }
                     gameSelect.LoadScene("GameSelectScene");
-
                 }));
             } else {
                 gameSelect.LoadScene("GameSelectScene");
