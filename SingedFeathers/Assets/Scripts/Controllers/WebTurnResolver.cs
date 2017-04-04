@@ -11,14 +11,10 @@ namespace Assets.Scripts.Controllers {
     public class WebTurnResolver : MonoBehaviour, ITurnResolver {
         private bool _isTurnResolved = true;
         private bool _receivedResponse = true;
-        private readonly JsonSerializerSettings _settings;
         private GameServiceIO _gameServiceIO;
         private string _gameID;
 
-        public WebTurnResolver(string gameID = "Test") {
-            _gameID = gameID;
-            _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
-        }
+        public WebTurnResolver(string gameID = "Test") { _gameID = gameID; }
 
         public void Awake() {
             _gameServiceIO = new GameServiceIO();

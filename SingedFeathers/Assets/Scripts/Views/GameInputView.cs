@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
+using Assets.Scripts.Utility;
 
 namespace Assets.Scripts.Views {
     public class GameInputView : InputView {
@@ -39,7 +40,7 @@ namespace Assets.Scripts.Views {
             _actionButtons = new Button[] { FireButton, WaterButton };
             _borders = new Dictionary<Vector3, GameObject>();
             _gameView = GetComponent<GameView>();
-            _inLobby = true;
+            _inLobby = !SinglePlayer.IsSinglePlayer();
             ActionNotAllowedWasUpdated = 0;
         }
 
@@ -54,7 +55,8 @@ namespace Assets.Scripts.Views {
 
         // Update is called once per frame
         public void Update() {
-            if (_inLobby || _turnController == null || !_turnResolver.IsTurnResolved()) {
+            Debug.Log("Update " + _inLobby.ToString() + "-" + (_turnController ==null).ToString() + "-");
+            if ( _inLobby || _turnController == null || !_turnResolver.IsTurnResolved()) {
                 DisableAllButtons();
                 SetWaitingPanel(true);
                 ActionNotAllowedText.gameObject.SetActive(false);

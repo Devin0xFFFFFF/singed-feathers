@@ -2,6 +2,7 @@
 using Assets.Scripts.Service;
 using CoreGame.Models.API.LobbyClient;
 using UnityEngine;
+using Assets.Scripts.Utility;
 
 namespace Assets.Scripts.Input {
     public class PlayerSideSelectionInput : MonoBehaviour {
@@ -15,12 +16,20 @@ namespace Assets.Scripts.Input {
 
         public void ChooseToSavePigeons() { 
             PlayerPrefs.SetInt("Side", (int)PlayerSideSelection.SavePigeons);
-            CreateLobby(_lobbyName);
+            if (!SinglePlayer.IsSinglePlayer()) {
+                CreateLobby(_lobbyName);
+            } else {
+                _gameselect.LoadScene("GameScene");
+            }
         }
 
         public void ChooseToBurnPigeons() { 
             PlayerPrefs.SetInt("Side", (int)PlayerSideSelection.BurnPigeons);
-            CreateLobby(_lobbyName);
+            if (!SinglePlayer.IsSinglePlayer()) {
+                CreateLobby(_lobbyName);
+            } else {
+                _gameselect.LoadScene("GameScene");
+            }
         }
 
         public void SetLobbyName(string lobbyName) {
