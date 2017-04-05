@@ -62,7 +62,7 @@ namespace Assets.UITest.AcceptanceTests {
 
             yield return Press("BackButton");
             yield return WaitFor(new ObjectDisappeared("HowToPlayCanvas"));
-            yield return WaitFor(new ObjectAppeared("GameHUD"));
+            yield return WaitFor(new ObjectAppeared("GameMenuCanvas"));
         }
 
         [UITest]
