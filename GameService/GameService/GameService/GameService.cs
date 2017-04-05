@@ -22,7 +22,7 @@ using Amazon.Lambda.APIGatewayEvents;
 [assembly: LambdaSerializerAttribute(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
 
 namespace GameService {
-    public class Function {
+    public class GameService {
         private const string BUCKET_NAME = "singed-feathers-maps";
         private const string GAME_TABLE_NAME = "SingedFeathersGames";
         private const string LOBBY_TABLE_NAME = "SingedFeathersLobbies";
@@ -164,7 +164,7 @@ namespace GameService {
             return response;
         }
 
-        public void CreateGame(string lobbyId) {
+        public string CreateGame(string lobbyId) {
             AttributeValue playerList;
             Dictionary<string, AttributeValue> playerMap;
             AttributeValue mapId;
@@ -213,6 +213,7 @@ namespace GameService {
 
                 table.PutItemAsync(row).Wait();
                 UpdateGameId(lobbyId, gameId);
+                return gameId;
             }
         }
 

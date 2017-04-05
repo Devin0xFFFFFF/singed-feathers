@@ -130,5 +130,5 @@
 -r:"C:\Users\Garrett\.nuget\packages\xunit.runner.reporters\2.2.0-beta2-build3300\lib\netstandard1.1\xunit.runner.reporters.dotnet.dll"
 -r:"C:\Users\Garrett\.nuget\packages\xunit.runner.utility\2.2.0-beta2-build3300\lib\netstandard1.1\xunit.runner.utility.dotnet.dll"
 -r:"D:\University\Soft Eng 2\comp4350-project\GameService\GameService\GameService\bin\Debug\netcoreapp1.0\GameService.dll"
-"D:\University\Soft Eng 2\comp4350-project\GameService\GameService\GameService.Tests\FunctionTest.cs"
+"D:\University\Soft Eng 2\comp4350-project\GameService\GameService\GameService.Tests\GameServiceTest.cs"
 "D:\University\Soft Eng 2\comp4350-project\GameService\GameService\GameService.Tests\Properties\AssemblyInfo.cs"

@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.0",
-    "signature": "06be1f4953ae1a01c93989fed9957650922f9084"
+    "signature": "4e2e2c9a7cceaf2694733149a86548ad5a01db56"
   },
   "compilationOptions": {},
   "targets": {
@@ -12,7 +12,8 @@
           "Amazon.Lambda.TestUtilities": "1.0.0",
           "GameService": "1.0.0",
           "xunit": "2.1.0",
-          "dotnet-test-xunit": "2.2.0-preview2-build1029"
+          "dotnet-test-xunit": "2.2.0-preview2-build1029",
+          "xunit.runner.console": "2.0.0"
         },
         "runtime": {
           "GameService.Tests.dll": {}
@@ -299,6 +300,7 @@
           "lib/dotnet/xunit.execution.dotnet.dll": {}
         }
       },
+      "xunit.runner.console/2.0.0": {},
       "xunit.runner.reporters/2.2.0-beta2-build3300": {
         "dependencies": {
           "Newtonsoft.Json": "9.0.1",
@@ -512,6 +514,11 @@
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-tAoNafoVknKa3sZJPMvtZRnhOSk3gasEGeceSm7w/gyGwsR/OXFxndWJB1xSHeoy33d3Z6jFqn4A3j+pWCF0Ew=="
+    },
+    "xunit.runner.console/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RDsg4bCMB+s8ODPqSBH7pKdflwTriGsbYeXu052VykOtLeLNQA6YpjNUCol3o43q/snB2PlKGJwGdDV+KSmNkQ=="
     },
     "xunit.runner.reporters/2.2.0-beta2-build3300": {
       "type": "package",

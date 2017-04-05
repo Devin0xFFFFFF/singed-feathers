@@ -2684,6 +2684,9 @@
           "lib/dotnet/xunit.execution.dotnet.dll": {}
         }
       },
+      "xunit.runner.console/2.0.0": {
+        "type": "package"
+      },
       "xunit.runner.reporters/2.2.0-beta2-build3300": {
         "type": "package",
         "dependencies": {
@@ -8066,6 +8069,24 @@
         "xunit.extensibility.execution.nuspec"
       ]
     },
+    "xunit.runner.console/2.0.0": {
+      "sha512": "RDsg4bCMB+s8ODPqSBH7pKdflwTriGsbYeXu052VykOtLeLNQA6YpjNUCol3o43q/snB2PlKGJwGdDV+KSmNkQ==",
+      "type": "package",
+      "path": "xunit.runner.console/2.0.0",
+      "files": [
+        "tools/HTML.xslt",
+        "tools/NUnitXml.xslt",
+        "tools/xUnit1.xslt",
+        "tools/xunit.abstractions.dll",
+        "tools/xunit.console.exe",
+        "tools/xunit.console.exe.config",
+        "tools/xunit.console.x86.exe",
+        "tools/xunit.console.x86.exe.config",
+        "tools/xunit.runner.utility.desktop.dll",
+        "xunit.runner.console.2.0.0.nupkg.sha512",
+        "xunit.runner.console.nuspec"
+      ]
+    },
     "xunit.runner.reporters/2.2.0-beta2-build3300": {
       "sha512": "1NqeT2IWfqk9/zBkHbf6SS1bokwu0Mvt70lQp8bJZpvQgi+SDAzuhEwWTcsjMblY2FK8BHDbjauu+IO2GhbhAA==",
       "type": "package",
@@ -8108,7 +8129,8 @@
       "GameService >= 1.0.0",
       "Microsoft.NETCore.App >= 1.1.1",
       "dotnet-test-xunit >= 2.2.0-*",
-      "xunit >= 2.1.0-*"
+      "xunit >= 2.1.0-*",
+      "xunit.runner.console >= 2.0.0"
     ],
     ".NETCoreApp,Version=v1.0": []
   },
