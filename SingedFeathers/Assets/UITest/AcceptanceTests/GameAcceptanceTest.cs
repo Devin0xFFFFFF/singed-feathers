@@ -3,14 +3,18 @@ using System.Linq;
 using Assets.Scripts.Views;
 using Assets.UITest.Test_Runner_Scripts;
 using CoreGame.Models;
+using UnityEngine;
 
 namespace Assets.UITest.AcceptanceTests {
     public class GameAcceptanceTest : Test_Runner_Scripts.UITest {
-        [UISetUp] public IEnumerable SetUp() {
+        [UISetUp]
+        public IEnumerable SetUp() {
             // Load the scene we want.
             #if UNITY_EDITOR
                 // The tests are being run through the editor
-                yield return LoadSceneByPath("Assets/Scenes/GameScene.unity");
+                PlayerPrefs.SetString("MapID", "Map3");
+                PlayerPrefs.SetInt("Side", (int)PlayerSideSelection.BurnPigeons);
+            yield return LoadSceneByPath("Assets/Scenes/GameScene.unity");
 
             #elif !UNITY_EDITOR
                 // The tests are being run on a device
@@ -101,6 +105,14 @@ namespace Assets.UITest.AcceptanceTests {
             // Just hit End Turn
             yield return Press("EndTurnButton");
             yield return AssertLabel("TurnCountLabel", "Turns Left: 9");
+        }
+
+        [UITest]
+        public IEnumerable TestOptionsButton() {
+            // More detailed testing in GameOptionsAcceptanceTest
+            yield return Press("OptionsButton");
+            yield return WaitFor(new ObjectDisappeared("GameHUD"));
+            yield return WaitFor(new ObjectAppeared("GameMenuCanvas"));
         }
     }
 }

@@ -50,7 +50,7 @@ namespace Assets.UITest.AcceptanceTests {
         }
 
         [UITest]
-        public IEnumerable TestOptionsButton() {
+        public IEnumerable TestOptionsButtonAndResumeButton() {
             //More detailed tests for the Options Menu is in MapMakerOptionsAcceptanceTest.cs
             // Access Options
             yield return Press("OptionsButton");
