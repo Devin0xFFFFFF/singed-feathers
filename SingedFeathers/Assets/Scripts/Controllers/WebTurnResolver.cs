@@ -1,60 +1,85 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
+using System.Collections;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
+using CoreGame.Models.Commands;
 using CoreGame.Utility;
-
-using CoreGame.Models.API.GameService;
-using Assets.Scripts.Service;
 
 namespace Assets.Scripts.Controllers {
     public class WebTurnResolver : MonoBehaviour, ITurnResolver {
         private bool _isTurnResolved = true;
         private bool _receivedResponse = true;
-        private GameServiceIO _gameServiceIO;
-        private string _gameID;
+        private readonly JsonSerializerSettings _settings;
+        private string JsonDelta;
 
-        public WebTurnResolver(string gameID = "Test") { _gameID = gameID; }
+        public WebTurnResolver() { _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All }; }
 
         public void Awake() {
-            _gameServiceIO = new GameServiceIO();
-            _isTurnResolved = true;
-            _receivedResponse = true;
+            Random.InitState(3);
+            //Three is the most random number
         }
-
-        public void SetGameID(string gameID) { _gameID = gameID; }
 
         public bool IsTurnResolved() { return _isTurnResolved; }
 
         public bool ShouldPoll() { return !_receivedResponse; }
 
-        public void ResolveTurn(Delta delta, Map map, Player player) {
+        public void ResolveTurn(Delta delta, Map map) {
             _isTurnResolved = false;
-            CommitTurnRequest commitTurnRequest = new CommitTurnRequest(_gameID, player.PlayerID, delta);
-            SendCommitTurnRequest(commitTurnRequest);
+            SendDelta(delta);
         }
 
-        public void Poll(Map map, Player player) {
-            Debug.Log("sending PollRequest: " + _gameID + " " + player.PlayerID);
+        public void Poll(Map map) {
             _receivedResponse = true;
-            PollRequest request = new PollRequest(_gameID, player.PlayerID);
-            SendPollRequest(request, map);
+            StartCoroutine(ExecuteAfterTime(0.1f, map));
         }
 
-        private void SendCommitTurnRequest(CommitTurnRequest request) {
-            _receivedResponse = false;
-            StartCoroutine(_gameServiceIO.CommitTurn(request, delegate (bool success) {
-            }));
-        }
-
-        private void SendPollRequest(PollRequest request, Map map) {
-            StartCoroutine(_gameServiceIO.PollGame(request, delegate (PollResponse response) {
-                _receivedResponse = response.IsValid;
-                if (response.IsValid) {
-                    TurnResolveUtility.ApplyDelta(response.Turn, map);
-                    _isTurnResolved = true;
+        private void ApplyDelta(List<Delta> deltaList, Map map) {
+            IList<Delta> waterCommands = new List<Delta>();
+            foreach (Delta delta in deltaList) {
+                if (MapLocationValidator.PositionIsValid(delta.Position)) {
+                    ApplyDelta(delta, map);
+                    if (delta.Command.MoveType == MoveType.Water) { waterCommands.Add(delta); }
                 }
-            }));
+            }
+            TurnResolveUtility.SpreadFires(map);
+
+            foreach (Delta delta in waterCommands) {
+                ApplyDelta(delta, map);
+            }
+
+            TurnResolveUtility.MovePigeons(map);
+            _isTurnResolved = true;
+        }
+
+        private IEnumerator ExecuteAfterTime(float time, Map map) {
+            yield return new WaitForSeconds(time);
+
+            Delta translatedDelta = JsonConvert.DeserializeObject<Delta>(JsonDelta, _settings);
+
+            List<Delta> deltaList = new List<Delta>();
+            if (translatedDelta != null) {
+                deltaList.Add(translatedDelta);
+            }
+            bool success = Random.Range(0, 2) == 0;
+            ServerResponse response = new ServerResponse(success, deltaList);
+            _receivedResponse = response.IsValid;
+            if (response.IsValid) {
+                ApplyDelta(response.Turn, map);
+            }
+        }
+
+        private void SendDelta(Delta delta) {
+            JsonDelta = JsonConvert.SerializeObject(delta, _settings);
+            _receivedResponse = false;
+        }
+
+        private void ApplyDelta(Delta delta, Map map) {
+            Position position = delta.Position;
+            ICommand iCommand = delta.Command;
+            ITileController tileController = map.TileMap[position.X, position.Y];
+            iCommand.ExecuteCommand(tileController);
         }
     }
 }

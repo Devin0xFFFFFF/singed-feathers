@@ -27,44 +27,76 @@ namespace Assets.Editor.UnitTests.UtilityTests {
         public void TestDeltaValidationAtValidMapLocationAndTileControllerCanBeExcecutedOn() {
             _command.CanBeExecutedOnTile(Arg.Any<ITileController>()).Returns(true);
 
-            Assert.True(CommandValidator.ValidateDelta(new Delta(new Position(0, 1), _command), _tileMap));
-            Assert.True(CommandValidator.ValidateDelta(new Delta(new Position(1, 0), _command), _tileMap));
+            List<Delta> deltas = new List<Delta>() {
+                new Delta(new Position(0, 1), _command),
+                new Delta(new Position(1, 0), _command)
+            };
+
+            Assert.True(CommandValidator.ValidateDeltas(deltas, _tileMap));
         }
 
         [Test]
         public void TestDeltaValidationAtInalidMapLocationAndTileControllerCanBeExcecutedOn() {
             _command.CanBeExecutedOnTile(Arg.Any<ITileController>()).Returns(true);
 
-            Assert.False(CommandValidator.ValidateDelta(new Delta(new Position(7, 1), _command), _tileMap));
-            Assert.True(CommandValidator.ValidateDelta(new Delta(new Position(1, 0), _command), _tileMap));
+            List<Delta> deltas = new List<Delta>() {
+                // Only one needs to be invalid for validation to fail
+                new Delta(new Position(7, 1), _command),
+                new Delta(new Position(1, 0), _command)
+            };
+
+            Assert.False(CommandValidator.ValidateDeltas(deltas, _tileMap));
         }
 
         [Test]
         public void TestDeltaValidationAtValidMapLocationAndTileControllerCannotBeExcecutedOn() {
             _command.CanBeExecutedOnTile(Arg.Any<ITileController>()).Returns(false);
 
-            Assert.False(CommandValidator.ValidateDelta(new Delta(new Position(0, 1), _command), _tileMap));
-            Assert.False(CommandValidator.ValidateDelta(new Delta(new Position(1, 0), _command), _tileMap));
+            List<Delta> deltas = new List<Delta>() {
+                new Delta(new Position(0, 1), _command),
+                new Delta(new Position(1, 0), _command)
+            };
+
+            Assert.False(CommandValidator.ValidateDeltas(deltas, _tileMap));
         }
 
         [Test]
         public void TestDeltaValidationAtInalidMapLocationAndTileControllerCannotBeExcecutedOn() {
             _command.CanBeExecutedOnTile(Arg.Any<ITileController>()).Returns(false);
 
-            Assert.False(CommandValidator.ValidateDelta(new Delta(new Position(7, 1), _command), _tileMap));
-            Assert.False(CommandValidator.ValidateDelta(new Delta(new Position(1, 0), _command), _tileMap));
+            List<Delta> deltas = new List<Delta>() {
+                new Delta(new Position(0, 1), _command),
+                new Delta(new Position(7, 0), _command)
+            };
+
+            Assert.False(CommandValidator.ValidateDeltas(deltas, _tileMap));
+        }
+
+        [Test]
+        public void TestDeltaValidationWithMoreMovesThanAllowed() {
+            // Max moves per turn is 2
+            List<Delta> deltas = new List<Delta>() {
+                new Delta(new Position(1, 0), _command),
+                new Delta(new Position(1, 0), _command),
+                new Delta(new Position(1, 0), _command)
+            };
+
+            Assert.False(CommandValidator.ValidateDeltas(deltas, _tileMap));
+        }
+
+        [Test]
+        public void TestNullDeltaListReturnsFalse() {
+            Assert.False(CommandValidator.ValidateDeltas(null, _tileMap));
         }
 
         [Test]
         public void TestNullTileMapThrowsException() {
-            _command.CanBeExecutedOnTile(Arg.Any<ITileController>()).Returns(true);
-
-            Assert.False(CommandValidator.ValidateDelta(new Delta(new Position(0, 1), _command), null));
+            Assert.False(CommandValidator.ValidateDeltas(new List<Delta>(), null));
         }
 
         [Test]
-        public void TestNullDeltaListPassesValidation() {
-            Assert.True(CommandValidator.ValidateDelta(null, _tileMap));
+        public void TestEmptyDeltaListPassesValidation() {
+            Assert.True(CommandValidator.ValidateDeltas(new List<Delta>(), _tileMap));
         }
 
         private Map GenerateTestMap() {

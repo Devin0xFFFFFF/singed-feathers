@@ -6,7 +6,6 @@ using Assets.Scripts.Utility;
 using CoreGame.Controllers;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
-using CoreGame.Models.API.LobbyClient;
 using UnityEngine.UI;
 using Newtonsoft.Json.Utilities;
 using Assets.Scripts.Controllers;
@@ -17,7 +16,6 @@ namespace Assets.Scripts.Views {
         public PigeonView Pigeon;
         public GameInputView InputView;
         public WebTurnResolver TurnResolver;
-        public GameSelection gameSelect;
         public Text PigeonCountText;
         private List<PigeonView> _pigeons;
         private Dictionary<TileType, TileView> _tileDictionary;
@@ -27,76 +25,28 @@ namespace Assets.Scripts.Views {
         private int _width, _height;
         private float _tileSizeX, _tileSizeY;
         private bool _pigeonsRequireUpdate;
-        private LobbyIO _lobbyIO;
-        private bool _inLobby;
-        private bool _shouldPoll;
 
         // Start here!
         public void Start() {
             UnitySystemConsoleRedirector.Redirect();
-            if (!SinglePlayer.IsSinglePlayer()) {
-                _lobbyIO = new LobbyIO();
-                ReadyLobbyInfo readyLobby = new ReadyLobbyInfo();
-
-                readyLobby.IsReady = true;
-                readyLobby.ReadyPlayerID = PlayerPrefs.GetString("PlayerID");
-                readyLobby.LobbyID = PlayerPrefs.GetString("LobbyID");
-                _shouldPoll = false;
-                StartCoroutine(_lobbyIO.ReadyLobby(readyLobby, delegate (ReadyLobbyResult result) {
-                    if (result != null && result.IsSuccess()) {
-                        Debug.Log("Readied in lobby");
-                        _inLobby = true;
-                        _shouldPoll = true;
-                    }
-                    if (TileSet.Any()) {
-                        LoadTileDictionary();
-                        LoadMap(GetMapSelection());
-                    }
-                }));
-            } else {
-                if (TileSet.Any()) {
-                    LoadTileDictionary();
-                    LoadMap(GetMapSelection());
-                }
+            if (TileSet.Any()) {
+                LoadTileDictionary();
+                LoadMap(GetMapSelection());
             }
         }
 
         public void Update() {
-            if (_inLobby) {
-                if (_shouldPoll) {
-                    _shouldPoll = false;
-                    Debug.Log("Getting GameID");
-                    StartCoroutine(_lobbyIO.PollLobby(PlayerPrefs.GetString("LobbyID"), PlayerPrefs.GetString("PlayerID"), delegate (PollLobbyResult pollResult) {
-                        if (pollResult != null && pollResult.IsGameStarted()) {
-                            Debug.Log("got gameid " + pollResult.GetGameID());
-                            TurnResolver.SetGameID(pollResult.GetGameID());
-                            _inLobby = false;
-                            InputView.ExitLobby();
-                        } else {
-                            _shouldPoll = true;
-                        }
-                    }));
+            if (_mapController != null) {
+                if (_mapController.ShouldPoll()) {
+                    _mapController.Poll();
                 }
-            } else {
-                if (_mapController != null) {
-                    if (_mapController.ShouldPoll()) {
-                        _mapController.Poll();
-                    }
 
-                    if (_pigeonsRequireUpdate && _mapController.IsTurnResolved()) {
-                        foreach (PigeonView pigeon in _pigeons) {
-                            pigeon.UpdatePigeon();
-                        }
-                        _pigeonsRequireUpdate = false;
+                if (_pigeonsRequireUpdate && _mapController.IsTurnResolved()) {
+                    foreach (PigeonView pigeon in _pigeons) {
+                        pigeon.UpdatePigeon();
                     }
-
-                    if (_pigeonsRequireUpdate && _mapController.IsTurnResolved()) {
-                        foreach (PigeonView pigeon in _pigeons) {
-                            pigeon.UpdatePigeon();
-                        }
-                        _pigeonsRequireUpdate = false;
-                        UpdatePigeonCount();
-                    }
+                    _pigeonsRequireUpdate = false;
+                    UpdatePigeonCount();
                 }
             }
         }
@@ -115,17 +65,12 @@ namespace Assets.Scripts.Views {
                     Debug.LogError("Failed to retrieve map.");
                     return;
                 }
-                Player player = new Player(PlayerPrefs.GetString("PlayerID"));
-                _mapController = new MapController(null, player);
+                _mapController = new MapController();
                 if (!_mapController.GenerateMap(serializedMapData)) {
                     Debug.LogError("Failed to generate map.");
                     return;
                 }
-                if (!SinglePlayer.IsSinglePlayer()) {
-                    _mapController.SetTurnResolver(TurnResolver);
-                } else {
-                    _mapController.SetTurnResolver(new LocalTurnResolver());
-                }
+                _mapController.SetTurnResolver(TurnResolver);
 
                 _width = _mapController.Width;
                 _height = _mapController.Height;
@@ -203,22 +148,6 @@ namespace Assets.Scripts.Views {
         public string GetGameOverPlayerStatus() { return _mapController.GetGameOverPlayerStatus(); }
 
         public bool IsGameOver() { return _mapController.IsGameOver(); }
-
-        public void FinishGame() {
-            LeaveLobbyInfo leaveLobby = new LeaveLobbyInfo();
-            leaveLobby.LeavePlayerID = PlayerPrefs.GetString("PlayerID");
-            leaveLobby.LobbyID = PlayerPrefs.GetString("LobbyID");
-            if (!SinglePlayer.IsSinglePlayer()) {
-                StartCoroutine(_lobbyIO.LeaveLobby(leaveLobby, delegate (LeaveLobbyResult result) {
-                    if (result != null && result.IsSuccess()) {
-                        Debug.Log(result.ResultMessage);
-                    }
-                    gameSelect.LoadScene("GameSelectScene");
-                }));
-            } else {
-                gameSelect.LoadScene("GameSelectScene");
-            }
-        }
 
         private void InstantiateTiles() {
             for (int x = 0; x < _width; x++) {

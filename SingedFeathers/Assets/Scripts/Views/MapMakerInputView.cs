@@ -55,7 +55,7 @@ namespace Assets.Scripts.Views {
         }
 
         public void SetSelectedButton(Button button) {
-            if (_selectedButton != null) {
+            if(_selectedButton != null) {
                 _selectedButton.interactable = true;
             }
             _selectedTileType = TileType.Error;

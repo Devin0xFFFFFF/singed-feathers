@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.Service {
-    public class LobbyIO : APersistenceIO {
+    class LobbyIO : APersistenceIO {
         private LobbyClient _client;
 
         public delegate void CreateLobbyCallback(string lobbyID);

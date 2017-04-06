@@ -15,5 +15,3 @@ EditorBuildSettings:
     path: Assets/Scenes/SideSelectScene.unity
   - enabled: 1
     path: Assets/Scenes/MapSelectScene.unity
-  - enabled: 1
-    path: Assets/Scenes/LobbySelectScene.unity

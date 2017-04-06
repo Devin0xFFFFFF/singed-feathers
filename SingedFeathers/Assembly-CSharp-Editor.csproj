@@ -62,7 +62,6 @@
     <Compile Include="Assets\Editor\UnitTests\ServiceTests\MapGeneratorServiceTest.cs" />
     <Compile Include="Assets\Editor\UnitTests\UtilityTests\CommandValidatorTest.cs" />
     <Compile Include="Assets\Editor\UnitTests\UtilityTests\MapLocationValidatorTest.cs" />
-    <Compile Include="Assets\Editor\UnitTests\UtilityTests\MapMakerInputValidatorTest.cs" />
     <Compile Include="Assets\Editor\UnitTests\UtilityTests\TurnMergeUtilityTest.cs" />
     <Compile Include="Assets\Editor\UnitTests\UtilityTests\TurnResolveUtilityTest.cs" />
     <None Include="Assets\link.xml" />

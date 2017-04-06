@@ -287,7 +287,7 @@ namespace Assets.Editor.UnitTests.ControllerTests {
         public void TestEndTurnMethod() {
             _mapController.EndTurn();
             _turnController.Received().GetAndResetMove();
-            _turnResolver.Received().ResolveTurn(Arg.Any<Delta>(), Arg.Any<Map>(), Arg.Any<Player>());
+            _turnResolver.Received().ResolveTurn(Arg.Any<Delta>(), Arg.Any<Map>());
         }
 
         [Test]
