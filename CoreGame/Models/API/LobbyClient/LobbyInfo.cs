@@ -10,6 +10,7 @@ namespace CoreGame.Models.API.LobbyClient {
         public bool IsPublic;
         public string LobbyName;
         public string MapID;
+        public string MapName;
         public int NumPlayers;
         public List<Player> Players;
     }

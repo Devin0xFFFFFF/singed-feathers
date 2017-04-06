@@ -17,6 +17,7 @@ namespace CoreGame.Controllers.Interfaces {
         bool AreAllPigeonsDead();
         int GetLivePigeonCount();
         void ApplyHeat(int x, int y);
+        void ApplyDelta(IList<Delta> deltaList);
         void ReduceHeat(int x, int y);
         TileType GetTileType(int x, int y);
         ITileController GetTileController(int x, int y);
@@ -33,6 +34,7 @@ namespace CoreGame.Controllers.Interfaces {
         void Water();
         bool IsTurnResolved();
         bool ShouldPoll();
+        bool ValidateDelta(Delta delta);
         void Poll();
     }
 }
