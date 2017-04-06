@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Assets.UITest.Test_Runner_Scripts;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace Assets.UITest.Editor {

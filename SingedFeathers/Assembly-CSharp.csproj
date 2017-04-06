@@ -3,8 +3,9 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
+    <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{70CCC106-3F63-D1AD-D5C5-94C3EAD92529}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -18,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_5_1;UNITY_5_5;UNITY_5;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GENERICS;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;UNITY_WEBGL;UNITY_WEBGL_API;UNITY_DISABLE_WEB_VERIFICATION;UNITY_GFX_USE_PLATFORM_VSYNC;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_VR;ENABLE_IL2CPP;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_OSX;UNITY_TEAM_LICENSE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_5_1;UNITY_5_5;UNITY_5;UNITY_64;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VIDEO;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
@@ -33,81 +34,85 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.XML" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\Managed\UnityEngine.dll</HintPath>
+      <HintPath>c:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\Managed\UnityEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>Assets\Plugins\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="NSubstitute, Version=0.0.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca">
-      <HintPath>Assets\Plugins\NSubstitute.dll</HintPath>
+      <HintPath>c:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Controllers\WebTurnResolver.cs" />
-    <Compile Include="Assets\Scripts\GameSelection.cs" />
-    <Compile Include="Assets\Scripts\Input\MapInput.cs" />
-    <Compile Include="Assets\Scripts\Input\MapSelectionInput.cs" />
-    <Compile Include="Assets\Scripts\Input\PlayerSideSelectionInput.cs" />
-    <Compile Include="Assets\Scripts\Service\APersistenceClient.cs" />
-    <Compile Include="Assets\Scripts\Service\APersistenceIO.cs" />
-    <Compile Include="Assets\Scripts\Service\AWSAPIClientConfig.cs" />
-    <Compile Include="Assets\Scripts\Service\AWSAPIRequestBuilder.cs" />
-    <Compile Include="Assets\Scripts\Service\ClientResult.cs" />
-    <Compile Include="Assets\Scripts\Service\LobbyClient.cs" />
-    <Compile Include="Assets\Scripts\Service\LobbyIO.cs" />
-    <Compile Include="Assets\Scripts\Service\MapClient.cs" />
-    <Compile Include="Assets\Scripts\Service\MapIO.cs" />
-    <Compile Include="Assets\Scripts\Utility\UnitySystemConsoleRedirector.cs" />
-    <Compile Include="Assets\Scripts\Views\GameInputView.cs" />
-    <Compile Include="Assets\Scripts\Views\GameView.cs" />
-    <Compile Include="Assets\Scripts\Views\InputView.cs" />
-    <Compile Include="Assets\Scripts\Views\MapMakerInputView.cs" />
-    <Compile Include="Assets\Scripts\Views\MapMakerView.cs" />
-    <Compile Include="Assets\Scripts\Views\PigeonView.cs" />
-    <Compile Include="Assets\Scripts\Views\TileView.cs" />
-    <Compile Include="Assets\UITest\AcceptanceTests\GameAcceptanceTest.cs" />
-    <Compile Include="Assets\UITest\AcceptanceTests\GameOptionsAcceptanceTest.cs" />
-    <Compile Include="Assets\UITest\AcceptanceTests\GameSelectAcceptanceTest.cs" />
-    <Compile Include="Assets\UITest\AcceptanceTests\MapMakerAcceptanceTest.cs" />
-    <Compile Include="Assets\UITest\AcceptanceTests\MapMakerOptionsAcceptanceTest.cs" />
-    <Compile Include="Assets\UITest\AcceptanceTests\SideSelectAcceptanceTest.cs" />
-    <Compile Include="Assets\UITest\Test Runner Scripts\DependencyInjector.cs" />
-    <Compile Include="Assets\UITest\Test Runner Scripts\ReportingTestsRunner.cs" />
-    <Compile Include="Assets\UITest\Test Runner Scripts\TestRunner.cs" />
-    <Compile Include="Assets\UITest\Test Runner Scripts\UITest.cs" />
-    <None Include="Assets\Editor\Tests\UnityTestTools\LICENSE.txt" />
-    <None Include="Assets\link.xml" />
-    <None Include="Assets\UITest\README.txt" />
-    <None Include="Assets\Editor\Tests\UnityTestTools\changelog.txt" />
-    <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\GUISystem\UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\Networking\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.PlaymodeTestsRunner">
-      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\PlaymodeTestsRunner\UnityEngine.PlaymodeTestsRunner.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Analytics">
-      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\UnityAnalytics\UnityEngine.Analytics.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.HoloLens">
-      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\UnityHoloLens\RuntimeEditor\UnityEngine.HoloLens.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.VR">
-      <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\UnityVR\RuntimeEditor\UnityEngine.VR.dll</HintPath>
-    </Reference>
-    <Reference Include="CoreGame">
-      <HintPath>Assets\Plugins\CoreGame.dll</HintPath>
-    </Reference>
+     <Compile Include="Assets\Scripts\Controllers\WebTurnResolver.cs" />
+     <Compile Include="Assets\Scripts\GameSelection.cs" />
+     <Compile Include="Assets\Scripts\Input\MapInput.cs" />
+     <Compile Include="Assets\Scripts\Input\MapSelectionInput.cs" />
+     <Compile Include="Assets\Scripts\Input\PlayerSideSelectionInput.cs" />
+     <Compile Include="Assets\Scripts\Service\APersistenceClient.cs" />
+     <Compile Include="Assets\Scripts\Service\APersistenceIO.cs" />
+     <Compile Include="Assets\Scripts\Service\AWSAPIClientConfig.cs" />
+     <Compile Include="Assets\Scripts\Service\AWSAPIRequestBuilder.cs" />
+     <Compile Include="Assets\Scripts\Service\ClientResult.cs" />
+     <Compile Include="Assets\Scripts\Service\LobbyClient.cs" />
+     <Compile Include="Assets\Scripts\Service\LobbyIO.cs" />
+     <Compile Include="Assets\Scripts\Service\MapClient.cs" />
+     <Compile Include="Assets\Scripts\Service\MapIO.cs" />
+     <Compile Include="Assets\Scripts\Utility\UnitySystemConsoleRedirector.cs" />
+     <Compile Include="Assets\Scripts\Views\GameInputView.cs" />
+     <Compile Include="Assets\Scripts\Views\GameView.cs" />
+     <Compile Include="Assets\Scripts\Views\InputView.cs" />
+     <Compile Include="Assets\Scripts\Views\MapMakerInputView.cs" />
+     <Compile Include="Assets\Scripts\Views\MapMakerView.cs" />
+     <Compile Include="Assets\Scripts\Views\PigeonView.cs" />
+     <Compile Include="Assets\Scripts\Views\TileView.cs" />
+     <Compile Include="Assets\UITest\AcceptanceTests\GameAcceptanceTest.cs" />
+     <Compile Include="Assets\UITest\AcceptanceTests\GameOptionsAcceptanceTest.cs" />
+     <Compile Include="Assets\UITest\AcceptanceTests\GameSelectAcceptanceTest.cs" />
+     <Compile Include="Assets\UITest\AcceptanceTests\MapMakerAcceptanceTest.cs" />
+     <Compile Include="Assets\UITest\AcceptanceTests\MapMakerOptionsAcceptanceTest.cs" />
+     <Compile Include="Assets\UITest\AcceptanceTests\SideSelectAcceptanceTest.cs" />
+     <Compile Include="Assets\UITest\Test Runner Scripts\DependencyInjector.cs" />
+     <Compile Include="Assets\UITest\Test Runner Scripts\ReportingTestsRunner.cs" />
+     <Compile Include="Assets\UITest\Test Runner Scripts\TestRunner.cs" />
+     <Compile Include="Assets\UITest\Test Runner Scripts\UITest.cs" />
+     <None Include="Assets\link.xml" />
+     <None Include="Assets\UITest\README.txt" />
+ <Reference Include="UnityEngine.UI">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Networking">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.PlaymodeTestsRunner">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/PlaymodeTestsRunner/UnityEngine.PlaymodeTestsRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.HoloLens">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.VR">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
+ </Reference>
+ <Reference Include="CoreGame">
+ <HintPath>C:/Users/Sasha/Documents/GitHub/comp4350-project/SingedFeathers/Assets/Plugins/CoreGame.dll</HintPath>
+ </Reference>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>C:/Users/Sasha/Documents/GitHub/comp4350-project/SingedFeathers/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
+ </Reference>
+ <Reference Include="NSubstitute">
+ <HintPath>C:/Users/Sasha/Documents/GitHub/comp4350-project/SingedFeathers/Assets/Plugins/NSubstitute.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+ <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.iOS.Extensions.Common">
+ <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Common.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -117,4 +122,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  
 </Project>
