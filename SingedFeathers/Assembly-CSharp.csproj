@@ -53,18 +53,24 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Controllers\WebTurnResolver.cs" />
     <Compile Include="Assets\Scripts\GameSelection.cs" />
+    <Compile Include="Assets\Scripts\Input\LobbySelectionInput.cs" />
     <Compile Include="Assets\Scripts\Input\MapInput.cs" />
     <Compile Include="Assets\Scripts\Input\MapSelectionInput.cs" />
+    <Compile Include="Assets\Scripts\Input\NameInput.cs" />
     <Compile Include="Assets\Scripts\Input\PlayerSideSelectionInput.cs" />
+    <Compile Include="Assets\Scripts\Input\SetPlayerPrefsInput.cs" />
     <Compile Include="Assets\Scripts\Service\APersistenceClient.cs" />
     <Compile Include="Assets\Scripts\Service\APersistenceIO.cs" />
     <Compile Include="Assets\Scripts\Service\AWSAPIClientConfig.cs" />
     <Compile Include="Assets\Scripts\Service\AWSAPIRequestBuilder.cs" />
     <Compile Include="Assets\Scripts\Service\ClientResult.cs" />
+    <Compile Include="Assets\Scripts\Service\GameServiceClient.cs" />
+    <Compile Include="Assets\Scripts\Service\GameServiceIO.cs" />
     <Compile Include="Assets\Scripts\Service\LobbyClient.cs" />
     <Compile Include="Assets\Scripts\Service\LobbyIO.cs" />
     <Compile Include="Assets\Scripts\Service\MapClient.cs" />
     <Compile Include="Assets\Scripts\Service\MapIO.cs" />
+    <Compile Include="Assets\Scripts\Utility\SinglePlayer.cs" />
     <Compile Include="Assets\Scripts\Utility\UnitySystemConsoleRedirector.cs" />
     <Compile Include="Assets\Scripts\Views\GameInputView.cs" />
     <Compile Include="Assets\Scripts\Views\GameView.cs" />
