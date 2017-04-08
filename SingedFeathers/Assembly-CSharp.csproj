@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\Service\LobbyIO.cs" />
     <Compile Include="Assets\Scripts\Service\MapClient.cs" />
     <Compile Include="Assets\Scripts\Service\MapIO.cs" />
+    <Compile Include="Assets\Scripts\Utility\PollTimer.cs" />
     <Compile Include="Assets\Scripts\Utility\SinglePlayer.cs" />
     <Compile Include="Assets\Scripts\Utility\UnitySystemConsoleRedirector.cs" />
     <Compile Include="Assets\Scripts\Views\GameInputView.cs" />

@@ -55,7 +55,6 @@ namespace Assets.Scripts.Views {
 
         // Update is called once per frame
         public void Update() {
-            Debug.Log("Update " + _inLobby.ToString() + "-" + (_turnController ==null).ToString() + "-");
             if ( _inLobby || _turnController == null || !_turnResolver.IsTurnResolved()) {
                 DisableAllButtons();
                 SetWaitingPanel(true);

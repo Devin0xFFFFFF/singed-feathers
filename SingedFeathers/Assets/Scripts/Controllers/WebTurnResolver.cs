@@ -6,6 +6,7 @@ using CoreGame.Utility;
 
 using CoreGame.Models.API.GameService;
 using Assets.Scripts.Service;
+using Assets.Scripts.Utility;
 
 namespace Assets.Scripts.Controllers {
     public class WebTurnResolver : MonoBehaviour, ITurnResolver {
@@ -49,10 +50,14 @@ namespace Assets.Scripts.Controllers {
 
         private void SendPollRequest(PollRequest request, Map map) {
             StartCoroutine(_gameServiceIO.PollGame(request, delegate (PollResponse response) {
-                _receivedResponse = response.IsValid;
                 if (response.IsValid) {
                     TurnResolveUtility.ApplyDelta(response.Turn, map);
                     _isTurnResolved = true;
+                    _receivedResponse = true;
+                } else {
+                    StartCoroutine(PollTimer.ExecuteAfterWait(delegate () {
+                        _receivedResponse = false;
+                    }));
                 }
             }));
         }
