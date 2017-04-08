@@ -70,7 +70,6 @@
     <Compile Include="Models\API\LobbyClient\ReadyLobbyResult.cs" />
     <Compile Include="Models\API\MapClient\MapInfo.cs" />
     <Compile Include="Models\Commands\Command.cs" />
-    <Compile Include="Models\Commands\ICommand.cs" />
     <Compile Include="Models\Delta.cs" />
     <Compile Include="Models\Map.cs" />
     <Compile Include="Models\API\MapClient\CreateMapInfo.cs" />

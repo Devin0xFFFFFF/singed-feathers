@@ -73,7 +73,7 @@ namespace Assets.Scripts.Views {
                             _inLobby = false;
                             InputView.ExitLobby();
                         } else {
-                            StartCoroutine(PollTimer.Wait(delegate () {
+                            StartCoroutine(PollTimer.ExecuteAfterWait(delegate () {
                                 _shouldPoll = true;
                             }));
                         }

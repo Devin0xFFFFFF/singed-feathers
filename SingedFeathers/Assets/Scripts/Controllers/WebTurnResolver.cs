@@ -55,7 +55,7 @@ namespace Assets.Scripts.Controllers {
                     _isTurnResolved = true;
                     _receivedResponse = true;
                 } else {
-                    StartCoroutine(PollTimer.Wait(delegate () {
+                    StartCoroutine(PollTimer.ExecuteAfterWait(delegate () {
                         _receivedResponse = false;
                     }));
                 }

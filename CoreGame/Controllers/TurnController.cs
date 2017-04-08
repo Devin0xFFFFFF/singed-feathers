@@ -6,7 +6,7 @@ using CoreGame.Models.Commands;
 namespace CoreGame.Controllers {
     public class TurnController : ITurnController {
         private MoveType _moveType;
-        private ICommand _command;
+        private Command _command;
         private const int _INTENSITY = 100;
         private int _turnsLeft;
         private Delta _delta;

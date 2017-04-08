@@ -39,6 +39,9 @@ namespace GameService {
         private const string PLAYER_ID = "PlayerID";
         private const string PLAYER_SIDE_SELECTION = "PlayerSideSelection";
 
+        private const string ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
+        private const string ACCESS_CONTROL_ALLOW_ORIGIN_VALUE = "*";
+
         private Player _player;
         private IList<Player> _players;
         private IEnumerable<Player> _otherPlayers;
@@ -49,6 +52,8 @@ namespace GameService {
         {
             APIGatewayProxyResponse response = new APIGatewayProxyResponse();
             response.StatusCode = 200;
+            response.Headers = new Dictionary<string, string>();
+            response.Headers.Add(ACCESS_CONTROL_ALLOW_ORIGIN, ACCESS_CONTROL_ALLOW_ORIGIN_VALUE);
             try {
                 string input = apigProxyEvent.Body;
                 _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
@@ -116,9 +121,11 @@ namespace GameService {
         public APIGatewayProxyResponse Poll(APIGatewayProxyRequest apigProxyEvent) {
             APIGatewayProxyResponse response = new APIGatewayProxyResponse();
             response.StatusCode = 200;
+            response.Headers = new Dictionary<string, string>();
+            response.Headers.Add(ACCESS_CONTROL_ALLOW_ORIGIN, ACCESS_CONTROL_ALLOW_ORIGIN_VALUE);
+            _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
             try {
                 string input = apigProxyEvent.Body;
-                _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
                 PollRequest request = JsonConvert.DeserializeObject<PollRequest>(input, _settings);
                 Dictionary<string, AttributeValue> dynamoTable = GetDynamoTable(request.GameId, GAME_TABLE_NAME);
 
@@ -144,6 +151,7 @@ namespace GameService {
             } catch (Exception e) {
                 Console.Write(e);
                 response.Body = GetPollResponse(false, null);
+                response.Headers.Add("Error", e.ToString());
                 return response;
             }
         }
@@ -151,6 +159,8 @@ namespace GameService {
         public APIGatewayProxyResponse Surrender(APIGatewayProxyRequest apigProxyEvent) {
             APIGatewayProxyResponse response = new APIGatewayProxyResponse();
             response.StatusCode = 200;
+            response.Headers = new Dictionary<string, string>();
+            response.Headers.Add(ACCESS_CONTROL_ALLOW_ORIGIN, ACCESS_CONTROL_ALLOW_ORIGIN_VALUE);
             string input = apigProxyEvent.Body;
             _settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
             PollRequest request = JsonConvert.DeserializeObject<PollRequest>(input, _settings);
