@@ -9,18 +9,18 @@ namespace Assets.Scripts.Input {
 
         // Update is called once per frame
         public void Update() {
-            #if !MOBILE_INPUT
+#if !MOBILE_INPUT
             if (UnityEngine.Input.GetMouseButtonDown(0)) {
                 Vector2 worldPoint = Camera.main.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
                 HandleInput(worldPoint);
             }
-            #elif MOBILE_INPUT
+#elif MOBILE_INPUT
             if (Input.touches.Any()) {
                 Touch touch = Input.touches.FirstOrDefault();
                 Vector2 worldPoint = Camera.main.ScreenToWorldPoint(touch.position);
                 HandleInput(worldPoint);
             }
-            #endif
+#endif
         }
 
         public void HandleInput(Vector2 worldPoint) {
