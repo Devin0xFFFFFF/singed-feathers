@@ -5,14 +5,11 @@ namespace Assets.UITest.AcceptanceTests {
     public class GameOptionsAcceptanceTest : Test_Runner_Scripts.UITest {
         [UISetUp]
         public IEnumerable SetUp() {
-            // Load the scene we want.
-            #if UNITY_EDITOR
-                // The tests are being run through the editor
-                yield return LoadSceneByPath("Assets/Scenes/GameScene.unity");
-            #elif !UNITY_EDITOR
-                // The tests are being run on a device
-                yield return LoadScene("MapMakerScene");
-            #endif
+#if UNITY_EDITOR
+            yield return LoadSceneByPath("Assets/Scenes/GameScene.unity");
+#elif !UNITY_EDITOR
+            yield return LoadScene("MapMakerScene");
+#endif
         }
 
         [UITest]

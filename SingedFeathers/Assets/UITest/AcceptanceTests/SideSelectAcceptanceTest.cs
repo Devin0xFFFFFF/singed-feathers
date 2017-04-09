@@ -7,14 +7,11 @@ namespace Assets.UITest.AcceptanceTests {
         [UISetUp]
         public IEnumerable SetUp() {
             PlayerPrefs.SetInt("NumPlayers", 1);
-            // Load the scene we want.
-            #if UNITY_EDITOR
-                // The tests are being run through the editor
-                yield return LoadSceneByPath("Assets/Scenes/SideSelectScene.unity");
-            #elif !UNITY_EDITOR
-                // The tests are being run on a device
-                yield return LoadScene("SideSelectScene");
-            #endif
+#if UNITY_EDITOR
+            yield return LoadSceneByPath("Assets/Scenes/SideSelectScene.unity");
+#elif !UNITY_EDITOR
+            yield return LoadScene("SideSelectScene");
+#endif
         }
 
         [UITest]

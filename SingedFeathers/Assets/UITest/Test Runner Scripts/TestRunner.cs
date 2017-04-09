@@ -5,10 +5,15 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
+/*
+This code was imported for the UITest Package
+https://github.com/taphos/unity-uitest/tree/master/Assets/UITest
+*/
+
 namespace Assets.UITest.Test_Runner_Scripts {
-    public class TestsRunner : MonoBehaviour
-    {
+    public class TestsRunner : MonoBehaviour {
         List<Type> testFixtures;
+
         public List<Type> TestFixtures {
             get {
                 if (testFixtures == null) {
@@ -21,14 +26,12 @@ namespace Assets.UITest.Test_Runner_Scripts {
             }
         }
 
-        IEnumerator Start()
-        {		
+        IEnumerator Start() {
             yield return StartCoroutine(RunUIFixtures());
             Application.Quit();
         }
 
-        protected virtual IEnumerator RunUIFixtures()
-        {
+        protected virtual IEnumerator RunUIFixtures() {
             foreach (var type in TestFixtures) {
                 var methods = GetTestMethods(type);
                 if (methods.Length != 0)
@@ -36,28 +39,22 @@ namespace Assets.UITest.Test_Runner_Scripts {
             }
         }
 
-        public virtual IEnumerator RunUIFixture(Type fixtureType, MethodInfo[] methods)
-        {
+        public virtual IEnumerator RunUIFixture(Type fixtureType, MethodInfo[] methods) {
             foreach (var method in methods)
                 yield return StartCoroutine(RunUITest(fixtureType, method));
         }
-        
-        public MethodInfo[] GetTestMethods(Type fixtureType)
-        {
+
+        public MethodInfo[] GetTestMethods(Type fixtureType) {
             return fixtureType.GetMethods()
                 .Where(m => Attribute.IsDefined(m, typeof(UITestAttribute)) && ShouldRunTest(fixtureType + "." + m.Name))
                 .ToArray();
         }
 
-        protected virtual bool ShouldRunTest(string name)
-        {
-            return true;
-        }
+        protected virtual bool ShouldRunTest(string name) { return true; }
 
-        protected virtual IEnumerator RunUITest(Type fixtureType, MethodInfo testMethod)
-        {
+        protected virtual IEnumerator RunUITest(Type fixtureType, MethodInfo testMethod) {
             var go = new GameObject(fixtureType.ToString());
-            var component = (UITest)go.AddComponent(fixtureType);
+            var component = (UITest) go.AddComponent(fixtureType);
 
             Application.LogCallback logReceived = (condition, stackTrace, type) => {
                 if ((type == LogType.Error || type == LogType.Exception) && !UnityInternalError(condition))
@@ -72,8 +69,7 @@ namespace Assets.UITest.Test_Runner_Scripts {
             Application.logMessageReceived -= logReceived;
         }
 
-        protected static bool UnityInternalError(string condition)
-        {
+        protected static bool UnityInternalError(string condition) {
             return condition.StartsWith("The profiler has run out of samples") ||
                    condition.StartsWith("Multiple plugins with the same name") ||
                    condition.StartsWith("String too long for TextMeshGenerator");
