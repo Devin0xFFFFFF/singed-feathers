@@ -1,24 +1,23 @@
-﻿using Newtonsoft.Json;
-using UnityEngine;
+﻿using UnityEngine;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 using CoreGame.Utility;
 
 using CoreGame.Models.API.GameService;
-using Assets.Scripts.Service;
 using Assets.Scripts.Utility;
+using Assets.Scripts.Service.IO;
 
 namespace Assets.Scripts.Controllers {
     public class WebTurnResolver : MonoBehaviour, ITurnResolver {
         private bool _isTurnResolved = true;
         private bool _receivedResponse = true;
-        private GameServiceIO _gameServiceIO;
+        private GameIO _gameServiceIO;
         private string _gameID;
 
         public WebTurnResolver(string gameID = "Test") { _gameID = gameID; }
 
         public void Awake() {
-            _gameServiceIO = new GameServiceIO();
+            _gameServiceIO = new GameIO();
             _isTurnResolved = true;
             _receivedResponse = true;
         }
