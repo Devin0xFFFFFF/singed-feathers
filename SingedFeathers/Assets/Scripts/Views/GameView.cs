@@ -48,7 +48,7 @@ namespace Assets.Scripts.Views {
 						_inLobby = true;
                         _shouldPoll = true;
 					} else {
-						ShowErrorText("Lobby Error: Game failed to start.");
+                        ShowErrorText("Lobby Error: Game failed to start.");
 					}
                     if (TileSet.Any()) {
                         LoadTileDictionary();
@@ -117,14 +117,14 @@ namespace Assets.Scripts.Views {
             StartCoroutine(_mapIO.GetMapData(mapID, delegate (string serializedMapData) {
                 if (serializedMapData == null) {
                     Debug.LogError("Failed to retrieve map.");
-					ShowErrorText("Failed to retrieve map.");
+                    ShowErrorText("Failed to retrieve map.");
                     return;
                 }
                 Player player = new Player(PlayerPrefs.GetString("PlayerID"));
                 _mapController = new MapController(null, player);
                 if (!_mapController.GenerateMap(serializedMapData)) {
                     Debug.LogError("Failed to generate map.");
-					ShowErrorText("Failed to retrieve map.");
+                    ShowErrorText("Failed to retrieve map.");
                     return;
                 }
                 if (!SinglePlayer.IsSinglePlayer()) {
@@ -219,7 +219,7 @@ namespace Assets.Scripts.Views {
                     if (result != null && result.IsSuccess()) {
                         Debug.Log(result.ResultMessage);
 					} else {
-						ShowErrorText("Lobby Error: Game failed to complete.");
+                        ShowErrorText("Lobby Error: Game failed to complete.");
 					}
                     gameSelect.LoadScene("GameSelectScene");
                 }));
@@ -245,8 +245,8 @@ namespace Assets.Scripts.Views {
         
         private void UpdatePigeonCount() { PigeonCountText.text = "Pigeons: " + _mapController.GetLivePigeonCount() + "/" + _pigeons.Count; }
         
-		private void ShowErrorText(string errorMessage) {
-			InputView.ShowErrorText(errorMessage);
-		}
+        private void ShowErrorText(string errorMessage) {
+            InputView.ShowErrorText(errorMessage);
+        }
 	}
 }

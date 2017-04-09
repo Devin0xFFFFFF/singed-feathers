@@ -26,7 +26,7 @@ namespace Assets.Scripts.Views {
         public Text GameOverText;
         public Text GameOverStatusText;
         public Text ActionNotAllowedText;
-		public Text ErrorText;
+        public Text ErrorText;
         public GameObject WaitingPanel;
         private Button[] _actionButtons;
         private ITurnController _turnController;
@@ -145,13 +145,13 @@ namespace Assets.Scripts.Views {
 
         public void SetTurnResolver(ITurnResolver turnResolver) { _turnResolver = turnResolver; }
 
-		public void ShowErrorText(string errorMessage) {
-			if (GameHUD.gameObject.activeInHierarchy) {
-				ErrorText.text = errorMessage;
-				ErrorText.color = Color.red;
-				ErrorText.enabled = true;
-			}
-		}
+        public void ShowErrorText(string errorMessage) {
+            if (GameHUD.gameObject.activeInHierarchy) {
+                ErrorText.text = errorMessage;
+                ErrorText.color = Color.red;
+                ErrorText.enabled = true;
+            }
+        }
 
         private void CreateBorder(Vector3 pos) {
             GameObject border = null; 
