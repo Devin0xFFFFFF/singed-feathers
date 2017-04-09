@@ -22,7 +22,7 @@ namespace Assets.Editor.UnitTests.ControllerTests {
             _neighbourTile0.Position.Returns(new Position(0, 1));
 
             _neighbourTile1 = Substitute.For<ITileController>();
-            _neighbourTile1.Position.Returns(new Position(0, 2));
+            _neighbourTile1.Position.Returns(new Position(0, 0));
 
             _tileController.GetNeighbours().Returns(new List<ITileController>() { _neighbourTile0, _neighbourTile1 } );
             _pigeonController = new PigeonController(_tileController);
