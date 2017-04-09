@@ -1,6 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Assets.Scripts.Service.Client;
+using Newtonsoft.Json;
 
-namespace Assets.Scripts.Service {
+namespace Assets.Scripts.Service.IO {
     public abstract class APersistenceIO {
         protected readonly JsonSerializerSettings _jsonSettings = new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All };
 
