@@ -7,7 +7,6 @@ namespace CoreGame.Controllers.Interfaces {
         Tile Tile { get; }
         bool IsOccupied { get; }
         Position Position { get; set; }
-        bool CanBeOccupied();
         TileType GetTileType();
         void ApplyHeat(int heat);
         void ReduceHeat(int heat);

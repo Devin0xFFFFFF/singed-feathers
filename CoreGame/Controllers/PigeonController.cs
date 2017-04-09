@@ -20,15 +20,9 @@ namespace CoreGame.Controllers {
 
         public int GetHealth() { return Pigeon.Health; }
         
-        public bool HasMoved() { return InitialPosition != CurrentPosition; }
+        public bool HasMoved() { return !InitialPosition.Equals(CurrentPosition); }
 
         public bool IsDead() { return Pigeon.Health <= 0; }
-
-        public void Heal(int delta) {
-            if (delta > 0) {
-                Pigeon.Health = Math.Min(Pigeon.MAX_HEALTH, Pigeon.Health + delta);
-            }
-        }
 
         public void InflictDamage(int delta) {
             if (delta > 0) {
@@ -36,17 +30,10 @@ namespace CoreGame.Controllers {
             }
         }
 
-        public void React() {
+        public bool React() {
             if (!IsDead()) {
                 Move();
                 TakeFireDamage();
-            }
-        }
-
-        public bool Kill() {
-            if (!IsDead()) {
-                Pigeon.Health = 0;
-                _tileController.MarkUnoccupied();
                 return true;
             }
             return false;
@@ -58,7 +45,7 @@ namespace CoreGame.Controllers {
             allPossibleDestinations.Add(_tileController);
 
             int maxHeat = allPossibleDestinations.Max(tile => tile.GetTileHeat());
-            IEnumerable<ITileController> validDestinations = allPossibleDestinations.Where(tile => !tile.IsOnFire() && tile.CanBeOccupied());
+            IEnumerable<ITileController> validDestinations = allPossibleDestinations.Where(tile => !tile.IsOnFire() && !tile.IsOccupied);
 
             if (maxHeat > 0 && validDestinations.Any()) {
                 // Move to the tile with min heat farthest from the most heated tile

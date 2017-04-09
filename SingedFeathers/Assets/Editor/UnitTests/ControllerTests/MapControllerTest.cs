@@ -192,13 +192,13 @@ namespace Assets.Editor.UnitTests.ControllerTests {
         [Test]
         public void TestGetTileTypeReturnsTypeOfTileAtValidLocation() {
             TileType type00 = _mapController.GetTileType(0, 0);
-            Assert.AreEqual(TileType.Stone, type00);
+            Assert.AreEqual(TileType.Grass, type00);
 
             TileType type01 = _mapController.GetTileType(0, 1);
             Assert.AreEqual(TileType.Grass, type01);
 
             TileType type02 = _mapController.GetTileType(0, 2);
-            Assert.AreEqual(TileType.Wood, type02);
+            Assert.AreEqual(TileType.Stone, type02);
         }
 
         [Test]
@@ -426,24 +426,84 @@ namespace Assets.Editor.UnitTests.ControllerTests {
             Assert.False(_mapController.UpdateTileController(TileType.Stone, 2, -1));
             Assert.False(_mapController.UpdateTileController(TileType.Stone, -2, 1));
 
-            Assert.AreEqual(TileType.Stone, _mapController.GetTileType(0, 0));
+            Assert.AreEqual(TileType.Grass, _mapController.GetTileType(0, 0));
             Assert.True(_mapController.UpdateTileController(TileType.Wood, 0, 0));
             Assert.AreEqual(TileType.Wood, _mapController.GetTileType(0, 0));
         }
 
         [Test]
-        public void TestAddPigeonToMap() {
+        public void TestAddInitialPigeonPosition() {
+            // Invalid positions return false
+            Assert.False(_mapController.AddInitialPigeonPosition(new Position(12, 5)));
+            Assert.False(_mapController.AddInitialPigeonPosition(new Position(-4, 5)));
+
             // Can add to unoccupied tile
             Assert.True(_mapController.AddInitialPigeonPosition(new Position(1, 0)));
 
             // Cannot add to occupied tile
             Assert.False(_mapController.AddInitialPigeonPosition(new Position(0, 0)));
+            Assert.False(_mapController.AddInitialPigeonPosition(new Position(1, 0)));
         }
 
-        //[Test]
-        //public void TestRemovePigeonFromMap() {
+        [Test]
+        public void TestRemoveInitialPigeonPosition() {
+            // Invalid positions return false
+            Assert.False(_mapController.RemoveInitialPigeonPosition(new Position(12, 5)));
+            Assert.False(_mapController.RemoveInitialPigeonPosition(new Position(-4, 5)));
+
+            // Cannot remove if no pigeon is there
+            Assert.False(_mapController.RemoveInitialPigeonPosition(new Position(1, 1)));
+            Assert.False(_mapController.RemoveInitialPigeonPosition(new Position(1, 0)));
+
+            // Can remove if pigeon in space indicated
+            Assert.True(_mapController.RemoveInitialPigeonPosition(new Position(0, 0)));
+            Assert.True(_mapController.RemoveInitialPigeonPosition(new Position(0, 1)));
+        }
+
+        [Test]
+        public void TestAddInitialFirePosition() {
+            // Invalid positions return false
+            Assert.False(_mapController.AddInitialFirePosition(new Position(12, 5)));
+            Assert.False(_mapController.AddInitialFirePosition(new Position(-4, 5)));
+
+            // Can ignite flammable tire but not if it's on fire
+            Assert.False(_mapController.AddInitialFirePosition(new Position(0, 2)));
             
-        //}
+            // Can ignite flammable tile that is not on fire
+            _tile2.IsOnFire().Returns(false);
+            Assert.False(_mapController.AddInitialFirePosition(new Position(0, 2)));
+
+            // Cannot add to non-flammable tile or tile that is already on fire
+            Assert.False(_mapController.AddInitialFirePosition(new Position(0, 0)));
+            Assert.False(_mapController.AddInitialFirePosition(new Position(1, 0)));
+        }
+
+        [Test]
+        public void TestRemoveInitialFirePosition() {
+            // Invalid positions return false
+            Assert.False(_mapController.RemoveInitialFirePosition(new Position(12, 5)));
+            Assert.False(_mapController.RemoveInitialFirePosition(new Position(-4, 5)));
+
+            Assert.True(_mapController.RemoveInitialFirePosition(new Position(1, 1)));
+            Assert.True(_mapController.RemoveInitialFirePosition(new Position(1, 0)));
+
+            Assert.False(_mapController.RemoveInitialFirePosition(new Position(0, 0)));
+            Assert.False(_mapController.RemoveInitialFirePosition(new Position(0, 1)));
+        }
+
+        [Test]
+        public void TestUpdateNumberOfTurns() {
+            // Can only update with a valid number of turns
+            Assert.False(_mapController.UpdateNumberOfTurns(30));
+            Assert.False(_mapController.UpdateNumberOfTurns(-10));
+            Assert.False(_mapController.UpdateNumberOfTurns(2));
+            Assert.False(_mapController.UpdateNumberOfTurns(26));
+
+            Assert.True(_mapController.UpdateNumberOfTurns(13));
+            Assert.True(_mapController.UpdateNumberOfTurns(9));
+            Assert.True(_mapController.UpdateNumberOfTurns(5));
+            Assert.True(_mapController.UpdateNumberOfTurns(20));
+        }
 
         private Map GenerateTestMap() {
             ITileController[,] tiles = IntializeTileControllers();
@@ -481,9 +541,10 @@ namespace Assets.Editor.UnitTests.ControllerTests {
 
         private ITileController[,] IntializeTileControllers() {
             _tile0 = Substitute.For<ITileController>();
-            _tile0.GetTileType().Returns(TileType.Stone);
+            _tile0.GetTileType().Returns(TileType.Grass);
             _tile0.IsOnFire().Returns(true);
             _tile0.IsBurntOut().Returns(false);
+            _tile0.IsFlammable().Returns(false);
 
             _tile1 = Substitute.For<ITileController>();
             _tile1.GetTileType().Returns(TileType.Grass);
@@ -491,7 +552,7 @@ namespace Assets.Editor.UnitTests.ControllerTests {
             _tile1.IsBurntOut().Returns(false);
 
             _tile2 = Substitute.For<ITileController>();
-            _tile2.GetTileType().Returns(TileType.Wood);
+            _tile2.GetTileType().Returns(TileType.Stone);
             _tile2.IsOnFire().Returns(false);
             _tile2.IsBurntOut().Returns(true);
 

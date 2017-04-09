@@ -170,7 +170,7 @@ namespace CoreGame.Controllers {
         }
 
         public bool AddInitialFirePosition(Position position) {
-            if (MapLocationValidator.PositionIsValid(position)) {
+            if (MapLocationValidator.PositionIsValid(position) && CanSetFire(position)) {
                 return AddPosition(_map.InitialFirePositions, position);
             }
             return false;
@@ -194,7 +194,7 @@ namespace CoreGame.Controllers {
         public int GetTurnsLeft() { return _map.TurnController.GetTurnsLeft(); }
 
         public bool UpdateNumberOfTurns(int numTurns) {
-            if (numTurns >= MIN_TURNS && numTurns < MAX_TURNS) {
+            if (numTurns >= MIN_TURNS && numTurns <= MAX_TURNS) {
                 _map.TurnsLeft = numTurns;
                 return true;
             }
@@ -258,6 +258,11 @@ namespace CoreGame.Controllers {
                 return true;
             }
             return false;
+        }
+
+        private bool CanSetFire(Position position) {
+            ITileController tile = GetTileController(position.X, position.Y);
+            return !tile.IsOnFire() && tile.IsFlammable();
         }
     }
 }
