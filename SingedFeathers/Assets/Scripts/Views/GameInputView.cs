@@ -26,6 +26,7 @@ namespace Assets.Scripts.Views {
         public Text GameOverText;
         public Text GameOverStatusText;
         public Text ActionNotAllowedText;
+        public Text ErrorText;
         public GameObject WaitingPanel;
         private Button[] _actionButtons;
         private ITurnController _turnController;
@@ -55,7 +56,6 @@ namespace Assets.Scripts.Views {
 
         // Update is called once per frame
         public void Update() {
-            Debug.Log("Update " + _inLobby.ToString() + "-" + (_turnController ==null).ToString() + "-");
             if ( _inLobby || _turnController == null || !_turnResolver.IsTurnResolved()) {
                 DisableAllButtons();
                 SetWaitingPanel(true);
@@ -144,6 +144,14 @@ namespace Assets.Scripts.Views {
         public void SetTurnController(ITurnController turnController) { _turnController = turnController; }
 
         public void SetTurnResolver(ITurnResolver turnResolver) { _turnResolver = turnResolver; }
+
+        public void ShowErrorText(string errorMessage) {
+            if (GameHUD.gameObject.activeInHierarchy) {
+                ErrorText.text = errorMessage;
+                ErrorText.color = Color.red;
+                ErrorText.enabled = true;
+            }
+        }
 
         private void CreateBorder(Vector3 pos) {
             GameObject border = null; 

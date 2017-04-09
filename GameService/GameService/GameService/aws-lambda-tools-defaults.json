@@ -13,8 +13,8 @@
     "function-runtime" : "dotnetcore1.0",
     "function-memory-size" : 512,
     "function-timeout"     : 15,
-    "function-handler"     : "GameService::GameService.Function::CommitTurn",
-    "function-name"        : "CommitTurn",
+    "function-handler"     : "GameService::GameService.GameService::Poll",
+    "function-name"        : "PollGame",
     "function-description" : "Commits at turn to a game",
     "function-role"        : "arn:aws:iam::460950494159:role/singedfeathers-lambda",
     "environment-variables" : ""

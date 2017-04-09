@@ -12,7 +12,7 @@ namespace Assets.Editor.UnitTests.UtilityTests {
         private const int TEST_HEIGHT = 2;
         private const int TEST_WIDTH = 3;
         private ITileController[,] _tileMap;
-        private ICommand _command;
+        private Command _command;
 
         [SetUp]
         public void Init() {
@@ -24,23 +24,20 @@ namespace Assets.Editor.UnitTests.UtilityTests {
 
         [Test]
         public void TestDeltaValidationAtValidMapLocationAndTileControllerCanBeExcecutedOn() {
-            _command.CanBeExecutedOnTile(Arg.Any<ITileController>()).Returns(true);
-
             Assert.True(CommandValidator.ValidateDelta(new Delta(new Position(0, 1), _command), _tileMap));
             Assert.True(CommandValidator.ValidateDelta(new Delta(new Position(1, 0), _command), _tileMap));
         }
 
         [Test]
         public void TestDeltaValidationAtInalidMapLocationAndTileControllerCanBeExcecutedOn() {
-            _command.CanBeExecutedOnTile(Arg.Any<ITileController>()).Returns(true);
-
             Assert.False(CommandValidator.ValidateDelta(new Delta(new Position(7, 1), _command), _tileMap));
             Assert.True(CommandValidator.ValidateDelta(new Delta(new Position(1, 0), _command), _tileMap));
         }
 
         [Test]
         public void TestDeltaValidationAtValidMapLocationAndTileControllerCannotBeExcecutedOn() {
-            _command.CanBeExecutedOnTile(Arg.Any<ITileController>()).Returns(false);
+            _tileMap[0, 1].IsFlammable().Returns(false);
+            _tileMap[1, 0].IsFlammable().Returns(false);
 
             Assert.False(CommandValidator.ValidateDelta(new Delta(new Position(0, 1), _command), _tileMap));
             Assert.False(CommandValidator.ValidateDelta(new Delta(new Position(1, 0), _command), _tileMap));
@@ -48,7 +45,7 @@ namespace Assets.Editor.UnitTests.UtilityTests {
 
         [Test]
         public void TestDeltaValidationAtInalidMapLocationAndTileControllerCannotBeExcecutedOn() {
-            _command.CanBeExecutedOnTile(Arg.Any<ITileController>()).Returns(false);
+            _tileMap[1, 0].IsFlammable().Returns(false);
 
             Assert.False(CommandValidator.ValidateDelta(new Delta(new Position(7, 1), _command), _tileMap));
             Assert.False(CommandValidator.ValidateDelta(new Delta(new Position(1, 0), _command), _tileMap));
@@ -56,8 +53,6 @@ namespace Assets.Editor.UnitTests.UtilityTests {
 
         [Test]
         public void TestNullTileMapThrowsException() {
-            _command.CanBeExecutedOnTile(Arg.Any<ITileController>()).Returns(true);
-
             Assert.False(CommandValidator.ValidateDelta(new Delta(new Position(0, 1), _command), null));
         }
 
@@ -78,12 +73,13 @@ namespace Assets.Editor.UnitTests.UtilityTests {
             for (int x = 0; x < TEST_WIDTH; x++) {
                 for (int y = 0; y < TEST_HEIGHT; y ++) {
                     _tileMap[x, y] = Substitute.For<ITileController>();
+                    _tileMap[x, y].IsFlammable().Returns(true);
                 }
             }
         }
 
         private void ConfigurePositionValidator() { MapLocationValidator.InitializeValues(_map); }
         
-        private void InitializeCommand() { _command = Substitute.For<ICommand>(); }
+        private void InitializeCommand() { _command = new Command(MoveType.Water); }
     }
 }

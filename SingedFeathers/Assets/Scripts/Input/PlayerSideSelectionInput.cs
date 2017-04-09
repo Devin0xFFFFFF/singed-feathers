@@ -49,8 +49,6 @@ namespace Assets.Scripts.Input {
             
             StartCoroutine(_lobbyIO.CreateLobby(lobbyInfo, delegate(string lobbyID) {
                 PlayerPrefs.SetString("LobbyID", lobbyID);
-                Debug.Log(lobbyID == null);
-                Debug.Log(lobbyID);
                 _gameselect.LoadScene("GameScene");
             }));
         }

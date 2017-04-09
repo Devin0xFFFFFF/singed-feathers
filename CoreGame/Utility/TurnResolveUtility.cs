@@ -48,9 +48,9 @@ namespace CoreGame.Utility {
 
         private static void ApplyDelta(Delta delta, Map map) {
             Position position = delta.Position;
-            ICommand iCommand = delta.Command;
+            Command command = delta.Command;
             ITileController tileController = map.TileMap[position.X, position.Y];
-            iCommand.ExecuteCommand(tileController);
+            command.ExecuteCommand(tileController);
         }
     }
 }
