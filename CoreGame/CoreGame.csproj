@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,6 +57,8 @@
     <Compile Include="Controllers\PigeonController.cs" />
     <Compile Include="Controllers\TileController.cs" />
     <Compile Include="Controllers\TurnController.cs" />
+    <Compile Include="Models\API\GameService\CommitTurnRequest.cs" />
+    <Compile Include="Models\API\GameService\PollRequest.cs" />
     <Compile Include="Models\API\LobbyClient\JoinLobbyResult.cs" />
     <Compile Include="Models\API\LobbyClient\LeaveLobbyResult.cs" />
     <Compile Include="Models\API\LobbyClient\PollLobbyResult.cs" />
@@ -66,15 +70,15 @@
     <Compile Include="Models\API\LobbyClient\ReadyLobbyResult.cs" />
     <Compile Include="Models\API\MapClient\MapInfo.cs" />
     <Compile Include="Models\Commands\Command.cs" />
-    <Compile Include="Models\Commands\ICommand.cs" />
     <Compile Include="Models\Delta.cs" />
     <Compile Include="Models\Map.cs" />
     <Compile Include="Models\API\MapClient\CreateMapInfo.cs" />
     <Compile Include="Models\MoveType.cs" />
     <Compile Include="Models\NewStatus.cs" />
     <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\PlayerState.cs" />
     <Compile Include="Models\Position.cs" />
-    <Compile Include="Models\ServerResponse.cs" />
+    <Compile Include="Models\API\GameService\PollResponse.cs" />
     <Compile Include="Models\Tile.cs" />
     <Compile Include="Models\TIleType.cs" />
     <Compile Include="Models\PlayerSideSelection.cs" />
@@ -97,6 +101,7 @@
   <PropertyGroup>
     <PostBuildEvent Condition=" '$(OS)' != 'Unix' ">
       copy /Y "CoreGame.dll" "../../SingedFeathers/Assets/Plugins"
+      nuget pack ../CoreGame.csproj -OutputDirectory ../
     </PostBuildEvent>
     <PostBuildEvent Condition=" '$(OS)' == 'Unix' ">
       cp CoreGame.dll ../../SingedFeathers/Assets/Plugins

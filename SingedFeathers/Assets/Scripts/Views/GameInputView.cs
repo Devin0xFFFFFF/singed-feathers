@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
+using Assets.Scripts.Utility;
 
 namespace Assets.Scripts.Views {
     public class GameInputView : InputView {
@@ -25,6 +26,7 @@ namespace Assets.Scripts.Views {
         public Text GameOverText;
         public Text GameOverStatusText;
         public Text ActionNotAllowedText;
+        public Text ErrorText;
         public GameObject WaitingPanel;
         private Button[] _actionButtons;
         private ITurnController _turnController;
@@ -32,14 +34,18 @@ namespace Assets.Scripts.Views {
         private Dictionary<Vector3, GameObject> _borders;
         private GameView _gameView;
         private int ActionNotAllowedWasUpdated;
+        private bool _inLobby;
 
         // Use this for initialization
         public void Start() {
             _actionButtons = new Button[] { FireButton, WaterButton };
             _borders = new Dictionary<Vector3, GameObject>();
             _gameView = GetComponent<GameView>();
+            _inLobby = !SinglePlayer.IsSinglePlayer();
             ActionNotAllowedWasUpdated = 0;
         }
+
+        public void ExitLobby() { _inLobby = false; }
 
         public void ClearSelected() { 
             foreach (GameObject border in _borders.Values) {
@@ -50,7 +56,7 @@ namespace Assets.Scripts.Views {
 
         // Update is called once per frame
         public void Update() {
-            if (_turnController == null || !_turnResolver.IsTurnResolved()) {
+            if ( _inLobby || _turnController == null || !_turnResolver.IsTurnResolved()) {
                 DisableAllButtons();
                 SetWaitingPanel(true);
                 ActionNotAllowedText.gameObject.SetActive(false);
@@ -138,6 +144,14 @@ namespace Assets.Scripts.Views {
         public void SetTurnController(ITurnController turnController) { _turnController = turnController; }
 
         public void SetTurnResolver(ITurnResolver turnResolver) { _turnResolver = turnResolver; }
+
+        public void ShowErrorText(string errorMessage) {
+            if (GameHUD.gameObject.activeInHierarchy) {
+                ErrorText.text = errorMessage;
+                ErrorText.color = Color.red;
+                ErrorText.enabled = true;
+            }
+        }
 
         private void CreateBorder(Vector3 pos) {
             GameObject border = null; 

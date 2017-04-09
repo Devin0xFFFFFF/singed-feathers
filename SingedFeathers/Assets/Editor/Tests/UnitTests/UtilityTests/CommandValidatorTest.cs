@@ -13,7 +13,7 @@ namespace Assets.Editor.Tests.UnitTests.UtilityTests {
         private const int TEST_HEIGHT = 2;
         private const int TEST_WIDTH = 3;
         private ITileController[,] _tileMap;
-        private ICommand _command;
+        private Command _command;
 
         [SetUp]
         public void Init() {
@@ -25,78 +25,41 @@ namespace Assets.Editor.Tests.UnitTests.UtilityTests {
 
         [Test]
         public void TestDeltaValidationAtValidMapLocationAndTileControllerCanBeExcecutedOn() {
-            _command.CanBeExecutedOnTile(Arg.Any<ITileController>()).Returns(true);
-
-            List<Delta> deltas = new List<Delta>() {
-                new Delta(new Position(0, 1), _command),
-                new Delta(new Position(1, 0), _command)
-            };
-
-            Assert.True(CommandValidator.ValidateDeltas(deltas, _tileMap));
+            Assert.True(CommandValidator.ValidateDelta(new Delta(new Position(0, 1), _command), _tileMap));
+            Assert.True(CommandValidator.ValidateDelta(new Delta(new Position(1, 0), _command), _tileMap));
         }
 
         [Test]
         public void TestDeltaValidationAtInalidMapLocationAndTileControllerCanBeExcecutedOn() {
-            _command.CanBeExecutedOnTile(Arg.Any<ITileController>()).Returns(true);
-
-            List<Delta> deltas = new List<Delta>() {
-                // Only one needs to be invalid for validation to fail
-                new Delta(new Position(7, 1), _command),
-                new Delta(new Position(1, 0), _command)
-            };
-
-            Assert.False(CommandValidator.ValidateDeltas(deltas, _tileMap));
+            Assert.False(CommandValidator.ValidateDelta(new Delta(new Position(7, 1), _command), _tileMap));
+            Assert.True(CommandValidator.ValidateDelta(new Delta(new Position(1, 0), _command), _tileMap));
         }
 
         [Test]
         public void TestDeltaValidationAtValidMapLocationAndTileControllerCannotBeExcecutedOn() {
-            _command.CanBeExecutedOnTile(Arg.Any<ITileController>()).Returns(false);
+            _tileMap[0, 1].IsFlammable().Returns(false);
+            _tileMap[1, 0].IsFlammable().Returns(false);
 
-            List<Delta> deltas = new List<Delta>() {
-                new Delta(new Position(0, 1), _command),
-                new Delta(new Position(1, 0), _command)
-            };
-
-            Assert.False(CommandValidator.ValidateDeltas(deltas, _tileMap));
+            Assert.False(CommandValidator.ValidateDelta(new Delta(new Position(0, 1), _command), _tileMap));
+            Assert.False(CommandValidator.ValidateDelta(new Delta(new Position(1, 0), _command), _tileMap));
         }
 
         [Test]
         public void TestDeltaValidationAtInalidMapLocationAndTileControllerCannotBeExcecutedOn() {
-            _command.CanBeExecutedOnTile(Arg.Any<ITileController>()).Returns(false);
+            _tileMap[1, 0].IsFlammable().Returns(false);
 
-            List<Delta> deltas = new List<Delta>() {
-                new Delta(new Position(0, 1), _command),
-                new Delta(new Position(7, 0), _command)
-            };
-
-            Assert.False(CommandValidator.ValidateDeltas(deltas, _tileMap));
-        }
-
-        [Test]
-        public void TestDeltaValidationWithMoreMovesThanAllowed() {
-            // Max moves per turn is 2
-            List<Delta> deltas = new List<Delta>() {
-                new Delta(new Position(1, 0), _command),
-                new Delta(new Position(1, 0), _command),
-                new Delta(new Position(1, 0), _command)
-            };
-
-            Assert.False(CommandValidator.ValidateDeltas(deltas, _tileMap));
-        }
-
-        [Test]
-        public void TestNullDeltaListReturnsFalse() {
-            Assert.False(CommandValidator.ValidateDeltas(null, _tileMap));
+            Assert.False(CommandValidator.ValidateDelta(new Delta(new Position(7, 1), _command), _tileMap));
+            Assert.False(CommandValidator.ValidateDelta(new Delta(new Position(1, 0), _command), _tileMap));
         }
 
         [Test]
         public void TestNullTileMapThrowsException() {
-            Assert.False(CommandValidator.ValidateDeltas(new List<Delta>(), null));
+            Assert.False(CommandValidator.ValidateDelta(new Delta(new Position(0, 1), _command), null));
         }
 
         [Test]
-        public void TestEmptyDeltaListPassesValidation() {
-            Assert.True(CommandValidator.ValidateDeltas(new List<Delta>(), _tileMap));
+        public void TestNullDeltaListPassesValidation() {
+            Assert.True(CommandValidator.ValidateDelta(null, _tileMap));
         }
 
         private Map GenerateTestMap() {
@@ -111,12 +74,13 @@ namespace Assets.Editor.Tests.UnitTests.UtilityTests {
             for (int x = 0; x < TEST_WIDTH; x++) {
                 for (int y = 0; y < TEST_HEIGHT; y ++) {
                     _tileMap[x, y] = Substitute.For<ITileController>();
+                    _tileMap[x, y].IsFlammable().Returns(true);
                 }
             }
         }
 
         private void ConfigurePositionValidator() { MapLocationValidator.InitializeValues(_map); }
         
-        private void InitializeCommand() { _command = Substitute.For<ICommand>(); }
+        private void InitializeCommand() { _command = new Command(MoveType.Water); }
     }
 }

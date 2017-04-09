@@ -4,7 +4,7 @@ using System;
 namespace CoreGame.Models.Commands {
 
     [Serializable]
-    public class Command : ICommand {
+    public class Command : IComparable<Command> {
         public const string ACTION_NOT_ALLOWED = "Move not allowed! This tile {0}";
         public MoveType MoveType { get; }
         public int Heat { get; }
@@ -14,7 +14,7 @@ namespace CoreGame.Models.Commands {
             Heat = Math.Max(0, heat);
         }
 
-        public int CompareTo(ICommand other) { return MoveType.CompareTo(other.MoveType); }
+        public int CompareTo(Command other) { return MoveType.CompareTo(other.MoveType); }
 
         public void ExecuteCommand(ITileController tileController) {
             switch (MoveType) {

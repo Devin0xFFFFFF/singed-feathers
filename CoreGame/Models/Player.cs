@@ -6,15 +6,17 @@ namespace CoreGame.Models {
         public readonly string PlayerID;
         public string PlayerName;
         public PlayerSideSelection PlayerSideSelection { get; set; }
-        public bool IsReady;
+        public PlayerState PlayerState;
+        public Delta Delta;
 
-        public Player(string playerName = "AnonPlayer", PlayerSideSelection playerSideSelection = PlayerSideSelection.SavePigeons, bool isReady = false) {
-            PlayerID = GeneratePlayerID();
+        public Player(string playerId, string playerName = "AnonPlayer", PlayerSideSelection playerSideSelection = PlayerSideSelection.SavePigeons, PlayerState playerState = PlayerState.LobbyUnready, Delta delta = null) {
+            PlayerID = playerId;
             PlayerName = playerName;
             PlayerSideSelection = playerSideSelection;
-            IsReady = isReady;
+            PlayerState = playerState;
+            Delta = delta;
         }
 
-        private static string GeneratePlayerID() { return "Player" + Guid.NewGuid().ToString(); }
+        public static string GeneratePlayerID() { return "Player" + Guid.NewGuid().ToString(); }
     }
 }
