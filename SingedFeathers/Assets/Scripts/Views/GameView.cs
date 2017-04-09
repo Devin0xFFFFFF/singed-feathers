@@ -45,9 +45,11 @@ namespace Assets.Scripts.Views {
                 StartCoroutine(_lobbyIO.ReadyLobby(readyLobby, delegate (ReadyLobbyResult result) {
                     if (result != null && result.IsSuccess()) {
                         Debug.Log("Readied in lobby");
-                        _inLobby = true;
+						_inLobby = true;
                         _shouldPoll = true;
-                    }
+					} else {
+						ShowErrorText("Lobby Error: Game failed to start.");
+					}
                     if (TileSet.Any()) {
                         LoadTileDictionary();
                         LoadMap(GetMapSelection());
@@ -214,7 +216,9 @@ namespace Assets.Scripts.Views {
                 StartCoroutine(_lobbyIO.LeaveLobby(leaveLobby, delegate (LeaveLobbyResult result) {
                     if (result != null && result.IsSuccess()) {
                         Debug.Log(result.ResultMessage);
-                    }
+					} else {
+						ShowErrorText("Lobby Error: Game failed to complete.");
+					}
                     gameSelect.LoadScene("GameSelectScene");
                 }));
             } else {
@@ -238,5 +242,9 @@ namespace Assets.Scripts.Views {
         }
         
         private void UpdatePigeonCount() { PigeonCountText.text = "Pigeons: " + _mapController.GetLivePigeonCount() + "/" + _pigeons.Count; }
-    }
+        
+		private void ShowErrorText(string errorMessage) {
+			InputView.ShowErrorText(errorMessage);
+		}
+	}
 }
