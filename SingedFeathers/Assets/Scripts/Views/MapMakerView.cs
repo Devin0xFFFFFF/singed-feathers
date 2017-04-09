@@ -71,7 +71,6 @@ namespace Assets.Scripts.Views {
 
             if (isFlammable && isOnFire) {
                 SetFire(_map[tilePos.X, tilePos.Y]);
-                _mapController.AddInitialFirePosition(tilePos);
             } else if (isOnFire) {
                 RemoveFire(_map[tilePos.X, tilePos.Y]);
             }
@@ -79,9 +78,7 @@ namespace Assets.Scripts.Views {
 
         public void SetFire(TileView tile) {
             Position tilePos = tile.Position;
-            if (_mapController.AddInitialFirePosition(tilePos))
-            if (tile.IsFlammable() && !tile.IsOnFire()) {
-                _mapController.AddInitialFirePosition(tilePos);
+            if (_mapController.AddInitialFirePosition(tilePos)) {
                 _mapController.ApplyHeat(tilePos.X, tilePos.Y);
                 tile.UpKeep();
             }
