@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using CoreGame.Controllers.Interfaces;
+﻿using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 
 namespace CoreGame.Utility {

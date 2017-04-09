@@ -5,6 +5,8 @@ using CoreGame.Models;
 
 namespace CoreGame.Utility {
     public class MapMakerInputValidator {
+        public const int MAX_STRING_LENGTH = 20;
+
         public static MapMakerValidationResult ValidateInput(string mapName, string authorName, IEnumerable<Position> pigeonPositions, IEnumerable<ITileController> tiles) {
             if (!AtLeastOneFlammableTile(tiles)) {
                 return MapMakerValidationResult.InvalidNoFlammableTiles;
@@ -16,7 +18,7 @@ namespace CoreGame.Utility {
             return MapMakerValidationResult.Valid;
         }
 
-        private static bool ValidInputReceived(string mapName, string authorName) { return !string.IsNullOrEmpty(mapName) && !string.IsNullOrEmpty(authorName); }
+        private static bool ValidInputReceived(string mapName, string authorName) { return !string.IsNullOrEmpty(mapName) && !string.IsNullOrEmpty(authorName) && mapName.Length <= MAX_STRING_LENGTH && authorName.Length <= MAX_STRING_LENGTH; }
     
         private static bool AtLeastOneFlammableTile(IEnumerable<ITileController> tiles) { return tiles != null && tiles.Any(t => t.IsFlammable()); }
 

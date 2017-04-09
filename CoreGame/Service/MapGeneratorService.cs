@@ -20,13 +20,14 @@ namespace CoreGame.Service {
                 InitializeStateManagers(map);
 
                 return map;
-            } catch (Exception) {
+            } catch (Exception e) {
+                Console.Write(e.Message);
                 return null;
             }
         }
 
         public Map GenerateDefaultMap(int width, int height) {
-            if (width <= 0 || height <= 0) {
+            if (width <= 0 || height <= 0 || width != height) {
                 return null;
             }
 
@@ -41,6 +42,7 @@ namespace CoreGame.Service {
                 Height = width,
                 Width = height,
                 RawMap = rawMap,
+                TurnsLeft = 10,
                 InitialPigeonPositions = new List<Position>(),
                 InitialFirePositions = new List<Position>(),
                 Pigeons = new List<IPigeonController>()
@@ -51,17 +53,7 @@ namespace CoreGame.Service {
             return newMap;
         }
 
-        public string SerializeMap(int width, int height, TileType[,] tileMap, IList<Position> firePositions, IList<Position> pigeonPositions, int numTurns) {
-            Map map = new Map {
-                Width = width,
-                Height = height,
-                InitialFirePositions = firePositions,
-                InitialPigeonPositions = pigeonPositions,
-                TurnsLeft = numTurns,
-                RawMap = tileMap
-            };
-            return JsonConvert.SerializeObject(map);
-        }
+        public string SerializeMap(Map map) { return JsonConvert.SerializeObject(map); }
 
         private void InitializeTileMapFromRaw(Map map) {
             map.TileMap = new ITileController[map.Width, map.Height];

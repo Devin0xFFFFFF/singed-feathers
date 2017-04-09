@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using NSubstitute;
-using System.Collections.Generic;   
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 using CoreGame.Models.Commands;

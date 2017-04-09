@@ -6,6 +6,7 @@ using CoreGame.Controllers;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 using CoreGame.Service;
+using CoreGame.Utility;
 
 namespace Assets.Editor.UnitTests.ControllerTests {
     [TestFixture]
@@ -34,6 +35,7 @@ namespace Assets.Editor.UnitTests.ControllerTests {
             mapGenerator.GenerateMap("TestMap").Returns(testMap);
             _mapController = new MapController(mapGenerator);
             _mapController.GenerateMap("TestMap");
+            MapLocationValidator.InitializeValues(testMap);
         }
 
         [Test]
@@ -233,7 +235,7 @@ namespace Assets.Editor.UnitTests.ControllerTests {
         }
 
         [Test]
-        public void TestGetControllerReturnsControllerAtSpecifiedLocation() {
+        public void TestGetTileControllerReturnsControllerAtSpecifiedLocation() {
             ITileController controller00 = _mapController.GetTileController(0, 0);
             Assert.AreEqual(controller00, _tile0);
 
@@ -418,13 +420,42 @@ namespace Assets.Editor.UnitTests.ControllerTests {
             Assert.IsTrue(mc.GenerateDefaultMap());
         }
 
+        [Test]
+        public void TestUpdateTileController() {
+            Assert.False(_mapController.UpdateTileController(TileType.Stone, -2, -1));
+            Assert.False(_mapController.UpdateTileController(TileType.Stone, 2, -1));
+            Assert.False(_mapController.UpdateTileController(TileType.Stone, -2, 1));
+
+            Assert.AreEqual(TileType.Stone, _mapController.GetTileType(0, 0));
+            Assert.True(_mapController.UpdateTileController(TileType.Wood, 0, 0));
+            Assert.AreEqual(TileType.Wood, _mapController.GetTileType(0, 0));
+        }
+
+        [Test]
+        public void TestAddPigeonToMap() {
+            // Can add to unoccupied tile
+            Assert.True(_mapController.AddInitialPigeonPosition(new Position(1, 0)));
+
+            // Cannot add to occupied tile
+            Assert.False(_mapController.AddInitialPigeonPosition(new Position(0, 0)));
+        }
+
+        //[Test]
+        //public void TestRemovePigeonFromMap() {
+            
+        //}
+
         private Map GenerateTestMap() {
+            ITileController[,] tiles = IntializeTileControllers();
+            int width = 2;
+            int height = 3;
             return new Map() {
-                Height = 3,
-                Width = 2,
+                Height = height,
+                Width = width,
                 InitialFirePositions = new List<Position>() { new Position(1, 0), new Position(1, 1) },
                 InitialPigeonPositions = new List<Position>() { new Position(0, 0), new Position(0, 1) },
-                TileMap = IntializeTileControllers(),
+                TileMap = tiles,
+                RawMap = InitializeRawMap(tiles, width, height),
                 Pigeons = InitializePigeons(),
                 TurnController = InitializeTurnController(),
                 TurnResolver = InitializeTurnResolver()
@@ -441,7 +472,8 @@ namespace Assets.Editor.UnitTests.ControllerTests {
                 InitialFirePositions = new List<Position>() {},
                 InitialPigeonPositions = new List<Position>() {},
                 TileMap = tiles,
-                Pigeons = new List<IPigeonController>() {},
+                RawMap = new TileType[0,0],
+                Pigeons = new List<IPigeonController>() { },
                 TurnController = turnController,
                 TurnResolver = turnResolver
             };
@@ -486,6 +518,16 @@ namespace Assets.Editor.UnitTests.ControllerTests {
         private ITurnResolver InitializeTurnResolver() {
             _turnResolver = Substitute.For<ITurnResolver>();
             return _turnResolver;
+        }
+
+        private TileType[,] InitializeRawMap(ITileController[,] tiles, int width, int height) {
+            TileType[,] rawMap = new TileType[width, height];
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    rawMap[x, y] = tiles[x, y].GetTileType();
+                }
+            }
+            return rawMap;
         }
     }
 }

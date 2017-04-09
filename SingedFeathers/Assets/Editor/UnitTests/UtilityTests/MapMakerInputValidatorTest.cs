@@ -62,7 +62,7 @@ namespace Assets.Editor.UnitTests.UtilityTests {
         }
 
         [Test]
-        public void TestFailureIfMapNameIsNullOrEmpty() {
+        public void TestFailureIfMapNameIsNullOrEmptyOrTooLong() {
             MapMakerValidationResult result = MapMakerInputValidator.ValidateInput(null, "some person",
                 new List<Position>() { new Position(0, 0) }, new List<ITileController>() { _tileController });
             Assert.AreEqual(MapMakerValidationResult.InvalidInput, result);
@@ -70,16 +70,24 @@ namespace Assets.Editor.UnitTests.UtilityTests {
             result = MapMakerInputValidator.ValidateInput("", "some person",
                 new List<Position>() { new Position(0, 0) }, new List<ITileController>() { _tileController });
             Assert.AreEqual(MapMakerValidationResult.InvalidInput, result);
+
+            result = MapMakerInputValidator.ValidateInput("the greatest and best map you ever did see in your entire life",
+                "some author", new List<Position>() { new Position(0, 0) }, new List<ITileController>() { _tileController });
+            Assert.AreEqual(MapMakerValidationResult.InvalidInput, result);
         }
 
         [Test]
-        public void TestFailureIfAuthorNameIsNullOrEmpty() {
+        public void TestFailureIfAuthorNameIsNullOrEmptyOrTooLong() {
             MapMakerValidationResult result = MapMakerInputValidator.ValidateInput("some map", null,
                 new List<Position>() { new Position(0, 0) }, new List<ITileController>() { _tileController });
             Assert.AreEqual(MapMakerValidationResult.InvalidInput, result);
 
             result = MapMakerInputValidator.ValidateInput("some map", "",
                 new List<Position>() { new Position(0, 0) }, new List<ITileController>() { _tileController });
+            Assert.AreEqual(MapMakerValidationResult.InvalidInput, result);
+
+            result = MapMakerInputValidator.ValidateInput("the greatest and best map you ever did see in your entire life",
+                "some author", new List<Position>() { new Position(0, 0) }, new List<ITileController>() { _tileController });
             Assert.AreEqual(MapMakerValidationResult.InvalidInput, result);
         }
     }

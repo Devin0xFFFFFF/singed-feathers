@@ -61,5 +61,39 @@ namespace Assets.Editor.UnitTests.ControllerTests {
             Assert.True(pos1.GetLargestDistanceFrom(pos6) == 2);
         }
 
+        [Test]
+        public void TestToString() {
+            Position pos0 = new Position(0, 0);
+            Position pos1 = new Position(1, 0);
+            Position pos2 = new Position(0, 1);
+            Position pos3 = new Position(1, 1);
+            Position pos4 = new Position(1, 2);
+            Position pos5 = new Position(2, 1);
+
+            Assert.AreEqual("X: 0 Y: 0", pos0.ToString());
+            Assert.AreEqual("X: 1 Y: 0", pos1.ToString());
+            Assert.AreEqual("X: 0 Y: 1", pos2.ToString());
+            Assert.AreEqual("X: 1 Y: 1", pos3.ToString());
+            Assert.AreEqual("X: 1 Y: 2", pos4.ToString());
+            Assert.AreEqual("X: 2 Y: 1", pos5.ToString());
+        }
+
+        [Test]
+        public void TestEquals() {
+            Position pos0 = new Position(0, 0);
+            Position pos1 = new Position(1, 0);
+            Position pos2 = new Position(0, 1);
+            Position pos3 = new Position(1, 1);
+            Position pos4 = new Position(1, 1);
+            Position pos5 = new Position(0, 1);
+
+            Assert.False(pos0.Equals(pos1));
+            Assert.False(pos1.Equals(pos3));
+            Assert.False(pos1.Equals(pos2));
+            Assert.False(pos3.Equals(pos0));
+
+            Assert.True(pos2.Equals(pos5));
+            Assert.True(pos3.Equals(pos4));
+        }
     }
 }

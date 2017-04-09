@@ -7,10 +7,9 @@ namespace CoreGame.Controllers.Interfaces {
         int Height { get; }
         bool GenerateMap(string serializedMap);
         bool GenerateDefaultMap();
-        string SerializeMap(int width, int height, IList<Position> pigeonPositions, IList<Position> firePositions, TileType[,] tileMap, int numTurns);
+        string SerializeMap();
         void SetPlayerSideSelection(PlayerSideSelection playerSideSelection);
         PlayerSideSelection GetPlayerSideSelection();
-        string GetPlayerName();
         bool IsGameOver();
         string GetGameOverPlayerStatus();
         bool IsMapBurntOut();
@@ -21,8 +20,12 @@ namespace CoreGame.Controllers.Interfaces {
         void ReduceHeat(int x, int y);
         TileType GetTileType(int x, int y);
         ITileController GetTileController(int x, int y);
-        void UpdateTileController(TileType type, int x, int y);
-        PigeonController AddPigeonToMap(Position position);
+        bool UpdateTileController(TileType type, int x, int y);
+        bool AddInitialPigeonPosition(Position position);
+        bool RemoveInitialPigeonPosition(Position position);
+        bool AddInitialFirePosition(Position position);
+        bool RemoveInitialFirePosition(Position position);
+        bool UpdateNumberOfTurns(int numTurns);
         IList<IPigeonController> GetPigeonControllers();
         ITurnResolver GetTurnResolver();
         ITurnController GetTurnController();
