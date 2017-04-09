@@ -4,11 +4,13 @@ using System;
 using System.Collections;
 
 namespace Assets.Scripts.Service {
-    class GameServiceIO : APersistenceIO {
+    public class GameServiceIO : APersistenceIO {
         private GameServiceClient _client;
+        private const int ERROR_CODE = 3;
 
         public delegate void CommitTurnCallback(bool success);
         public delegate void PollGameCallback(PollResponse result);
+        public delegate void TestGameCallback(int response);
 
         public GameServiceIO() { _client = new GameServiceClient(); }
 
@@ -47,6 +49,19 @@ namespace Assets.Scripts.Service {
                 } else {
                     Console.WriteLine("Failed to poll game: " + result.ErrorMessage ?? result.ResponseCode + " " + result.ResponseBody);
                     callback(new PollResponse(false, null));
+                }
+            });
+        }
+
+        public IEnumerator Test(TestGameCallback callback) {
+            yield return _client.Test(delegate (ClientResult result) {
+                if (IsValidResult(result)) {
+                    int response = Int32.Parse(result.ResponseBody);
+                    Console.WriteLine("Test Response Recived " + response);
+                    callback(response);
+                } else {
+                    Console.WriteLine("Failed to test game: " + result.ErrorMessage ?? result.ResponseCode + " " + result.ResponseBody);
+                    callback(ERROR_CODE);
                 }
             });
         }
