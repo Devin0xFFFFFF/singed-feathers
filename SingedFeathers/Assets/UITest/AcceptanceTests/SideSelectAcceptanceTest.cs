@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using Assets.UITest.Test_Runner_Scripts;
+using UnityEngine;
 
-namespace Assets.UITest.AcceptanceTests
-{
-    public class SideSelectAcceptanceTest : Test_Runner_Scripts.UITest
-    {
+namespace Assets.UITest.AcceptanceTests {
+    public class SideSelectAcceptanceTest : Test_Runner_Scripts.UITest {
         [UISetUp]
         public IEnumerable SetUp() {
+            PlayerPrefs.SetInt("NumPlayers", 1);
             // Load the scene we want.
             #if UNITY_EDITOR
                 // The tests are being run through the editor

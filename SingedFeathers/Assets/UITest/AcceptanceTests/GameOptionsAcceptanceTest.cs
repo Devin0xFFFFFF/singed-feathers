@@ -22,7 +22,6 @@ namespace Assets.UITest.AcceptanceTests {
             yield return WaitFor(new ObjectDisappeared("GameHUD"));
             yield return WaitFor(new ObjectAppeared("GameMenuCanvas"));
             yield return WaitFor(new ObjectAppeared("Panel"));
-            yield return WaitFor(new ObjectAppeared("RestartButton"));
             yield return WaitFor(new ObjectAppeared("ReturnToTitleButton"));
             yield return WaitFor(new ObjectAppeared("OptionsText"));
             yield return WaitFor(new ObjectAppeared("HowToPlayButton"));
@@ -35,17 +34,6 @@ namespace Assets.UITest.AcceptanceTests {
             yield return WaitFor(new ObjectAppeared("GameMenuCanvas"));
 
             yield return Press("ResumeButton");
-            yield return WaitFor(new ObjectDisappeared("GameMenuCanvas"));
-            yield return WaitFor(new ObjectAppeared("GameHUD"));
-        }
-
-        [UITest]
-        public IEnumerable TestRestartButton() {
-            yield return Press("OptionsButton");
-            yield return WaitFor(new ObjectDisappeared("GameHUD"));
-            yield return WaitFor(new ObjectAppeared("GameMenuCanvas"));
-
-            yield return Press("RestartButton");
             yield return WaitFor(new ObjectDisappeared("GameMenuCanvas"));
             yield return WaitFor(new ObjectAppeared("GameHUD"));
         }

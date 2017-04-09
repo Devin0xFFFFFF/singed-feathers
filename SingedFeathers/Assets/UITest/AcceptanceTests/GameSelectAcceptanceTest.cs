@@ -25,7 +25,8 @@ namespace Assets.UITest.AcceptanceTests {
 
             // The TitleCanvas' children should also be active...
             yield return WaitFor(new ObjectAppeared("GameTitle"));
-            yield return WaitFor(new ObjectAppeared("PlayGameButton"));
+            yield return WaitFor(new ObjectAppeared("SinglePlayerButton"));
+            yield return WaitFor(new ObjectAppeared("MultiPlayerButton"));
             yield return WaitFor(new ObjectAppeared("MapMakerButton"));
             yield return WaitFor(new ObjectAppeared("HowToPlayButton"));
 
@@ -61,7 +62,8 @@ namespace Assets.UITest.AcceptanceTests {
 
             // The TitleCanvas' children should also be active...
             yield return WaitFor(new ObjectAppeared("GameTitle"));
-            yield return WaitFor(new ObjectAppeared("PlayGameButton"));
+            yield return WaitFor(new ObjectAppeared("SinglePlayerButton"));
+            yield return WaitFor(new ObjectAppeared("MultiPlayerButton"));
             yield return WaitFor(new ObjectAppeared("MapMakerButton"));
             yield return WaitFor(new ObjectAppeared("HowToPlayButton"));
 
@@ -79,12 +81,31 @@ namespace Assets.UITest.AcceptanceTests {
         }
 
         [UITest]
-        public IEnumerable TestPlayGameButton() {
-            // Press PlayGameButton
-            yield return Press("PlayGameButton");
+        public IEnumerable TestSinglePlayerButton() {
+            // Press SinglePlayerButton
+            yield return Press("SinglePlayerButton");
 
             // GameScene should be loaded
             yield return WaitFor(new SceneLoaded("MapSelectScene"));
+        }
+
+        [UITest]
+        public IEnumerable TestMultiPlayerButton() {
+            // Press MultiPlayerButton
+            yield return Press("MultiPlayerButton");
+
+            // Player should be prompted to enter a name
+            yield return WaitFor(new ObjectAppeared("InputNameCanvas"));
+            yield return WaitFor(new ObjectAppeared("ConfirmButton"));
+            yield return WaitFor(new ObjectAppeared("CancelButton"));
+            yield return WaitFor(new ObjectAppeared("InputField"));
+
+            yield return WaitFor(new ObjectDisappeared("TitleCanvas"));
+
+            // Click cancel
+            yield return Press("CancelButton");
+            yield return WaitFor(new ObjectDisappeared("InputNameCanvas"));
+            yield return WaitFor(new ObjectAppeared("TitleCanvas"));
         }
     }
 }
