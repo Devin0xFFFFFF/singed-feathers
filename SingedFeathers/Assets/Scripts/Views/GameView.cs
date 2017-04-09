@@ -117,14 +117,14 @@ namespace Assets.Scripts.Views {
             StartCoroutine(_mapIO.GetMapData(mapID, delegate (string serializedMapData) {
                 if (serializedMapData == null) {
                     Debug.LogError("Failed to retrieve map.");
-                    ShowErrorText("Failed to retrieve map.");
+                    ShowErrorText("Error: Failed to retrieve map.");
                     return;
                 }
                 Player player = new Player(PlayerPrefs.GetString("PlayerID"));
                 _mapController = new MapController(null, player);
                 if (!_mapController.GenerateMap(serializedMapData)) {
                     Debug.LogError("Failed to generate map.");
-                    ShowErrorText("Failed to retrieve map.");
+                    ShowErrorText("Error: Failed to retrieve map.");
                     return;
                 }
                 if (!SinglePlayer.IsSinglePlayer()) {
