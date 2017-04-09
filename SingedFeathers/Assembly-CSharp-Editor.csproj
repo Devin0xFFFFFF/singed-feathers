@@ -52,20 +52,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\Build\AutoBuilder.cs" />
-    <Compile Include="Assets\Editor\IntegrationTests\CoreGameTest.cs" />
-    <Compile Include="Assets\Editor\UnitTests\CommandTests\CommandTest.cs" />
-    <Compile Include="Assets\Editor\UnitTests\ControllerTests\MapControllerTest.cs" />
-    <Compile Include="Assets\Editor\UnitTests\ControllerTests\PigeonControllerTest.cs" />
-    <Compile Include="Assets\Editor\UnitTests\ControllerTests\TileControllerTest.cs" />
-    <Compile Include="Assets\Editor\UnitTests\ControllerTests\TurnControllerTest.cs" />
-    <Compile Include="Assets\Editor\UnitTests\ModelTests\PositionTest.cs" />
-    <Compile Include="Assets\Editor\UnitTests\ServiceTests\MapGeneratorServiceTest.cs" />
-    <Compile Include="Assets\Editor\UnitTests\UtilityTests\CommandValidatorTest.cs" />
-    <Compile Include="Assets\Editor\UnitTests\UtilityTests\MapLocationValidatorTest.cs" />
-    <Compile Include="Assets\Editor\UnitTests\UtilityTests\MapMakerInputValidatorTest.cs" />
-    <Compile Include="Assets\Editor\UnitTests\UtilityTests\TurnMergeUtilityTest.cs" />
-    <Compile Include="Assets\Editor\UnitTests\UtilityTests\TurnResolveUtilityTest.cs" />
+    <Compile Include="Assets\Editor\Tests\IntegrationTests\CoreGameTest.cs" />
+    <Compile Include="Assets\Editor\Tests\UnitTests\CommandTests\CommandTest.cs" />
+    <Compile Include="Assets\Editor\Tests\UnitTests\ControllerTests\MapControllerTest.cs" />
+    <Compile Include="Assets\Editor\Tests\UnitTests\ControllerTests\PigeonControllerTest.cs" />
+    <Compile Include="Assets\Editor\Tests\UnitTests\ControllerTests\TileControllerTest.cs" />
+    <Compile Include="Assets\Editor\Tests\UnitTests\ControllerTests\TurnControllerTest.cs" />
+    <Compile Include="Assets\Editor\Tests\UnitTests\ModelTests\PositionTest.cs" />
+    <Compile Include="Assets\Editor\Tests\UnitTests\ServiceTests\MapGeneratorServiceTest.cs" />
+    <Compile Include="Assets\Editor\Tests\UnitTests\UtilityTests\CommandValidatorTest.cs" />
+    <Compile Include="Assets\Editor\Tests\UnitTests\UtilityTests\MapLocationValidatorTest.cs" />
+    <Compile Include="Assets\Editor\Tests\UnitTests\UtilityTests\MapMakerInputValidatorTest.cs" />
+    <Compile Include="Assets\Editor\Tests\UnitTests\UtilityTests\TurnMergeUtilityTest.cs" />
+    <Compile Include="Assets\Editor\Tests\UnitTests\UtilityTests\TurnResolveUtilityTest.cs" />    
+    <Compile Include="Assets\UITest\Editor\ReportingTestsRunnerInspector.cs" />
     <None Include="Assets\link.xml" />
+    <None Include="Assets\UITest\README.txt" />
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\Advertisements\Editor\UnityEditor.Advertisements.dll</HintPath>
     </Reference>

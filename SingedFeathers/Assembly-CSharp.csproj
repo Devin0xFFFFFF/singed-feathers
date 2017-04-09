@@ -80,7 +80,20 @@
     <Compile Include="Assets\Scripts\Views\MapMakerView.cs" />
     <Compile Include="Assets\Scripts\Views\PigeonView.cs" />
     <Compile Include="Assets\Scripts\Views\TileView.cs" />
+    <Compile Include="Assets\UITest\AcceptanceTests\GameAcceptanceTest.cs" />
+    <Compile Include="Assets\UITest\AcceptanceTests\GameOptionsAcceptanceTest.cs" />
+    <Compile Include="Assets\UITest\AcceptanceTests\GameSelectAcceptanceTest.cs" />
+    <Compile Include="Assets\UITest\AcceptanceTests\MapMakerAcceptanceTest.cs" />
+    <Compile Include="Assets\UITest\AcceptanceTests\MapMakerOptionsAcceptanceTest.cs" />
+    <Compile Include="Assets\UITest\AcceptanceTests\SideSelectAcceptanceTest.cs" />
+    <Compile Include="Assets\UITest\Test Runner Scripts\DependencyInjector.cs" />
+    <Compile Include="Assets\UITest\Test Runner Scripts\ReportingTestsRunner.cs" />
+    <Compile Include="Assets\UITest\Test Runner Scripts\TestRunner.cs" />
+    <Compile Include="Assets\UITest\Test Runner Scripts\UITest.cs" />
+    <None Include="Assets\Editor\Tests\UnityTestTools\LICENSE.txt" />
     <None Include="Assets\link.xml" />
+    <None Include="Assets\UITest\README.txt" />
+    <None Include="Assets\Editor\Tests\UnityTestTools\changelog.txt" />
     <Reference Include="UnityEngine.UI">
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\UnityExtensions\Unity\GUISystem\UnityEngine.UI.dll</HintPath>
     </Reference>
