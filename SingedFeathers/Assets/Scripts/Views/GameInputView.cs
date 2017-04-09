@@ -146,9 +146,11 @@ namespace Assets.Scripts.Views {
         public void SetTurnResolver(ITurnResolver turnResolver) { _turnResolver = turnResolver; }
 
 		public void ShowErrorText(string errorMessage) {
-			ErrorText.text = errorMessage;
-			ErrorText.color = Color.red;
-			ErrorText.enabled = true;
+			if (GameHUD.gameObject.activeInHierarchy) {
+				ErrorText.text = errorMessage;
+				ErrorText.color = Color.red;
+				ErrorText.enabled = true;
+			}
 		}
 
         private void CreateBorder(Vector3 pos) {
