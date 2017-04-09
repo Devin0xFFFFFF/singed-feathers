@@ -245,8 +245,6 @@ namespace Assets.Scripts.Views {
         
         private void UpdatePigeonCount() { PigeonCountText.text = "Pigeons: " + _mapController.GetLivePigeonCount() + "/" + _pigeons.Count; }
         
-        private void ShowErrorText(string errorMessage) {
-            InputView.ShowErrorText(errorMessage);
-        }
+        private void ShowErrorText(string errorMessage) { InputView.ShowErrorText(errorMessage); }
     }
 }
