@@ -45,7 +45,7 @@ namespace Assets.Scripts.Views {
                 StartCoroutine(_lobbyIO.ReadyLobby(readyLobby, delegate (ReadyLobbyResult result) {
                     if (result != null && result.IsSuccess()) {
                         Debug.Log("Readied in lobby");
-						_inLobby = true;
+                        _inLobby = true;
                         _shouldPoll = true;
 					} else {
                         ShowErrorText("Lobby Error: Game failed to start.");
@@ -248,5 +248,5 @@ namespace Assets.Scripts.Views {
         private void ShowErrorText(string errorMessage) {
             InputView.ShowErrorText(errorMessage);
         }
-	}
+    }
 }

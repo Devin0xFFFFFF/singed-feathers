@@ -171,5 +171,5 @@ namespace Assets.Scripts.Views {
         }
 
         private void SetWaitingPanel(bool isActive) { WaitingPanel.SetActive(isActive); }
-	}
+    }
 }
