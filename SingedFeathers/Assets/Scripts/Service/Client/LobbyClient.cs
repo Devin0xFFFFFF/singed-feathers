@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine.Networking;
 using CoreGame.Models.API.LobbyClient;
 
-namespace Assets.Scripts.Service {
-    public class LobbyClient : APersistenceClient {
+namespace Assets.Scripts.Service.Client {
+    public class LobbyClient : APersistenceClient, ILobbyClient {
         private const string CREATE_LOBBY_PATH = "CreateLobby";
         private const string GET_LOBBIES_PATH = "GetLobbies";
         private const string JOIN_LOBBY_PATH = "JoinLobby";

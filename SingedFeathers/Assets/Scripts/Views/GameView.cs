@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Assets.Scripts.Service;
 using Assets.Scripts.Utility;
 using CoreGame.Controllers;
 using CoreGame.Controllers.Interfaces;
@@ -10,6 +9,7 @@ using CoreGame.Models.API.LobbyClient;
 using UnityEngine.UI;
 using Newtonsoft.Json.Utilities;
 using Assets.Scripts.Controllers;
+using Assets.Scripts.Service.IO;
 
 namespace Assets.Scripts.Views {
     public class GameView : MonoBehaviour {

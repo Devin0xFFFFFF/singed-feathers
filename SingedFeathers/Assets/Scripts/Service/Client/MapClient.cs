@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine.Networking;
 using CoreGame.Models.API.MapClient;
 
-namespace Assets.Scripts.Service {
-    public class MapClient : APersistenceClient {
+namespace Assets.Scripts.Service.Client {
+    public class MapClient : APersistenceClient, IMapClient {
         private const string CREATE_MAP_PATH = "CreateMap";
         private const string GET_MAP_DATA_PATH = "GetMapData";
         private const string GET_MAPS_PATH = "GetMaps";
