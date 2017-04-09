@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using UnityEngine.Networking;
 
-namespace Assets.Scripts.Service {
+namespace Assets.Scripts.Service.Client {
     public abstract class APersistenceClient {
         protected readonly AWSAPIRequestBuilder _requestBuilder;
         private readonly JsonSerializerSettings _jsonSettings;

@@ -59,7 +59,10 @@
     <Compile Include="Assets\Editor\Tests\UnitTests\ControllerTests\TileControllerTest.cs" />
     <Compile Include="Assets\Editor\Tests\UnitTests\ControllerTests\TurnControllerTest.cs" />
     <Compile Include="Assets\Editor\Tests\UnitTests\ModelTests\PositionTest.cs" />
+    <Compile Include="Assets\Editor\Tests\UnitTests\ServiceTests\GameIOTest.cs" />
+    <Compile Include="Assets\Editor\Tests\UnitTests\ServiceTests\LobbyIOTest.cs" />
     <Compile Include="Assets\Editor\Tests\UnitTests\ServiceTests\MapGeneratorServiceTest.cs" />
+    <Compile Include="Assets\Editor\Tests\UnitTests\ServiceTests\MapIOTest.cs" />
     <Compile Include="Assets\Editor\Tests\UnitTests\UtilityTests\CommandValidatorTest.cs" />
     <Compile Include="Assets\Editor\Tests\UnitTests\UtilityTests\MapLocationValidatorTest.cs" />
     <Compile Include="Assets\Editor\Tests\UnitTests\UtilityTests\MapMakerInputValidatorTest.cs" />
@@ -130,6 +133,12 @@
     </Reference>
     <Reference Include="UnityEditor.WebGL.Extensions">
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\PlaybackEngines\WebGLSupport\UnityEditor.WebGL.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.LinuxStandalone.Extensions">
+      <HintPath>..\..\..\..\..\..\..\Applications\Unity\PlaybackEngines\LinuxStandaloneSupport\UnityEditor.LinuxStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+      <HintPath>..\..\..\..\..\..\..\Applications\Unity\PlaybackEngines\WindowsStandaloneSupport\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.OSXStandalone.Extensions">
       <HintPath>..\..\..\..\..\..\..\Applications\Unity\Unity.app\Contents\PlaybackEngines\macstandalonesupport\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
