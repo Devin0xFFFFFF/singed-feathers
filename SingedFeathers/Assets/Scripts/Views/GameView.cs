@@ -47,9 +47,9 @@ namespace Assets.Scripts.Views {
                         Debug.Log("Readied in lobby");
                         _inLobby = true;
                         _shouldPoll = true;
-					} else {
+                    } else {
                         ShowErrorText("Lobby Error: Game failed to start.");
-					}
+                    }
                     if (TileSet.Any()) {
                         LoadTileDictionary();
                         LoadMap(GetMapSelection());
@@ -218,9 +218,9 @@ namespace Assets.Scripts.Views {
                 StartCoroutine(_lobbyIO.LeaveLobby(leaveLobby, delegate (LeaveLobbyResult result) {
                     if (result != null && result.IsSuccess()) {
                         Debug.Log(result.ResultMessage);
-					} else {
+                    } else {
                         ShowErrorText("Lobby Error: Game failed to complete.");
-					}
+                    }
                     gameSelect.LoadScene("GameSelectScene");
                 }));
             } else {
