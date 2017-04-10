@@ -85,7 +85,6 @@ namespace Assets.Scripts.Views {
             EndTurnButton.interactable = false;
 
             // GameMenu UI elements
-            //BackButton.gameObject.SetActive(false);
             GameOverText.gameObject.SetActive(false);
             GameOverStatusText.gameObject.SetActive(false);
             OptionsText.gameObject.SetActive(false);
