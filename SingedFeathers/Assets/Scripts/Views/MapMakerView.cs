@@ -1,4 +1,5 @@
-﻿using CoreGame.Controllers;
+﻿using System;
+using CoreGame.Controllers;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 using System.Collections.Generic;
@@ -70,6 +71,7 @@ namespace Assets.Scripts.Views {
             bool isFlammable = _map[tilePos.X, tilePos.Y].IsFlammable();
 
             if (isFlammable && isOnFire) {
+                _mapController.RemoveInitialFirePosition(tilePos);
                 SetFire(_map[tilePos.X, tilePos.Y]);
             } else if (isOnFire) {
                 RemoveFire(_map[tilePos.X, tilePos.Y]);
@@ -77,11 +79,8 @@ namespace Assets.Scripts.Views {
         }
 
         public void SetFire(TileView tile) {
-            Position tilePos = tile.Position;
-            if (_mapController.AddInitialFirePosition(tilePos)) {
-                _mapController.ApplyHeat(tilePos.X, tilePos.Y);
-                tile.UpKeep();
-            }
+            _mapController.AddInitialFirePosition(tile.Position);
+            tile.UpKeep();
         }
 
         public void SetPigeon(TileView tile) {
@@ -125,15 +124,18 @@ namespace Assets.Scripts.Views {
                 SerializedMapData = _mapController.SerializeMap()
             };
 
-            StartCoroutine(_mapIO.CreateMap(mapInfo, delegate(string mapId) {
-                if (mapId == null) {
-                    Debug.LogError("Failed to save map.");
-                    ShowResultText(FAILURE_TEXT);
-                } else {
-                    Debug.Log("Map saved!");
-                    ShowResultText(SUCCESS_TEXT, Color.green);
-                }
-            }));
+            //StartCoroutine(_mapIO.CreateMap(mapInfo, delegate(string mapId) {
+            //    if (mapId == null) {
+            //        Debug.LogError("Failed to save map.");
+            //        ShowResultText(FAILURE_TEXT);
+            //    } else {
+            //        Debug.Log("Map saved!");
+            //        ShowResultText(SUCCESS_TEXT, Color.green);
+            //    }
+            //}));
+
+            string name = "hi i'm a donkey";
+            Console.Write(name);
         }
 
         public void CloseModal() {
@@ -170,8 +172,7 @@ namespace Assets.Scripts.Views {
 
         private void RemovePigeon(TileView tile) {
             Position tilePos = tile.Position;
-            bool pigeonRemoved = _mapController.RemoveInitialPigeonPosition(tilePos);
-            if (pigeonRemoved) {
+            if (_mapController.RemoveInitialPigeonPosition(tilePos)) {
                 PigeonView pigeon = _pigeons.FirstOrDefault(p => p.Position.Equals(tilePos));
                 if (pigeon != null) {
                     _pigeons.Remove(pigeon);
@@ -181,13 +182,7 @@ namespace Assets.Scripts.Views {
             }
         }
 
-        private void RemoveFire(TileView tile) {
-            Position tilePos = tile.Position;
-            bool fireRemoved = _mapController.RemoveInitialFirePosition(tilePos);
-            if (fireRemoved) {
-                _mapController.ReduceHeat(tilePos.X, tilePos.Y);
-            }
-        }
+        private void RemoveFire(TileView tile) { _mapController.RemoveInitialFirePosition(tile.Position); }
 
         private void UpdateResultText(MapMakerValidationResult result) {
             switch (result) {

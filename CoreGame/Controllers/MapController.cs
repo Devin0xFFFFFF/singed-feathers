@@ -171,6 +171,7 @@ namespace CoreGame.Controllers {
 
         public bool AddInitialFirePosition(Position position) {
             if (MapLocationValidator.PositionIsValid(position) && CanSetFire(position)) {
+                ApplyHeat(position.X, position.Y);
                 return AddPosition(_map.InitialFirePositions, position);
             }
             return false;
@@ -178,6 +179,7 @@ namespace CoreGame.Controllers {
 
         public bool RemoveInitialFirePosition(Position position) {
             if (MapLocationValidator.PositionIsValid(position)) {
+                ReduceHeat(position.X, position.Y);
                 return RemovePosition(_map.InitialFirePositions, position);
             }
             return false;
