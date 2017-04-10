@@ -27,8 +27,6 @@ namespace Assets.UITest.AcceptanceTests {
             Assert.AreEqual(_response, 0);
         }
 
-        public bool IsDone() {
-            return _finished;
-        }
+        public bool IsDone() { return _finished; }
     }
 }

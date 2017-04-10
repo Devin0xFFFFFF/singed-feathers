@@ -86,7 +86,7 @@
     <Compile Include="Assets\UITest\AcceptanceTests\GameAcceptanceTest.cs" />
     <Compile Include="Assets\UITest\AcceptanceTests\GameOptionsAcceptanceTest.cs" />
     <Compile Include="Assets\UITest\AcceptanceTests\GameSelectAcceptanceTest.cs" />
-    <Compile Include="Assets\UITest\AcceptanceTests\GameService.cs" />
+    <Compile Include="Assets\UITest\AcceptanceTests\GameServiceTest.cs" />
     <Compile Include="Assets\UITest\AcceptanceTests\MapMakerAcceptanceTest.cs" />
     <Compile Include="Assets\UITest\AcceptanceTests\MapMakerOptionsAcceptanceTest.cs" />
     <Compile Include="Assets\UITest\AcceptanceTests\SideSelectAcceptanceTest.cs" />
