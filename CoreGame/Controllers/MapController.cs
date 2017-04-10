@@ -171,6 +171,7 @@ namespace CoreGame.Controllers {
 
         public bool AddInitialFirePosition(Position position) {
             if (MapLocationValidator.PositionIsValid(position) && CanSetFire(position)) {
+                ApplyHeat(position.X, position.Y);
                 return AddPosition(_map.InitialFirePositions, position);
             }
             return false;
@@ -178,6 +179,7 @@ namespace CoreGame.Controllers {
 
         public bool RemoveInitialFirePosition(Position position) {
             if (MapLocationValidator.PositionIsValid(position)) {
+                ReduceHeat(position.X, position.Y);
                 return RemovePosition(_map.InitialFirePositions, position);
             }
             return false;
@@ -246,7 +248,7 @@ namespace CoreGame.Controllers {
         private bool RemovePosition(IList<Position> positions, Position position) {
             Position existing = positions.FirstOrDefault(p => p.Equals(position));
             if (existing != null) {
-                _map.InitialPigeonPositions.Remove(existing);
+                positions.Remove(existing);
                 return true;
             }
             return false;
