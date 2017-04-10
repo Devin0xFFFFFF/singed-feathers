@@ -249,6 +249,7 @@ namespace CoreGame.Controllers {
             Position existing = positions.FirstOrDefault(p => p.Equals(position));
             if (existing != null) {
                 _map.InitialPigeonPositions.Remove(existing);
+                _map.InitialFirePositions.Remove(existing);
                 return true;
             }
             return false;

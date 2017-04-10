@@ -124,15 +124,15 @@ namespace Assets.Scripts.Views {
                 SerializedMapData = _mapController.SerializeMap()
             };
 
-            //StartCoroutine(_mapIO.CreateMap(mapInfo, delegate(string mapId) {
-            //    if (mapId == null) {
-            //        Debug.LogError("Failed to save map.");
-            //        ShowResultText(FAILURE_TEXT);
-            //    } else {
-            //        Debug.Log("Map saved!");
-            //        ShowResultText(SUCCESS_TEXT, Color.green);
-            //    }
-            //}));
+            StartCoroutine(_mapIO.CreateMap(mapInfo, delegate (string mapId) {
+                if (mapId == null) {
+                    Debug.LogError("Failed to save map.");
+                    ShowResultText(FAILURE_TEXT);
+                } else {
+                    Debug.Log("Map saved!");
+                    ShowResultText(SUCCESS_TEXT, Color.green);
+                }
+            }));
 
             string name = "hi i'm a donkey";
             Console.Write(name);
