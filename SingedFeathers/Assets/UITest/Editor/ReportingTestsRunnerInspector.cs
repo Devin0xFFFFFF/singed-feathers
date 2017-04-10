@@ -4,11 +4,17 @@ using Assets.UITest.Test_Runner_Scripts;
 using UnityEditor;
 using UnityEngine;
 
+/*
+This code was imported for the UITest Package
+https://github.com/taphos/unity-uitest/tree/master/Assets/UITest
+*/
+
 namespace Assets.UITest.Editor {
     [CustomEditor(typeof(ReportingTestsRunner))]
-    public class ReportingTestsRunnerInspector : UnityEditor.Editor
-    {
-        ReportingTestsRunner TestsRunner { get { return (ReportingTestsRunner)serializedObject.targetObject; } }
+    public class ReportingTestsRunnerInspector : UnityEditor.Editor {
+        ReportingTestsRunner TestsRunner {
+            get { return (ReportingTestsRunner) serializedObject.targetObject; }
+        }
 
         static string filter;
         static Dictionary<Type, List<string>> testsDictionary = new Dictionary<Type, List<string>>();
@@ -23,8 +29,7 @@ namespace Assets.UITest.Editor {
         static GUIStyle stylePassed;
         static GUIStyle styleFailed;
 
-        public override void OnInspectorGUI()
-        {
+        public override void OnInspectorGUI() {
             base.OnInspectorGUI();
 
             string newFilter = TestsRunner.testfilter;
@@ -32,8 +37,7 @@ namespace Assets.UITest.Editor {
                 UpdateTestLists();
             filter = newFilter;
 
-            if (!stylesCreated)
-            {
+            if (!stylesCreated) {
                 styleHeader = new GUIStyle();
                 styleHeader.normal.textColor = new Color(.8f, .8f, .8f);
                 styleHeader.fontStyle = FontStyle.Bold;
@@ -61,22 +65,19 @@ namespace Assets.UITest.Editor {
             EditorGUILayout.EndVertical();
         }
 
-        void DrawTestsRuntime()
-        {
-            foreach (var testPair in testsDictionary)
-            {
+        void DrawTestsRuntime() {
+            foreach (var testPair in testsDictionary) {
                 bool headerPrinted = false;
-                for (int i = 0; i < testPair.Value.Count; i++)
-                {
+                for (int i = 0; i < testPair.Value.Count; i++) {
                     var testName = testPair.Value[i];
-                    if (!headerPrinted)
-                    {
+                    if (!headerPrinted) {
                         GUILayout.Label("Test Fixture: " + testPair.Key, styleHeader);
                         headerPrinted = true;
                     }
                     if (TestsRunner.CurrentFullTestName != lastPassedFailedUpdateTestName)
                         UpdatePassedFailed();
-                    bool current = !string.IsNullOrEmpty(TestsRunner.CurrentFullTestName) && TestsRunner.CurrentFullTestName == testName;
+                    bool current = !string.IsNullOrEmpty(TestsRunner.CurrentFullTestName) &&
+                                   TestsRunner.CurrentFullTestName == testName;
                     if (current)
                         GUILayout.Label("...." + testName, styleNormal);
                     else if (testsPassed.Contains(testName))
@@ -92,60 +93,50 @@ namespace Assets.UITest.Editor {
             GUILayout.Label("RESULT: " + TestsRunner.testsFailedCount + " failed of " + TestsRunner.testsCount);
         }
 
-        void DrawTestsEditor()
-        {
-            foreach (var testPair in testsDictionary)
-            {
+        void DrawTestsEditor() {
+            foreach (var testPair in testsDictionary) {
                 if (testPair.Value.Count > 0) GUILayout.Label("Test Fixture: " + testPair.Key, styleHeader);
-                for (int i = 0; i < testPair.Value.Count; i++)
-                {
+                for (int i = 0; i < testPair.Value.Count; i++) {
                     var testName = testPair.Value[i];
                     GUILayout.Label(("  + ") + testName, styleNormal);
                 }
             }
         }
 
-        void UpdateTestLists()
-        {
+        void UpdateTestLists() {
             testsDictionary = GetTestsDictionary();
             testsPassed.Clear();
             testsFailed.Clear();
-        }        
+        }
 
-        Dictionary<Type, List<string>> GetTestsDictionary()
-        {
+        Dictionary<Type, List<string>> GetTestsDictionary() {
             var result = new Dictionary<Type, List<string>>();
 
             var fixtures = TestsRunner.TestFixtures;
-            for (int i = 0; i < fixtures.Count; i++)
-            {
+            for (int i = 0; i < fixtures.Count; i++) {
                 Type testClassType = fixtures[i];
                 if (!result.ContainsKey(testClassType))
                     result.Add(testClassType, new List<string>());
                 var classTests = TestsRunner.GetTestMethods(testClassType);
-                for (int j = 0; j < classTests.Length; j++)
-                {
+                for (int j = 0; j < classTests.Length; j++) {
                     var test = classTests[j];
                     string testName = testClassType + "." + test.Name;
-                    bool match = string.IsNullOrEmpty(TestsRunner.testfilter) || testName.ToLower().Contains(TestsRunner.testfilter.ToLower());
+                    bool match = string.IsNullOrEmpty(TestsRunner.testfilter) ||
+                                 testName.ToLower().Contains(TestsRunner.testfilter.ToLower());
                     if (match) result[testClassType].Add(testName);
                 }
             }
             return result;
         }
 
-        void UpdatePassedFailed()
-        {
+        void UpdatePassedFailed() {
             lastPassedFailedUpdateTestName = TestsRunner.CurrentFullTestName;
             testsPassed.Clear();
             testsFailed.Clear();
 
-            if (TestsRunner.testReports != null)
-            {
-                foreach (var e in TestsRunner.testReports)
-                {
-                    foreach (var test in e.Value)
-                    {
+            if (TestsRunner.testReports != null) {
+                foreach (var e in TestsRunner.testReports) {
+                    foreach (var test in e.Value) {
                         if (test.Failed) testsFailed.Add(test.name);
                         else testsPassed.Add(test.name);
                     }

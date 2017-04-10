@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Service {
+﻿namespace Assets.Scripts.Service.Client {
     public class ClientResult {
         public readonly string RequestType;
         public readonly long ResponseCode;

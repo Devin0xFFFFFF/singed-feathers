@@ -2,17 +2,14 @@
 using Assets.UITest.Test_Runner_Scripts;
 
 namespace Assets.UITest.AcceptanceTests {
-    public class GameSelectAcceptanceTest : UITest.Test_Runner_Scripts.UITest {
+    public class GameSelectAcceptanceTest : Test_Runner_Scripts.UITest {
         [UISetUp]
         public IEnumerable SetUp() {
-            // Load the scene we want.
-            #if UNITY_EDITOR
-                // The tests are being run through the editor
-                yield return LoadSceneByPath("Assets/Scenes/GameSelectScene.unity");
-            #elif !UNITY_EDITOR
-                // The tests are being run on a device
-                yield return LoadScene("GameSelectScene");
-            #endif
+#if UNITY_EDITOR
+            yield return LoadSceneByPath("Assets/Scenes/GameSelectScene.unity");
+#elif !UNITY_EDITOR
+            yield return LoadScene("GameSelectScene");
+#endif
         }
 
         [UITest]
@@ -25,7 +22,8 @@ namespace Assets.UITest.AcceptanceTests {
 
             // The TitleCanvas' children should also be active...
             yield return WaitFor(new ObjectAppeared("GameTitle"));
-            yield return WaitFor(new ObjectAppeared("PlayGameButton"));
+            yield return WaitFor(new ObjectAppeared("SinglePlayerButton"));
+            yield return WaitFor(new ObjectAppeared("MultiPlayerButton"));
             yield return WaitFor(new ObjectAppeared("MapMakerButton"));
             yield return WaitFor(new ObjectAppeared("HowToPlayButton"));
 
@@ -61,7 +59,8 @@ namespace Assets.UITest.AcceptanceTests {
 
             // The TitleCanvas' children should also be active...
             yield return WaitFor(new ObjectAppeared("GameTitle"));
-            yield return WaitFor(new ObjectAppeared("PlayGameButton"));
+            yield return WaitFor(new ObjectAppeared("SinglePlayerButton"));
+            yield return WaitFor(new ObjectAppeared("MultiPlayerButton"));
             yield return WaitFor(new ObjectAppeared("MapMakerButton"));
             yield return WaitFor(new ObjectAppeared("HowToPlayButton"));
 
@@ -79,12 +78,31 @@ namespace Assets.UITest.AcceptanceTests {
         }
 
         [UITest]
-        public IEnumerable TestPlayGameButton() {
-            // Press PlayGameButton
-            yield return Press("PlayGameButton");
+        public IEnumerable TestSinglePlayerButton() {
+            // Press SinglePlayerButton
+            yield return Press("SinglePlayerButton");
 
             // GameScene should be loaded
             yield return WaitFor(new SceneLoaded("MapSelectScene"));
+        }
+
+        [UITest]
+        public IEnumerable TestMultiPlayerButton() {
+            // Press MultiPlayerButton
+            yield return Press("MultiPlayerButton");
+
+            // Player should be prompted to enter a name
+            yield return WaitFor(new ObjectAppeared("InputNameCanvas"));
+            yield return WaitFor(new ObjectAppeared("ConfirmButton"));
+            yield return WaitFor(new ObjectAppeared("CancelButton"));
+            yield return WaitFor(new ObjectAppeared("InputField"));
+
+            yield return WaitFor(new ObjectDisappeared("TitleCanvas"));
+
+            // Click cancel
+            yield return Press("CancelButton");
+            yield return WaitFor(new ObjectDisappeared("InputNameCanvas"));
+            yield return WaitFor(new ObjectAppeared("TitleCanvas"));
         }
     }
 }

@@ -1,10 +1,6 @@
 ﻿using System.Collections;
-using System.Linq;
-using Assets.Scripts.Views;
 using Assets.UITest.Test_Runner_Scripts;
-using CoreGame.Models;
-using UnityEngine;
-using Assets.Scripts.Service;
+using Assets.Scripts.Service.IO;
 using UnityEngine.Assertions;
 
 namespace Assets.UITest.AcceptanceTests {
@@ -12,17 +8,17 @@ namespace Assets.UITest.AcceptanceTests {
 
         private int _response;
         private bool _finished;
-        private GameServiceIO _gameServiceIO;
+        private GameIO _gameIO;
 
         [UISetUp]
         public void SetUp() {
             _finished = false;
-            _gameServiceIO = new GameServiceIO();
+            _gameIO = new GameIO();
         }
 
         [UITest]
         public IEnumerable TestGameService() {
-            yield return StartCoroutine(_gameServiceIO.Test(delegate (int responseCode) {
+            yield return StartCoroutine(_gameIO.Test(delegate (int responseCode) {
                 _response = responseCode;
                 _finished = true;
             }));

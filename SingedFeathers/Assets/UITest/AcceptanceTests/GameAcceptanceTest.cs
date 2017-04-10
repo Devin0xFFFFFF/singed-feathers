@@ -9,17 +9,13 @@ namespace Assets.UITest.AcceptanceTests {
     public class GameAcceptanceTest : Test_Runner_Scripts.UITest {
         [UISetUp]
         public IEnumerable SetUp() {
-            // Load the scene we want.
-            #if UNITY_EDITOR
-                // The tests are being run through the editor
-                PlayerPrefs.SetString("MapID", "Map3");
-                PlayerPrefs.SetInt("Side", (int)PlayerSideSelection.BurnPigeons);
+            PlayerPrefs.SetString("MapID", "Map3");
+            PlayerPrefs.SetInt("NumPlayers", 1);
+#if UNITY_EDITOR
             yield return LoadSceneByPath("Assets/Scenes/GameScene.unity");
-
-            #elif !UNITY_EDITOR
-                // The tests are being run on a device
-                yield return LoadScene("GameSelectScene");
-            #endif
+#elif !UNITY_EDITOR
+            yield return LoadScene("GameSelectScene");
+#endif
         }
 
         [UITest]
