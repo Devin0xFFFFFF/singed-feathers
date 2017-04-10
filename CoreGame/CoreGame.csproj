@@ -101,7 +101,6 @@
   <PropertyGroup>
     <PostBuildEvent Condition=" '$(OS)' != 'Unix' ">
       copy /Y "CoreGame.dll" "../../SingedFeathers/Assets/Plugins"
-      nuget pack ../CoreGame.csproj -OutputDirectory ../
     </PostBuildEvent>
     <PostBuildEvent Condition=" '$(OS)' == 'Unix' ">
       cp CoreGame.dll ../../SingedFeathers/Assets/Plugins

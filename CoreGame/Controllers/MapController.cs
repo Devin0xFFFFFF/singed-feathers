@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using CoreGame.Controllers.Interfaces;
 using CoreGame.Models;
 using CoreGame.Service;
@@ -9,6 +10,8 @@ namespace CoreGame.Controllers {
         public const int HEAT = 100;
         public const int DEFAULT_WIDTH = 8;
         public const int DEFAULT_HEIGHT = 8;
+        public const int MAX_TURNS = 20;
+        public const int MIN_TURNS = 5;
         public const string WIN = "You win!";
         public const string LOSE = "You lose!";
         public const string NO_PIGEONS_SURVIVED = "No pigeons survived!";
@@ -47,11 +50,10 @@ namespace CoreGame.Controllers {
             return true;
         }
 
-        public string SerializeMap(int width, int height, IList<Position> pigeonPositions, IList<Position> firePositions, TileType[,] tileMap, int numTurns) {
-            return _mapGenerator.SerializeMap(width, height, tileMap, firePositions, pigeonPositions, numTurns);
+        public string SerializeMap() {
+            _map.TileMap = null;
+            return _mapGenerator.SerializeMap(_map);
         }
-
-        public string GetPlayerName() { return _player.PlayerName; }
 
         public void SetPlayerSideSelection(PlayerSideSelection playerSideSelection){ _player.PlayerSideSelection = playerSideSelection; }
 
@@ -144,21 +146,43 @@ namespace CoreGame.Controllers {
             return null;
         }
 
-        public void UpdateTileController(TileType type, int x, int y) {
+        public bool UpdateTileController(TileType type, int x, int y) {
             if (MapLocationValidator.CoordinatesAreValid(x, y)) {
                 _map.TileMap[x, y] = new TileController(type, x, y);
                 _map.RawMap[x, y] = type;
+                return true;
             }
+            return false;
         }
 
-        public PigeonController AddPigeonToMap(Position position) {
-            ITileController tile = _map.TileMap [position.X, position.Y];
-            PigeonController pigeonController = new PigeonController(tile);
-            _map.Pigeons.Add(pigeonController);
-            tile.MarkOccupied();
-            return pigeonController;
+        public bool AddInitialPigeonPosition(Position position) {
+            if (MapLocationValidator.PositionIsValid(position)) {
+                return AddPosition(_map.InitialPigeonPositions, position);
+            }
+            return false;
         }
-        
+
+        public bool RemoveInitialPigeonPosition(Position position) {
+            if (MapLocationValidator.PositionIsValid(position)) {
+                return RemovePosition(_map.InitialPigeonPositions, position);
+            }
+            return false;
+        }
+
+        public bool AddInitialFirePosition(Position position) {
+            if (MapLocationValidator.PositionIsValid(position) && CanSetFire(position)) {
+                return AddPosition(_map.InitialFirePositions, position);
+            }
+            return false;
+        }
+
+        public bool RemoveInitialFirePosition(Position position) {
+            if (MapLocationValidator.PositionIsValid(position)) {
+                return RemovePosition(_map.InitialFirePositions, position);
+            }
+            return false;
+        }
+
         public IList<IPigeonController> GetPigeonControllers() { return _map.Pigeons; }
 
         public ITurnResolver GetTurnResolver() { return _map.TurnResolver; }
@@ -168,6 +192,14 @@ namespace CoreGame.Controllers {
         public ITurnController GetTurnController() { return _map.TurnController; }
 
         public int GetTurnsLeft() { return _map.TurnController.GetTurnsLeft(); }
+
+        public bool UpdateNumberOfTurns(int numTurns) {
+            if (numTurns >= MIN_TURNS && numTurns <= MAX_TURNS) {
+                _map.TurnsLeft = numTurns;
+                return true;
+            }
+            return false;
+        }
 
         public void UndoAction() { _map.TurnController.UndoAction(); }
 
@@ -209,6 +241,28 @@ namespace CoreGame.Controllers {
                 ApplyHeat(position.X, position.Y);
             }
             TurnResolveUtility.SpreadFires(_map);
+        }
+
+        private bool RemovePosition(IList<Position> positions, Position position) {
+            Position existing = positions.FirstOrDefault(p => p.Equals(position));
+            if (existing != null) {
+                _map.InitialPigeonPositions.Remove(existing);
+                return true;
+            }
+            return false;
+        }
+
+        private bool AddPosition(IList<Position> positions, Position position) {
+            if (!positions.Any(p => p.Equals(position))) {
+                positions.Add(position);
+                return true;
+            }
+            return false;
+        }
+
+        private bool CanSetFire(Position position) {
+            ITileController tile = GetTileController(position.X, position.Y);
+            return !tile.IsOnFire() && tile.IsFlammable();
         }
     }
 }

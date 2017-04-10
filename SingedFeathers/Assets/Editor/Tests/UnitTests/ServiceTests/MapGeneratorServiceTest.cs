@@ -33,10 +33,15 @@ namespace Assets.Editor.Tests.UnitTests.ServiceTests {
             map = _mapGeneratorService.GenerateDefaultMap(10, 0);
             Assert.Null(map);
 
+            // Only square maps are supported
+            map = _mapGeneratorService.GenerateDefaultMap(3, 5);
+            Assert.Null(map);
+
             map = _mapGeneratorService.GenerateDefaultMap(10, 10);
             Assert.NotNull(map);
             Assert.NotNull(map.InitialFirePositions);
             Assert.NotNull(map.InitialPigeonPositions);
+            Assert.NotNull(map.Pigeons);
             Assert.NotNull(map.Pigeons);
         }
     }

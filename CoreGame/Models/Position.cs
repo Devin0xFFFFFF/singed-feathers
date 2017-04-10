@@ -20,5 +20,13 @@ namespace CoreGame.Models {
         }
 
         public override string ToString() { return "X: " + X.ToString() + " Y: " + Y.ToString(); }
+
+        public override bool Equals(object obj) {
+            Position other = obj as Position;
+            if (other != null) {
+                return this.X == other.X && this.Y == other.Y;
+            }
+            return false;
+        }
     }
 }

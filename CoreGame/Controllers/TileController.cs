@@ -59,7 +59,7 @@ namespace CoreGame.Controllers {
         }
 
         public bool MarkOccupied() {
-            if (CanBeOccupied()) {
+            if (!IsOccupied) {
                 IsOccupied = true;
                 return true;
             }
@@ -73,9 +73,7 @@ namespace CoreGame.Controllers {
             }
             return false;
         }
-
-        public bool CanBeOccupied() { return !IsOccupied; }
-
+        
         public bool IsHeatZero() { return Tile.Heat == 0; }
 
         public int CompareTo(ITileController other) {
