@@ -29,9 +29,11 @@ namespace Assets.Scripts.Controllers {
         public bool ShouldPoll() { return !_receivedResponse; }
 
         public void ResolveTurn(Delta delta, Map map, Player player) {
-            _isTurnResolved = false;
-            CommitTurnRequest commitTurnRequest = new CommitTurnRequest(_gameID, player.PlayerID, delta);
-            SendCommitTurnRequest(commitTurnRequest);
+            if (_isTurnResolved == true) {
+                _isTurnResolved = false;
+                CommitTurnRequest commitTurnRequest = new CommitTurnRequest(_gameID, player.PlayerID, delta);
+                SendCommitTurnRequest(commitTurnRequest);
+            }
         }
 
         public void Poll(Map map, Player player) {
