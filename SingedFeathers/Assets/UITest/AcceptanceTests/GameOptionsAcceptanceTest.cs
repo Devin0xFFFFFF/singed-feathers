@@ -20,7 +20,6 @@ namespace Assets.UITest.AcceptanceTests {
             yield return WaitFor(new ObjectAppeared("GameMenuCanvas"));
             yield return WaitFor(new ObjectAppeared("Panel"));
             yield return WaitFor(new ObjectAppeared("ReturnToTitleButton"));
-            yield return WaitFor(new ObjectAppeared("OptionsText"));
             yield return WaitFor(new ObjectAppeared("HowToPlayButton"));
         }
 

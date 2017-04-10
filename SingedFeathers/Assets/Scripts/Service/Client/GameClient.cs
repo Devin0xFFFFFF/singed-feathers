@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using UnityEngine.Networking;
 using CoreGame.Models.API.GameService;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Service.Client {
     public class GameClient : APersistenceClient, IGameClient {
         private const string COMMIT_TURN_PATH = "CommitTurn";
         private const string POLL_GAME_PATH = "PollGame";
         private const string SURRENDER_PATH = "Surrender";
+        private const string TEST_PATH = "TestGameService";
 
         public GameClient(AWSAPIClientConfig apiConfig = null) : base(apiConfig) { }
 
@@ -26,6 +28,12 @@ namespace Assets.Scripts.Service.Client {
             UnityWebRequest request = _requestBuilder.BuildPutRequest(SURRENDER_PATH, SerializeObject(pollRequest));
             yield return request.Send();
             ReturnResult(resultCallback, SURRENDER_PATH, request);
+        }
+
+        public IEnumerator Test(ResultCallback resultCallback) {
+            UnityWebRequest request = _requestBuilder.BuildGetRequest(TEST_PATH, new SortedDictionary<string, string>());
+            yield return request.Send();
+            ReturnResult(resultCallback, TEST_PATH, request);
         }
     }
 }

@@ -116,5 +116,10 @@
 --reference:C:\Users\Garrett\.nuget\packages\System.Xml.ReaderWriter\4.0.11\ref\netstandard1.3\System.Xml.ReaderWriter.dll
 --reference:C:\Users\Garrett\.nuget\packages\System.Xml.XDocument\4.0.11\ref\netstandard1.3\System.Xml.XDocument.dll
 --reference:C:\Users\Garrett\.nuget\packages\WhyNot.SingedFeathers.CoreGame\1.0.0.17\lib\net35\CoreGame.dll
+--reference:C:\Users\Garrett\.nuget\packages\xunit.abstractions\2.0.1\lib\netstandard1.0\xunit.abstractions.dll
+--reference:C:\Users\Garrett\.nuget\packages\xunit.assert\2.2.0\lib\netstandard1.1\xunit.assert.dll
+--reference:C:\Users\Garrett\.nuget\packages\xunit.extensibility.core\2.2.0\lib\netstandard1.1\xunit.core.dll
+--reference:C:\Users\Garrett\.nuget\packages\xunit.extensibility.execution\2.2.0\lib\netstandard1.1\xunit.execution.dotnet.dll
 D:\University\Soft Eng 2\comp4350-project\GameService\GameService\GameService\GameService.cs
+D:\University\Soft Eng 2\comp4350-project\GameService\GameService\GameService\GameServiceTest.cs
 D:\University\Soft Eng 2\comp4350-project\GameService\GameService\GameService\Properties\AssemblyInfo.cs

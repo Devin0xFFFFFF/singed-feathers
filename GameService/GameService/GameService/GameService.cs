@@ -39,8 +39,8 @@ namespace GameService {
         private const string PLAYER_ID = "PlayerID";
         private const string PLAYER_SIDE_SELECTION = "PlayerSideSelection";
 
-        private const string ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
-        private const string ACCESS_CONTROL_ALLOW_ORIGIN_VALUE = "*";
+        public const string ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
+        public const string ACCESS_CONTROL_ALLOW_ORIGIN_VALUE = "*";
 
         private Player _player;
         private IList<Player> _players;
@@ -150,7 +150,7 @@ namespace GameService {
                 return response;
             } catch (Exception e) {
                 Console.Write(e);
-                response.Body = GetPollResponse(false, null);
+                response.Body = GetPollResponse(false, new List<Delta>());
                 response.Headers.Add("Error", e.ToString());
                 return response;
             }

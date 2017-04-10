@@ -8,5 +8,7 @@ namespace Assets.Scripts.Service.Client {
         IEnumerator PollGame(PollRequest pollRequest, APersistenceClient.ResultCallback resultCallback);
 
         IEnumerator Surrender(PollRequest pollRequest, APersistenceClient.ResultCallback resultCallback);
+
+        IEnumerator Test(APersistenceClient.ResultCallback resultCallback);
     }
 }

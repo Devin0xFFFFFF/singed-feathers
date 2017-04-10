@@ -18,7 +18,8 @@
 	"Microsoft.NETCore.Portable.Compatibility": "1.0.1-rc2-24027",
     "Amazon.Lambda.DynamoDBEvents": "1.0.1",
     "WhyNot.SingedFeathers.CoreGame": "1.0.0.17",
-    "Amazon.Lambda.APIGatewayEvents": "1.0.2"},
+    "Amazon.Lambda.APIGatewayEvents": "1.0.2",
+    "xunit": "2.2.0"},
 
   "tools": {
     "Amazon.Lambda.Tools" : "1.4.0"
