@@ -1,4 +1,4 @@
-# comp4350-project
+# singed-feathers
 
 ### tl;dr
 * https://github.com/Devin0xFFFFFF/comp4350-project/wiki/tl;dr
